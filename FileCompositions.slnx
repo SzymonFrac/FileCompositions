@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="FileCompositions.Extensions/FileCompositions.Extensions.csproj" />
+  <Project Path="FileCompositions/FileCompositions.Core.csproj" />
+</Solution>

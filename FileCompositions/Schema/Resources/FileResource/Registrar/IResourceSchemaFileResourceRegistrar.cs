@@ -1,0 +1,3 @@
+﻿namespace FileCompositions.Core.Schema.Resources.FileResource.Registrar;
+
+public interface IResourceSchemaFileResourceRegistrar;

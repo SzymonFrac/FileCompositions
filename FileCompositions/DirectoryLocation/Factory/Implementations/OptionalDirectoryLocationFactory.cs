@@ -1,0 +1,18 @@
+﻿using FileCompositions.Core.DirectoryLocation.Context;
+using FileCompositions.Core.DirectoryLocation.Descriptor;
+using FileCompositions.Core.DirectoryLocation.Descriptor.Implementations;
+using FileCompositions.Core.DirectoryLocation.Implementations;
+using FileCompositions.Core.DirectoryLocation.Key;
+using FileCompositions.Core.Storage.Address;
+using FileCompositions.Core.Storage.Backend.Provider;
+
+namespace FileCompositions.Core.DirectoryLocation.Factory.Implementations;
+
+internal class OptionalDirectoryLocationFactory : IDirectoryLocationFactory
+{
+    public IDirectoryLocation Create(IDirectoryLocationContext context, StorageAddress address) =>
+        new OptionalDirectoryLocation(context, address);
+
+    public IDirectoryLocationDescriptor Create(DirectoryLocationKey key, IStorageBackendProvider backendProvider, StorageAddress address) =>
+        new OptionalDirectoryLocationDescriptor(key, backendProvider, address);
+}

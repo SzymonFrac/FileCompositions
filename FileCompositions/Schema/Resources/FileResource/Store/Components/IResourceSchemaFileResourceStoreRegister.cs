@@ -1,0 +1,3 @@
+﻿namespace FileCompositions.Core.Schema.Resources.FileResource.Store.Components;
+
+public interface IResourceSchemaFileResourceStoreRegister;

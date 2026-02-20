@@ -1,0 +1,3 @@
+﻿namespace FileCompositions.Core.FileResource.Specialized.FileInterface;
+
+public interface ISpecializedFileResourceFileInterface;
