@@ -4,10 +4,7 @@ using FileCompositions.Core.FileResource.Specialized.Json.Specialization.Context
 
 namespace FileCompositions.Core.FileResource.Specialized.Json.Specialization.Builder.Extensions;
 
-//prefer to not need to create a file - rather convert a builder to a jsonBuilder directly
-//Implementation is prototype of what it could be
-[Obsolete] //?
-internal static class ToJsonFileResourceBuilderSpecializers
+internal static class ToDbFileResourceBuilderSpecializers
 {
     private static IJsonFileResourceBuilder<TData> GetBuilder<TData>(IFileResourceBuilder builder, JsonFileResourceSpecializationContext context) =>
         context.CreateBuilder<TData>(builder.Build());

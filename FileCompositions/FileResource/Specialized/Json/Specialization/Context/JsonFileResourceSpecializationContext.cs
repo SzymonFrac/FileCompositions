@@ -1,7 +1,6 @@
 ﻿using FileCompositions.Core.FileResource.Specialized.Json.Builder;
 using FileCompositions.Core.FileResource.Specialized.Json.Builder.Factory;
 using FileCompositions.Core.FileResource.Specialized.Json.Builder.Factory.Implementations;
-using System.ComponentModel;
 
 namespace FileCompositions.Core.FileResource.Specialized.Json.Specialization.Context;
 
