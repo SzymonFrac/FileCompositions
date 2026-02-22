@@ -1,14 +1,14 @@
 # FileCompositions
-[![NuGet](https://img.shields.io/nuget/v/FileCompositions)](https://www.nuget.org/packages/FileCompositions/)
+[![NuGet](https://img.shields.io/nuget/v/FileCompositions.Core)](https://www.nuget.org/packages/FileCompositions.Core/)
 [![GitHub license](https://img.shields.io/github/license/mashape/apistatus.svg)](LICENSE.txt)
 
 ## Installation
-Via [NuGet](https://www.nuget.org/packages/FileCompositions/)
+Via [NuGet](https://www.nuget.org/packages/FileCompositions.Core)
 ```sh
 dotnet add package FileCompositions.Core
 ```
 
-Currently FileCompositions.Extensions is the only way of defining file resources using `IHost`
+Currently [FileCompositions.Extensions](https://www.nuget.org/packages/FileCompositions.Extensions) is the only way of defining file resources using `IHost`
 ```sh
 dotnet add package FileCompositions.Extensions
 ```
