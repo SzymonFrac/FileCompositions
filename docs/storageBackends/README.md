@@ -1,6 +1,6 @@
 # Storage Backends
 Storage backends can be implemented using the `IStorageBackend` interface. Storage backends represent any store of directories and files, including private servers and major cloud providers.
-A `OneDriveStorageBackend` could be created, and applied to any directory. An implementation could look like [this](storageBackends/OneDriveStorageBackend.cs)
+A `OneDriveStorageBackend` could be created, and applied to any directory. An implementation could look like [this](/samples/storageBackends/OneDriveStorageBackend.cs)
 
 ### Connecting Backends to Addresses
 > [!NOTE]
