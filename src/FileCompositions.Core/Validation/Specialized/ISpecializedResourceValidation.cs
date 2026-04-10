@@ -1,4 +1,4 @@
-﻿using FileCompositions.Core.FileResource.Specialized;
+﻿using FileCompositions.Core.File.Resource.Specialized;
 
 namespace FileCompositions.Core.Validation.Specialized;
 

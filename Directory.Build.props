@@ -1,5 +1,6 @@
 <Project>
     <PropertyGroup>
+		<Authors>SzymonFrac</Authors>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <RepositoryUrl>https://github.com/SzymonFrac/FileCompositions</RepositoryUrl>
         <RepositoryType>git</RepositoryType>

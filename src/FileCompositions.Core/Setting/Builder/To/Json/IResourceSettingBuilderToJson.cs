@@ -1,4 +1,4 @@
-﻿using FileCompositions.Core.FileResource.Specialized.Json.FileInterface;
+﻿using FileCompositions.Core.File.Resource.Specialized.Json.FileInterface;
 using FileCompositions.Core.Setting.Key;
 using FileCompositions.Core.Setting.Store;
 using FileCompositions.Core.Setting.Store.Builder;

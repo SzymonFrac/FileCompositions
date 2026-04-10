@@ -1,4 +1,4 @@
-﻿using FileCompositions.Core.FileResource.Specialized.Json;
+﻿using FileCompositions.Core.File.Resource.Specialized.Json;
 using FileCompositions.Core.Validation.Specialized.Builder;
 
 namespace FileCompositions.Core.Validation.Specialized.Json.Builder;

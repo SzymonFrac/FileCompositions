@@ -1,4 +1,4 @@
-﻿using FileCompositions.Core.FileResource.Specialized.FileInterface;
+﻿using FileCompositions.Core.File.Resource.Specialized.FileInterface;
 
 namespace FileCompositions.Core.Setting.Store.Builder;
 

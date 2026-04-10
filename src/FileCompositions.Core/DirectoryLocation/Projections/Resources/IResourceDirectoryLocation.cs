@@ -1,0 +1,3 @@
+﻿namespace FileCompositions.Core.DirectoryLocation.Projections.Resources;
+
+internal interface IResourceDirectoryLocation : IEnumerableDirectoryLocation, IWriteableDirectoryLocation;

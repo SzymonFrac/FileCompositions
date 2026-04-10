@@ -1,4 +1,4 @@
-﻿using FileCompositions.Core.FileResource.Builder;
+﻿using FileCompositions.Core.File.Resource.Builder;
 
 namespace FileCompositions.Core.Schema.Resources.FileResource.Store.Components;
 
