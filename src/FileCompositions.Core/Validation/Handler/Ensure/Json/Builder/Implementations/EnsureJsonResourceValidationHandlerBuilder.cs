@@ -5,15 +5,15 @@ namespace FileCompositions.Core.Validation.Handler.Ensure.Json.Builder.Implement
 
 internal class EnsureJsonResourceValidationHandlerBuilder<TData> : IEnsureJsonResourceValidationHandlerBuilder<TData>
 {
-    private Func<IJsonFileResource<TData>, Task>? ok;
-    private Func<IJsonFileResource<TData>, Task>? fail;
+    private Func<IJsonResource<TData>, Task>? ok;
+    private Func<IJsonResource<TData>, Task>? fail;
 
-    public IEnsureJsonResourceValidationHandlerBuilder<TData> OnOk(Func<IJsonFileResource<TData>, Task> k)
+    public IEnsureJsonResourceValidationHandlerBuilder<TData> OnOk(Func<IJsonResource<TData>, Task> k)
     {
         ok = k;
         return this;
     }
-    public IEnsureJsonResourceValidationHandlerBuilder<TData> OnFail(Func<IJsonFileResource<TData>, Task> f)
+    public IEnsureJsonResourceValidationHandlerBuilder<TData> OnFail(Func<IJsonResource<TData>, Task> f)
     {
         fail = f;
         return this;

@@ -1,7 +1,7 @@
-﻿using FileCompositions.Core.DirectoryLocation;
+﻿using FileCompositions.Core.Directory.Location;
 using FileCompositions.Core.File.Definition;
 using FileCompositions.Core.File.LocationResolver.Implementations;
-using FileCompositions.Core.File.Resource.Specialized;
+using FileCompositions.Core.File.Resource;
 using FileCompositions.Core.Storage.ResourceName;
 using FileCompositions.Core.Storage.ResourceName.Extension;
 using System.Collections.Immutable;
@@ -14,7 +14,7 @@ internal class AssemblyFileLocationResolverFactory : IFileLocationResolverFactor
     private readonly string _fileDefinitionNamespace = "FileCompositions.Core.File.Definition";
     public IFileLocationResolver Create()
     {
-        var definitionsByExtension = Assembly.GetExecutingAssembly()
+        var definitions = Assembly.GetExecutingAssembly()
             .GetTypes()
             .Where(t => t.Namespace!.StartsWith(_fileDefinitionNamespace))
             .Where(t => typeof(IFileDefinition).IsAssignableFrom(t))
@@ -24,13 +24,13 @@ internal class AssemblyFileLocationResolverFactory : IFileLocationResolverFactor
                         .GetValue(null)!
                 ,
                 t =>
-                    (Func<IDirectoryLocation, StorageResourceName, ISpecializedFileResource>)
-                        ((directory, name) => (ISpecializedFileResource)
+                    (Func<IDirectoryLocation, StorageResourceName, IFileResource>)
+                        ((directory, name) => (IFileResource)
                             t.GetMethod("Convert", BindingFlags.Public | BindingFlags.Static)!
                                 .Invoke(null, [directory, name])!)
             );
 
-        var resolver = new FileLocationResolver(definitionsByExtension);
+        var resolver = new FileLocationResolver(definitions);
         return resolver;
     }
 }

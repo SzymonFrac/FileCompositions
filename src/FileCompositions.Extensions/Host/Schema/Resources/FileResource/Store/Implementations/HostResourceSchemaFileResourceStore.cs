@@ -1,6 +1,6 @@
-﻿using FileCompositions.Core.DirectoryLocation.Key;
-using FileCompositions.Core.FileResource.Builder;
-using FileCompositions.Core.FileResource.Key;
+﻿using FileCompositions.Core.Directory.Definition.Key;
+using FileCompositions.Core.File.Definition.Key;
+using FileCompositions.Core.File.Resource.Builder;
 using FileCompositions.Extensions.Host.Schema.Resources.FileResource.Register;
 using FileCompositions.Extensions.Host.Schema.Resources.FileResource.Register.Definition;
 using FileCompositions.Extensions.Host.Schema.Resources.FileResource.Register.Mux;
@@ -10,8 +10,8 @@ namespace FileCompositions.Extensions.Host.Schema.Resources.FileResource.Store.I
 
 internal class HostResourceSchemaFileResourceStore : IHostResourceSchemaFileResourceStore, IHostResourceSchemaFileResourceRegisterMux
 {
-    private DirectoryLocationKey directoryKey;
-    private FileResourceKey fileKey;
+    private DirectoryDefinitionKey directoryKey;
+    private FileDefinitionKey fileKey;
     private Action<IFileResourceBuilder>? baseConfig;
     private HostFileResourceRegisterDefinition? registerDefinition;
 

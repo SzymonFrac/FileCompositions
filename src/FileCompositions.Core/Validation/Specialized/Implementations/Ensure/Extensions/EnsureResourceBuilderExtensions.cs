@@ -26,7 +26,7 @@ public static class EnsureResourceBuilderExtensions
             config(handlerBuilder);
             var handler = handlerBuilder.Build();
 
-            var validation = async (IJsonFileResource<TData> fileResource) =>
+            var validation = async (IJsonResource<TData> fileResource) =>
             {
                 var result = await EnsureResource.Validate(fileResource);
                 if (result)

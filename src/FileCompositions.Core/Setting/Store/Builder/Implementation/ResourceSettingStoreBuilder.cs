@@ -1,10 +1,10 @@
-﻿using FileCompositions.Core.File.Resource.Specialized.FileInterface;
+﻿using FileCompositions.Core.File.Resource.Interface;
 using FileCompositions.Core.Setting.Store.Implementations;
 
 namespace FileCompositions.Core.Setting.Store.Builder.Implementation;
 
 internal class ResourceSettingStoreBuilder<TValue, TFileInterface> : IResourceSettingStoreBuilder<TValue, TFileInterface>
-    where TFileInterface : ISpecializedFileResourceFileInterface
+    where TFileInterface : IFileResourceInterface
 {
     private Func<TFileInterface, Task<TValue?>>? read;
     private Func<TFileInterface, TValue, Task>? write;

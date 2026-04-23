@@ -7,9 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Quality\Necessity\Extensions\" />
     <Folder Include="Quality\Ownership\Extensions\" />
+    <Folder Include="ResourceSchema\File\Registrar\" />
+    <Folder Include="ResourceSchema\File\Register\" />
     <Folder Include="Validation\Handler\Specialized\" />
+
+	<InternalsVisibleTo Include="FileCompositions.Core.Database" />
+	<InternalsVisibleTo Include="FileCompositions.Extensions" />
   </ItemGroup>
 
 </Project>

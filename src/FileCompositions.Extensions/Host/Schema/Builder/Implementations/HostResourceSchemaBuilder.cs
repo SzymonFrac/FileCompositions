@@ -1,49 +1,44 @@
-﻿using FileCompositions.Core.DirectoryLocation.Descriptor;
-using FileCompositions.Core.DirectoryLocation.Descriptor.Implementations;
-using FileCompositions.Core.Schema.Builder;
-using FileCompositions.Core.Schema.StorageBackend.Registrar;
+﻿using FileCompositions.Core.Directory.Definition.Builder.Factory.Implementations;
+using FileCompositions.Core.ResourceSchema.Builder;
+using FileCompositions.Core.ResourceSchema.File.Definition.Registrar;
+using FileCompositions.Core.ResourceSchema.StorageBackend.Registrar;
 using FileCompositions.Core.Setting.Descriptor;
 using FileCompositions.Core.Storage.Address;
+using FileCompositions.Extensions.Host.Schema.Directory.Register.Factory.Implementations;
+using FileCompositions.Extensions.Host.Schema.Directory.Registrar;
+using FileCompositions.Extensions.Host.Schema.Directory.Registrar.Implementations;
 using FileCompositions.Extensions.Host.Schema.Implementation;
 using FileCompositions.Extensions.Host.Schema.Resources.Context.Builder;
 using FileCompositions.Extensions.Host.Schema.Resources.Context.Builder.Implementations;
 using FileCompositions.Extensions.Host.Schema.Resources.Context.Provider;
 using FileCompositions.Extensions.Host.Schema.Resources.Context.Provider.Implementations;
-using FileCompositions.Extensions.Host.Schema.Resources.DirectoryLocation.Registrar.Implementations;
 using FileCompositions.Extensions.Host.Schema.Resources.FileResource.Registrar;
-using FileCompositions.Extensions.Host.Schema.Resources.Registrar;
-using FileCompositions.Extensions.Host.Schema.Resources.Registrar.Implementations;
-using FileCompositions.Extensions.Host.StorageBackend.ActivationContext.Implementations;
-using FileCompositions.Extensions.Host.StorageBackend.Container.Implementations;
+using FileCompositions.Extensions.Host.StorageBackend.Registrar.Implementations;
 using Microsoft.Extensions.DependencyInjection;
-using System.Diagnostics;
 
 namespace FileCompositions.Extensions.Host.Schema.Builder.Implementations;
 
 internal class HostResourceSchemaBuilder : IHostResourceSchemaBuilder
 {
-    private readonly IResourceSchemaStorageBackendRegistrar _storageBackendRegistrar;
     private readonly IHostResourceSchemaFileResourceRegistrar _fileRegistrar;
 
-    private readonly IServiceCollection _settingServices;
+    private readonly HostStorageBackendRegistrar _storageBackendRegistrar;
+    private readonly HostResourceSchemaDirectoryRegistrar _directoryRegistrar =
+        new(new DirectoryDefinitionBuilderFactory(), new HostResourceSchemaDirectoryRegisterFactory());
+
+
+
 
     private readonly List<IResourceSettingDescriptor<string>> desicriptors = [];
-    private readonly List<IDirectoryLocationDescriptor> resources = [];
+    //private readonly List<IDirectoryLocationDescriptor> resources = [];
     private IHostResourceSchemaResourcesContextProvider resourcesContextProvider;
-    private HostStorageBackendContainer currentBackendContainer;
 
-    public HostResourceSchemaBuilder(IResourceSchemaStorageBackendRegistrar storageBackendRegistrar,
-        IHostResourceSchemaFileResourceRegistrar fileRegistrar, IServiceCollection settingServices)
+    public HostResourceSchemaBuilder(IHostResourceSchemaFileResourceRegistrar fileRegistrar)
     {
-        _storageBackendRegistrar = storageBackendRegistrar;
+        _storageBackendRegistrar = new();
         _fileRegistrar = fileRegistrar;
-        _settingServices = settingServices;
 
-        IServiceProvider currentServiceProvider = settingServices.BuildServiceProvider();
-        currentBackendContainer = new(ref currentServiceProvider);
-        var activationContext = new HostStorageBackendActivationContext(currentBackendContainer);
-        _settingServices.AddSingleton(activationContext);
-
+        // Settings...
         resourcesContextProvider = new HostResourceSchemaResourcesContextProvider(new Dictionary<string, StorageAddress>()
         {
             ["Roaming"] = StorageAddress.Create(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData))
@@ -51,17 +46,19 @@ internal class HostResourceSchemaBuilder : IHostResourceSchemaBuilder
             ref desicriptors);
     }
 
-    public IResourceSchemaBuilder ConfigureStorageBackends(Action<IResourceSchemaStorageBackendRegistrar> config)
+
+    public IHostResourceSchemaBuilder ConfigureStorageBackends(Action<IResourceSchemaStorageBackendRegistrar> config)
     {
         config(_storageBackendRegistrar);
-
-        IServiceProvider currentServiceProvider = _settingServices.BuildServiceProvider();
-        currentBackendContainer = new(ref currentServiceProvider);
-        var activationContext = new HostStorageBackendActivationContext(currentBackendContainer);
-        _settingServices.AddSingleton(activationContext);
-
         return this;
     }
+
+    public IHostResourceSchemaBuilder ConfigureDefinitions(Action<IResourceSchemaDefinitionRegistrar> config)
+    {
+        throw new NotImplementedException();
+    }
+
+    // Settings...
     public IHostResourceSchemaBuilder ConfigureRoots(Action<IHostResourceSchemaResourcesContextBuilder> config)
     {
         var builder = new HostResourceSchemaResourcesContextBuilder();
@@ -69,37 +66,38 @@ internal class HostResourceSchemaBuilder : IHostResourceSchemaBuilder
         builder.UpdateProvider(ref resourcesContextProvider);
         return this;
     }
-    public IHostResourceSchemaBuilder ConfigureResources(Action<IHostResourceSchemaResourcesRegistrar, IHostResourceSchemaResourcesContextProvider> config)
+    public IHostResourceSchemaBuilder ConfigureDirectories(Action<IHostResourceSchemaDirectoryRegistrar> config)
     {
-        var directoryRegistrar = new HostResourceSchemaDirectoryLocationRegistrar(in _settingServices);
-        var registrar = new HostResourceSchemaResourcesRegistrar(_fileRegistrar, directoryRegistrar);
-        config(registrar, resourcesContextProvider);
-        resources.AddRange(registrar.GetDirectoryDescriptors() ?? []);
-
-        var activationContext = new HostStorageBackendActivationContext(currentBackendContainer);
-        Initialize(registrar.GetDirectoryDescriptors() ?? [], activationContext);
-
-        resourcesContextProvider.SetSettings(_settingServices.BuildServiceProvider());
+        config(_directoryRegistrar);
         return this;
     }
 
-    public IHostResourceSchema Build(ref IServiceProvider sp)
+    public IHostResourceSchema Build(ref IServiceCollection services)
     {
-        var container = new HostStorageBackendContainer(ref sp);
-        var activationContext = new HostStorageBackendActivationContext(container);
+        _storageBackendRegistrar.Register(ref services);
 
-        var schema = new HostResourceSchema(activationContext, resources);
+        var directoryRegistries = _directoryRegistrar.Build();
+
+        var schema = new HostResourceSchema(directoryRegistries);
         return schema;
     }
 
-    private static void Initialize(IEnumerable<IDirectoryLocationDescriptor> descriptors, HostStorageBackendActivationContext currentActivationContext) =>
-        Task.WhenAll(descriptors?
-            .Select(async descriptor => await InitializeDirectory(descriptor, currentActivationContext)) ?? []);
+    IResourceSchemaBuilder IResourceSchemaBuilder.ConfigureStorageBackends(Action<IResourceSchemaStorageBackendRegistrar> config) =>
+        ConfigureStorageBackends(config);
+    IResourceSchemaBuilder IResourceSchemaBuilder.ConfigureDefinitions(Action<IResourceSchemaDefinitionRegistrar> config) =>
+        ConfigureDefinitions(config);
 
-    private static ValueTask InitializeDirectory(IDirectoryLocationDescriptor descriptor, HostStorageBackendActivationContext currentActivationContext) => descriptor switch
-    {
-        DirectoryLocationDescriptor => currentActivationContext.Activate(descriptor.BackendProvider).CreateAddress(descriptor.Address),
-        OptionalDirectoryLocationDescriptor => ValueTask.CompletedTask,
-        _ => throw new UnreachableException()
-    };
+    // Should exist in .Core, requireds are ensured, optionals are valid in both states
+    // Although, the schema probably should still ensure or initialize it all
+
+    //private static void Initialize(IEnumerable<IDirectoryLocationDescriptor> descriptors, HostStorageBackendActivationContext currentActivationContext) =>
+    //    Task.WhenAll(descriptors?
+    //        .Select(async descriptor => await InitializeDirectory(descriptor, currentActivationContext)) ?? []);
+
+    //private static ValueTask InitializeDirectory(IDirectoryLocationDescriptor descriptor, HostStorageBackendActivationContext currentActivationContext) => descriptor switch
+    //{
+    //    DirectoryLocationDescriptor => currentActivationContext.Activate(descriptor.BackendProvider).CreateAddress(descriptor.Address),
+    //    OptionalDirectoryLocationDescriptor => ValueTask.CompletedTask,
+    //    _ => throw new UnreachableException()
+    //};
 }

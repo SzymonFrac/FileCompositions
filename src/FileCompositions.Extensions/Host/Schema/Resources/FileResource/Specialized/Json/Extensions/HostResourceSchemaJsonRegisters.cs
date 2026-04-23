@@ -1,7 +1,4 @@
-﻿using FileCompositions.Core.FileResource.Builder.Implementations;
-using FileCompositions.Core.FileResource.Specialized.Json.Builder;
-using FileCompositions.Core.FileResource.Specialized.Json.Specialization.Builder.Extensions;
-using FileCompositions.Core.FileResource.Specialized.Json.Specialization.Context;
+﻿using FileCompositions.Core.File.Resource.Specialized.Json.Builder;
 using FileCompositions.Core.Schema.Settings.Registrar.To.Json;
 using FileCompositions.Extensions.Host.Schema.Resources.FileResource.Register.Definition;
 using FileCompositions.Extensions.Host.Schema.Resources.FileResource.Register.Implementations;
@@ -10,11 +7,12 @@ using FileCompositions.Extensions.Host.Schema.Setting.Registrar.Implementations;
 
 namespace FileCompositions.Extensions.Host.Schema.Resources.FileResource.Specialized.Json.Extensions;
 
+//mux...
 public static class HostResourceSchemaJsonRegisters
 {
     extension(IHostResourceSchemaFileResourceRegisterMux mux)
     {
-        public HostFileResourceRegisterDefinition AsJson<TData>(Action<IJsonFileResourceBuilder<TData>> config) =>
+        public HostFileResourceRegisterDefinition AsJson<TData>(Action<IJsonResourceBuilder<TData>> config) =>
             new((directoryKey, fileKey, baseConfig) =>
             {
                 var baseBuilder = new FileResourceBuilder();
@@ -27,7 +25,7 @@ public static class HostResourceSchemaJsonRegisters
                 var jsonRegister = new JsonHostFileResourceRegister<TData>(fileKey, jsonDescriptor);
                 return jsonRegister;
             });
-        public HostFileResourceRegisterDefinition AsJson<TData>(Action<IJsonFileResourceBuilder<TData>> builder, Action<IResourceSchemaSettingsRegistrarToJson<TData>/*IResourceSchemaSettingsRegistrar<IJsonFileResourceFileInterface<TData>>*/> settings)
+        public HostFileResourceRegisterDefinition AsJson<TData>(Action<IJsonResourceBuilder<TData>> builder, Action<IResourceSchemaSettingsRegistrarToJson<TData>/*IResourceSchemaSettingsRegistrar<IJsonFileResourceFileInterface<TData>>*/> settings)
         {
             return new((directoryKey, fileKey, baseConfig) =>
             {

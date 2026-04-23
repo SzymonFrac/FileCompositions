@@ -1,18 +1,15 @@
-﻿using FileCompositions.Core.DirectoryLocation;
-using FileCompositions.Core.DirectoryLocation.Descriptor;
-using FileCompositions.Core.DirectoryLocation.Key;
-using FileCompositions.Core.Storage.Backend.ActivationContext;
+﻿using FileCompositions.Extensions.Host.Schema.Directory.Registries;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace FileCompositions.Extensions.Host.Schema.Implementation;
 
-internal class HostResourceSchema(IStorageBackendActivationContext activationContext,
-    IReadOnlyList<IDirectoryLocationDescriptor>? directoryDescriptors) : IHostResourceSchema
+internal class HostResourceSchema(IHostResourceSchemaDirectoryRegistries directoryRegisters) : IHostResourceSchema
 {
-    private readonly IReadOnlyList<IDirectoryLocationDescriptor>? _directoryDescriptors = directoryDescriptors;
+    private readonly IHostResourceSchemaDirectoryRegistries _directoryRegisters = directoryRegisters;
+    public IHostResourceSchema Init(ref IServiceCollection services)
+    {
+        _directoryRegisters.Register(ref services);
 
-    public IStorageBackendActivationContext ActivationContext { get; } = activationContext;
-
-    public IDirectoryLocation? GetDirectoryLocation(DirectoryLocationKey key) =>
-        _directoryDescriptors?.FirstOrDefault(d => d.Key == key)?
-            .Activate(ActivationContext);
+        return this;
+    }
 }

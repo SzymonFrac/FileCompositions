@@ -1,4 +1,4 @@
-﻿using FileCompositions.Core.File.Resource.Specialized.Json.FileInterface;
+﻿using FileCompositions.Core.File.Resource.Specialized.Json.Interface;
 using FileCompositions.Core.Setting.Implementations;
 using FileCompositions.Core.Setting.Key;
 using FileCompositions.Core.Setting.Store;
@@ -10,7 +10,7 @@ namespace FileCompositions.Core.Setting.Builder.To.Json.Implementations;
 internal class ResourceSettingBuilderToJson<TValue, TData> : IResourceSettingBuilderToJson<TValue, TData>
 {
     private TValue? @default;
-    private IResourceSettingStoreBuilder<TValue, IJsonFileResourceFileInterface<TData>>? storeBuilder;
+    private IResourceSettingStoreBuilder<TValue, IJsonResourceInterface<TData>>? storeBuilder;
 
     public ResourceSettingKey Key { get; private set; }
 
@@ -24,16 +24,16 @@ internal class ResourceSettingBuilderToJson<TValue, TData> : IResourceSettingBui
         @default = d;
         return this;
     }
-    public IResourceSettingBuilderToJson<TValue, TData> UsingSettingStore(Action<IResourceSettingStoreBuilder<TValue, IJsonFileResourceFileInterface<TData>>> config)
+    public IResourceSettingBuilderToJson<TValue, TData> UsingSettingStore(Action<IResourceSettingStoreBuilder<TValue, IJsonResourceInterface<TData>>> config)
     {
-        var builder = new ResourceSettingStoreBuilder<TValue, IJsonFileResourceFileInterface<TData>>();
+        var builder = new ResourceSettingStoreBuilder<TValue, IJsonResourceInterface<TData>>();
         config(builder);
         storeBuilder = builder;
         return this;
     }
     public IResourceSettingBuilderToJson<TValue, TData> BindTo(Func<TData?, TValue?> get, Action<TData?, TValue> set)
     {
-        var builder = new ResourceSettingStoreBuilder<TValue, IJsonFileResourceFileInterface<TData>>()
+        var builder = new ResourceSettingStoreBuilder<TValue, IJsonResourceInterface<TData>>()
             .ReadRaw(async i => get(await i.Read()))
             .WriteRaw(async (i, v) =>
             {
@@ -49,7 +49,7 @@ internal class ResourceSettingBuilderToJson<TValue, TData> : IResourceSettingBui
     }
     public IResourceSettingBuilderToJson<TValue, TData> BindToImmutable(Func<TData?, TValue?> get, Func<TData?, TValue, TData> set)
     {
-        var builder = new ResourceSettingStoreBuilder<TValue, IJsonFileResourceFileInterface<TData>>()
+        var builder = new ResourceSettingStoreBuilder<TValue, IJsonResourceInterface<TData>>()
             .ReadRaw(async i => get(await i.Read()))
             .WriteRaw(async (i, v) =>
             {
@@ -62,7 +62,7 @@ internal class ResourceSettingBuilderToJson<TValue, TData> : IResourceSettingBui
         return this;
     }
 
-    public IResourceSetting<TValue> Build(IJsonFileResourceFileInterface<TData> fileInterface)
+    public IResourceSetting<TValue> Build(IJsonResourceInterface<TData> fileInterface)
     {
         if (storeBuilder is null)
             throw new ArgumentNullException(nameof(storeBuilder));

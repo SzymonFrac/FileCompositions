@@ -4,5 +4,5 @@ namespace FileCompositions.Core.Validation.Specialized.Json;
 
 public interface IJsonResourceValidation<TData>
 {
-    abstract static void Validate(IJsonFileResource<TData> fileResource);
+    abstract static void Validate(IJsonResource<TData> fileResource);
 }

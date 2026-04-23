@@ -1,7 +1,6 @@
-﻿using FileCompositions.Core.DirectoryLocation.Builder;
-using FileCompositions.Core.DirectoryLocation.Builder.Factory.Implementations;
-using FileCompositions.Core.DirectoryLocation.Descriptor;
-using FileCompositions.Core.DirectoryLocation.Key;
+﻿using FileCompositions.Core.Directory.Definition.Key;
+using FileCompositions.Core.Directory.Location.Builder;
+using FileCompositions.Core.Directory.Location.Builder.Factory.Implementations;
 using FileCompositions.Core.Schema.Resources.DirectoryLocation.Store;
 using FileCompositions.Core.Schema.Resources.DirectoryLocation.Store.Components;
 using FileCompositions.Core.Storage.Backend.Implementations;
@@ -11,9 +10,9 @@ namespace FileCompositions.Extensions.Host.Schema.Resources.DirectoryLocation.St
 
 internal class HostResourceSchemaDirectoryLocationStore : IResourceSchemaDirectoryLocationStore
 {
-    private DirectoryLocationKey key;
+    private DirectoryDefinitionKey key;
     private Action<IDirectoryLocationBuilder>? builderConfig;
-    public IResourceSchemaDirectoryLocationStoreRegister UseKey(DirectoryLocationKey k)
+    public IResourceSchemaDirectoryLocationStoreRegister UseKey(DirectoryDefinitionKey k)
     {
         key = k;
         return this;

@@ -1,18 +1,25 @@
-﻿using FileCompositions.Core.Schema.StorageBackend.Registrar;
+﻿using FileCompositions.Core.ResourceSchema.StorageBackend.Registrar;
 using FileCompositions.Core.Storage.Backend;
+using FileCompositions.Extensions.Host.StorageBackend.Register.Definition;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace FileCompositions.Extensions.Host.StorageBackend.Registrar.Implementations;
 
-internal class HostStorageBackendRegistrar(ref IServiceCollection services, ref IServiceCollection settingServices) : IResourceSchemaStorageBackendRegistrar
+internal class HostStorageBackendRegistrar : IResourceSchemaStorageBackendRegistrar
 {
-    private readonly IServiceCollection _services = services;
-    private readonly IServiceCollection _settingServices = settingServices;
+    private readonly HashSet<HostStorageBackendRegisterDefinition> _registries = [];
     public IResourceSchemaStorageBackendRegistrar Register<TBackend>()
         where TBackend : class, IStorageBackend
     {
-        _services.AddSingleton<TBackend>();
-        _settingServices.AddSingleton<TBackend>();
+        var register = new HostStorageBackendRegisterDefinition((ref services) => services.AddSingleton<TBackend>());
+        _registries.Add(register);
+
         return this;
+    }
+
+    public void Register(ref IServiceCollection services)
+    {
+        foreach (var registry in _registries)
+            registry(ref services);
     }
 }

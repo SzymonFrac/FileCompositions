@@ -1,6 +1,10 @@
-﻿namespace FileCompositions.Core.File.Resource;
+﻿using FileCompositions.Core.File.Resource.Context;
+using FileCompositions.Core.Storage.ResourceName;
+
+namespace FileCompositions.Core.File.Resource;
 
 public interface IFileResource
 {
-    string Name { get; }
+    internal IFileResourceContext Context { get; }
+    StorageResourceName Name { get; }
 }

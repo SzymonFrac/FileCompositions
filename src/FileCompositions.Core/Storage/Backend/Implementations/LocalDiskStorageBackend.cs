@@ -1,9 +1,7 @@
 ﻿using FileCompositions.Core.Storage.Address;
 using FileCompositions.Core.Storage.Location;
 using FileCompositions.Core.Storage.ResourceName;
-using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("FileCompositions.Extensions")]
 namespace FileCompositions.Core.Storage.Backend.Implementations;
 
 internal class LocalDiskStorageBackend : IStorageBackend
@@ -16,7 +14,7 @@ internal class LocalDiskStorageBackend : IStorageBackend
         ValueTask.FromResult(System.IO.File.Exists(location.ToString()));
     public ValueTask CreateAddress(StorageAddress address, CancellationToken cancellationToken = default)
     {
-        Directory.CreateDirectory(address.ToString());
+        System.IO.Directory.CreateDirectory(address.ToString());
         return ValueTask.CompletedTask;
     }
     public ValueTask CreateResource(StorageLocation location, CancellationToken cancellationToken = default)
@@ -26,7 +24,7 @@ internal class LocalDiskStorageBackend : IStorageBackend
     }
 
     public IAsyncEnumerable<StorageResourceName> EnumerateResourceNames(StorageAddress address, CancellationToken cancellationToken = default) =>
-        Directory.EnumerateFiles(address.ToString())
+        System.IO.Directory.EnumerateFiles(address.ToString())
             .Select(StorageResourceName.GetFromPath)
             .ToAsyncEnumerable();
 }

@@ -19,17 +19,17 @@ public static class HostFileCompositions
             {
                 services.AddSingleton<LocalDiskStorageBackend>();
 
-                IServiceCollection settingServices = new ServiceCollection();
-                settingServices.AddSingleton<LocalDiskStorageBackend>();
-
-                var storageBackendRegistrar = new HostStorageBackendRegistrar(ref services, ref settingServices);
-                var fileRegistrar = new HostResourceSchemaFileResourceRegistrar(ref services, ref settingServices);
+                //Obsolete
+                //var fileRegistrar = new HostResourceSchemaFileResourceRegistrar(ref services);
 
                 var builderFactory = new HostResourceSchemaBuilderFactory();
-                var builder = builderFactory.Create(storageBackendRegistrar, fileRegistrar, settingServices);
+                var builder = builderFactory.Create(fileRegistrar);
                 config(builder);
 
-                services.AddSingleton<IHostResourceSchema>(sp => builder.Build(ref sp));
+                var schema = builder.Build(ref services);
+                schema.Init(ref services);
+
+                //services.AddSingleton<IHostResourceSchema>(sp => builder.Build(ref sp));
             });
 
             return builder;
