@@ -1,5 +1,5 @@
 <Solution>
-  <Project Path="FileCompositions.Core.Database/FileCompositions.Core.Database.csproj" Id="176fcba5-e056-47be-b5cb-9b6c49030d37" />
+  <Project Path="src/FileCompositions.Core.Database/FileCompositions.Core.Database.csproj" />
   <Project Path="src/FileCompositions.Core/FileCompositions.Core.csproj" />
   <Project Path="src/FileCompositions.Extensions/FileCompositions.Extensions.csproj" />
 </Solution>

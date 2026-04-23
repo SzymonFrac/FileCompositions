@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\FileCompositions.Core\FileCompositions.Core.csproj" />
+    <ProjectReference Include="..\FileCompositions.Core\FileCompositions.Core.csproj" />
   </ItemGroup>
 
 </Project>
