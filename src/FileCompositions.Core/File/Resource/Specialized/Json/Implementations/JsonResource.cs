@@ -1,16 +1,16 @@
-﻿using FileCompositions.Core.File.Resource.Abstract;
-using FileCompositions.Core.File.Resource.Specialized.Json.Context;
+﻿using FileCompositions.Core.File.Context;
+using FileCompositions.Core.File.Definition.Specialized.Json.Extensions;
+using FileCompositions.Core.File.Resource.Abstract;
 using FileCompositions.Core.File.Resource.Specialized.Json.FormatContext;
 using FileCompositions.Core.Storage.ResourceName;
 using System.Text.Json;
 
 namespace FileCompositions.Core.File.Resource.Specialized.Json.Implementations;
 
-internal class JsonResource<TData>(IJsonResourceContext context, StorageResourceName name, JsonResourceFormatContext format) :
-    AbstractFileResource(context, name), IJsonResource<TData>
+internal class JsonResource<TData>(IFileContext context, string name, JsonResourceFormatContext format) :
+    AbstractFileResource(context, StorageResourceName.CreateJson(name)), IJsonResource<TData>
 {
     private readonly JsonResourceFormatContext _format = format;
-    new public IJsonResourceContext Context { get; } = context;
 
     public async Task<TData?> Read(CancellationToken cancellationToken = default)
     {

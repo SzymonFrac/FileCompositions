@@ -15,7 +15,7 @@ internal class HostResourceSchemaDirectoryRegisterFactory : IHostResourceSchemaD
         where TOwnership : DefinitionOwnership
         where TNecessity : DefinitionNecessity
         where TBackend : class, IStorageBackend =>
-            new ((ref services) =>
+            new ((in services) =>
                 services.AddKeyedSingleton<IDirectoryDefinition<TOwnership, TNecessity>>(descriptor.Key, (sp, key) =>
                 {
                     var fileLocationResolver = sp.GetRequiredService<IFileLocationResolver>();

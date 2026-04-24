@@ -1,10 +1,6 @@
-﻿using FileCompositions.Core.Directory.Location;
-using FileCompositions.Core.File.Definition.Specialized.Json.Extensions;
-using FileCompositions.Core.File.Resource.Builder;
-using FileCompositions.Core.File.Resource.Specialized.Json.Context.Implementations;
+﻿using FileCompositions.Core.File.Context;
 using FileCompositions.Core.File.Resource.Specialized.Json.FormatContext;
 using FileCompositions.Core.File.Resource.Specialized.Json.Implementations;
-using FileCompositions.Core.Storage.ResourceName;
 using FileCompositions.Core.Validation.Specialized.Json.Builder;
 using FileCompositions.Core.Validation.Specialized.Json.Builder.Implementations;
 using System.Text.Json;
@@ -35,17 +31,12 @@ internal class JsonResourceBuilder<TData>(JsonResourceFormatContext format) : IJ
         return this;
     }
 
-    public IJsonResource<TData> Build(IDirectoryLocation directory)
+    public IJsonResource<TData> Build(in IFileContext context)
     {
         if (name is null)
             throw new NullReferenceException("File must have a non-empty name.");
 
-        var resourceName = StorageResourceName.CreateJson(name);
-        var context = new JsonResourceContext(directory);
-
-        var json = new JsonResource<TData>(context, resourceName, format);
+        var json = new JsonResource<TData>(context, name, format);
         return json;
     }
-
-    IFileResourceBuilder IFileResourceBuilder.WithName(string name) => WithName(name);
 }

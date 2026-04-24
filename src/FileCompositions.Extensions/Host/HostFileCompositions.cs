@@ -26,7 +26,9 @@ public static class HostFileCompositions
                 var builder = builderFactory.Create(fileRegistrar);
                 config(builder);
 
-                var schema = builder.Build(ref services);
+                var schema = builder.Build(in services);
+                
+                // initAndBuild
                 schema.Init(ref services);
 
                 //services.AddSingleton<IHostResourceSchema>(sp => builder.Build(ref sp));

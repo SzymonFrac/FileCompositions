@@ -2,8 +2,8 @@
 
 namespace FileCompositions.Core.ResourceSchema.File.Definition.Registrar;
 
-public interface IResourceSchemaDefinitionRegistrar
+public interface IResourceSchemaFileDefinitionRegistrar
 {
-    IResourceSchemaDefinitionRegistrar Register<TFileDefinition>()
+    IResourceSchemaFileDefinitionRegistrar Register<TFileDefinition>()
         where TFileDefinition : class, IFileDefinition;
 }

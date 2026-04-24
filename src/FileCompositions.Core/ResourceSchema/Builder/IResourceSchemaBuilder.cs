@@ -6,5 +6,5 @@ namespace FileCompositions.Core.ResourceSchema.Builder;
 public interface IResourceSchemaBuilder
 {
     IResourceSchemaBuilder ConfigureStorageBackends(Action<IResourceSchemaStorageBackendRegistrar> config);
-    IResourceSchemaBuilder ConfigureDefinitions(Action<IResourceSchemaDefinitionRegistrar> config);
+    IResourceSchemaBuilder ConfigureDefinitions(Action<IResourceSchemaFileDefinitionRegistrar> config);
 }

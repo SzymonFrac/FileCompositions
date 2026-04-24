@@ -53,7 +53,7 @@ internal class HostResourceSchemaBuilder : IHostResourceSchemaBuilder
         return this;
     }
 
-    public IHostResourceSchemaBuilder ConfigureDefinitions(Action<IResourceSchemaDefinitionRegistrar> config)
+    public IHostResourceSchemaBuilder ConfigureDefinitions(Action<IResourceSchemaFileDefinitionRegistrar> config)
     {
         throw new NotImplementedException();
     }
@@ -72,9 +72,9 @@ internal class HostResourceSchemaBuilder : IHostResourceSchemaBuilder
         return this;
     }
 
-    public IHostResourceSchema Build(ref IServiceCollection services)
+    public IHostResourceSchema Build(in IServiceCollection services)
     {
-        _storageBackendRegistrar.Register(ref services);
+        _storageBackendRegistrar.Register(in services);
 
         var directoryRegistries = _directoryRegistrar.Build();
 
@@ -84,7 +84,7 @@ internal class HostResourceSchemaBuilder : IHostResourceSchemaBuilder
 
     IResourceSchemaBuilder IResourceSchemaBuilder.ConfigureStorageBackends(Action<IResourceSchemaStorageBackendRegistrar> config) =>
         ConfigureStorageBackends(config);
-    IResourceSchemaBuilder IResourceSchemaBuilder.ConfigureDefinitions(Action<IResourceSchemaDefinitionRegistrar> config) =>
+    IResourceSchemaBuilder IResourceSchemaBuilder.ConfigureDefinitions(Action<IResourceSchemaFileDefinitionRegistrar> config) =>
         ConfigureDefinitions(config);
 
     // Should exist in .Core, requireds are ensured, optionals are valid in both states

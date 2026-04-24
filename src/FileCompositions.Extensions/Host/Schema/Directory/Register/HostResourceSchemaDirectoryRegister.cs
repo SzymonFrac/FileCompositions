@@ -2,4 +2,4 @@
 
 namespace FileCompositions.Extensions.Host.Schema.Directory.Register;
 
-internal delegate void HostResourceSchemaDirectoryRegister(ref IServiceCollection services);
+internal delegate void HostResourceSchemaDirectoryRegister(in IServiceCollection services);

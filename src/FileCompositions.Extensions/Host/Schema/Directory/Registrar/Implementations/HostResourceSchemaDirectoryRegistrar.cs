@@ -18,6 +18,7 @@ internal class HostResourceSchemaDirectoryRegistrar(IDirectoryDefinitionBuilderF
     private readonly IDirectoryDefinitionBuilderFactory _builderFactory = builderFactory;
     private readonly IHostResourceSchemaDirectoryRegisterFactory _registerFactory = registerFactory;
 
+    // Could use one delegate by using Multicast delegates
     private readonly List<HostResourceSchemaDirectoryRegister> _registries = [];
 
     public IHostResourceSchemaDirectoryRegistrar Store<TOwnership, TNecessity, TBackend>(ResourceSchemaDirectoryConfig<TOwnership, TNecessity> config)

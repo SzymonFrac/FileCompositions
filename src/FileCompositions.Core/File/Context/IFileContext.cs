@@ -1,8 +1,8 @@
 ﻿using FileCompositions.Core.Directory.StorageConnector;
 
-namespace FileCompositions.Core.File.Resource.Context;
+namespace FileCompositions.Core.File.Context;
 
-internal interface IFileResourceContext
+internal interface IFileContext
 {
     IDirectoryStorageConnector StorageConnector { get; }
 }

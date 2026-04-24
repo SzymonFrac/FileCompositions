@@ -1,10 +1,10 @@
 ﻿using FileCompositions.Core.Directory.Location;
+using FileCompositions.Core.File.Context;
 using FileCompositions.Core.File.Definition.Key;
 using FileCompositions.Core.File.Resource;
 using FileCompositions.Core.File.Resource.Specialized.Json;
 using FileCompositions.Core.File.Resource.Specialized.Json.Builder;
 using FileCompositions.Core.File.Resource.Specialized.Json.Builder.Factory.Implementations;
-using FileCompositions.Core.File.Resource.Specialized.Json.Context;
 using FileCompositions.Core.File.Resource.Specialized.Json.FormatContext;
 using FileCompositions.Core.File.Resource.Specialized.Json.Implementations;
 using FileCompositions.Core.Quality.Necessity;
@@ -15,15 +15,15 @@ using System.Text.Json;
 
 namespace FileCompositions.Core.File.Definition.Specialized.Json.Abstract;
 
-internal abstract class AbstractJsonDefinition<TOwnership, TNecessity, TData>(FileDefinitionKey key, IJsonResourceContext context, StorageResourceName name, JsonResourceFormatContext format)
-    : AbstractJsonDefinition<TData>(context, name, format), IJsonDefinition<TOwnership, TNecessity, TData>
+internal abstract class JsonDefinition<TOwnership, TNecessity, TData>(FileDefinitionKey key, IFileContext context, string name, JsonResourceFormatContext format)
+    : JsonDefinition<TData>(context, name, format), IJsonDefinition<TOwnership, TNecessity, TData>
         where TOwnership : DefinitionOwnership
         where TNecessity : DefinitionNecessity
 {
     public FileDefinitionKey Key { get; } = key;
 }
 
-internal abstract class AbstractJsonDefinition<TData>(IJsonResourceContext context, StorageResourceName name, JsonResourceFormatContext format)
+internal abstract class JsonDefinition<TData>(IFileContext context, string name, JsonResourceFormatContext format)
     : JsonResource<TData>(context, name, format), IJsonDefinition<TData>
 {
     public static StorageResourceExtension Extension { get; } = new(".json");

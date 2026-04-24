@@ -1,12 +1,12 @@
-﻿using FileCompositions.Core.File.Resource.Context;
+﻿using FileCompositions.Core.File.Context;
 using FileCompositions.Core.Storage.Location;
 using FileCompositions.Core.Storage.ResourceName;
 
 namespace FileCompositions.Core.File.Resource.Abstract;
 
-internal class AbstractFileResource(IFileResourceContext context, StorageResourceName name) : IFileResource
+internal class AbstractFileResource(IFileContext context, StorageResourceName name) : IFileResource
 {
-    public IFileResourceContext Context { get; } = context;
+    public IFileContext Context { get; } = context;
     public StorageResourceName Name { get; } = name;
 
     public Task<Stream> OpenReadAsync(CancellationToken cancellationToken = default) =>

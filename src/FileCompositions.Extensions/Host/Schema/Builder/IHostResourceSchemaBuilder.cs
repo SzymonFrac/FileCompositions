@@ -10,10 +10,10 @@ namespace FileCompositions.Extensions.Host.Schema.Builder;
 public interface IHostResourceSchemaBuilder : IResourceSchemaBuilder
 {
     new IHostResourceSchemaBuilder ConfigureStorageBackends(Action<IResourceSchemaStorageBackendRegistrar> config);
-    new IHostResourceSchemaBuilder ConfigureDefinitions(Action<IResourceSchemaDefinitionRegistrar> config);
+    new IHostResourceSchemaBuilder ConfigureDefinitions(Action<IResourceSchemaFileDefinitionRegistrar> config);
 
     IHostResourceSchemaBuilder ConfigureRoots(Action<IHostResourceSchemaResourcesContextBuilder> config);
     //IHostResourceSchemaBuilder ConfigureResources(Action<IHostResourceSchemaResourcesRegistrar, IHostResourceSchemaResourcesContextProvider> config);
     IHostResourceSchemaBuilder ConfigureDirectories(Action<IHostResourceSchemaDirectoryRegistrar> config);
-    internal IHostResourceSchema Build(ref IServiceCollection services);
+    internal IHostResourceSchema Build(in IServiceCollection services);
 }

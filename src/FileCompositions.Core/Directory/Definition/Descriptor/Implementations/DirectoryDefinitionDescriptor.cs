@@ -14,16 +14,16 @@ internal class DirectoryDefinitionDescriptor<TOwnership, TNecessity, TBackend>(D
         where TNecessity : DefinitionNecessity
         where TBackend : class, IStorageBackend
 {
-    public DirectoryDefinitionKey Key { get; private set; } = key;
     private readonly StorageAddress _address = address;
-
-    public IDirectoryDefinition<TOwnership, TNecessity> Activate(in IDirectoryContext context) =>
-        new DirectoryDefinition<TOwnership, TNecessity>(Key, context, _address);
-
+    public DirectoryDefinitionKey Key { get; private set; } = key;
     public DirectoryDefinitionKey WithKeyIfNull(DirectoryDefinitionKey k)
     {
         if (Key == default)
             Key = k;
         return Key;
     }
+    
+    public IDirectoryDefinition<TOwnership, TNecessity> Activate(in IDirectoryContext context) =>
+        new DirectoryDefinition<TOwnership, TNecessity>(Key, context, _address);
+
 }
