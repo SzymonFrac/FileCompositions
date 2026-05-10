@@ -24,6 +24,6 @@ internal class DirectoryDefinitionDescriptor<TOwnership, TNecessity, TBackend>(D
     }
     
     public IDirectoryDefinition<TOwnership, TNecessity> Activate(in IDirectoryContext context) =>
-        new DirectoryDefinition<TOwnership, TNecessity>(Key, context, _address);
+        new StandardDirectoryDefinition<TOwnership, TNecessity>(context, Key, _address);
 
 }

@@ -30,7 +30,7 @@ internal class DirectoryLocationBuilder(IStorageBackend backend, IFileLocationRe
         Validate();
 
         var context = new DirectoryContext(storageBackend, _fileResolver);
-        var directory = new DirectoryLocation(context, address);
+        var directory = new StandardDirectoryLocation(context, address);
         return directory;
     }
 

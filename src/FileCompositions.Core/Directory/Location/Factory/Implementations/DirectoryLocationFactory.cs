@@ -7,5 +7,5 @@ namespace FileCompositions.Core.Directory.Location.Factory.Implementations;
 internal class DirectoryLocationFactory : IDirectoryLocationFactory
 {
     public IDirectoryLocation Create(IDirectoryContext context, StorageAddress address) =>
-        new DirectoryLocation(context, address);
+        new StandardDirectoryLocation(context, address);
 }

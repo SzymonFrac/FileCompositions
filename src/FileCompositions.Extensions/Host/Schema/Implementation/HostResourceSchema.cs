@@ -1,15 +1,16 @@
-﻿using FileCompositions.Extensions.Host.Schema.Directory.Registries;
+﻿using FileCompositions.Extensions.Host.Schema.Register;
 using Microsoft.Extensions.DependencyInjection;
+using System.Diagnostics;
 
 namespace FileCompositions.Extensions.Host.Schema.Implementation;
 
-internal class HostResourceSchema(IHostResourceSchemaDirectoryRegistries directoryRegisters) : IHostResourceSchema
+internal class HostResourceSchema(HostResourceSchemaRegister? register) : IHostResourceSchema
 {
-    private readonly IHostResourceSchemaDirectoryRegistries _directoryRegisters = directoryRegisters;
-    public IHostResourceSchema Init(ref IServiceCollection services)
+    private readonly HostResourceSchemaRegister? _register = register;
+    public IHostResourceSchema Init(in IServiceCollection services)
     {
-        _directoryRegisters.Register(ref services);
-
+        Debug.WriteLine(_register?.GetInvocationList().Length);
+        _register?.Invoke(in services);
         return this;
     }
 }

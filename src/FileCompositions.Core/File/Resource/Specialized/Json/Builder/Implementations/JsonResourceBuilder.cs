@@ -1,5 +1,7 @@
 ﻿using FileCompositions.Core.File.Context;
-using FileCompositions.Core.File.Resource.Specialized.Json.FormatContext;
+using FileCompositions.Core.File.Interface.Specialized.Json.Builder;
+using FileCompositions.Core.File.Interface.Specialized.Json.Format;
+using FileCompositions.Core.File.Resource.Builder.Abstract;
 using FileCompositions.Core.File.Resource.Specialized.Json.Implementations;
 using FileCompositions.Core.Validation.Specialized.Json.Builder;
 using FileCompositions.Core.Validation.Specialized.Json.Builder.Implementations;
@@ -7,15 +9,15 @@ using System.Text.Json;
 
 namespace FileCompositions.Core.File.Resource.Specialized.Json.Builder.Implementations;
 
-internal class JsonResourceBuilder<TData>(JsonResourceFormatContext format) : IJsonResourceBuilder<TData>
+internal class JsonResourceBuilder<TData>(JsonInterfaceFormat format)
+    : FileResourceBuilder, IJsonResourceBuilder<TData>
 {
-    private string? name;
-    private JsonResourceFormatContext format = format;
+    private JsonInterfaceFormat format = format;
     private IReadOnlyCollection<Func<IJsonResource<TData>, Task>>? validations;
 
-    public IJsonResourceBuilder<TData> WithName(string n)
+    public IJsonResourceBuilder<TData> WithName(string name)
     {
-        name = n;
+        Name = name;
         return this;
     }
     public IJsonResourceBuilder<TData> UseSerializerOptions(JsonSerializerOptions options)
@@ -33,10 +35,10 @@ internal class JsonResourceBuilder<TData>(JsonResourceFormatContext format) : IJ
 
     public IJsonResource<TData> Build(in IFileContext context)
     {
-        if (name is null)
+        if (Name is null)
             throw new NullReferenceException("File must have a non-empty name.");
 
-        var json = new JsonResource<TData>(context, name, format);
+        var json = new JsonResource<TData>(context, Name, format);
         return json;
     }
 }

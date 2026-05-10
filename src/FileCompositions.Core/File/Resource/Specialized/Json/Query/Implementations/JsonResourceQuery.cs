@@ -1,4 +1,6 @@
-﻿namespace FileCompositions.Core.File.Resource.Specialized.Json.Query.Implementations;
+﻿using FileCompositions.Core.File.Interface.Specialized.Json.Query;
+
+namespace FileCompositions.Core.File.Resource.Specialized.Json.Query.Implementations;
 
 internal class JsonResourceQuery<TData>(IAsyncEnumerable<IJsonResource<TData>> source) : IJsonResourceQuery<TData>
 {

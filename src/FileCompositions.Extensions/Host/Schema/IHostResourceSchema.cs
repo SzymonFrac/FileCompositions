@@ -5,5 +5,5 @@ namespace FileCompositions.Extensions.Host.Schema;
 
 internal interface IHostResourceSchema : IResourceSchema
 {
-    IHostResourceSchema Init(ref IServiceCollection services);
+    IHostResourceSchema Init(in IServiceCollection services);
 };

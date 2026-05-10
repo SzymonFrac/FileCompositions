@@ -1,3 +1,6 @@
-﻿namespace FileCompositions.Core.File.Resource.Interface;
+﻿using FileCompositions.Core.File.Interface;
+using FileCompositions.Core.Quality.Placement.Implementations;
 
-public interface IFileResourceInterface;
+namespace FileCompositions.Core.File.Resource.Interface;
+
+public interface IFileResourceInterface : IFileInterface<RequiredInRequired>;

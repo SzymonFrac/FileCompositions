@@ -1,49 +1,43 @@
-﻿using FileCompositions.Core.Directory.Config;
-using FileCompositions.Core.Directory.Definition.Builder.Factory;
+﻿using FileCompositions.Core.Directory.Definition.Builder.Factory;
 using FileCompositions.Core.Quality.Necessity;
 using FileCompositions.Core.Quality.Ownership;
-using FileCompositions.Core.ResourceSchema.Directory.Registrar;
 using FileCompositions.Core.Storage.Backend;
-using FileCompositions.Core.Storage.Backend.Implementations;
-using FileCompositions.Extensions.Host.Schema.Directory.Register;
-using FileCompositions.Extensions.Host.Schema.Directory.Register.Factory;
-using FileCompositions.Extensions.Host.Schema.Directory.Registries;
-using FileCompositions.Extensions.Host.Schema.Directory.Registries.Implementations;
+using FileCompositions.Extensions.Host.Schema.Register;
+using FileCompositions.Extensions.Host.Schema.Register.Builder.Factory;
+using FileCompositions.Extensions.Host.Schema.Register.Config;
 
 namespace FileCompositions.Extensions.Host.Schema.Directory.Registrar.Implementations;
 
-internal class HostResourceSchemaDirectoryRegistrar(IDirectoryDefinitionBuilderFactory builderFactory, IHostResourceSchemaDirectoryRegisterFactory registerFactory)
+internal class HostResourceSchemaDirectoryRegistrar(IDirectoryDefinitionBuilderFactory builderFactory, IHostResourceSchemaRegisterBuilderFactory registerBuilderFactory)
     : IHostResourceSchemaDirectoryRegistrar
 {
     private readonly IDirectoryDefinitionBuilderFactory _builderFactory = builderFactory;
-    private readonly IHostResourceSchemaDirectoryRegisterFactory _registerFactory = registerFactory;
+    //private readonly HostResourceSchemaRegisterFactory _registerFactory = new();
+    private readonly IHostResourceSchemaRegisterBuilderFactory _registerBuilderFactory = registerBuilderFactory;
+    
+    private HostResourceSchemaRegister? register;
 
-    // Could use one delegate by using Multicast delegates
-    private readonly List<HostResourceSchemaDirectoryRegister> _registries = [];
-
-    public IHostResourceSchemaDirectoryRegistrar Store<TOwnership, TNecessity, TBackend>(ResourceSchemaDirectoryConfig<TOwnership, TNecessity> config)
+    public IHostResourceSchemaDirectoryRegistrar Store<TOwnership, TNecessity, TBackend>(HostResourceSchemaRegisterBuilderConfig<TOwnership, TNecessity, TBackend> config)
         where TOwnership : DefinitionOwnership
         where TNecessity : DefinitionNecessity
         where TBackend : class, IStorageBackend
     {
-        var baseBuilder = _builderFactory.CreateDefault();
+        var baseBuilder = _registerBuilderFactory.CreateDefault(_builderFactory);
         var builder = config(baseBuilder);
-        var descriptor = baseBuilder.BuildDescriptor();
+        register += builder.Build();
 
-        var register = _registerFactory.Create(descriptor);
+        return this;
+    }
+    public IHostResourceSchemaDirectoryRegistrar Store<TOwnership, TNecessity>(HostResourceSchemaRegisterBuilderConfig<TOwnership, TNecessity> config)
+        where TOwnership : DefinitionOwnership
+        where TNecessity : DefinitionNecessity
+    {
+        var baseBuilder = _registerBuilderFactory.CreateDefault(_builderFactory);
+        var builder = config(baseBuilder);
+        register += builder.Build();
 
-        _registries.Add(register);
         return this;
     }
 
-    public IHostResourceSchemaDirectoryRegistrar Store<TOwnership, TNecessity>(ResourceSchemaDirectoryConfig<TOwnership, TNecessity> config)
-        where TOwnership : DefinitionOwnership
-        where TNecessity : DefinitionNecessity =>
-            Store<TOwnership, TNecessity, LocalDiskStorageBackend>(config);
-
-    public IHostResourceSchemaDirectoryRegistries Build() =>
-        new HostResourceSchemaDirectoryRegistries(_registries);
-
-    IResourceSchemaDirectoryRegistrar IResourceSchemaDirectoryRegistrar.Store<TOwnership, TNecessity>(ResourceSchemaDirectoryConfig<TOwnership, TNecessity> config) => Store(config);
-    IResourceSchemaDirectoryRegistrar IResourceSchemaDirectoryRegistrar.Store<TOwnership, TNecessity, TBackend>(ResourceSchemaDirectoryConfig<TOwnership, TNecessity> config) => Store(config);
+    public HostResourceSchemaRegister? Build() => register;
 }

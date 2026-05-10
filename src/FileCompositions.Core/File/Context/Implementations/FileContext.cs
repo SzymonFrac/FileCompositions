@@ -1,9 +1,11 @@
 ﻿using FileCompositions.Core.Directory.Location;
-using FileCompositions.Core.Directory.StorageConnector;
+using FileCompositions.Core.Storage.Address;
+using FileCompositions.Core.Storage.Backend;
 
 namespace FileCompositions.Core.File.Context.Implementations;
 
 internal class FileContext(IDirectoryLocation directoryLocation) : IFileContext
 {
-    public IDirectoryStorageConnector StorageConnector { get; } = directoryLocation;
+    public IStorageBackend StorageBackend { get; } = directoryLocation.Context.StorageBackend;
+    public StorageAddress Address { get; } = directoryLocation.Address;
 }

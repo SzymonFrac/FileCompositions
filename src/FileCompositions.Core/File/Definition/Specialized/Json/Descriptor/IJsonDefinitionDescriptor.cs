@@ -1,11 +1,10 @@
 ﻿using FileCompositions.Core.File.Definition.Descriptor;
-using FileCompositions.Core.File.Definition.Specialized.Json.Abstract;
-using FileCompositions.Core.Quality.Necessity;
 using FileCompositions.Core.Quality.Ownership;
+using FileCompositions.Core.Quality.Placement;
 
 namespace FileCompositions.Core.File.Definition.Specialized.Json.Descriptor;
 
-internal interface IJsonDefinitionDescriptor<TOwnership, TNecessity, TData>
-    : IFileDefinitionDescriptor<JsonDefinition<TOwnership, TNecessity, TData>, TOwnership, TNecessity>
+internal interface IJsonDefinitionDescriptor<TOwnership, TPlacement, TData>
+    : IFileDefinitionDescriptor<IJsonDefinition<TOwnership, TPlacement, TData>, TOwnership, TPlacement>
         where TOwnership : DefinitionOwnership
-        where TNecessity : DefinitionNecessity;
+        where TPlacement : DefinitionPlacement;

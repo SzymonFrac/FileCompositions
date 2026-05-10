@@ -8,6 +8,6 @@ public static class StorageResourceNameAsDb
     extension(StorageResourceName)
     {
         public static StorageResourceName CreateDb(string name) =>
-            StorageResourceName.Create(name, AbstractDbDefinition.Extension);
+            StorageResourceName.Create(name, DbDefinition.Extension);
     }
 }

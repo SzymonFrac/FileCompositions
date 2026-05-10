@@ -1,8 +1,12 @@
-﻿using FileCompositions.Core.Directory.StorageConnector;
+﻿using FileCompositions.Core.Storage.Address;
+using FileCompositions.Core.Storage.Backend;
 
 namespace FileCompositions.Core.File.Context;
 
 internal interface IFileContext
 {
-    IDirectoryStorageConnector StorageConnector { get; }
+    IStorageBackend StorageBackend { get; }
+    
+    StorageAddress Address { get; }
 }
+

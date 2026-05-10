@@ -1,15 +1,21 @@
-﻿using FileCompositions.Core.File.Definition;
+﻿using FileCompositions.Core.Directory.Definition.Key;
+using FileCompositions.Core.File.Definition;
 using FileCompositions.Core.File.Definition.Descriptor;
 using FileCompositions.Core.Quality.Necessity;
 using FileCompositions.Core.Quality.Ownership;
+using FileCompositions.Core.Quality.Placement;
 
 namespace FileCompositions.Core.ResourceSchema.File.Registrar;
 
-public interface IResourceSchemaFileRegistrar
+public interface IResourceSchemaFileRegistrar<TInOwnership, TInNecessity>
+    where TInOwnership : DefinitionOwnership
+    where TInNecessity : DefinitionNecessity
 {
-    internal IResourceSchemaFileRegistrar Store<TOwnership, TNecessity, TDefinition, TDescriptor>(TDescriptor descriptor)
+    internal DirectoryDefinitionKey DirectoryKey { get; }
+
+    internal void Store<TOwnership, TPlacement, TDefinition, TDescriptor>(TDescriptor descriptor)
         where TOwnership : DefinitionOwnership
-        where TNecessity : DefinitionNecessity
-        where TDefinition : class, IFileDefinition<TOwnership, TNecessity>
-        where TDescriptor : IFileDefinitionDescriptor<TDefinition, TOwnership, TNecessity>;
+        where TPlacement : DefinitionPlacement
+        where TDefinition : class, IFileDefinition<TOwnership, TPlacement>
+        where TDescriptor : IFileDefinitionDescriptor<TDefinition, TOwnership, TPlacement>;
 }

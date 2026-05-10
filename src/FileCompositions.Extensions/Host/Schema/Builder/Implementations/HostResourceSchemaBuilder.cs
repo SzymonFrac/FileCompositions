@@ -2,17 +2,10 @@
 using FileCompositions.Core.ResourceSchema.Builder;
 using FileCompositions.Core.ResourceSchema.File.Definition.Registrar;
 using FileCompositions.Core.ResourceSchema.StorageBackend.Registrar;
-using FileCompositions.Core.Setting.Descriptor;
-using FileCompositions.Core.Storage.Address;
-using FileCompositions.Extensions.Host.Schema.Directory.Register.Factory.Implementations;
 using FileCompositions.Extensions.Host.Schema.Directory.Registrar;
 using FileCompositions.Extensions.Host.Schema.Directory.Registrar.Implementations;
 using FileCompositions.Extensions.Host.Schema.Implementation;
-using FileCompositions.Extensions.Host.Schema.Resources.Context.Builder;
-using FileCompositions.Extensions.Host.Schema.Resources.Context.Builder.Implementations;
-using FileCompositions.Extensions.Host.Schema.Resources.Context.Provider;
-using FileCompositions.Extensions.Host.Schema.Resources.Context.Provider.Implementations;
-using FileCompositions.Extensions.Host.Schema.Resources.FileResource.Registrar;
+using FileCompositions.Extensions.Host.Schema.Register.Builder.Factory.Implementations;
 using FileCompositions.Extensions.Host.StorageBackend.Registrar.Implementations;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -20,31 +13,30 @@ namespace FileCompositions.Extensions.Host.Schema.Builder.Implementations;
 
 internal class HostResourceSchemaBuilder : IHostResourceSchemaBuilder
 {
-    private readonly IHostResourceSchemaFileResourceRegistrar _fileRegistrar;
+    //private readonly IHostResourceSchemaFileResourceRegistrar _fileRegistrar;
 
-    private readonly HostStorageBackendRegistrar _storageBackendRegistrar;
+    private readonly HostResourceSchemaStorageBackendRegistrar _storageBackendRegistrar = new();
     private readonly HostResourceSchemaDirectoryRegistrar _directoryRegistrar =
-        new(new DirectoryDefinitionBuilderFactory(), new HostResourceSchemaDirectoryRegisterFactory());
+        new(new DirectoryDefinitionBuilderFactory(), new HostResourceSchemaRegisterBuilderFactory());
 
 
 
 
-    private readonly List<IResourceSettingDescriptor<string>> desicriptors = [];
+    //private readonly List<IResourceSettingDescriptor<string>> desicriptors = [];
     //private readonly List<IDirectoryLocationDescriptor> resources = [];
-    private IHostResourceSchemaResourcesContextProvider resourcesContextProvider;
+    //private IHostResourceSchemaResourcesContextProvider resourcesContextProvider;
 
-    public HostResourceSchemaBuilder(IHostResourceSchemaFileResourceRegistrar fileRegistrar)
-    {
-        _storageBackendRegistrar = new();
-        _fileRegistrar = fileRegistrar;
+    //public HostResourceSchemaBuilder()
+    //{
+    //    _storageBackendRegistrar = new();
 
-        // Settings...
-        resourcesContextProvider = new HostResourceSchemaResourcesContextProvider(new Dictionary<string, StorageAddress>()
-        {
-            ["Roaming"] = StorageAddress.Create(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData))
-        },
-            ref desicriptors);
-    }
+    //    // Settings...
+    //    //resourcesContextProvider = new HostResourceSchemaResourcesContextProvider(new Dictionary<string, StorageAddress>()
+    //    //{
+    //    //    ["Roaming"] = StorageAddress.Create(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData))
+    //    //},
+    //    //    ref desicriptors);
+    //}
 
 
     public IHostResourceSchemaBuilder ConfigureStorageBackends(Action<IResourceSchemaStorageBackendRegistrar> config)
@@ -59,14 +51,14 @@ internal class HostResourceSchemaBuilder : IHostResourceSchemaBuilder
     }
 
     // Settings...
-    public IHostResourceSchemaBuilder ConfigureRoots(Action<IHostResourceSchemaResourcesContextBuilder> config)
-    {
-        var builder = new HostResourceSchemaResourcesContextBuilder();
-        config(builder);
-        builder.UpdateProvider(ref resourcesContextProvider);
-        return this;
-    }
-    public IHostResourceSchemaBuilder ConfigureDirectories(Action<IHostResourceSchemaDirectoryRegistrar> config)
+    //public IHostResourceSchemaBuilder ConfigureRoots(Action<IHostResourceSchemaResourcesContextBuilder> config)
+    //{
+    //    var builder = new HostResourceSchemaResourcesContextBuilder();
+    //    config(builder);
+    //    builder.UpdateProvider(ref resourcesContextProvider);
+    //    return this;
+    //}
+    public IHostResourceSchemaBuilder ConfigureRegistries(Action<IHostResourceSchemaDirectoryRegistrar> config)
     {
         config(_directoryRegistrar);
         return this;
@@ -74,9 +66,8 @@ internal class HostResourceSchemaBuilder : IHostResourceSchemaBuilder
 
     public IHostResourceSchema Build(in IServiceCollection services)
     {
-        _storageBackendRegistrar.Register(in services);
-
-        var directoryRegistries = _directoryRegistrar.Build();
+        var directoryRegistries = _storageBackendRegistrar.Build() +
+            _directoryRegistrar.Build();
 
         var schema = new HostResourceSchema(directoryRegistries);
         return schema;

@@ -1,9 +1,10 @@
 ﻿using FileCompositions.Core.File.Context;
 using FileCompositions.Core.File.Resource.Builder;
+using FileCompositions.Core.File.Resource.Specialized.Json;
 using FileCompositions.Core.Validation.Specialized.Json.Builder;
 using System.Text.Json;
 
-namespace FileCompositions.Core.File.Resource.Specialized.Json.Builder;
+namespace FileCompositions.Core.File.Interface.Specialized.Json.Builder;
 
 public interface IJsonResourceBuilder<TData> : IFileResourceBuilder
 {

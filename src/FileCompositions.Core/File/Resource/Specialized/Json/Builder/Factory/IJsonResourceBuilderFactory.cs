@@ -1,9 +1,9 @@
-﻿using FileCompositions.Core.File.Resource.Specialized.Json.FormatContext;
+﻿using FileCompositions.Core.File.Interface.Specialized.Json.Format;
 
-namespace FileCompositions.Core.File.Resource.Specialized.Json.Builder.Factory;
+namespace FileCompositions.Core.File.Interface.Specialized.Json.Builder.Factory;
 
 internal interface IJsonResourceBuilderFactory
 {
     IJsonResourceBuilder<TData> CreateDefault<TData>();
-    IJsonResourceBuilder<TData> Create<TData>(JsonResourceFormatContext format);
+    IJsonResourceBuilder<TData> Create<TData>(JsonInterfaceFormat format);
 }

@@ -4,13 +4,15 @@ using FileCompositions.Core.File.Definition;
 using FileCompositions.Core.File.Definition.Descriptor;
 using FileCompositions.Core.Quality.Necessity;
 using FileCompositions.Core.Quality.Ownership;
+using FileCompositions.Extensions.Host.Schema.Register;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace FileCompositions.Extensions.Host.Schema.File.Register.Factory.Implementations;
 
-internal class HostResourceSchemaFileRegisterFactory : IHostResourceSchemaFileRegisterFactory
+internal class HostResourceSchemaFileRegisterFactory<TDirectory> : IHostResourceSchemaFileRegisterFactory<TDirectory>
+    where TDirectory : IDirectoryLocation
 {
-    public HostResourceSchemaFileRegister Create<TOwnership, TNecessity, TDefinition, TDescriptor>(TDescriptor descriptor)
+    public HostResourceSchemaRegister CreateFile<TOwnership, TNecessity, TDefinition, TDescriptor>(TDescriptor descriptor)
         where TOwnership : DefinitionOwnership
         where TNecessity : DefinitionNecessity
         where TDefinition : class, IFileDefinition<TOwnership, TNecessity>
@@ -19,9 +21,7 @@ internal class HostResourceSchemaFileRegisterFactory : IHostResourceSchemaFileRe
             {
                 services.AddKeyedSingleton<TDefinition>(descriptor.Key, (sp, key) =>
                 {
-                    // use location instead of definition to make the fileContext -
-                    // but registered DirDefinition may not implicitly register the inherited, so could be a bug...
-                    var directory = sp.GetRequiredKeyedService<IDirectoryLocation>(descriptor.DirectoryKey);
+                    var directory = sp.GetRequiredKeyedService<TDirectory>(descriptor.DirectoryKey);
                     var context = new FileContext(directory);
 
                     var file = descriptor.Activate(context);

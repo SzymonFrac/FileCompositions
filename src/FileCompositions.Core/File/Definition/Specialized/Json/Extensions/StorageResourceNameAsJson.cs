@@ -8,6 +8,6 @@ public static class StorageResourceNameAsJson
     extension(StorageResourceName)
     {
         public static StorageResourceName CreateJson(string name) =>
-            StorageResourceName.Create(name, JsonDefinition<object>.Extension);
+            StorageResourceName.Create(name, JsonDefinition.Extension);
     }
 }

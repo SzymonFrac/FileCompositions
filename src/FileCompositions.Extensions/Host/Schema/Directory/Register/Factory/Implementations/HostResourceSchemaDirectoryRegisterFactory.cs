@@ -1,27 +1,31 @@
 ﻿using FileCompositions.Core.Directory.Context.Implementations;
 using FileCompositions.Core.Directory.Definition;
 using FileCompositions.Core.Directory.Definition.Descriptor;
-using FileCompositions.Core.File.LocationResolver;
+using FileCompositions.Core.File.LocationResolver.Factory;
 using FileCompositions.Core.Quality.Necessity;
 using FileCompositions.Core.Quality.Ownership;
 using FileCompositions.Core.Storage.Backend;
+using FileCompositions.Extensions.Host.Schema.Register;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace FileCompositions.Extensions.Host.Schema.Directory.Register.Factory.Implementations;
 
 internal class HostResourceSchemaDirectoryRegisterFactory : IHostResourceSchemaDirectoryRegisterFactory
 {
-    public HostResourceSchemaDirectoryRegister Create<TOwnership, TNecessity, TBackend>(IDirectoryDefinitionDescriptor<TOwnership, TNecessity, TBackend> descriptor)
+    public HostResourceSchemaRegister CreateDirectory<TOwnership, TNecessity, TBackend>(IDirectoryDefinitionDescriptor<TOwnership, TNecessity, TBackend> descriptor)
         where TOwnership : DefinitionOwnership
         where TNecessity : DefinitionNecessity
         where TBackend : class, IStorageBackend =>
-            new ((in services) =>
+            new((in services) =>
                 services.AddKeyedSingleton<IDirectoryDefinition<TOwnership, TNecessity>>(descriptor.Key, (sp, key) =>
                 {
-                    var fileLocationResolver = sp.GetRequiredService<IFileLocationResolver>();
+                    var fileResolver = sp
+                        .GetRequiredService<IFileLocationResolverFactory>()
+                        .Create();
+
                     var backend = sp.GetRequiredService<TBackend>();
 
-                    var directoryContext = new DirectoryContext(backend, fileLocationResolver);
+                    var directoryContext = new DirectoryContext(backend, fileResolver);
                     var directory = descriptor.Activate(directoryContext);
 
                     return directory;

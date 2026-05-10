@@ -18,7 +18,7 @@ public interface IDbDefinition<TOwnership, TNecessity> : IFileDefinition<TOwners
     where TOwnership : DefinitionOwnership
     where TNecessity : DefinitionNecessity;
 
-public interface IDbDefinition : IFileDefinition, IDbResource
+internal interface IDbDefinition : IFileDefinition
 {
-    internal abstract static IDbResource Convert(IDirectoryLocation directory, StorageResourceName name, Action<IDbResourceBuilder>? config = default);
+    abstract static IDbResource Convert(IDirectoryLocation directory, StorageResourceName name, Action<IDbResourceBuilder>? config = default);
 }

@@ -2,16 +2,13 @@
 using FileCompositions.Core.Quality.Necessity.Implementations;
 using FileCompositions.Core.Quality.Ownership;
 using FileCompositions.Core.Quality.Ownership.Implementations;
-using FileCompositions.Core.Storage.Backend;
-using FileCompositions.Core.Storage.Backend.Implementations;
 
 namespace FileCompositions.Core.Directory.Definition.Builder.Factory;
 
 internal interface IDirectoryDefinitionBuilderFactory
 {
-    IDirectoryDefinitionBuilder<StrictDefinition, RequiredDefinition, LocalDiskStorageBackend> CreateDefault();
-    IDirectoryDefinitionBuilder<TOwnership, TNecessity, TBackend> Create<TOwnership, TNecessity, TBackend>()
+    IDirectoryDefinitionBuilder<StrictDefinition, RequiredDefinition> CreateDefault();
+    IDirectoryDefinitionBuilder<TOwnership, TNecessity> Create<TOwnership, TNecessity>()
         where TOwnership : DefinitionOwnership
-        where TNecessity : DefinitionNecessity
-        where TBackend : class, IStorageBackend;
+        where TNecessity : DefinitionNecessity;
 }
