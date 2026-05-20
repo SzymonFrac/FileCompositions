@@ -2,7 +2,7 @@
 using FileCompositions.Core.Storage.Address;
 using FileCompositions.Core.Storage.Backend;
 using FileCompositions.Core.Storage.Location;
-using FileCompositions.Core.Storage.ResourceName;
+using FileCompositions.Core.Storage.Resource.Name;
 using Microsoft.Extensions.Hosting;
 
 namespace FileCompositions.Extensions.Host.Schema.Directory.Extensions;
@@ -41,48 +41,52 @@ public static class HostFilesInDirectoryDefinitionBuilder
     //}
 }
 
-class What : IStorageBackend
+internal class SomeStorageBackend : IStorageBackend
 {
     private static void Main()
     {
-        //IHostBuilder var = null!;
-        //var.ConfigureFileResources(config =>
-        //{
-
-        //    config.ConfigureRegistries(dirs => dirs
-        //        .Store(config => config
-        //            .Define(dir => dir
-        //                .Required()
-        //                .External()
-        //                .ToStorageBackend<What>()
-        //                .WithKey(new(1)))
-        //            .WithFiles(files => files
-        //                .DefineJson(json => json
-        //                    .Create<object>()
-        //                    .Optional()))
-        //                )));
-        //});
+        IHostBuilder var = null!;
+        var.ConfigureFileResources(config =>
+        {
+            config.ConfigureRegistries(dirs => dirs
+                .Store(config => config
+                    .Define(dir => dir
+                        .Required()
+                        .External()
+                        .ToStorageBackend<SomeStorageBackend>()
+                        .WithAddress(null!)
+                        .WithKey(new(1)))
+                    .WithFiles(files => files
+                        .DefineJson(json => json
+                            .Create<object>()
+                            .Optional()))));
+        });
     }
 
 
 
 
-    public ValueTask CreateAddress(StorageAddress address, CancellationToken cancellationToken = default)
+    public ValueTask Create(StorageAddress address, CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();
     }
 
-    public ValueTask CreateResource(StorageLocation location, CancellationToken cancellationToken = default)
+    public ValueTask Create(StorageLocation location, CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();
     }
 
-    public IAsyncEnumerable<StorageResourceName> EnumerateResourceNames(StorageAddress address, CancellationToken cancellationToken = default)
+    public IAsyncEnumerable<StorageResourceName> EnumerateResources(StorageAddress address, CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();
     }
 
     public ValueTask<bool> Exists(StorageLocation location, CancellationToken cancellationToken = default)
+    {
+        throw new NotImplementedException();
+    }
+
+    public ValueTask<bool> Exists(StorageAddress address, CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();
     }

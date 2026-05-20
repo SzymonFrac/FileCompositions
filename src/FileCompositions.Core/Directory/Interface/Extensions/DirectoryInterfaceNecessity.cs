@@ -1,23 +1,28 @@
 ﻿using FileCompositions.Core.Quality.Necessity.Implementations;
-using FileCompositions.Core.Storage.Location.Extensions;
-using FileCompositions.Core.Storage.ResourceName;
+using FileCompositions.Core.Storage.Resource.Name;
 
 namespace FileCompositions.Core.Directory.Interface.Extensions;
 
-// Is the interface ON the directory on *to* the file
 internal static class DirectoryInterfaceNecessity
 {
     extension(IDirectoryInterface<RequiredDefinition> @interface)
     {
-        // This would be:
-        // Looking for many files in a directory (EnumerateFiles<TFile> ...)
+        public ValueTask CreateResource(StorageResourceName name, CancellationToken cancellationToken = default) =>
+            @interface.StorageBackend.Create(@interface.Address.With(name), cancellationToken);
     }
 
     extension(IDirectoryInterface<OptionalDefinition> @interface)
     {
-        public ValueTask<bool> Exists(StorageResourceName name, CancellationToken cancellationToken = default) =>
-            @interface.StorageBackend.Exists(@interface.Address.With(name), cancellationToken);
+        public ValueTask<bool> Exists(CancellationToken cancellationToken = default) =>
+            @interface.StorageBackend.Exists(@interface.Address, cancellationToken);
 
-        // Looking for many files in a directory optionally (EnumerateFiles<TFile>? ...)
+        public async ValueTask<bool> TryCreateResource(StorageResourceName name, CancellationToken cancellationToken = default)
+        {
+            var result = await @interface.StorageBackend.Exists(@interface.Address, cancellationToken);
+            if (result)
+                await @interface.StorageBackend.Create(@interface.Address.With(name), cancellationToken);
+            
+            return result;
+        }
     }
 }

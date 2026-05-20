@@ -1,43 +1,46 @@
-﻿using FileCompositions.Core.Directory.Context.Implementations;
+﻿using FileCompositions.Core.Directory.Context;
 using FileCompositions.Core.Directory.Location.Implementations;
-using FileCompositions.Core.File.LocationResolver;
 using FileCompositions.Core.Storage.Address;
+using FileCompositions.Core.Storage.Address.Implementations.Local;
 using FileCompositions.Core.Storage.Backend;
 
 namespace FileCompositions.Core.Directory.Location.Builder.Implementations;
 
-internal class DirectoryLocationBuilder(IStorageBackend backend, IFileLocationResolver fileResolver) : IDirectoryLocationBuilder
+file class DirectoryLocationBuilder<TBackend> : IDirectoryLocationBuilder<TBackend>
+    where TBackend : class, IStorageBackend
 {
-    private readonly IFileLocationResolver _fileResolver = fileResolver;
+    private StorageAddress? address;
 
-    private StorageAddress address;
-    private IStorageBackend storageBackend = backend;
-
-    public IDirectoryLocationBuilder WithAddress(StorageAddress a)
+    public IDirectoryLocationBuilder<TBackend> WithAddress(StorageAddress a)
     {
         address = a;
         return this;
     }
-    public IDirectoryLocationBuilder ToStorageBackend<TStorageBackend>()
-        where TStorageBackend : class, IStorageBackend, new()
+    public IDirectoryLocationBuilder<TNewBackend> ToStorageBackend<TNewBackend>()
+        where TNewBackend : class, IStorageBackend =>
+            new DirectoryLocationBuilder<TNewBackend>();
+
+    public IDirectoryLocation Build(in IDirectoryContext context) =>
+        address is null
+            ? throw new NullReferenceException($"{nameof(address)} was null.")
+            : new DirectoryLocation(context, address);
+}
+
+internal class DirectoryLocationBuilder : IDirectoryLocationBuilder
+{
+    private LocalStorageAddress? address;
+
+    public IDirectoryLocationBuilder WithAddress(LocalStorageAddress a)
     {
-        storageBackend = new TStorageBackend();
+        address = a;
         return this;
     }
+    public IDirectoryLocationBuilder<TNewBackend> ToStorageBackend<TNewBackend>()
+        where TNewBackend : class, IStorageBackend =>
+            new DirectoryLocationBuilder<TNewBackend>();
 
-    public IDirectoryLocation Build()
-    {
-        Validate();
-
-        var context = new DirectoryContext(storageBackend, _fileResolver);
-        var directory = new StandardDirectoryLocation(context, address);
-        return directory;
-    }
-
-    private void Validate()
-    {
-        if (address.Equals(default))
-            throw new ArgumentException($"{nameof(address)} must have a value in {nameof(IDirectoryLocationBuilder)}", nameof(address));
-    }
-
+    public IDirectoryLocation Build(in IDirectoryContext context) =>
+        address is null
+        ? throw new NullReferenceException($"{nameof(address)} was null.")
+        : new DirectoryLocation(context, address);
 }

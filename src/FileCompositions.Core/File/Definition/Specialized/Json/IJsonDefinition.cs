@@ -1,10 +1,8 @@
-﻿using FileCompositions.Core.Directory.Location;
+﻿using FileCompositions.Core.File.Context;
 using FileCompositions.Core.File.Interface.Specialized.Json;
-using FileCompositions.Core.File.Interface.Specialized.Json.Builder;
 using FileCompositions.Core.File.Resource.Specialized.Json;
 using FileCompositions.Core.Quality.Ownership;
 using FileCompositions.Core.Quality.Placement;
-using FileCompositions.Core.Storage.ResourceName;
 
 namespace FileCompositions.Core.File.Definition.Specialized.Json;
 
@@ -14,5 +12,5 @@ public interface IJsonDefinition<TOwnership, TPlacement, TData> : IFileDefinitio
 
 internal interface IJsonDefinition : IFileDefinition
 {
-    abstract static IJsonResource<TData> Convert<TData>(IDirectoryLocation directory, StorageResourceName name, Action<IJsonResourceBuilder<TData>>? config = default);
+    abstract static IJsonResource<TData> Convert<TData>(in IFileContext context, string name);
 }

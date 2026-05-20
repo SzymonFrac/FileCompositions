@@ -5,7 +5,7 @@ using FileCompositions.Core.File.Definition.Specialized.Json.Extensions;
 using FileCompositions.Core.File.Interface.Specialized.Json.Format;
 using FileCompositions.Core.Quality.Ownership;
 using FileCompositions.Core.Quality.Placement;
-using FileCompositions.Core.Storage.ResourceName;
+using FileCompositions.Core.Storage.Resource.Name;
 
 namespace FileCompositions.Core.File.Definition.Specialized.Json.Abstract;
 

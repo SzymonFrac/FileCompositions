@@ -11,7 +11,7 @@ internal static class DllDefinitionBuilderPlacement
     extension<TOwnership, TData>(IDllDefinitionBuilder<TOwnership, RequiredDefinition> builder)
         where TOwnership : DefinitionOwnership
     {
-        public IDllDefinition<TOwnership, RequiredInRequired> BuildInRequired(IFileContext context) =>
+        public IDllDefinition<TOwnership, RequiredInRequired> BuildInRequired(in IFileContext context) =>
             builder.Build<RequiredInRequired>(context);
 
         public IDllDefinitionDescriptor<TOwnership, RequiredInRequired> BuildDescriptorInRequired() =>
@@ -21,9 +21,9 @@ internal static class DllDefinitionBuilderPlacement
     extension<TOwnership, TData>(IDllDefinitionBuilder<TOwnership, OptionalDefinition> builder)
         where TOwnership : DefinitionOwnership
     {
-        public IDllDefinition<TOwnership, OptionalInRequired> BuildInRequired(IFileContext context) =>
+        public IDllDefinition<TOwnership, OptionalInRequired> BuildInRequired(in IFileContext context) =>
             builder.Build<OptionalInRequired>(context);
-        public IDllDefinition<TOwnership, OptionalInOptional> BuildInOptional(IFileContext context) =>
+        public IDllDefinition<TOwnership, OptionalInOptional> BuildInOptional(in IFileContext context) =>
             builder.Build<OptionalInOptional>(context);
 
         public IDllDefinitionDescriptor<TOwnership, OptionalInRequired> BuildDescriptorInRequired() =>

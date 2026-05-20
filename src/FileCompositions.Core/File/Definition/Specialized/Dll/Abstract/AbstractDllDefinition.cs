@@ -4,7 +4,7 @@ using FileCompositions.Core.File.Definition.Key;
 using FileCompositions.Core.File.Definition.Specialized.Dll.Extensions;
 using FileCompositions.Core.Quality.Ownership;
 using FileCompositions.Core.Quality.Placement;
-using FileCompositions.Core.Storage.ResourceName;
+using FileCompositions.Core.Storage.Resource.Name;
 using System.Reflection;
 
 namespace FileCompositions.Core.File.Definition.Specialized.Dll.Abstract;

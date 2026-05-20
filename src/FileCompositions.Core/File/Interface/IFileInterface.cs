@@ -4,7 +4,6 @@ using FileCompositions.Core.Storage.Location;
 
 namespace FileCompositions.Core.File.Interface;
 
-// IFileResourceInterface : IFileInterface<Required>, and for Specialised...
 public interface IFileInterface<TPlacement>
     where TPlacement : DefinitionPlacement
 {

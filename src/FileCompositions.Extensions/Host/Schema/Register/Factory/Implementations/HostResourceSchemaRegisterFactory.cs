@@ -18,7 +18,7 @@ internal class HostResourceSchemaRegisterFactory : IHostResourceSchemaRegisterFa
         where TNecessity : DefinitionNecessity
         where TBackend : class, IStorageBackend
     {
-        var fileRegisterFactory = new HostResourceSchemaFileRegisterFactory<IDirectoryDefinition<TOwnership, TNecessity>>();
+        var fileRegisterFactory = new HostResourceSchemaFileRegisterFactory<TOwnership, TNecessity, IDirectoryDefinition<TOwnership, TNecessity>>();
         var registrar = new HostResourceSchemaFileRegistrar<TOwnership, TNecessity>(descriptor.Key, fileRegisterFactory);
         registrarConfig?.Invoke(registrar);
         var fileRegisters = registrar.Build();

@@ -18,5 +18,5 @@ internal class JsonDefinitionDescriptor<TOwnership, TPlacement, TData>(Directory
     private readonly JsonInterfaceFormat format = format;
 
     public override IJsonDefinition<TOwnership, TPlacement, TData> Activate(in IFileContext context) =>
-        new StandardJsonDefinition<TOwnership, TPlacement, TData>(Key, context, Name, format);
+        new JsonDefinition<TOwnership, TPlacement, TData>(context, Key, Name, format);
 }

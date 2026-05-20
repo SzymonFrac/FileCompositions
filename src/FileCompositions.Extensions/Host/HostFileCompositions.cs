@@ -16,7 +16,7 @@ public static class HostFileCompositions
         {
             builder.ConfigureServices((ctx, services) =>
             {
-                services.AddSingleton<LocalDiskStorageBackend>();
+                services.AddSingleton<LocalStorageBackend>();
                 services.AddSingleton<IFileLocationResolverFactory, AssemblyFileLocationResolverFactory>();
 
                 var builderFactory = new HostResourceSchemaBuilderFactory();

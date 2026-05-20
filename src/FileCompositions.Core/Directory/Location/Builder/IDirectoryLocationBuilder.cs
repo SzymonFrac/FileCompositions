@@ -1,13 +1,25 @@
-﻿using FileCompositions.Core.Storage.Address;
+﻿using FileCompositions.Core.Directory.Context;
+using FileCompositions.Core.Storage.Address;
+using FileCompositions.Core.Storage.Address.Implementations.Local;
 using FileCompositions.Core.Storage.Backend;
 
 namespace FileCompositions.Core.Directory.Location.Builder;
 
+public interface IDirectoryLocationBuilder<TBackend>
+    where TBackend : class, IStorageBackend
+{
+    IDirectoryLocationBuilder<TBackend> WithAddress(StorageAddress address);
+    IDirectoryLocationBuilder<TNewBackend> ToStorageBackend<TNewBackend>()
+        where TNewBackend : class, IStorageBackend;
+
+    internal IDirectoryLocation Build(in IDirectoryContext context);
+}
+
 public interface IDirectoryLocationBuilder
 {
-    IDirectoryLocationBuilder WithAddress(StorageAddress address);
-    IDirectoryLocationBuilder ToStorageBackend<TStorageBackend>()
-        where TStorageBackend : class, IStorageBackend, new();
+    IDirectoryLocationBuilder WithAddress(LocalStorageAddress address);
+    IDirectoryLocationBuilder<TNewBackend> ToStorageBackend<TNewBackend>()
+        where TNewBackend : class, IStorageBackend;
 
-    internal IDirectoryLocation Build();
+    internal IDirectoryLocation Build(in IDirectoryContext context);
 }

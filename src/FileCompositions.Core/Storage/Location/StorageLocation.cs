@@ -1,9 +1,6 @@
 ﻿using FileCompositions.Core.Storage.Address;
-using FileCompositions.Core.Storage.ResourceName;
+using FileCompositions.Core.Storage.Resource.Name;
 
 namespace FileCompositions.Core.Storage.Location;
 
-public readonly record struct StorageLocation(StorageAddress Address, StorageResourceName Name)
-{
-    public override string ToString() => Path.Combine(Address.ToString(), Name.ToString());
-}
+public abstract record StorageLocation(StorageAddress Address, StorageResourceName Name);

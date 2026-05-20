@@ -11,7 +11,6 @@ using FileCompositions.Core.Quality.Necessity.Implementations;
 using FileCompositions.Core.Quality.Ownership;
 using FileCompositions.Core.Quality.Ownership.Implementations;
 using FileCompositions.Core.Quality.Placement;
-using FileCompositions.Core.Validation.Specialized.Json.Builder;
 using System.Text.Json;
 
 namespace FileCompositions.Core.File.Definition.Specialized.Json.Builder.Implementations;
@@ -44,10 +43,6 @@ internal class JsonDefinitionBuilder<TOwnership, TNecessity, TData>
         format = format with { JsonSerializerOptions = options };
         return this;
     }
-    public IJsonDefinitionBuilder<TOwnership, TNecessity, TData> WithValidation(Action<IJsonResourceValidationBuilder<TData>> validation)
-    {
-        throw new NotImplementedException();
-    }
 
     public IJsonDefinitionBuilder<ExternalDefinition, TNecessity, TData> External() =>
         new JsonDefinitionBuilder<ExternalDefinition, TNecessity, TData>(DirectoryKey, Key, Name, format);
@@ -65,7 +60,7 @@ internal class JsonDefinitionBuilder<TOwnership, TNecessity, TData>
         if (Name is null)
             throw new NullReferenceException("File must have a non-empty name.");
 
-        var json = new StandardJsonDefinition<TOwnership, TPlacement, TData>(Key, context, Name, format);
+        var json = new JsonDefinition<TOwnership, TPlacement, TData>(context, Key, Name, format);
         return json;
     }
 

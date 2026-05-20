@@ -1,11 +1,11 @@
 ﻿using FileCompositions.Core.Directory.Location;
 using FileCompositions.Core.File.Definition;
 using FileCompositions.Core.File.LocationResolver.Implementations;
-using FileCompositions.Core.Storage.ResourceName;
-using FileCompositions.Core.Storage.ResourceName.Extension;
 using System.Collections.Immutable;
 using System.Reflection;
 using FileCompositions.Core.File.Resource;
+using FileCompositions.Core.Storage.Resource.Name;
+using FileCompositions.Core.Storage.Resource.Extension;
 
 namespace FileCompositions.Core.File.LocationResolver.Factory.Implementations;
 

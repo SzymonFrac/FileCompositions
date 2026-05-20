@@ -11,7 +11,7 @@ internal static class JsonDefinitionBuilderPlacement
     extension<TOwnership, TData>(IJsonDefinitionBuilder<TOwnership, RequiredDefinition, TData> builder)
         where TOwnership : DefinitionOwnership
     {
-        public IJsonDefinition<TOwnership, RequiredInRequired, TData> BuildInRequired(IFileContext context) =>
+        public IJsonDefinition<TOwnership, RequiredInRequired, TData> BuildInRequired(in IFileContext context) =>
             builder.Build<RequiredInRequired>(context);
 
         public IJsonDefinitionDescriptor<TOwnership, RequiredInRequired, TData> BuildDescriptorInRequired() =>
@@ -21,9 +21,9 @@ internal static class JsonDefinitionBuilderPlacement
     extension<TOwnership, TData>(IJsonDefinitionBuilder<TOwnership, OptionalDefinition, TData> builder)
         where TOwnership : DefinitionOwnership
     {
-        public IJsonDefinition<TOwnership, OptionalInRequired, TData> BuildInRequired(IFileContext context) =>
+        public IJsonDefinition<TOwnership, OptionalInRequired, TData> BuildInRequired(in IFileContext context) =>
             builder.Build<OptionalInRequired>(context);
-        public IJsonDefinition<TOwnership, OptionalInOptional, TData> BuildInOptional(IFileContext context) =>
+        public IJsonDefinition<TOwnership, OptionalInOptional, TData> BuildInOptional(in IFileContext context) =>
             builder.Build<OptionalInOptional>(context);
 
         public IJsonDefinitionDescriptor<TOwnership, OptionalInRequired, TData> BuildDescriptorInRequired() =>

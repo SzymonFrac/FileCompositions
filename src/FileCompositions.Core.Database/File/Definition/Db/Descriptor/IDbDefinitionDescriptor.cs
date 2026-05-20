@@ -1,17 +1,17 @@
 ﻿using FileCompositions.Core.File.Definition.Descriptor;
-using FileCompositions.Core.Quality.Necessity;
 using FileCompositions.Core.Quality.Ownership;
+using FileCompositions.Core.Quality.Placement;
 using Microsoft.EntityFrameworkCore;
 
 namespace FileCompositions.Core.Database.File.Definition.Db.Descriptor;
 
-internal interface IDbDefinitionDescriptor<TOwnership, TNecessity, TDbContext>
-    : IFileDefinitionDescriptor<IDbDefinition<TOwnership, TNecessity, TDbContext>, TOwnership, TNecessity>
+internal interface IDbDefinitionDescriptor<TOwnership, TPlacement, TDbContext>
+    : IFileDefinitionDescriptor<IDbDefinition<TOwnership, TPlacement, TDbContext>, TOwnership, TPlacement>
         where TOwnership : DefinitionOwnership
-        where TNecessity : DefinitionNecessity
+        where TPlacement : DefinitionPlacement
         where TDbContext : DbContext;
 
-internal interface IDbDefinitionDescriptor<TOwnership, TNecessity>
-    : IFileDefinitionDescriptor<IDbDefinition<TOwnership, TNecessity>, TOwnership, TNecessity>
+internal interface IDbDefinitionDescriptor<TOwnership, TPlacement>
+    : IFileDefinitionDescriptor<IDbDefinition<TOwnership, TPlacement>, TOwnership, TPlacement>
         where TOwnership : DefinitionOwnership
-        where TNecessity : DefinitionNecessity;
+        where TPlacement : DefinitionPlacement;

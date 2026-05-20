@@ -6,6 +6,7 @@ using FileCompositions.Core.Quality.Necessity.Implementations;
 using FileCompositions.Core.Quality.Ownership;
 using FileCompositions.Core.Quality.Ownership.Implementations;
 using FileCompositions.Core.Storage.Address;
+using FileCompositions.Core.Storage.Address.Implementations.Local;
 using FileCompositions.Core.Storage.Backend;
 using FileCompositions.Core.Storage.Backend.Implementations;
 
@@ -35,7 +36,7 @@ public interface IDirectoryDefinitionBuilder<TOwnership, TNecessity>
     where TNecessity : DefinitionNecessity
 {
     IDirectoryDefinitionBuilder<TOwnership, TNecessity> WithKey(DirectoryDefinitionKey key);
-    IDirectoryDefinitionBuilder<TOwnership, TNecessity> WithAddress(StorageAddress address);
+    IDirectoryDefinitionBuilder<TOwnership, TNecessity> WithAddress(LocalStorageAddress address);
     IDirectoryDefinitionBuilder<TOwnership, TNecessity, TNewBackend> ToStorageBackend<TNewBackend>()
         where TNewBackend : class, IStorageBackend;
 
@@ -45,5 +46,5 @@ public interface IDirectoryDefinitionBuilder<TOwnership, TNecessity>
     IDirectoryDefinitionBuilder<TOwnership, OptionalDefinition> Optional();
 
     internal IDirectoryDefinition<TOwnership, TNecessity> Build(in IDirectoryContext context);
-    internal IDirectoryDefinitionDescriptor<TOwnership, TNecessity, LocalDiskStorageBackend> BuildDescriptor();
+    internal IDirectoryDefinitionDescriptor<TOwnership, TNecessity, LocalStorageBackend> BuildDescriptor();
 }

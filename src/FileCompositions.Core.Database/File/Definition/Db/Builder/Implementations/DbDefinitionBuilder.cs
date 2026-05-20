@@ -9,6 +9,7 @@ using FileCompositions.Core.Quality.Necessity;
 using FileCompositions.Core.Quality.Necessity.Implementations;
 using FileCompositions.Core.Quality.Ownership;
 using FileCompositions.Core.Quality.Ownership.Implementations;
+using FileCompositions.Core.Quality.Placement;
 using Microsoft.EntityFrameworkCore;
 
 namespace FileCompositions.Core.Database.File.Definition.Db.Builder.Implementations;
@@ -42,21 +43,23 @@ internal class DbDefinitionBuilder<TOwnership, TNecessity, TDbContext>
     public IDbDefinitionBuilder<TOwnership, OptionalDefinition, TDbContext> Optional() =>
         new DbDefinitionBuilder<TOwnership, OptionalDefinition, TDbContext>(DirectoryKey, Key, Name);
 
-    public IDbDefinition<TOwnership, TNecessity, TDbContext> Build(in IFileContext context)
+    public IDbDefinition<TOwnership, TPlacement, TDbContext> Build<TPlacement>(in IFileContext context)
+        where TPlacement : DefinitionPlacement
     {
         if (Name is null)
             throw new NullReferenceException("File must have a non-empty name.");
 
-        var db = new StandardDbDefinition<TOwnership, TNecessity, TDbContext>(Key, context, Name);
+        var db = new DbDefinition<TOwnership, TPlacement, TDbContext>(Key, context, Name);
         return db;
     }
 
-    public IDbDefinitionDescriptor<TOwnership, TNecessity, TDbContext> BuildDescriptor()
+    public IDbDefinitionDescriptor<TOwnership, TPlacement, TDbContext> BuildDescriptor<TPlacement>()
+        where TPlacement : DefinitionPlacement
     {
         if (Name is null)
             throw new NullReferenceException("File must have a non-empty name.");
 
-        var db = new DbDefinitionDescriptor<TOwnership, TNecessity, TDbContext>(DirectoryKey, Key, Name);
+        var db = new DbDefinitionDescriptor<TOwnership, TPlacement, TDbContext>(DirectoryKey, Key, Name);
         return db;
     }
 }
@@ -89,21 +92,23 @@ internal class DbDefinitionBuilder<TOwnership, TNecessity>
     public IDbDefinitionBuilder<TOwnership, OptionalDefinition> Optional() =>
         new DbDefinitionBuilder<TOwnership, OptionalDefinition>(DirectoryKey, Key, Name);
 
-    public IDbDefinition<TOwnership, TNecessity> Build(in IFileContext context)
+    public IDbDefinition<TOwnership, TPlacement> Build<TPlacement>(in IFileContext context)
+        where TPlacement : DefinitionPlacement
     {
         if (Name is null)
             throw new NullReferenceException("File must have a non-empty name.");
 
-        var db = new StandardDbDefinition<TOwnership, TNecessity>(Key, context, Name);
+        var db = new DbDefinition<TOwnership, TPlacement>(Key, context, Name);
         return db;
     }
 
-    public IDbDefinitionDescriptor<TOwnership, TNecessity> BuildDescriptor()
+    public IDbDefinitionDescriptor<TOwnership, TPlacement> BuildDescriptor<TPlacement>()
+        where TPlacement : DefinitionPlacement
     {
         if (Name is null)
             throw new NullReferenceException("File must have a non-empty name.");
 
-        var db = new DbDefinitionDescriptor<TOwnership, TNecessity>(DirectoryKey, Key, Name);
+        var db = new DbDefinitionDescriptor<TOwnership, TPlacement>(DirectoryKey, Key, Name);
         return db;
     }
 }

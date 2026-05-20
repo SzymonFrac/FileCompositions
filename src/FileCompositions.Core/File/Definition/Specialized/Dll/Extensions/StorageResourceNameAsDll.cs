@@ -1,5 +1,5 @@
-﻿using FileCompositions.Core.File.Definition.Specialized.Dll.Abstract;
-using FileCompositions.Core.Storage.ResourceName;
+﻿using FileCompositions.Core.File.Definition.Specialized.Dll.Implementations;
+using FileCompositions.Core.Storage.Resource.Name;
 
 namespace FileCompositions.Core.File.Definition.Specialized.Dll.Extensions;
 

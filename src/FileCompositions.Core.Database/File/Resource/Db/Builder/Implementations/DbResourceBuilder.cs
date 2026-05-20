@@ -5,47 +5,44 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FileCompositions.Core.Database.File.Resource.Db.Builder.Implementations;
 
-internal class DbResourceBuilder<TDbContext>(string? name)
-    : FileResourceBuilder<IDbResource<TDbContext>, IDbResourceBuilder<TDbContext>>, IDbResourceBuilder<TDbContext>
+file class DbResourceBuilder<TDbContext> : FileResourceBuilder, IDbResourceBuilder<TDbContext>
     where TDbContext : DbContext
 {
-    private string? name = name;
+    internal DbResourceBuilder(string? name) => Name = name;
 
-    public override IDbResourceBuilder<TDbContext> WithName(string n)
+    public IDbResourceBuilder<TDbContext> WithName(string name)
     {
-        name = n;
+        Name = name;
         return this;
     }
 
-    public override IDbResource<TDbContext> Build(in IFileContext context)
+    public IDbResource<TDbContext> Build(in IFileContext context)
     {
-        if (name is null)
+        if (Name is null)
             throw new NullReferenceException("File must have a non-empty name.");
 
-        var db = new StandardDbResource<TDbContext>(context, name);
+        var db = new DbResource<TDbContext>(context, Name);
         return db;
     }
 }
 
-internal class DbResourceBuilder : FileResourceBuilder<IDbResource, IDbResourceBuilder>, IDbResourceBuilder
+internal class DbResourceBuilder : FileResourceBuilder, IDbResourceBuilder
 {
-    private string? name;
-
-    public override IDbResourceBuilder WithName(string n)
+    public IDbResourceBuilder WithName(string name)
     {
-        name = n;
+        Name = name;
         return this;
     }
     public IDbResourceBuilder<TNewDbContext> AddDbContext<TNewDbContext>()
         where TNewDbContext : DbContext =>
-            new DbResourceBuilder<TNewDbContext>(name);
+            new DbResourceBuilder<TNewDbContext>(Name);
 
-    public override IDbResource Build(in IFileContext context)
+    public IDbResource Build(in IFileContext context)
     {
-        if (name is null)
+        if (Name is null)
             throw new NullReferenceException("File must have a non-empty name.");
 
-        var db = new StandardDbResource(context, name);
+        var db = new DbResource(context, Name);
         return db;
     }
 }

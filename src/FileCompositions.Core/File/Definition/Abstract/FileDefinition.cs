@@ -5,8 +5,7 @@ using FileCompositions.Core.Quality.Ownership;
 using FileCompositions.Core.Quality.Placement;
 using FileCompositions.Core.Storage.Backend;
 using FileCompositions.Core.Storage.Location;
-using FileCompositions.Core.Storage.Location.Extensions;
-using FileCompositions.Core.Storage.ResourceName;
+using FileCompositions.Core.Storage.Resource.Name;
 
 namespace FileCompositions.Core.File.Definition.Abstract;
 

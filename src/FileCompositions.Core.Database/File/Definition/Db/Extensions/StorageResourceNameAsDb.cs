@@ -1,5 +1,5 @@
-﻿using FileCompositions.Core.Database.File.Definition.Db.Abstract;
-using FileCompositions.Core.Storage.ResourceName;
+﻿using FileCompositions.Core.Database.File.Definition.Db.Implementations;
+using FileCompositions.Core.Storage.Resource.Name;
 
 namespace FileCompositions.Core.Database.File.Definition.Db.Extensions;
 

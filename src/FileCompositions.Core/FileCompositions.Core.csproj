@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <Folder Include="Quality\Ownership\Extensions\" />
-    <Folder Include="Validation\Handler\Specialized\" />
 
 	<InternalsVisibleTo Include="FileCompositions.Core.Database" />
 	<InternalsVisibleTo Include="FileCompositions.Extensions" />

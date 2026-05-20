@@ -7,7 +7,6 @@ using FileCompositions.Core.Quality.Necessity.Implementations;
 using FileCompositions.Core.Quality.Ownership;
 using FileCompositions.Core.Quality.Ownership.Implementations;
 using FileCompositions.Core.Quality.Placement;
-using FileCompositions.Core.Validation.Specialized.Json.Builder;
 using System.Text.Json;
 
 namespace FileCompositions.Core.File.Definition.Specialized.Json.Builder;
@@ -19,7 +18,6 @@ public interface IJsonDefinitionBuilder<TOwnership, TNecessity, TData> : IFileDe
     IJsonDefinitionBuilder<TOwnership, TNecessity, TData> WithKey(FileDefinitionKey key);
     IJsonDefinitionBuilder<TOwnership, TNecessity, TData> WithName(string name);
     IJsonDefinitionBuilder<TOwnership, TNecessity, TData> UseSerializerOptions(JsonSerializerOptions options);
-    IJsonDefinitionBuilder<TOwnership, TNecessity, TData> WithValidation(Action<IJsonResourceValidationBuilder<TData>> validation);
 
     IJsonDefinitionBuilder<ExternalDefinition, TNecessity, TData> External();
     IJsonDefinitionBuilder<StrictDefinition, TNecessity, TData> Strict();

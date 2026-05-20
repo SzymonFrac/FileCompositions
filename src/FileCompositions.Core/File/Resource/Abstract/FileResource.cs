@@ -3,8 +3,7 @@ using FileCompositions.Core.File.Interface;
 using FileCompositions.Core.Quality.Placement.Implementations;
 using FileCompositions.Core.Storage.Backend;
 using FileCompositions.Core.Storage.Location;
-using FileCompositions.Core.Storage.Location.Extensions;
-using FileCompositions.Core.Storage.ResourceName;
+using FileCompositions.Core.Storage.Resource.Name;
 
 namespace FileCompositions.Core.File.Resource.Abstract;
 

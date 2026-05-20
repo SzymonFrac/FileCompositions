@@ -1,7 +1,6 @@
 ﻿using FileCompositions.Core.Directory.Context.Implementations;
 using FileCompositions.Core.Directory.Definition;
 using FileCompositions.Core.Directory.Definition.Descriptor;
-using FileCompositions.Core.File.LocationResolver.Factory;
 using FileCompositions.Core.Quality.Necessity;
 using FileCompositions.Core.Quality.Ownership;
 using FileCompositions.Core.Storage.Backend;
@@ -19,13 +18,13 @@ internal class HostResourceSchemaDirectoryRegisterFactory : IHostResourceSchemaD
             new((in services) =>
                 services.AddKeyedSingleton<IDirectoryDefinition<TOwnership, TNecessity>>(descriptor.Key, (sp, key) =>
                 {
-                    var fileResolver = sp
-                        .GetRequiredService<IFileLocationResolverFactory>()
-                        .Create();
+                    //var fileResolver = sp
+                    //    .GetRequiredService<IFileLocationResolverFactory>()
+                    //    .Create();
 
                     var backend = sp.GetRequiredService<TBackend>();
 
-                    var directoryContext = new DirectoryContext(backend, fileResolver);
+                    var directoryContext = new DirectoryContext(backend);
                     var directory = descriptor.Activate(directoryContext);
 
                     return directory;
