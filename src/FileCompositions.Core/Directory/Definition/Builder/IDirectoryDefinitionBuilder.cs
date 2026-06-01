@@ -6,7 +6,7 @@ using FileCompositions.Core.Quality.Necessity.Implementations;
 using FileCompositions.Core.Quality.Ownership;
 using FileCompositions.Core.Quality.Ownership.Implementations;
 using FileCompositions.Core.Storage.Address;
-using FileCompositions.Core.Storage.Address.Implementations.Local;
+using FileCompositions.Core.Storage.Address.Implementations;
 using FileCompositions.Core.Storage.Backend;
 using FileCompositions.Core.Storage.Backend.Implementations;
 

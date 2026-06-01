@@ -4,7 +4,7 @@ using FileCompositions.Core.Storage.Address;
 
 namespace FileCompositions.Core.Directory.Location.Factory.Implementations;
 
-internal class DirectoryLocationFactory : IDirectoryLocationFactory
+internal sealed class DirectoryLocationFactory : IDirectoryLocationFactory
 {
     public IDirectoryLocation Create(IDirectoryContext context, StorageAddress address) =>
         new DirectoryLocation(context, address);

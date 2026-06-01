@@ -23,6 +23,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FileCompositions.Core\FileCompositions.Core.csproj" />
+
+	<InternalsVisibleTo Include="FileCompositions.Hosting.EntityFrameworkCore" />
   </ItemGroup>
 
 </Project>

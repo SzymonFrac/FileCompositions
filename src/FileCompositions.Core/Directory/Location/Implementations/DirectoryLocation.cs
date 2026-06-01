@@ -4,4 +4,4 @@ using FileCompositions.Core.Storage.Address;
 
 namespace FileCompositions.Core.Directory.Location.Implementations;
 
-internal class DirectoryLocation(IDirectoryContext context, StorageAddress address) : AbstractDirectoryLocation(context, address);
+internal sealed class DirectoryLocation(IDirectoryContext context, StorageAddress address) : AbstractDirectoryLocation(context, address);

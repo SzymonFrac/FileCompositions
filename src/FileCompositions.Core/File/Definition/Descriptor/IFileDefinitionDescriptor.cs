@@ -13,7 +13,6 @@ internal interface IFileDefinitionDescriptor<TDefinition, TOwnership, TPlacement
 {
     DirectoryDefinitionKey DirectoryKey { get; }
     FileDefinitionKey Key { get; }
-    FileDefinitionKey WithKeyIfNull(FileDefinitionKey key);
 
     TDefinition Activate(in IFileContext context);
 }

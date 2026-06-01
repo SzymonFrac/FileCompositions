@@ -1,7 +1,6 @@
 ﻿using FileCompositions.Core.Directory.Definition.Config;
 using FileCompositions.Core.Quality.Necessity;
 using FileCompositions.Core.Quality.Ownership;
-using FileCompositions.Core.ResourceSchema.File.Registrar;
 using FileCompositions.Core.Storage.Backend;
 
 namespace FileCompositions.Core.ResourceSchema.Register.Builder;
@@ -15,7 +14,6 @@ public interface IResourceSchemaRegisterBuilder<TOwnership, TNecessity, TBackend
         where TDefOwnership : DefinitionOwnership
         where TDefNecessity : DefinitionNecessity
         where TDefBackend : class, IStorageBackend;
-    IResourceSchemaRegisterBuilder<TOwnership, TNecessity, TBackend> WithFiles(Action<IResourceSchemaFileRegistrar<TOwnership, TNecessity>> config);
 }
 
 public interface IResourceSchemaRegisterBuilder<TOwnership, TNecessity>
@@ -29,5 +27,4 @@ public interface IResourceSchemaRegisterBuilder<TOwnership, TNecessity>
     IResourceSchemaRegisterBuilder<TDefOwnership, TDefNecessity> Define<TDefOwnership, TDefNecessity>(ResourceSchemaDirectoryConfig<TDefOwnership, TDefNecessity> config)
         where TDefOwnership : DefinitionOwnership
         where TDefNecessity : DefinitionNecessity;
-    IResourceSchemaRegisterBuilder<TOwnership, TNecessity> WithFiles(Action<IResourceSchemaFileRegistrar<TOwnership, TNecessity>> config);
 }

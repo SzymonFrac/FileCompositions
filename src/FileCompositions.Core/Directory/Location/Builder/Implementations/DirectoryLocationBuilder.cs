@@ -1,12 +1,12 @@
 ﻿using FileCompositions.Core.Directory.Context;
 using FileCompositions.Core.Directory.Location.Implementations;
 using FileCompositions.Core.Storage.Address;
-using FileCompositions.Core.Storage.Address.Implementations.Local;
+using FileCompositions.Core.Storage.Address.Implementations;
 using FileCompositions.Core.Storage.Backend;
 
 namespace FileCompositions.Core.Directory.Location.Builder.Implementations;
 
-file class DirectoryLocationBuilder<TBackend> : IDirectoryLocationBuilder<TBackend>
+file sealed class DirectoryLocationBuilder<TBackend> : IDirectoryLocationBuilder<TBackend>
     where TBackend : class, IStorageBackend
 {
     private StorageAddress? address;
@@ -26,7 +26,7 @@ file class DirectoryLocationBuilder<TBackend> : IDirectoryLocationBuilder<TBacke
             : new DirectoryLocation(context, address);
 }
 
-internal class DirectoryLocationBuilder : IDirectoryLocationBuilder
+internal sealed class DirectoryLocationBuilder : IDirectoryLocationBuilder
 {
     private LocalStorageAddress? address;
 

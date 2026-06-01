@@ -1,32 +1,43 @@
 ﻿using FileCompositions.Core.Storage.Address;
 using FileCompositions.Core.Storage.Location;
-using FileCompositions.Core.Storage.Resource.Name;
+using static System.IO.FileAccess;
+using static System.IO.FileMode;
 
 namespace FileCompositions.Core.Storage.Backend.Implementations;
 
-internal class LocalStorageBackend : IStorageBackend
+internal sealed class LocalStorageBackend : IStorageBackend
 {
     public Task<Stream> OpenReadAsync(StorageLocation location, CancellationToken cancellationToken = default) =>
         Task.FromResult<Stream>(System.IO.File.OpenRead(location.ToString()));
     public Task<Stream> OpenWriteAsync(StorageLocation location, CancellationToken cancellationToken = default) =>
-        Task.FromResult<Stream>(System.IO.File.OpenWrite(location.ToString()));
-    public ValueTask<bool> Exists(StorageAddress address, CancellationToken cancellationToken = default) =>
+        Task.FromResult<Stream>(System.IO.File.Create(location.ToString()));
+    public Task<Stream> OpenAppendAsync(StorageLocation location, CancellationToken cancellationToken) =>
+        Task.FromResult<Stream>(System.IO.File.Open(location.ToString(), Append, Write));
+    public Task<Stream> OpenCreateAsync(StorageLocation location, CancellationToken cancellationToken = default) =>
+        Task.FromResult<Stream>(System.IO.File.Open(location.ToString(), CreateNew, Write));
+
+    public ValueTask<bool> ExistsAsync(StorageAddress address, CancellationToken cancellationToken = default) =>
         ValueTask.FromResult(System.IO.Directory.Exists(address.ToString()));
-    public ValueTask<bool> Exists(StorageLocation location, CancellationToken cancellationToken = default) =>
+    public ValueTask<bool> ExistsAsync(StorageLocation location, CancellationToken cancellationToken = default) =>
         ValueTask.FromResult(System.IO.File.Exists(location.ToString()));
-    public ValueTask Create(StorageAddress address, CancellationToken cancellationToken = default)
+    public ValueTask CreateAsync(StorageAddress address, CancellationToken cancellationToken = default)
     {
         System.IO.Directory.CreateDirectory(address.ToString());
         return ValueTask.CompletedTask;
     }
-    public ValueTask Create(StorageLocation location, CancellationToken cancellationToken = default)
+    public ValueTask CreateAsync(StorageLocation location, CancellationToken cancellationToken = default)
     {
-        System.IO.File.Create(location.ToString());
+        System.IO.File.Create(location.ToString()).Dispose();
         return ValueTask.CompletedTask;
     }
-
-    public IAsyncEnumerable<StorageResourceName> EnumerateResources(StorageAddress address, CancellationToken cancellationToken = default) =>
-        System.IO.Directory.EnumerateFiles(address.ToString())
-            .Select(StorageResourceName.GetFromPath)
-            .ToAsyncEnumerable();
+    public ValueTask DeleteAsync(StorageAddress address, CancellationToken cancellationToken)
+    {
+        System.IO.Directory.Delete(address.ToString());
+        return ValueTask.CompletedTask;
+    }
+    public ValueTask DeleteAsync(StorageLocation location, CancellationToken cancellationToken)
+    {
+        System.IO.File.Delete(location.ToString());
+        return ValueTask.CompletedTask;
+    }
 }

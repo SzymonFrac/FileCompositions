@@ -1,0 +1,11 @@
+﻿using FileCompositions.Core.Quality.Necessity;
+using FileCompositions.Core.Quality.Ownership;
+
+namespace FileCompositions.Extensions.Host.Schema.File.Register.Builder.Factory;
+
+internal interface IHostResourceSchemaFileRegisterBuilderFactory
+{
+    IHostResourceSchemaFileRegisterBuilder Create<TInOwnership, TInNecessity>()
+        where TInOwnership : DefinitionOwnership
+        where TInNecessity : DefinitionNecessity;
+}

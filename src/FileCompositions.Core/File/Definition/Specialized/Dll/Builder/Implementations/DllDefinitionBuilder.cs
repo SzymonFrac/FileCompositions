@@ -5,6 +5,7 @@ using FileCompositions.Core.File.Definition.Key;
 using FileCompositions.Core.File.Definition.Specialized.Dll.Descriptor;
 using FileCompositions.Core.File.Definition.Specialized.Dll.Descriptor.Implementations;
 using FileCompositions.Core.File.Definition.Specialized.Dll.Implementations;
+using FileCompositions.Core.File.Definition.Specialized.Dll.Init.Policy.Implementations;
 using FileCompositions.Core.Quality.Necessity;
 using FileCompositions.Core.Quality.Necessity.Implementations;
 using FileCompositions.Core.Quality.Ownership;
@@ -13,14 +14,13 @@ using FileCompositions.Core.Quality.Placement;
 
 namespace FileCompositions.Core.File.Definition.Specialized.Dll.Builder.Implementations;
 
-internal class DllDefinitionBuilder<TOwnership, TNecessity>
-    : FileDefinitionBuilder<TOwnership, TNecessity>, IDllDefinitionBuilder<TOwnership, TNecessity>
+internal sealed class DllDefinitionBuilder<TOwnership, TNecessity>
+    : AbstractFileDefinitionBuilder<TOwnership, TNecessity>, IDllDefinitionBuilder<TOwnership, TNecessity>
         where TOwnership : DefinitionOwnership
         where TNecessity : DefinitionNecessity
 {
     internal DllDefinitionBuilder(DirectoryDefinitionKey directoryKey) : base(directoryKey) { }
     private DllDefinitionBuilder(DirectoryDefinitionKey directoryKey, FileDefinitionKey key, string? name) : base(directoryKey, key, name) { }
-
 
     public IDllDefinitionBuilder<TOwnership, TNecessity> WithKey(FileDefinitionKey key)
     {
@@ -29,7 +29,7 @@ internal class DllDefinitionBuilder<TOwnership, TNecessity>
     }
     public IDllDefinitionBuilder<TOwnership, TNecessity> WithName(string name)
     {
-        Name = Name;
+        Name = name;
         return this;
     }
 
@@ -48,8 +48,10 @@ internal class DllDefinitionBuilder<TOwnership, TNecessity>
         if (Name is null)
             throw new NullReferenceException("File must have a non-empty name.");
 
-        var dll = new DllDefinition<TOwnership, TPlacement>(Key, context, Name);
-        return dll;
+        return new DllDefinition<TOwnership, TPlacement>(context, Key, Name)
+        {
+            InitPolicy = new DefaultDllDefinitionInitPolicy<TOwnership, TPlacement>()
+        };
     }
 
     public IDllDefinitionDescriptor<TOwnership, TPlacement> BuildDescriptor<TPlacement>()
@@ -58,8 +60,10 @@ internal class DllDefinitionBuilder<TOwnership, TNecessity>
         if (Name is null)
             throw new NullReferenceException("File must have a non-empty name.");
 
-        var dll = new DllDefinitionDescriptor<TOwnership, TPlacement>(DirectoryKey, Key, Name);
-        return dll;
+        return new DllDefinitionDescriptor<TOwnership, TPlacement>(DirectoryKey, Key, Name)
+        {
+            InitPolicy = new DefaultDllDefinitionInitPolicy<TOwnership, TPlacement>()
+        };
     }
 
 }

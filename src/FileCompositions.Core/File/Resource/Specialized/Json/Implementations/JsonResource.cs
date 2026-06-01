@@ -4,5 +4,5 @@ using FileCompositions.Core.File.Resource.Specialized.Json.Abstract;
 
 namespace FileCompositions.Core.File.Resource.Specialized.Json.Implementations;
 
-internal class JsonResource<TData>(IFileContext context, string name, JsonInterfaceFormat format)
+internal sealed class JsonResource<TData>(IFileContext context, string name, JsonInterfaceFormat format)
     : AbstractJsonResource<TData>(context, name, format);

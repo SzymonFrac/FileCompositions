@@ -7,7 +7,7 @@ using FileCompositions.Core.Storage.Resource.Name;
 namespace FileCompositions.Core.File.Resource.Specialized.Json.Abstract;
 
 internal abstract class AbstractJsonResource<TData>(IFileContext context, string name, JsonInterfaceFormat format) :
-    FileResource(context, StorageResourceName.CreateJson(name)), IJsonResource<TData>
+    AbstractFileResource(context, StorageResourceName.CreateJson(name)), IJsonResource<TData>
 {
     public JsonInterfaceFormat Format { get; } = format;
 }

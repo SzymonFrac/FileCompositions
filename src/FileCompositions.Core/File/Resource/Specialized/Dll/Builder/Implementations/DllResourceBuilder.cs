@@ -5,7 +5,7 @@ using FileCompositions.Core.File.Resource.Specialized.Dll.Implementations;
 
 namespace FileCompositions.Core.File.Resource.Specialized.Dll.Builder.Implementations;
 
-internal class DllResourceBuilder : FileResourceBuilder, IDllResourceBuilder
+internal sealed class DllResourceBuilder : AbstractFileResourceBuilder, IDllResourceBuilder
 {
     public IDllResourceBuilder WithName(string name)
     {

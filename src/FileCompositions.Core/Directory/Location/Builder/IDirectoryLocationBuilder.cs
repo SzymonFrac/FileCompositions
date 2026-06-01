@@ -1,6 +1,6 @@
 ﻿using FileCompositions.Core.Directory.Context;
 using FileCompositions.Core.Storage.Address;
-using FileCompositions.Core.Storage.Address.Implementations.Local;
+using FileCompositions.Core.Storage.Address.Implementations;
 using FileCompositions.Core.Storage.Backend;
 
 namespace FileCompositions.Core.Directory.Location.Builder;

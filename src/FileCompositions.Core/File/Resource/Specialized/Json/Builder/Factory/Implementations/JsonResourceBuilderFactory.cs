@@ -4,7 +4,7 @@ using FileCompositions.Core.File.Resource.Specialized.Json.Builder.Implementatio
 
 namespace FileCompositions.Core.File.Resource.Specialized.Json.Builder.Factory.Implementations;
 
-internal class JsonResourceBuilderFactory(JsonInterfaceFormat format) : IJsonResourceBuilderFactory
+internal sealed class JsonResourceBuilderFactory(JsonInterfaceFormat format) : IJsonResourceBuilderFactory
 {
     public static JsonResourceBuilderFactory Default { get; } = new(JsonInterfaceFormat.Default);
 

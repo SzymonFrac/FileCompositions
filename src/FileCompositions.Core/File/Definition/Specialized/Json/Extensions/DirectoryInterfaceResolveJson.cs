@@ -4,57 +4,81 @@ using FileCompositions.Core.File.Definition.Specialized.Json.Implementations;
 using FileCompositions.Core.File.Interface.Specialized.Json;
 using FileCompositions.Core.File.Resource.Specialized.Json;
 using FileCompositions.Core.Quality.Necessity.Implementations;
-using FileCompositions.Core.Storage.Resource.Name;
+using FileCompositions.Core.Quality.Ownership.Implementations;
 
 namespace FileCompositions.Core.File.Definition.Specialized.Json.Extensions;
 
 public static class DirectoryInterfaceResolveJson
 {
-    extension(IDirectoryInterface<RequiredDefinition> @interface)
+    extension(IDirectoryInterface<StrictDefinition, RequiredDefinition> @interface)
     {
         public async ValueTask<IJsonResource<TData>?> GetJsonResource<TData>(string name, CancellationToken cancellationToken = default)
         {
-            var json = await @interface.StorageBackend.Exists(@interface.Address.With(StorageResourceName.CreateJson(name)), cancellationToken)
-                ? JsonDefinition.Convert<TData>(new FileContext(@interface.StorageBackend, @interface.Address), name)
-                : default;
-
-            if (json is null)
-                return default;
-
             try
             {
-                await json.Read(cancellationToken);
+                var json = JsonDefinition.Convert<TData>(new FileContext(@interface.StorageBackend, @interface.Address), name);
+                await json.Read(cancellationToken).ConfigureAwait(false);
+
+                return json;
             }
-            catch (Exception)
+            catch
             {
                 return default;
             }
-
-            return json;
         }
     }
 
-    extension(IDirectoryInterface<OptionalDefinition> @interface)
+    extension(IDirectoryInterface<ExternalDefinition, RequiredDefinition> @interface)
     {
         public async ValueTask<IJsonResource<TData>?> GetJsonResource<TData>(string name, CancellationToken cancellationToken = default)
         {
-            var json = await @interface.StorageBackend.Exists(@interface.Address.With(StorageResourceName.CreateJson(name)), cancellationToken)
-                ? JsonDefinition.Convert<TData>(new FileContext(@interface.StorageBackend, @interface.Address), name)
-                : default;
-
-            if (json is null)
-                return default;
-
             try
             {
-                await json.Read(cancellationToken);
+                var json = JsonDefinition.Convert<TData>(new FileContext(@interface.StorageBackend, @interface.Address), name);
+                await json.Read(cancellationToken).ConfigureAwait(false);
+
+                return json;
             }
-            catch (Exception)
+            catch
             {
                 return default;
             }
+        }
+    }
 
-            return json;
+    extension(IDirectoryInterface<StrictDefinition, OptionalDefinition> @interface)
+    {
+        public async ValueTask<IJsonResource<TData>?> GetJsonResource<TData>(string name, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                var json = JsonDefinition.Convert<TData>(new FileContext(@interface.StorageBackend, @interface.Address), name);
+                await json.Read(cancellationToken).ConfigureAwait(false);
+
+                return json;
+            }
+            catch
+            {
+                return default;
+            }
+        }
+    }
+
+    extension(IDirectoryInterface<ExternalDefinition, OptionalDefinition> @interface)
+    {
+        public async ValueTask<IJsonResource<TData>?> GetJsonResource<TData>(string name, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                var json = JsonDefinition.Convert<TData>(new FileContext(@interface.StorageBackend, @interface.Address), name);
+                await json.Read(cancellationToken).ConfigureAwait(false);
+
+                return json;
+            }
+            catch
+            {
+                return default;
+            }
         }
     }
 }

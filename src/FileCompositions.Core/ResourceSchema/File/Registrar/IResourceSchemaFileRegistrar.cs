@@ -7,8 +7,7 @@ using FileCompositions.Core.Quality.Placement;
 
 namespace FileCompositions.Core.ResourceSchema.File.Registrar;
 
-public interface IResourceSchemaFileRegistrar<TInOwnership, TInNecessity>
-    where TInOwnership : DefinitionOwnership
+public interface IResourceSchemaFileRegistrar<TInNecessity>
     where TInNecessity : DefinitionNecessity
 {
     internal DirectoryDefinitionKey DirectoryKey { get; }

@@ -8,7 +8,7 @@ namespace FileCompositions.Extensions.Host.Schema.Register.Factory;
 
 internal interface IHostResourceSchemaRegisterFactory
 {
-    HostResourceSchemaRegister Create<TOwnership, TNecessity, TBackend>(IDirectoryDefinitionDescriptor<TOwnership, TNecessity, TBackend> descriptor, Action<IHostResourceSchemaFileRegistrar<TOwnership, TNecessity>>? registrarConfig = default)
+    HostResourceSchemaRegister Create<TOwnership, TNecessity, TBackend>(IDirectoryDefinitionDescriptor<TOwnership, TNecessity, TBackend> descriptor, Action<IHostResourceSchemaFileRegistrar<TNecessity>>? registrarConfig = default)
         where TOwnership : DefinitionOwnership
         where TNecessity : DefinitionNecessity
         where TBackend : class, IStorageBackend;

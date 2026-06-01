@@ -2,7 +2,7 @@
 
 namespace FileCompositions.Core.File.Interface.Specialized.Json.Format;
 
-public record JsonInterfaceFormat(JsonSerializerOptions JsonSerializerOptions)
+public sealed record JsonInterfaceFormat(JsonSerializerOptions JsonSerializerOptions)
 {
     public static JsonInterfaceFormat Default { get; } = new(JsonSerializerOptions.Default);
 };

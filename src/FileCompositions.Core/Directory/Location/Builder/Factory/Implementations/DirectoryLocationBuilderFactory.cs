@@ -2,7 +2,7 @@
 
 namespace FileCompositions.Core.Directory.Location.Builder.Factory.Implementations;
 
-internal class DirectoryLocationBuilderFactory : IDirectoryLocationBuilderFactory
+internal sealed class DirectoryLocationBuilderFactory : IDirectoryLocationBuilderFactory
 {
     public IDirectoryLocationBuilder Create() => new DirectoryLocationBuilder();
 }

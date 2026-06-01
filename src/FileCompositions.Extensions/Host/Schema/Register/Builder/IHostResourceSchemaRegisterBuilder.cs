@@ -1,9 +1,9 @@
 ﻿using FileCompositions.Core.Directory.Definition.Config;
 using FileCompositions.Core.Quality.Necessity;
 using FileCompositions.Core.Quality.Ownership;
-using FileCompositions.Core.ResourceSchema.File.Registrar;
 using FileCompositions.Core.ResourceSchema.Register.Builder;
 using FileCompositions.Core.Storage.Backend;
+using FileCompositions.Extensions.Host.Schema.File.Registrar;
 
 namespace FileCompositions.Extensions.Host.Schema.Register.Builder;
 
@@ -16,7 +16,7 @@ public interface IHostResourceSchemaRegisterBuilder<TOwnership, TNecessity, TBac
         where TDefOwnership : DefinitionOwnership
         where TDefNecessity : DefinitionNecessity
         where TDefBackend : class, IStorageBackend;
-    new IHostResourceSchemaRegisterBuilder<TOwnership, TNecessity, TBackend> WithFiles(Action<IResourceSchemaFileRegistrar<TOwnership, TNecessity>> config);
+    IHostResourceSchemaRegisterBuilder<TOwnership, TNecessity, TBackend> WithFiles(Action<IHostResourceSchemaFileRegistrar<TNecessity>> config);
 
     internal HostResourceSchemaRegister? Build();
 }
@@ -32,7 +32,7 @@ public interface IHostResourceSchemaRegisterBuilder<TOwnership, TNecessity> : IR
     new IHostResourceSchemaRegisterBuilder<TDefOwnership, TDefNecessity> Define<TDefOwnership, TDefNecessity>(ResourceSchemaDirectoryConfig<TDefOwnership, TDefNecessity> config)
         where TDefOwnership : DefinitionOwnership
         where TDefNecessity : DefinitionNecessity;
-    new IHostResourceSchemaRegisterBuilder<TOwnership, TNecessity> WithFiles(Action<IResourceSchemaFileRegistrar<TOwnership, TNecessity>> config);
+    IHostResourceSchemaRegisterBuilder<TOwnership, TNecessity> WithFiles(Action<IHostResourceSchemaFileRegistrar<TNecessity>> config);
 
     internal HostResourceSchemaRegister? Build();
 }

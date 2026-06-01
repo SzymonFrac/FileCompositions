@@ -12,7 +12,6 @@ internal class HostResourceSchemaDirectoryRegistrar(IDirectoryDefinitionBuilderF
     : IHostResourceSchemaDirectoryRegistrar
 {
     private readonly IDirectoryDefinitionBuilderFactory _builderFactory = builderFactory;
-    //private readonly HostResourceSchemaRegisterFactory _registerFactory = new();
     private readonly IHostResourceSchemaRegisterBuilderFactory _registerBuilderFactory = registerBuilderFactory;
     
     private HostResourceSchemaRegister? register;

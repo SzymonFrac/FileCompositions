@@ -5,6 +5,7 @@ using FileCompositions.Core.File.Definition.Key;
 using FileCompositions.Core.File.Definition.Specialized.Json.Descriptor;
 using FileCompositions.Core.File.Definition.Specialized.Json.Descriptor.Implementations;
 using FileCompositions.Core.File.Definition.Specialized.Json.Implementations;
+using FileCompositions.Core.File.Definition.Specialized.Json.Init.Policy.Implementations;
 using FileCompositions.Core.File.Interface.Specialized.Json.Format;
 using FileCompositions.Core.Quality.Necessity;
 using FileCompositions.Core.Quality.Necessity.Implementations;
@@ -15,18 +16,20 @@ using System.Text.Json;
 
 namespace FileCompositions.Core.File.Definition.Specialized.Json.Builder.Implementations;
 
-internal class JsonDefinitionBuilder<TOwnership, TNecessity, TData>
-    : FileDefinitionBuilder<TOwnership, TNecessity>, IJsonDefinitionBuilder<TOwnership, TNecessity, TData>
+internal sealed class JsonDefinitionBuilder<TOwnership, TNecessity, TData>
+    : AbstractFileDefinitionBuilder<TOwnership, TNecessity>, IJsonDefinitionBuilder<TOwnership, TNecessity, TData>
         where TOwnership : DefinitionOwnership
         where TNecessity : DefinitionNecessity
 {
+    private bool initializeWithSerialize = false;
     private JsonInterfaceFormat format;
+    private TData? @default;
 
     internal JsonDefinitionBuilder(DirectoryDefinitionKey directoryKey) : base(directoryKey) =>
         format = JsonInterfaceFormat.Default;
-    private JsonDefinitionBuilder(DirectoryDefinitionKey directoryKey, FileDefinitionKey key, string? name, JsonInterfaceFormat format)
+    private JsonDefinitionBuilder(DirectoryDefinitionKey directoryKey, FileDefinitionKey key, string? name, JsonInterfaceFormat f, TData? d = default)
         : base(directoryKey, key, name) =>
-            this.format = format ?? JsonInterfaceFormat.Default;
+            (format, @default) = (f ?? JsonInterfaceFormat.Default, d);
 
     public IJsonDefinitionBuilder<TOwnership, TNecessity, TData> WithKey(FileDefinitionKey key)
     {
@@ -43,15 +46,25 @@ internal class JsonDefinitionBuilder<TOwnership, TNecessity, TData>
         format = format with { JsonSerializerOptions = options };
         return this;
     }
+    public IJsonDefinitionBuilder<TOwnership, TNecessity, TData> UseDefault(TData d)
+    {
+        @default = d;
+        return this;
+    }
+    public IJsonDefinitionBuilder<TOwnership, TNecessity, TData> InitializeWithSerialization()
+    {
+        initializeWithSerialize = true;
+        return this;
+    }
 
     public IJsonDefinitionBuilder<ExternalDefinition, TNecessity, TData> External() =>
-        new JsonDefinitionBuilder<ExternalDefinition, TNecessity, TData>(DirectoryKey, Key, Name, format);
+        new JsonDefinitionBuilder<ExternalDefinition, TNecessity, TData>(DirectoryKey, Key, Name, format, @default);
     public IJsonDefinitionBuilder<StrictDefinition, TNecessity, TData> Strict() =>
-        new JsonDefinitionBuilder<StrictDefinition, TNecessity, TData>(DirectoryKey, Key, Name, format);
+        new JsonDefinitionBuilder<StrictDefinition, TNecessity, TData>(DirectoryKey, Key, Name, format, @default);
     public IJsonDefinitionBuilder<TOwnership, RequiredDefinition, TData> Required() =>
-        new JsonDefinitionBuilder<TOwnership, RequiredDefinition, TData>(DirectoryKey, Key, Name, format);
+        new JsonDefinitionBuilder<TOwnership, RequiredDefinition, TData>(DirectoryKey, Key, Name, format, @default);
     public IJsonDefinitionBuilder<TOwnership, OptionalDefinition, TData> Optional() =>
-        new JsonDefinitionBuilder<TOwnership, OptionalDefinition, TData>(DirectoryKey, Key, Name, format);
+        new JsonDefinitionBuilder<TOwnership, OptionalDefinition, TData>(DirectoryKey, Key, Name, format, @default);
 
 
     public IJsonDefinition<TOwnership, TPlacement, TData> Build<TPlacement>(in IFileContext context)
@@ -60,8 +73,12 @@ internal class JsonDefinitionBuilder<TOwnership, TNecessity, TData>
         if (Name is null)
             throw new NullReferenceException("File must have a non-empty name.");
 
-        var json = new JsonDefinition<TOwnership, TPlacement, TData>(context, Key, Name, format);
-        return json;
+        return new JsonDefinition<TOwnership, TPlacement, TData>(context, Key, Name, format, @default)
+        { 
+            InitPolicy = initializeWithSerialize
+                ? new SerializeJsonDefinitionInitPolicy<TOwnership, TPlacement, TData>()
+                : new DefaultJsonDefinitionInitPolicy<TOwnership, TPlacement, TData>()
+        };
     }
 
     public IJsonDefinitionDescriptor<TOwnership, TPlacement, TData> BuildDescriptor<TPlacement>()
@@ -70,7 +87,11 @@ internal class JsonDefinitionBuilder<TOwnership, TNecessity, TData>
         if (Name is null)
             throw new NullReferenceException("File must have a non-empty name.");
 
-        var json = new JsonDefinitionDescriptor<TOwnership, TPlacement, TData>(DirectoryKey, Key, Name, format);
-        return json;
+        return new JsonDefinitionDescriptor<TOwnership, TPlacement, TData>(DirectoryKey, Key, Name, format, @default)
+        {
+            InitPolicy = initializeWithSerialize
+                ? new SerializeJsonDefinitionInitPolicy<TOwnership, TPlacement, TData>()
+                : new DefaultJsonDefinitionInitPolicy<TOwnership, TPlacement, TData>()
+        };
     }
 }

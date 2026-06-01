@@ -18,6 +18,8 @@ public interface IJsonDefinitionBuilder<TOwnership, TNecessity, TData> : IFileDe
     IJsonDefinitionBuilder<TOwnership, TNecessity, TData> WithKey(FileDefinitionKey key);
     IJsonDefinitionBuilder<TOwnership, TNecessity, TData> WithName(string name);
     IJsonDefinitionBuilder<TOwnership, TNecessity, TData> UseSerializerOptions(JsonSerializerOptions options);
+    IJsonDefinitionBuilder<TOwnership, TNecessity, TData> UseDefault(TData @default);
+    IJsonDefinitionBuilder<TOwnership, TNecessity, TData> InitializeWithSerialization();
 
     IJsonDefinitionBuilder<ExternalDefinition, TNecessity, TData> External();
     IJsonDefinitionBuilder<StrictDefinition, TNecessity, TData> Strict();

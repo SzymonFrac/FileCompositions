@@ -10,10 +10,9 @@ using FileCompositions.Core.Quality.Placement;
 
 namespace FileCompositions.Core.File.Definition.Specialized.Dll.Builder;
 
-public interface IDllDefinitionBuilder<TOwnership, TNecessity>
-    : IFileDefinitionBuilder<TOwnership, TNecessity>
-        where TOwnership : DefinitionOwnership
-        where TNecessity : DefinitionNecessity
+public interface IDllDefinitionBuilder<TOwnership, TNecessity> : IFileDefinitionBuilder<TOwnership, TNecessity>
+    where TOwnership : DefinitionOwnership
+    where TNecessity : DefinitionNecessity
 {
     IDllDefinitionBuilder<TOwnership, TNecessity> WithKey(FileDefinitionKey key);
     IDllDefinitionBuilder<TOwnership, TNecessity> WithName(string name);

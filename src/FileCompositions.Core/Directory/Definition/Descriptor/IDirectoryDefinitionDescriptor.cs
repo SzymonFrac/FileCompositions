@@ -12,7 +12,6 @@ internal interface IDirectoryDefinitionDescriptor<TOwnership, TNecessity, TBacke
     where TBackend : class, IStorageBackend
 {
     DirectoryDefinitionKey Key { get; }
-    DirectoryDefinitionKey WithKeyIfNull(DirectoryDefinitionKey key);
     
     IDirectoryDefinition<TOwnership, TNecessity> Activate(in IDirectoryContext context);
 }

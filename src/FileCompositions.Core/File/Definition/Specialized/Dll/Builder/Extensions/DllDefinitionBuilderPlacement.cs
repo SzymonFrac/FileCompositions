@@ -8,7 +8,7 @@ namespace FileCompositions.Core.File.Definition.Specialized.Dll.Builder.Extensio
 
 internal static class DllDefinitionBuilderPlacement
 {
-    extension<TOwnership, TData>(IDllDefinitionBuilder<TOwnership, RequiredDefinition> builder)
+    extension<TOwnership>(IDllDefinitionBuilder<TOwnership, RequiredDefinition> builder)
         where TOwnership : DefinitionOwnership
     {
         public IDllDefinition<TOwnership, RequiredInRequired> BuildInRequired(in IFileContext context) =>
@@ -18,7 +18,7 @@ internal static class DllDefinitionBuilderPlacement
             builder.BuildDescriptor<RequiredInRequired>();
     }
 
-    extension<TOwnership, TData>(IDllDefinitionBuilder<TOwnership, OptionalDefinition> builder)
+    extension<TOwnership>(IDllDefinitionBuilder<TOwnership, OptionalDefinition> builder)
         where TOwnership : DefinitionOwnership
     {
         public IDllDefinition<TOwnership, OptionalInRequired> BuildInRequired(in IFileContext context) =>

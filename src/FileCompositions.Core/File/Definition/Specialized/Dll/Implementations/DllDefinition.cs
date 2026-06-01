@@ -9,8 +9,8 @@ using FileCompositions.Core.Storage.Resource.Extension;
 
 namespace FileCompositions.Core.File.Definition.Specialized.Dll.Implementations;
 
-internal sealed class DllDefinition<TOwnership, TPlacement>(FileDefinitionKey key, IFileContext context, string name) :
-    AbstractDllDefinition<TOwnership, TPlacement>(key, context, name)
+internal sealed class DllDefinition<TOwnership, TPlacement>(IFileContext context, FileDefinitionKey key, string name) :
+    AbstractDllDefinition<TOwnership, TPlacement>(context, key, name)
         where TOwnership : DefinitionOwnership
         where TPlacement : DefinitionPlacement;
 

@@ -8,7 +8,7 @@ using FileCompositions.Core.Quality.Necessity.Implementations;
 using FileCompositions.Core.Quality.Ownership;
 using FileCompositions.Core.Quality.Ownership.Implementations;
 using FileCompositions.Core.Storage.Address;
-using FileCompositions.Core.Storage.Address.Implementations.Local;
+using FileCompositions.Core.Storage.Address.Implementations;
 using FileCompositions.Core.Storage.Backend;
 using FileCompositions.Core.Storage.Backend.Implementations;
 
@@ -48,7 +48,7 @@ file sealed class DirectoryDefinitionBuilder<TOwnership, TNecessity, TBackend>(D
     public IDirectoryDefinition<TOwnership, TNecessity> Build(in IDirectoryContext context) =>
         address is null
             ? throw new NullReferenceException($"{nameof(address)} was null.")
-            : new StandardDirectoryDefinition<TOwnership, TNecessity>(context, key, address);
+            : new DirectoryDefinition<TOwnership, TNecessity>(context, key, address);
     public IDirectoryDefinitionDescriptor<TOwnership, TNecessity, TBackend> BuildDescriptor() =>
         address is null
             ? throw new NullReferenceException($"{nameof(address)} was null.")
@@ -91,7 +91,7 @@ internal sealed class DirectoryDefinitionBuilder<TOwnership, TNecessity> : IDire
     public IDirectoryDefinition<TOwnership, TNecessity> Build(in IDirectoryContext context) =>
         address is null
             ? throw new NullReferenceException($"{nameof(address)} was null.")
-            : new StandardDirectoryDefinition<TOwnership, TNecessity>(context, key, address);
+            : new DirectoryDefinition<TOwnership, TNecessity>(context, key, address);
     public IDirectoryDefinitionDescriptor<TOwnership, TNecessity, LocalStorageBackend> BuildDescriptor() =>
         address is null
             ? throw new NullReferenceException($"{nameof(address)} was null.")

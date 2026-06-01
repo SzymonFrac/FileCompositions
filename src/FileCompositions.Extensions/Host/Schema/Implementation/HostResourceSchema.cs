@@ -1,6 +1,6 @@
-﻿using FileCompositions.Extensions.Host.Schema.Register;
+﻿using FileCompositions.Extensions.Host.Schema.Initializer.Service.Implementations;
+using FileCompositions.Extensions.Host.Schema.Register;
 using Microsoft.Extensions.DependencyInjection;
-using System.Diagnostics;
 
 namespace FileCompositions.Extensions.Host.Schema.Implementation;
 
@@ -9,8 +9,10 @@ internal class HostResourceSchema(HostResourceSchemaRegister? register) : IHostR
     private readonly HostResourceSchemaRegister? _register = register;
     public IHostResourceSchema Init(in IServiceCollection services)
     {
-        Debug.WriteLine(_register?.GetInvocationList().Length);
         _register?.Invoke(in services);
+
+        services.AddHostedService<HostResourceSchemaInitializationService>();
+
         return this;
     }
 }

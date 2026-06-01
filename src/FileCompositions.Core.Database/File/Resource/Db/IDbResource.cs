@@ -1,10 +1,11 @@
-﻿using FileCompositions.Core.Database.File.Resource.Db.Interface;
+﻿using FileCompositions.Core.Database.File.Interface.Specialized.Db;
+using FileCompositions.Core.Database.File.Operator.Specialized.Db;
 using FileCompositions.Core.File.Resource;
-using Microsoft.EntityFrameworkCore;
+using FileCompositions.Core.Quality.Ownership.Implementations;
+using FileCompositions.Core.Quality.Placement.Implementations;
 
 namespace FileCompositions.Core.Database.File.Resource.Db;
 
-public interface IDbResource<TDbContext> : IDbResource
-    where TDbContext : DbContext;
-
-public interface IDbResource : IFileResource, IDbResourceInterface;
+public interface IDbResource : IFileResource,
+    IDbInterface<ExternalDefinition, RequiredInRequired>,
+    IDbOperator<ExternalDefinition, RequiredInRequired>;

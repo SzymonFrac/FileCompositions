@@ -6,17 +6,10 @@ using FileCompositions.Core.File.Definition.Key;
 using FileCompositions.Core.Quality.Ownership;
 using FileCompositions.Core.Quality.Placement;
 using FileCompositions.Core.Storage.Resource.Extension;
-using Microsoft.EntityFrameworkCore;
 
 namespace FileCompositions.Core.Database.File.Definition.Db.Implementations;
 
-internal class DbDefinition<TOwnership, TPlacement, TDbContext>(FileDefinitionKey key, IFileContext context, string name)
-    : AbstractDbDefinition<TOwnership, TPlacement, TDbContext>(context, key, name)
-        where TOwnership : DefinitionOwnership
-        where TPlacement : DefinitionPlacement
-        where TDbContext : DbContext;
-
-internal class DbDefinition<TOwnership, TPlacement>(FileDefinitionKey key, IFileContext context, string name)
+internal class DbDefinition<TOwnership, TPlacement>(IFileContext context, FileDefinitionKey key, string name)
     : AbstractDbDefinition<TOwnership, TPlacement>(context, key, name)
         where TOwnership : DefinitionOwnership
         where TPlacement : DefinitionPlacement;

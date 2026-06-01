@@ -1,9 +1,7 @@
-﻿using FileCompositions.Core.Directory.Definition;
-using FileCompositions.Core.Directory.Definition.Builder.Factory;
+﻿using FileCompositions.Core.Directory.Definition.Builder.Factory;
 using FileCompositions.Core.Directory.Definition.Config;
 using FileCompositions.Core.Quality.Necessity;
 using FileCompositions.Core.Quality.Ownership;
-using FileCompositions.Core.ResourceSchema.File.Registrar;
 using FileCompositions.Core.ResourceSchema.Register.Builder;
 using FileCompositions.Core.Storage.Backend;
 using FileCompositions.Extensions.Host.Schema.File.Registrar;
@@ -20,7 +18,7 @@ file sealed class HostResourceSchemaRegisterBuilder<TOwnership, TNecessity, TBac
     private readonly IDirectoryDefinitionBuilderFactory _factory = factory;
 
     private readonly ResourceSchemaDirectoryConfig<TOwnership, TNecessity, TBackend> _config = config;
-    private Action<IHostResourceSchemaFileRegistrar<TOwnership, TNecessity>>? fileConfig;
+    private Action<IHostResourceSchemaFileRegistrar<TNecessity>>? fileConfig;
 
     public IHostResourceSchemaRegisterBuilder<TDefOwnership, TDefNecessity, TDefBackend> Define<TDefOwnership, TDefNecessity, TDefBackend>(ResourceSchemaDirectoryConfig<TDefOwnership, TDefNecessity, TDefBackend> config)
         where TDefOwnership : DefinitionOwnership
@@ -28,7 +26,7 @@ file sealed class HostResourceSchemaRegisterBuilder<TOwnership, TNecessity, TBac
         where TDefBackend : class, IStorageBackend =>
             new HostResourceSchemaRegisterBuilder<TDefOwnership, TDefNecessity, TDefBackend>(_factory, config);
 
-    public IHostResourceSchemaRegisterBuilder<TOwnership, TNecessity, TBackend> WithFiles(Action<IResourceSchemaFileRegistrar<TOwnership, TNecessity>> config)
+    public IHostResourceSchemaRegisterBuilder<TOwnership, TNecessity, TBackend> WithFiles(Action<IHostResourceSchemaFileRegistrar<TNecessity>> config)
     {
         fileConfig = config;
         return this;
@@ -52,8 +50,6 @@ file sealed class HostResourceSchemaRegisterBuilder<TOwnership, TNecessity, TBac
 
     IResourceSchemaRegisterBuilder<TDefOwnership, TDefNecessity, TDefBackend> IResourceSchemaRegisterBuilder<TOwnership, TNecessity, TBackend>.Define<TDefOwnership, TDefNecessity, TDefBackend>(ResourceSchemaDirectoryConfig<TDefOwnership, TDefNecessity, TDefBackend> config) =>
         Define(config);
-    IResourceSchemaRegisterBuilder<TOwnership, TNecessity, TBackend> IResourceSchemaRegisterBuilder<TOwnership, TNecessity, TBackend>.WithFiles(Action<IResourceSchemaFileRegistrar<TOwnership, TNecessity>> config) =>
-        WithFiles(config);
 }
 
 internal class HostResourceSchemaRegisterBuilder<TOwnership, TNecessity> : IHostResourceSchemaRegisterBuilder<TOwnership, TNecessity>
@@ -63,7 +59,7 @@ internal class HostResourceSchemaRegisterBuilder<TOwnership, TNecessity> : IHost
     private readonly IDirectoryDefinitionBuilderFactory _factory;
 
     private readonly ResourceSchemaDirectoryConfig<TOwnership, TNecessity>? _config;
-    private Action<IHostResourceSchemaFileRegistrar<TOwnership, TNecessity>>? fileConfig;
+    private Action<IHostResourceSchemaFileRegistrar<TNecessity>>? fileConfig;
 
     public HostResourceSchemaRegisterBuilder(IDirectoryDefinitionBuilderFactory factory) => _factory = factory;
     private HostResourceSchemaRegisterBuilder(IDirectoryDefinitionBuilderFactory factory, ResourceSchemaDirectoryConfig<TOwnership, TNecessity> config) =>
@@ -80,7 +76,7 @@ internal class HostResourceSchemaRegisterBuilder<TOwnership, TNecessity> : IHost
         where TDefNecessity : DefinitionNecessity =>
             new HostResourceSchemaRegisterBuilder<TDefOwnership, TDefNecessity>(_factory, config);
 
-    public IHostResourceSchemaRegisterBuilder<TOwnership, TNecessity> WithFiles(Action<IResourceSchemaFileRegistrar<TOwnership, TNecessity>> config)
+    public IHostResourceSchemaRegisterBuilder<TOwnership, TNecessity> WithFiles(Action<IHostResourceSchemaFileRegistrar<TNecessity>> config)
     {
         fileConfig = config;
         return this;
@@ -106,6 +102,4 @@ internal class HostResourceSchemaRegisterBuilder<TOwnership, TNecessity> : IHost
         Define(config);
     IResourceSchemaRegisterBuilder<TDefOwnership, TDefNecessity> IResourceSchemaRegisterBuilder<TOwnership, TNecessity>.Define<TDefOwnership, TDefNecessity>(ResourceSchemaDirectoryConfig<TDefOwnership, TDefNecessity> config) =>
         Define(config);
-    IResourceSchemaRegisterBuilder<TOwnership, TNecessity> IResourceSchemaRegisterBuilder<TOwnership, TNecessity>.WithFiles(Action<IResourceSchemaFileRegistrar<TOwnership, TNecessity>> config) =>
-        WithFiles(config);
 }

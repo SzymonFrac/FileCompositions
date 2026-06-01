@@ -2,17 +2,17 @@
 using FileCompositions.Core.File.Definition.Specialized.Json.Builder.Implementations;
 using FileCompositions.Core.Quality.Necessity;
 using FileCompositions.Core.Quality.Ownership;
+using FileCompositions.Core.Quality.Ownership.Implementations;
 
 namespace FileCompositions.Core.File.Definition.Specialized.Json.Builder.Factory.Implementation;
 
-internal class JsonDefinitionBuilderFactory<TInOwnership, TInNecessity>(DirectoryDefinitionKey key) : IJsonDefinitionBuilderFactory<TInOwnership, TInNecessity>
-    where TInOwnership : DefinitionOwnership
+internal sealed class JsonDefinitionBuilderFactory<TInNecessity>(DirectoryDefinitionKey key) : IJsonDefinitionBuilderFactory<TInNecessity>
     where TInNecessity : DefinitionNecessity
 {
     private readonly DirectoryDefinitionKey _key = key;
 
-    public IJsonDefinitionBuilder<TInOwnership, TInNecessity, TData> Create<TData>() =>
-        new JsonDefinitionBuilder<TInOwnership, TInNecessity, TData>(_key);
+    public IJsonDefinitionBuilder<StrictDefinition, TInNecessity, TData> Create<TData>() =>
+        new JsonDefinitionBuilder<StrictDefinition, TInNecessity, TData>(_key);
     public IJsonDefinitionBuilder<TOwnership, TNecessity, TData> Create<TOwnership, TNecessity, TData>()
         where TOwnership : DefinitionOwnership
         where TNecessity : DefinitionNecessity =>

@@ -10,8 +10,8 @@ using FileCompositions.Core.Storage.Resource.Extension;
 
 namespace FileCompositions.Core.File.Definition.Specialized.Json.Implementations;
 
-internal class JsonDefinition<TOwnership, TPlacement, TData>(IFileContext context, FileDefinitionKey key, string name, JsonInterfaceFormat format) :
-    AbstractJsonDefinition<TOwnership, TPlacement, TData>(context, key, name, format)
+internal sealed class JsonDefinition<TOwnership, TPlacement, TData>(IFileContext context, FileDefinitionKey key, string name, JsonInterfaceFormat format, TData? @default = default) :
+    AbstractJsonDefinition<TOwnership, TPlacement, TData>(context, key, name, format, @default)
         where TOwnership : DefinitionOwnership
         where TPlacement : DefinitionPlacement;
 

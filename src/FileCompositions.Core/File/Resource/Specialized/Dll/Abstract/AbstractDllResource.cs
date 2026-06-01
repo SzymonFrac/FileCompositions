@@ -7,7 +7,7 @@ using System.Reflection;
 namespace FileCompositions.Core.File.Resource.Specialized.Dll.Abstract;
 
 internal abstract class AbstractDllResource(IFileContext context, string name)
-    : FileResource(context, StorageResourceName.CreateDll(name)), IDllResource
+    : AbstractFileResource(context, StorageResourceName.CreateDll(name)), IDllResource
 {
     public Assembly? Assembly { get; set; }
 }

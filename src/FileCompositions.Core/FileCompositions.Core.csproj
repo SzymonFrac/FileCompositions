@@ -7,10 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Quality\Ownership\Extensions\" />
+    <Compile Remove="File\LocationResolver\**" />
+    <EmbeddedResource Remove="File\LocationResolver\**" />
+    <None Remove="File\LocationResolver\**" />
+  </ItemGroup>
+
+  <ItemGroup>
 
 	<InternalsVisibleTo Include="FileCompositions.Core.Database" />
 	<InternalsVisibleTo Include="FileCompositions.Extensions" />
+	<InternalsVisibleTo Include="FileCompositions.Hosting.EntityFrameworkCore" />
   </ItemGroup>
 
 </Project>

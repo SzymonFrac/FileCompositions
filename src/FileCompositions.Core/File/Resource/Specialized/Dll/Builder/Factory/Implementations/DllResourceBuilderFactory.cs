@@ -4,7 +4,7 @@ using FileCompositions.Core.File.Resource.Specialized.Dll.Builder.Implementation
 
 namespace FileCompositions.Core.File.Resource.Specialized.Dll.Builder.Factory.Implementations;
 
-internal class DllResourceBuilderFactory : IDllResourceBuilderFactory
+internal sealed class DllResourceBuilderFactory : IDllResourceBuilderFactory
 {
     public static DllResourceBuilderFactory Default { get; } = new();
 
