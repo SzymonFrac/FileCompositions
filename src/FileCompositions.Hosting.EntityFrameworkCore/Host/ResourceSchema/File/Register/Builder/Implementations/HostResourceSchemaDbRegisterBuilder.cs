@@ -6,11 +6,11 @@ using FileCompositions.Core.File.Definition.Descriptor;
 using FileCompositions.Core.Quality.Necessity;
 using FileCompositions.Core.Quality.Ownership;
 using FileCompositions.Core.Quality.Placement;
-using FileCompositions.Extensions.Host.Schema.File.Register.Builder;
-using FileCompositions.Extensions.Host.Schema.Initializer;
-using FileCompositions.Extensions.Host.Schema.Register;
 using FileCompositions.Hosting.EntityFrameworkCore.File.Definition.Db;
 using FileCompositions.Hosting.EntityFrameworkCore.Host.ResourceSchema.Initialize.Implementations;
+using FileCompositions.Hosting.ResourceSchema.File.Register.Builder;
+using FileCompositions.Hosting.ResourceSchema.Initializer;
+using FileCompositions.Hosting.ResourceSchema.Register;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 

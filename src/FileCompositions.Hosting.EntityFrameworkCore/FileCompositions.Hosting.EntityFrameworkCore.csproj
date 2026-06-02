@@ -14,7 +14,7 @@
   <ItemGroup>
     <ProjectReference Include="..\FileCompositions.Core.Database\FileCompositions.Core.Database.csproj" />
     <ProjectReference Include="..\FileCompositions.Core\FileCompositions.Core.csproj" />
-    <ProjectReference Include="..\FileCompositions.Extensions\FileCompositions.Extensions.csproj" />
+    <ProjectReference Include="..\FileCompositions.Extensions\FileCompositions.Hosting.csproj" />
   </ItemGroup>
 
 </Project>

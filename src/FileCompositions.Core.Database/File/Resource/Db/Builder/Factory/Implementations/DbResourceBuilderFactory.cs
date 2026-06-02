@@ -2,7 +2,7 @@
 
 namespace FileCompositions.Core.Database.File.Resource.Db.Builder.Factory.Implementations;
 
-internal class DbResourceBuilderFactory : IDbResourceBuilderFactory
+internal sealed class DbResourceBuilderFactory : IDbResourceBuilderFactory
 {
     public static DbResourceBuilderFactory Default { get; } = new();
 

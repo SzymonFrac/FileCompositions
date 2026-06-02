@@ -14,7 +14,7 @@ using FileCompositions.Core.Quality.Placement;
 
 namespace FileCompositions.Core.Database.File.Definition.Db.Builder.Implementations;
 
-internal class DbDefinitionBuilder<TOwnership, TNecessity>
+internal sealed class DbDefinitionBuilder<TOwnership, TNecessity>
     : AbstractFileDefinitionBuilder<TOwnership, TNecessity>, IDbDefinitionBuilder<TOwnership, TNecessity>
         where TOwnership : DefinitionOwnership
         where TNecessity : DefinitionNecessity

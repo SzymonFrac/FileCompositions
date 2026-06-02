@@ -6,7 +6,7 @@ using FileCompositions.Core.Quality.Ownership.Implementations;
 
 namespace FileCompositions.Core.Database.File.Definition.Db.Builder.Factory.Implementations;
 
-internal class DbDefinitionBuilderFactory<TInNecessity>(DirectoryDefinitionKey key) : IDbDefinitionBuilderFactory<TInNecessity>
+internal sealed class DbDefinitionBuilderFactory<TInNecessity>(DirectoryDefinitionKey key) : IDbDefinitionBuilderFactory<TInNecessity>
     where TInNecessity : DefinitionNecessity
 {
     private readonly DirectoryDefinitionKey _key = key;

@@ -1,8 +1,8 @@
 ﻿using FileCompositions.Core.Quality.Necessity;
 using FileCompositions.Core.Quality.Ownership;
-using FileCompositions.Extensions.Host.Schema.File.Register.Builder;
-using FileCompositions.Extensions.Host.Schema.File.Register.Builder.Factory;
 using FileCompositions.Hosting.EntityFrameworkCore.Host.ResourceSchema.File.Register.Builder.Implementations;
+using FileCompositions.Hosting.ResourceSchema.File.Register.Builder;
+using FileCompositions.Hosting.ResourceSchema.File.Register.Builder.Factory;
 using Microsoft.EntityFrameworkCore;
 
 namespace FileCompositions.Hosting.EntityFrameworkCore.Host.ResourceSchema.File.Register.Builder.Factory.Implementations;

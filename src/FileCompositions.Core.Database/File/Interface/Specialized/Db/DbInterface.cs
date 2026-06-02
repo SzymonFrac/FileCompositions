@@ -1,5 +1,4 @@
-﻿using FileCompositions.Core.File.Interface;
-using FileCompositions.Core.Quality.Ownership;
+﻿using FileCompositions.Core.Quality.Ownership;
 using FileCompositions.Core.Quality.Placement;
 using Microsoft.Data.Sqlite;
 

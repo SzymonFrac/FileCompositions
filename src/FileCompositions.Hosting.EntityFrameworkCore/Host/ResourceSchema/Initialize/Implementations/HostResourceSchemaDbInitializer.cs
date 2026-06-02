@@ -1,8 +1,8 @@
 ﻿using FileCompositions.Core.File.Definition.Key;
 using FileCompositions.Core.Quality.Ownership;
 using FileCompositions.Core.Quality.Placement;
-using FileCompositions.Extensions.Host.Schema.Initializer;
 using FileCompositions.Hosting.EntityFrameworkCore.File.Definition.Db;
+using FileCompositions.Hosting.ResourceSchema.Initializer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 

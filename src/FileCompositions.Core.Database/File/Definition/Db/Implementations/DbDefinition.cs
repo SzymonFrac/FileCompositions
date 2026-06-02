@@ -9,7 +9,7 @@ using FileCompositions.Core.Storage.Resource.Extension;
 
 namespace FileCompositions.Core.Database.File.Definition.Db.Implementations;
 
-internal class DbDefinition<TOwnership, TPlacement>(IFileContext context, FileDefinitionKey key, string name)
+internal sealed class DbDefinition<TOwnership, TPlacement>(IFileContext context, FileDefinitionKey key, string name)
     : AbstractDbDefinition<TOwnership, TPlacement>(context, key, name)
         where TOwnership : DefinitionOwnership
         where TPlacement : DefinitionPlacement;

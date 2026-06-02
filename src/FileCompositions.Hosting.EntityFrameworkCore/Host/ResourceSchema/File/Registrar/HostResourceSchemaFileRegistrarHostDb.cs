@@ -2,13 +2,13 @@
 using FileCompositions.Core.Quality.Necessity.Implementations;
 using FileCompositions.Core.Quality.Ownership;
 using FileCompositions.Core.Quality.Placement.Implementations;
-using FileCompositions.Extensions.Host.Schema.File.Registrar;
 using FileCompositions.Hosting.EntityFrameworkCore.File.Definition.Db;
 using FileCompositions.Hosting.EntityFrameworkCore.File.Definition.Db.Builder.Extensions;
 using FileCompositions.Hosting.EntityFrameworkCore.File.Definition.Db.Builder.Factory.Implementations;
 using FileCompositions.Hosting.EntityFrameworkCore.File.Definition.Db.Config;
 using FileCompositions.Hosting.EntityFrameworkCore.File.Definition.Db.Descriptor;
 using FileCompositions.Hosting.EntityFrameworkCore.Host.ResourceSchema.File.Register.Builder.Factory.Implementations;
+using FileCompositions.Hosting.ResourceSchema.File.Registrar;
 using Microsoft.EntityFrameworkCore;
 
 namespace FileCompositions.Hosting.EntityFrameworkCore.Host.ResourceSchema.File.Registrar;

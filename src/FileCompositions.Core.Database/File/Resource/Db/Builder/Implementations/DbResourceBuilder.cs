@@ -4,7 +4,7 @@ using FileCompositions.Core.File.Resource.Builder.Abstract;
 
 namespace FileCompositions.Core.Database.File.Resource.Db.Builder.Implementations;
 
-internal class DbResourceBuilder : AbstractFileResourceBuilder, IDbResourceBuilder
+internal sealed class DbResourceBuilder : AbstractFileResourceBuilder, IDbResourceBuilder
 {
     public IDbResourceBuilder WithName(string name)
     {

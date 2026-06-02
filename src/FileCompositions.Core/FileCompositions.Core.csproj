@@ -15,7 +15,7 @@
   <ItemGroup>
 
 	<InternalsVisibleTo Include="FileCompositions.Core.Database" />
-	<InternalsVisibleTo Include="FileCompositions.Extensions" />
+	<InternalsVisibleTo Include="FileCompositions.Hosting" />
 	<InternalsVisibleTo Include="FileCompositions.Hosting.EntityFrameworkCore" />
   </ItemGroup>
 
