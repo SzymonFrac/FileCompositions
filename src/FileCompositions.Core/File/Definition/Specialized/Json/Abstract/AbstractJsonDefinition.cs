@@ -1,12 +1,15 @@
 ﻿using FileCompositions.Core.File.Context;
 using FileCompositions.Core.File.Definition.Abstract;
+using FileCompositions.Core.File.Definition.Init;
 using FileCompositions.Core.File.Definition.Key;
 using FileCompositions.Core.File.Definition.Specialized.Json.Extensions;
-using FileCompositions.Core.File.Definition.Specialized.Json.Init;
 using FileCompositions.Core.File.Definition.Specialized.Json.Init.Policy;
+using FileCompositions.Core.File.Interface;
 using FileCompositions.Core.File.Interface.Specialized.Json.Format;
+using FileCompositions.Core.File.Operator;
 using FileCompositions.Core.Quality.Ownership;
 using FileCompositions.Core.Quality.Placement;
+using FileCompositions.Core.Storage.Backend;
 using FileCompositions.Core.Storage.Resource.Name;
 
 namespace FileCompositions.Core.File.Definition.Specialized.Json.Abstract;
@@ -23,4 +26,7 @@ internal abstract class AbstractJsonDefinition<TOwnership, TPlacement, TData>(IF
 
     public override ValueTask InitializeAsync(CancellationToken cancellationToken = default) =>
         InitPolicy.GetPolicy(this).Invoke(cancellationToken);
+    IStorageBackend IFileInterface<TOwnership, TPlacement>.StorageBackend => Context.StorageBackend;
+    IStorageBackend IFileDefinitionInit<TOwnership, TPlacement>.StorageBackend => Context.StorageBackend;
+    IStorageBackend IFileOperator<TOwnership, TPlacement>.StorageBackend => Context.StorageBackend;
 }

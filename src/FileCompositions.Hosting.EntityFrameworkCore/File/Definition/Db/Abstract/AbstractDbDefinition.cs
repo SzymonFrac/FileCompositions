@@ -1,9 +1,13 @@
 ﻿using FileCompositions.Core.Database.File.Definition.Db.Extensions;
 using FileCompositions.Core.File.Context;
 using FileCompositions.Core.File.Definition.Abstract;
+using FileCompositions.Core.File.Definition.Init;
 using FileCompositions.Core.File.Definition.Key;
+using FileCompositions.Core.File.Interface;
+using FileCompositions.Core.File.Operator;
 using FileCompositions.Core.Quality.Ownership;
 using FileCompositions.Core.Quality.Placement;
+using FileCompositions.Core.Storage.Backend;
 using FileCompositions.Core.Storage.Resource.Name;
 using FileCompositions.Hosting.EntityFrameworkCore.File.Definition.Db.Init.Policy;
 using Microsoft.EntityFrameworkCore;
@@ -23,4 +27,8 @@ internal abstract class AbstractDbDefinition<TOwnership, TPlacement, TDbContext>
 
     public override ValueTask InitializeAsync(CancellationToken cancellationToken = default) =>
         throw new InvalidOperationException();
+
+    IStorageBackend IFileInterface<TOwnership, TPlacement>.StorageBackend => Context.StorageBackend;
+    IStorageBackend IFileDefinitionInit<TOwnership, TPlacement>.StorageBackend => Context.StorageBackend;
+    IStorageBackend IFileOperator<TOwnership, TPlacement>.StorageBackend => Context.StorageBackend;
 }

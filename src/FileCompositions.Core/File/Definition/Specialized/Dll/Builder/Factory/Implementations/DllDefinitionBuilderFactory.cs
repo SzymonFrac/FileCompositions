@@ -7,7 +7,7 @@ using FileCompositions.Core.Quality.Ownership.Implementations;
 namespace FileCompositions.Core.File.Definition.Specialized.Dll.Builder.Factory.Implementations;
 
 internal sealed class DllDefinitionBuilderFactory<TInNecessity>(DirectoryDefinitionKey key) : IDllDefinitionBuilderFactory<TInNecessity>
-        where TInNecessity : DefinitionNecessity
+    where TInNecessity : DefinitionNecessity
 {
     private readonly DirectoryDefinitionKey _key = key;
     public IDllDefinitionBuilder<StrictDefinition, TInNecessity> Create() =>

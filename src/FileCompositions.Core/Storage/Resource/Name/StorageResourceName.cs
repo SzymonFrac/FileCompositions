@@ -14,6 +14,14 @@ public readonly record struct StorageResourceName
         Validate(value);
         return new StorageResourceName(value, extension);
     }
+    internal static StorageResourceName Create(string value, string extension)
+    {
+        Validate(value);
+
+        var ext = StorageResourceExtension.Create(extension);
+        return new StorageResourceName(value, ext);
+    }
+
     internal static StorageResourceName GetFromPath(string fullPath)
     {
         var name = Path.GetFileName(fullPath);

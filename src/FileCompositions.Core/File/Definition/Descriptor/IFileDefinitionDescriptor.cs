@@ -6,8 +6,7 @@ using FileCompositions.Core.Quality.Placement;
 
 namespace FileCompositions.Core.File.Definition.Descriptor;
 
-internal interface IFileDefinitionDescriptor<TDefinition, TOwnership, TPlacement>
-    where TDefinition : IFileDefinition<TOwnership, TPlacement>
+public interface IFileDefinitionDescriptor<TOwnership, TPlacement, TDefinition>
     where TOwnership : DefinitionOwnership
     where TPlacement : DefinitionPlacement
 {

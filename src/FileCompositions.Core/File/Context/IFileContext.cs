@@ -3,10 +3,10 @@ using FileCompositions.Core.Storage.Backend;
 
 namespace FileCompositions.Core.File.Context;
 
-internal interface IFileContext
+public interface IFileContext
 {
-    IStorageBackend StorageBackend { get; }
+    internal IStorageBackend StorageBackend { get; }
     
-    StorageAddress Address { get; }
+    internal StorageAddress Address { get; }
 }
 
