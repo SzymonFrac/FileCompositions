@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 namespace FileCompositions.Hosting.EntityFrameworkCore.File.Definition.Db.Descriptor.Implementations;
 
 internal sealed class DbDefinitionDescriptor<TOwnership, TPlacement, TDbContext>(DirectoryDefinitionKey directoryKey, FileDefinitionKey key, string name)
-    : AbstractFileDefinitionDescriptor<IDbDefinition<TOwnership, TPlacement, TDbContext>, TOwnership, TPlacement>(directoryKey, key, name),
+    : AbstractFileDefinitionDescriptor<TOwnership, TPlacement, IDbDefinition<TOwnership, TPlacement, TDbContext>>(directoryKey, key, name),
     IDbDefinitionDescriptor<TOwnership, TPlacement, TDbContext>
         where TOwnership : DefinitionOwnership
         where TPlacement : DefinitionPlacement

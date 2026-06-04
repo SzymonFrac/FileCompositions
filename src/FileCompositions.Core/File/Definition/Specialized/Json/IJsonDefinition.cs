@@ -11,7 +11,7 @@ namespace FileCompositions.Core.File.Definition.Specialized.Json;
 public interface IJsonDefinition<TOwnership, TPlacement, TData> : IFileDefinition<TOwnership, TPlacement>,
     IJsonInterface<TOwnership, TPlacement, TData>,
     IJsonDefinitionInit<TOwnership, TPlacement, TData>,
-    IJsonOperator<TOwnership, TPlacement>
+    IJsonOperator<TOwnership, TPlacement, TData>
         where TOwnership : DefinitionOwnership
         where TPlacement : DefinitionPlacement;
 

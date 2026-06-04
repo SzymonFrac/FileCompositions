@@ -1,4 +1,5 @@
-﻿using FileCompositions.Core.Quality.Necessity;
+﻿using FileCompositions.Core.Exception.ExternalRequiredMissing;
+using FileCompositions.Core.Quality.Necessity;
 using FileCompositions.Core.Quality.Necessity.Implementations;
 using FileCompositions.Core.Quality.Ownership;
 using FileCompositions.Core.Quality.Ownership.Implementations;
@@ -8,11 +9,11 @@ namespace FileCompositions.Core.Directory.Definition.Init;
 
 internal static class DirectoryDefinitionInit
 {
-    extension<TOwnership, TNecessity>(IDirectoryDefinitionInit<TOwnership, TNecessity> @operator)
+    extension<TOwnership, TNecessity>(IDirectoryDefinitionInit<TOwnership, TNecessity> init)
         where TOwnership : DefinitionOwnership
         where TNecessity : DefinitionNecessity
     {
-        public ValueTask InitializeAsync(CancellationToken cancellation = default) => @operator switch
+        public ValueTask InitializeAsync(CancellationToken cancellation = default) => init switch
         {
             IDirectoryDefinitionInit<StrictDefinition, RequiredDefinition> sr => sr.InitializeAsync(cancellation),
             IDirectoryDefinitionInit<ExternalDefinition, RequiredDefinition> er => er.InitializeAsync(cancellation),
@@ -22,27 +23,31 @@ internal static class DirectoryDefinitionInit
         };
     }
 
-    extension(IDirectoryDefinitionInit<StrictDefinition, RequiredDefinition> @operator)
+    extension(IDirectoryDefinitionInit<StrictDefinition, RequiredDefinition> init)
     {
         public ValueTask InitializeAsync(CancellationToken cancellation = default) =>
-            @operator.StorageBackend.CreateAsync(@operator.Address, cancellation);
+            init.StorageBackend.CreateAsync(init.Address, cancellation);
     }
 
-    extension(IDirectoryDefinitionInit<ExternalDefinition, RequiredDefinition> @operator)
+    extension(IDirectoryDefinitionInit<ExternalDefinition, RequiredDefinition> init)
     {
         public async ValueTask InitializeAsync(CancellationToken cancellation = default)
         {
-            if (!await @operator.StorageBackend.ExistsAsync(@operator.Address, cancellation))
-                throw new DirectoryNotFoundException("A required, external directory must exist.");
+            if (!await init.StorageBackend.ExistsAsync(init.Address, cancellation))
+                throw new ExternalRequiredDirectoryMissingException("A required, external directory must exist.")
+                {
+                    Address = init.Address,
+                    Key = init.Key
+                };
         }
     }
 
-    extension(IDirectoryDefinitionInit<StrictDefinition, OptionalDefinition> @operator)
+    extension(IDirectoryDefinitionInit<StrictDefinition, OptionalDefinition> init)
     {
 
     }
 
-    extension(IDirectoryDefinitionInit<ExternalDefinition, OptionalDefinition> @operator)
+    extension(IDirectoryDefinitionInit<ExternalDefinition, OptionalDefinition> init)
     {
 
     }

@@ -10,10 +10,10 @@ using FileCompositions.Core.Quality.Placement;
 namespace FileCompositions.Core.File.Definition.Specialized.Dll.Descriptor.Implementations;
 
 internal sealed class DllDefinitionDescriptor<TOwnership, TPlacement>(DirectoryDefinitionKey directoryKey, FileDefinitionKey key, string name)
-    : AbstractFileDefinitionDescriptor<IDllDefinition<TOwnership, TPlacement>, TOwnership, TPlacement>(directoryKey, key, name),
-        IDllDefinitionDescriptor<TOwnership, TPlacement>
-            where TOwnership : DefinitionOwnership
-            where TPlacement : DefinitionPlacement
+    : AbstractFileDefinitionDescriptor<TOwnership, TPlacement, IDllDefinition<TOwnership, TPlacement>>(directoryKey, key, name),
+    IDllDefinitionDescriptor<TOwnership, TPlacement>
+        where TOwnership : DefinitionOwnership
+        where TPlacement : DefinitionPlacement
 {
     public required IDllDefinitionInitPolicy<TOwnership, TPlacement> InitPolicy { get; init; }
 

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 namespace FileCompositions.Hosting.EntityFrameworkCore.File.Definition.Db.Descriptor;
 
 internal interface IDbDefinitionDescriptor<TOwnership, TPlacement, TDbContext>
-    : IFileDefinitionDescriptor<IDbDefinition<TOwnership, TPlacement, TDbContext>, TOwnership, TPlacement>
+    : IFileDefinitionDescriptor<TOwnership, TPlacement, IDbDefinition<TOwnership, TPlacement, TDbContext>>
         where TOwnership : DefinitionOwnership
         where TPlacement : DefinitionPlacement
         where TDbContext : DbContext;

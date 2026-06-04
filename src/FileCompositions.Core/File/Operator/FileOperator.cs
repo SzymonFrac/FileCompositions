@@ -17,13 +17,13 @@ public static class FileOperator
 
     extension(IFileOperator<StrictDefinition, OptionalInRequired> @operator)
     {
-        public ValueTask CreateAsync(CancellationToken cancellationToken = default) =>
+        internal ValueTask CreateAsync(CancellationToken cancellationToken = default) =>
             @operator.StorageBackend.CreateAsync(@operator.GetLocation(), cancellationToken);
 
         public async ValueTask DeleteAsync(CancellationToken cancellationToken = default)
         {
-            if (await @operator.StorageBackend.ExistsAsync(@operator.GetLocation(), cancellationToken))
-                await @operator.StorageBackend.DeleteAsync(@operator.GetLocation(), cancellationToken);
+            if (await @operator.StorageBackend.ExistsAsync(@operator.GetLocation(), cancellationToken).ConfigureAwait(false))
+                await @operator.StorageBackend.DeleteAsync(@operator.GetLocation(), cancellationToken).ConfigureAwait(false);
         }
     }
 
@@ -34,7 +34,7 @@ public static class FileOperator
 
     extension(IFileOperator<StrictDefinition, OptionalInOptional> @operator)
     {
-        public async ValueTask<bool> TryCreateAsync(CancellationToken cancellationToken = default)
+        internal async ValueTask<bool> TryCreateAsync(CancellationToken cancellationToken = default)
         {
             var addressExists = await @operator.StorageBackend.ExistsAsync(@operator.GetLocation().Address, cancellationToken).ConfigureAwait(false);
             if (addressExists)
@@ -45,8 +45,8 @@ public static class FileOperator
 
         public async ValueTask DeleteAsync(CancellationToken cancellationToken = default)
         {
-            if (await @operator.StorageBackend.ExistsAsync(@operator.GetLocation(), cancellationToken))
-                await @operator.StorageBackend.DeleteAsync(@operator.GetLocation(), cancellationToken);
+            if (await @operator.StorageBackend.ExistsAsync(@operator.GetLocation(), cancellationToken).ConfigureAwait(false))
+                await @operator.StorageBackend.DeleteAsync(@operator.GetLocation(), cancellationToken).ConfigureAwait(false);
         }
     }
 

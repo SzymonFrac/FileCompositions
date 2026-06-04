@@ -1,4 +1,5 @@
-﻿using FileCompositions.Core.Quality.Ownership.Implementations;
+﻿using FileCompositions.Core.Exception.ExternalRequiredMissing;
+using FileCompositions.Core.Quality.Ownership.Implementations;
 using FileCompositions.Core.Quality.Placement.Implementations;
 
 namespace FileCompositions.Core.File.Definition.Init;
@@ -19,7 +20,11 @@ internal static class FileDefinitionInit
         public async ValueTask InitAsync(CancellationToken cancellationToken = default)
         {
             if (!await init.StorageBackend.ExistsAsync(init.GetLocation(), cancellationToken).ConfigureAwait(false))
-                throw new FileNotFoundException("A required, external file must exist.");
+                throw new ExternalRequiredFileMissingException("A required, external file must exist.")
+                {
+                    Location = init.GetLocation(),
+                    Key = init.Key
+                };
         }
     }
 

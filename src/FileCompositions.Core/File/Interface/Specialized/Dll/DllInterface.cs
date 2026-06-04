@@ -19,6 +19,7 @@ public static class DllInterface
             dll.Assembly ??= AssemblyLoadContext.Default.LoadFromStream(
                 await dll.OpenReadAsync(cancellationToken).ConfigureAwait(false));
 
+
         public async IAsyncEnumerable<TResult> RunEachAsync<TInterface, TResult>(Func<TInterface, CancellationToken, Task<TResult>> run, [EnumeratorCancellation] CancellationToken cancellationToken = default)
         {
             dll.Assembly = AssemblyLoadContext.Default.LoadFromStream(
@@ -30,6 +31,18 @@ public static class DllInterface
             await foreach (var task in Task.WhenEach(tasks))
                 yield return await task.ConfigureAwait(false);
         }
+        public async IAsyncEnumerable<TResult> RunEachAsync<TInterface, TResult>(Func<TInterface, Task<TResult>> run, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+        {
+            dll.Assembly = AssemblyLoadContext.Default.LoadFromStream(
+                await dll.OpenReadAsync(cancellationToken).ConfigureAwait(false));
+
+            var tasks = CreateInstances<TInterface>(dll.Assembly)
+                .Select(i => run(i));
+
+            await foreach (var task in Task.WhenEach(tasks))
+                yield return await task.ConfigureAwait(false);
+        }
+
         public async Task<IEnumerable<TResult>> RunAllAsync<TInterface, TResult>(Func<TInterface, CancellationToken, Task<TResult>> run, CancellationToken cancellationToken = default)
         {
             dll.Assembly ??= AssemblyLoadContext.Default.LoadFromStream(
@@ -40,6 +53,17 @@ public static class DllInterface
 
             return await Task.WhenAll(tasks);
         }
+        public async Task<IEnumerable<TResult>> RunAllAsync<TInterface, TResult>(Func<TInterface, Task<TResult>> run, CancellationToken cancellationToken = default)
+        {
+            dll.Assembly ??= AssemblyLoadContext.Default.LoadFromStream(
+                await dll.OpenReadAsync(cancellationToken).ConfigureAwait(false));
+
+            var tasks = CreateInstances<TInterface>(dll.Assembly)
+                .Select(i => run(i));
+
+            return await Task.WhenAll(tasks);
+        }
+
         public async Task RunAsync<TInterface>(Func<TInterface, CancellationToken, Task> run, CancellationToken cancellationToken = default)
         {
             dll.Assembly ??= AssemblyLoadContext.Default.LoadFromStream(
@@ -48,6 +72,15 @@ public static class DllInterface
             foreach (var instance in CreateInstances<TInterface>(dll.Assembly))
                 await run(instance, cancellationToken);
         }
+        public async Task RunAsync<TInterface>(Func<TInterface, Task> run, CancellationToken cancellationToken = default)
+        {
+            dll.Assembly ??= AssemblyLoadContext.Default.LoadFromStream(
+                await dll.OpenReadAsync(cancellationToken).ConfigureAwait(false));
+
+            foreach (var instance in CreateInstances<TInterface>(dll.Assembly))
+                await run(instance);
+        }
+
         public async Task RunAsync<TInterface>(Action<TInterface>? run = default, CancellationToken cancellationToken = default)
         {
             dll.Assembly ??= AssemblyLoadContext.Default.LoadFromStream(
@@ -64,6 +97,7 @@ public static class DllInterface
             dll.Assembly ??= AssemblyLoadContext.Default.LoadFromStream(
                 await dll.OpenReadAsync(cancellationToken).ConfigureAwait(false));
 
+
         public async IAsyncEnumerable<TResult> RunEachAsync<TInterface, TResult>(Func<TInterface, CancellationToken, Task<TResult>> run, [EnumeratorCancellation] CancellationToken cancellationToken = default)
         {
             dll.Assembly = AssemblyLoadContext.Default.LoadFromStream(
@@ -75,6 +109,18 @@ public static class DllInterface
             await foreach (var task in Task.WhenEach(tasks))
                 yield return await task.ConfigureAwait(false);
         }
+        public async IAsyncEnumerable<TResult> RunEachAsync<TInterface, TResult>(Func<TInterface, Task<TResult>> run, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+        {
+            dll.Assembly = AssemblyLoadContext.Default.LoadFromStream(
+                await dll.OpenReadAsync(cancellationToken).ConfigureAwait(false));
+
+            var tasks = CreateInstances<TInterface>(dll.Assembly)
+                .Select(i => run(i));
+
+            await foreach (var task in Task.WhenEach(tasks))
+                yield return await task.ConfigureAwait(false);
+        }
+
         public async Task<IEnumerable<TResult>> RunAllAsync<TInterface, TResult>(Func<TInterface, CancellationToken, Task<TResult>> run, CancellationToken cancellationToken = default)
         {
             dll.Assembly ??= AssemblyLoadContext.Default.LoadFromStream(
@@ -85,6 +131,17 @@ public static class DllInterface
 
             return await Task.WhenAll(tasks);
         }
+        public async Task<IEnumerable<TResult>> RunAllAsync<TInterface, TResult>(Func<TInterface, Task<TResult>> run, CancellationToken cancellationToken = default)
+        {
+            dll.Assembly ??= AssemblyLoadContext.Default.LoadFromStream(
+                await dll.OpenReadAsync(cancellationToken).ConfigureAwait(false));
+
+            var tasks = CreateInstances<TInterface>(dll.Assembly)
+                .Select(i => run(i));
+
+            return await Task.WhenAll(tasks);
+        }
+
         public async Task RunAsync<TInterface>(Func<TInterface, CancellationToken, Task> run, CancellationToken cancellationToken = default)
         {
             dll.Assembly ??= AssemblyLoadContext.Default.LoadFromStream(
@@ -93,6 +150,15 @@ public static class DllInterface
             foreach (var instance in CreateInstances<TInterface>(dll.Assembly))
                 await run(instance, cancellationToken);
         }
+        public async Task RunAsync<TInterface>(Func<TInterface, Task> run, CancellationToken cancellationToken = default)
+        {
+            dll.Assembly ??= AssemblyLoadContext.Default.LoadFromStream(
+                await dll.OpenReadAsync(cancellationToken).ConfigureAwait(false));
+
+            foreach (var instance in CreateInstances<TInterface>(dll.Assembly))
+                await run(instance);
+        }
+
         public async Task RunAsync<TInterface>(Action<TInterface>? run = default, CancellationToken cancellationToken = default)
         {
             dll.Assembly ??= AssemblyLoadContext.Default.LoadFromStream(
@@ -110,6 +176,7 @@ public static class DllInterface
                 ? dll.Assembly = AssemblyLoadContext.Default.LoadFromStream(stream)
                 : default;
 
+
         public async IAsyncEnumerable<TResult> RunEachAsync<TInterface, TResult>(Func<TInterface, CancellationToken, Task<TResult>> run, [EnumeratorCancellation] CancellationToken cancellationToken = default)
         {
             if (await dll.OpenReadAsync(cancellationToken).ConfigureAwait(false) is not Stream stream)
@@ -123,6 +190,20 @@ public static class DllInterface
             await foreach (var task in Task.WhenEach(tasks))
                 yield return await task.ConfigureAwait(false);
         }
+        public async IAsyncEnumerable<TResult> RunEachAsync<TInterface, TResult>(Func<TInterface, Task<TResult>> run, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+        {
+            if (await dll.OpenReadAsync(cancellationToken).ConfigureAwait(false) is not Stream stream)
+                yield break;
+
+            dll.Assembly = AssemblyLoadContext.Default.LoadFromStream(stream);
+
+            var tasks = CreateInstances<TInterface>(dll.Assembly)
+                .Select(i => run(i));
+
+            await foreach (var task in Task.WhenEach(tasks))
+                yield return await task.ConfigureAwait(false);
+        }
+
         public async Task<IEnumerable<TResult>> RunAllAsync<TInterface, TResult>(Func<TInterface, CancellationToken, Task<TResult>> run, CancellationToken cancellationToken = default)
         {
             if (await dll.OpenReadAsync(cancellationToken).ConfigureAwait(false) is not Stream stream)
@@ -135,6 +216,19 @@ public static class DllInterface
 
             return await Task.WhenAll(tasks);
         }
+        public async Task<IEnumerable<TResult>> RunAllAsync<TInterface, TResult>(Func<TInterface, Task<TResult>> run, CancellationToken cancellationToken = default)
+        {
+            if (await dll.OpenReadAsync(cancellationToken).ConfigureAwait(false) is not Stream stream)
+                return [];
+
+            dll.Assembly = AssemblyLoadContext.Default.LoadFromStream(stream);
+
+            var tasks = CreateInstances<TInterface>(dll.Assembly)
+                .Select(i => run(i));
+
+            return await Task.WhenAll(tasks);
+        }
+
         public async Task<bool> RunAsync<TInterface>(Func<TInterface, CancellationToken, Task> run, CancellationToken cancellationToken = default)
         {
             if (await dll.OpenReadAsync(cancellationToken).ConfigureAwait(false) is not Stream stream)
@@ -149,6 +243,21 @@ public static class DllInterface
 
             return true;
         }
+        public async Task<bool> RunAsync<TInterface>(Func<TInterface, Task> run, CancellationToken cancellationToken = default)
+        {
+            if (await dll.OpenReadAsync(cancellationToken).ConfigureAwait(false) is not Stream stream)
+                return false;
+
+            dll.Assembly = AssemblyLoadContext.Default.LoadFromStream(stream);
+
+            var tasks = CreateInstances<TInterface>(dll.Assembly)
+                .Select(i => run(i));
+
+            await Task.WhenAll(tasks);
+
+            return true;
+        }
+
         public async Task<bool> RunAsync<TInterface>(Action<TInterface>? run = default, CancellationToken cancellationToken = default)
         {
             if (await dll.OpenReadAsync(cancellationToken).ConfigureAwait(false) is not Stream stream)
@@ -170,6 +279,7 @@ public static class DllInterface
                 ? dll.Assembly = AssemblyLoadContext.Default.LoadFromStream(stream)
                 : default;
 
+
         public async IAsyncEnumerable<TResult> RunEachAsync<TInterface, TResult>(Func<TInterface, CancellationToken, Task<TResult>> run, [EnumeratorCancellation] CancellationToken cancellationToken = default)
         {
             if (await dll.OpenReadAsync(cancellationToken).ConfigureAwait(false) is not Stream stream)
@@ -183,6 +293,20 @@ public static class DllInterface
             await foreach (var item in Task.WhenEach(tasks))
                 yield return await item.ConfigureAwait(false);
         }
+        public async IAsyncEnumerable<TResult> RunEachAsync<TInterface, TResult>(Func<TInterface, Task<TResult>> run, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+        {
+            if (await dll.OpenReadAsync(cancellationToken).ConfigureAwait(false) is not Stream stream)
+                yield break;
+
+            dll.Assembly = AssemblyLoadContext.Default.LoadFromStream(stream);
+
+            var tasks = CreateInstances<TInterface>(dll.Assembly)
+                .Select(i => run(i));
+
+            await foreach (var item in Task.WhenEach(tasks))
+                yield return await item.ConfigureAwait(false);
+        }
+
         public async Task<IEnumerable<TResult>> RunAllAsync<TInterface, TResult>(Func<TInterface, CancellationToken, Task<TResult>> run, CancellationToken cancellationToken = default)
         {
             if (await dll.OpenReadAsync(cancellationToken).ConfigureAwait(false) is not Stream stream)
@@ -195,6 +319,19 @@ public static class DllInterface
 
             return await Task.WhenAll(tasks);
         }
+        public async Task<IEnumerable<TResult>> RunAllAsync<TInterface, TResult>(Func<TInterface, Task<TResult>> run, CancellationToken cancellationToken = default)
+        {
+            if (await dll.OpenReadAsync(cancellationToken).ConfigureAwait(false) is not Stream stream)
+                return [];
+
+            dll.Assembly = AssemblyLoadContext.Default.LoadFromStream(stream);
+
+            var tasks = CreateInstances<TInterface>(dll.Assembly)
+                .Select(i => run(i));
+
+            return await Task.WhenAll(tasks);
+        }
+
         public async Task<bool> RunAsync<TInterface>(Func<TInterface, CancellationToken, Task> run, CancellationToken cancellationToken = default)
         {
             if (await dll.OpenReadAsync(cancellationToken).ConfigureAwait(false) is not Stream stream)
@@ -207,6 +344,19 @@ public static class DllInterface
 
             return true;
         }
+        public async Task<bool> RunAsync<TInterface>(Func<TInterface, Task> run, CancellationToken cancellationToken = default)
+        {
+            if (await dll.OpenReadAsync(cancellationToken).ConfigureAwait(false) is not Stream stream)
+                return false;
+
+            dll.Assembly = AssemblyLoadContext.Default.LoadFromStream(stream);
+
+            foreach (var instance in CreateInstances<TInterface>(dll.Assembly))
+                await run(instance);
+
+            return true;
+        }
+
         public async Task<bool> RunAsync<TInterface>(Action<TInterface>? run = default, CancellationToken cancellationToken = default)
         {
             if (await dll.OpenReadAsync(cancellationToken).ConfigureAwait(false) is not Stream stream)
@@ -228,6 +378,7 @@ public static class DllInterface
                 ? dll.Assembly = AssemblyLoadContext.Default.LoadFromStream(stream)
                 : default;
 
+
         public async IAsyncEnumerable<TResult> RunEachAsync<TInterface, TResult>(Func<TInterface, CancellationToken, Task<TResult>> run, [EnumeratorCancellation] CancellationToken cancellationToken = default)
         {
             if (await dll.OpenReadAsync(cancellationToken).ConfigureAwait(false) is not Stream stream)
@@ -241,6 +392,20 @@ public static class DllInterface
             await foreach (var item in Task.WhenEach(tasks))
                 yield return await item.ConfigureAwait(false);
         }
+        public async IAsyncEnumerable<TResult> RunEachAsync<TInterface, TResult>(Func<TInterface, Task<TResult>> run, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+        {
+            if (await dll.OpenReadAsync(cancellationToken).ConfigureAwait(false) is not Stream stream)
+                yield break;
+
+            dll.Assembly = AssemblyLoadContext.Default.LoadFromStream(stream);
+
+            var tasks = CreateInstances<TInterface>(dll.Assembly)
+                .Select(i => run(i));
+
+            await foreach (var item in Task.WhenEach(tasks))
+                yield return await item.ConfigureAwait(false);
+        }
+
         public async Task<IEnumerable<TResult>> RunAllAsync<TInterface, TResult>(Func<TInterface, CancellationToken, Task<TResult>> run, CancellationToken cancellationToken = default)
         {
             if (await dll.OpenReadAsync(cancellationToken).ConfigureAwait(false) is not Stream stream)
@@ -253,6 +418,19 @@ public static class DllInterface
 
             return await Task.WhenAll(tasks);
         }
+        public async Task<IEnumerable<TResult>> RunAllAsync<TInterface, TResult>(Func<TInterface, Task<TResult>> run, CancellationToken cancellationToken = default)
+        {
+            if (await dll.OpenReadAsync(cancellationToken).ConfigureAwait(false) is not Stream stream)
+                return [];
+
+            dll.Assembly = AssemblyLoadContext.Default.LoadFromStream(stream);
+
+            var tasks = CreateInstances<TInterface>(dll.Assembly)
+                .Select(i => run(i));
+
+            return await Task.WhenAll(tasks);
+        }
+
         public async Task<bool> RunAsync<TInterface>(Func<TInterface, CancellationToken, Task> run, CancellationToken cancellationToken = default)
         {
             if (await dll.OpenReadAsync(cancellationToken).ConfigureAwait(false) is not Stream stream)
@@ -265,6 +443,19 @@ public static class DllInterface
             
             return true;
         }
+        public async Task<bool> RunAsync<TInterface>(Func<TInterface, Task> run, CancellationToken cancellationToken = default)
+        {
+            if (await dll.OpenReadAsync(cancellationToken).ConfigureAwait(false) is not Stream stream)
+                return false;
+
+            dll.Assembly = AssemblyLoadContext.Default.LoadFromStream(stream);
+
+            foreach (var instance in CreateInstances<TInterface>(dll.Assembly))
+                await run(instance);
+
+            return true;
+        }
+
         public async Task<bool> RunAsync<TInterface>(Action<TInterface>? run = default, CancellationToken cancellationToken = default)
         {
             if (await dll.OpenReadAsync(cancellationToken).ConfigureAwait(false) is not Stream stream)
@@ -299,6 +490,20 @@ public static class DllInterface
             await foreach (var item in Task.WhenEach(tasks))
                 yield return await item.ConfigureAwait(false);
         }
+        public async IAsyncEnumerable<TResult> RunEachAsync<TInterface, TResult>(Func<TInterface, Task<TResult>> run, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+        {
+            if (await dll.OpenReadAsync(cancellationToken).ConfigureAwait(false) is not Stream stream)
+                yield break;
+
+            dll.Assembly = AssemblyLoadContext.Default.LoadFromStream(stream);
+
+            var tasks = CreateInstances<TInterface>(dll.Assembly)
+                .Select(i => run(i));
+
+            await foreach (var item in Task.WhenEach(tasks))
+                yield return await item.ConfigureAwait(false);
+        }
+
         public async Task<IEnumerable<TResult>> RunAllAsync<TInterface, TResult>(Func<TInterface, CancellationToken, Task<TResult>> run, CancellationToken cancellationToken = default)
         {
             if (await dll.OpenReadAsync(cancellationToken).ConfigureAwait(false) is not Stream stream)
@@ -311,6 +516,19 @@ public static class DllInterface
 
             return await Task.WhenAll(tasks);
         }
+        public async Task<IEnumerable<TResult>> RunAllAsync<TInterface, TResult>(Func<TInterface, Task<TResult>> run, CancellationToken cancellationToken = default)
+        {
+            if (await dll.OpenReadAsync(cancellationToken).ConfigureAwait(false) is not Stream stream)
+                return [];
+
+            dll.Assembly = AssemblyLoadContext.Default.LoadFromStream(stream);
+
+            var tasks = CreateInstances<TInterface>(dll.Assembly)
+                .Select(i => run(i));
+
+            return await Task.WhenAll(tasks);
+        }
+
         public async Task<bool> RunAsync<TInterface>(Func<TInterface, CancellationToken, Task> run, CancellationToken cancellationToken = default)
         {
             if (await dll.OpenReadAsync(cancellationToken).ConfigureAwait(false) is not Stream stream)
@@ -323,6 +541,19 @@ public static class DllInterface
 
             return true;
         }
+        public async Task<bool> RunAsync<TInterface>(Func<TInterface, Task> run, CancellationToken cancellationToken = default)
+        {
+            if (await dll.OpenReadAsync(cancellationToken).ConfigureAwait(false) is not Stream stream)
+                return false;
+
+            dll.Assembly = AssemblyLoadContext.Default.LoadFromStream(stream);
+
+            foreach (var instance in CreateInstances<TInterface>(dll.Assembly))
+                await run(instance);
+
+            return true;
+        }
+
         public async Task<bool> RunAsync<TInterface>(Action<TInterface>? run = default, CancellationToken cancellationToken = default)
         {
             if (await dll.OpenReadAsync(cancellationToken).ConfigureAwait(false) is not Stream stream)

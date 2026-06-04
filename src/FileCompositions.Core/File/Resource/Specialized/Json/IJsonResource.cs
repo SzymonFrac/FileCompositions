@@ -7,4 +7,4 @@ namespace FileCompositions.Core.File.Resource.Specialized.Json;
 
 public interface IJsonResource<TData> : IFileResource,
     IJsonInterface<ExternalDefinition, RequiredInRequired, TData>,
-    IJsonOperator<ExternalDefinition, RequiredInRequired>;
+    IJsonOperator<ExternalDefinition, RequiredInRequired, TData>;

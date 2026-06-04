@@ -6,11 +6,11 @@ using FileCompositions.Core.Quality.Placement;
 
 namespace FileCompositions.Core.File.Definition.Descriptor.Abstract;
 
-internal abstract class AbstractFileDefinitionDescriptor<TDefinition, TOwnership, TPlacement>(DirectoryDefinitionKey directoryKey, FileDefinitionKey key, string name)
-    : IFileDefinitionDescriptor<TDefinition, TOwnership, TPlacement>
-        where TDefinition : IFileDefinition<TOwnership, TPlacement>
+internal abstract class AbstractFileDefinitionDescriptor<TOwnership, TPlacement, TDefinition>(DirectoryDefinitionKey directoryKey, FileDefinitionKey key, string name)
+    : IFileDefinitionDescriptor<TOwnership, TPlacement, TDefinition>
         where TOwnership : DefinitionOwnership
         where TPlacement : DefinitionPlacement
+        where TDefinition : IFileDefinition<TOwnership, TPlacement>
 {
     protected string Name { get; } = name;
 

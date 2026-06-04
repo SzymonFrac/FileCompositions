@@ -1,4 +1,5 @@
 ﻿using FileCompositions.Core.File.Definition.Init;
+using FileCompositions.Core.File.Interface.Specialized.Json.Format;
 using FileCompositions.Core.Quality.Ownership;
 using FileCompositions.Core.Quality.Placement;
 
@@ -9,4 +10,6 @@ public interface IJsonDefinitionInit<TOwnership, TPlacement, TData> : IFileDefin
     where TPlacement : DefinitionPlacement
 {
     TData? Default { get; }
+
+    internal JsonInterfaceFormat Format { get; }
 }

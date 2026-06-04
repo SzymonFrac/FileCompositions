@@ -5,6 +5,6 @@ using FileCompositions.Core.Quality.Placement;
 namespace FileCompositions.Core.File.Definition.Specialized.Json.Descriptor;
 
 internal interface IJsonDefinitionDescriptor<TOwnership, TPlacement, TData>
-    : IFileDefinitionDescriptor<IJsonDefinition<TOwnership, TPlacement, TData>, TOwnership, TPlacement>
+    : IFileDefinitionDescriptor<TOwnership, TPlacement, IJsonDefinition<TOwnership, TPlacement, TData>>
         where TOwnership : DefinitionOwnership
         where TPlacement : DefinitionPlacement;

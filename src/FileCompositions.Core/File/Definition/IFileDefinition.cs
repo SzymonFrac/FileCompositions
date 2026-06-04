@@ -1,6 +1,5 @@
 ﻿using FileCompositions.Core.File.Context;
 using FileCompositions.Core.File.Definition.Init;
-using FileCompositions.Core.File.Definition.Key;
 using FileCompositions.Core.File.Interface;
 using FileCompositions.Core.File.Operator;
 using FileCompositions.Core.Quality.Ownership;
@@ -18,7 +17,6 @@ public interface IFileDefinition<TOwnership, TPlacement> : IFileInterface<TOwner
 {
     internal IFileContext Context { get; }
 
-    FileDefinitionKey Key { get; }
     StorageResourceName Name { get; }
 }
 

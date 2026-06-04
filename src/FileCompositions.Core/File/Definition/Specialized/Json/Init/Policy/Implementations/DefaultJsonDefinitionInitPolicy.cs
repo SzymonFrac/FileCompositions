@@ -30,11 +30,11 @@ internal static partial class DefaultJsonDefinitionInitPolicy
     {
         public async ValueTask InitJsonAsync(CancellationToken cancellationToken = default)
         {
-            if (await json.StorageBackend.ExistsAsync(json.GetLocation(), cancellationToken).ConfigureAwait(false))
-                return;
-
-            await using var stream = await json.StorageBackend.OpenWriteAsync(json.GetLocation(), cancellationToken).ConfigureAwait(false);
-            await JsonSerializer.SerializeAsync(stream, json.Default, JsonSerializerOptions.Default, cancellationToken).ConfigureAwait(false);
+            if (!await json.StorageBackend.ExistsAsync(json.GetLocation(), cancellationToken).ConfigureAwait(false))
+            {
+                await using var stream = await json.StorageBackend.OpenWriteAsync(json.GetLocation(), cancellationToken).ConfigureAwait(false);
+                await JsonSerializer.SerializeAsync(stream, json.Default, json.Format.JsonSerializerOptions, cancellationToken).ConfigureAwait(false);
+            }
         }
     }
 

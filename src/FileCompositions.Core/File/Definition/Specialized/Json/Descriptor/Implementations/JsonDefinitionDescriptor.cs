@@ -11,7 +11,7 @@ using FileCompositions.Core.Quality.Placement;
 namespace FileCompositions.Core.File.Definition.Specialized.Json.Descriptor.Implementations;
 
 internal sealed class JsonDefinitionDescriptor<TOwnership, TPlacement, TData>(DirectoryDefinitionKey directoryKey, FileDefinitionKey key, string name, JsonInterfaceFormat format, TData? @default = default)
-    : AbstractFileDefinitionDescriptor<IJsonDefinition<TOwnership, TPlacement, TData>, TOwnership, TPlacement>(directoryKey, key, name),
+    : AbstractFileDefinitionDescriptor<TOwnership, TPlacement, IJsonDefinition<TOwnership, TPlacement, TData>>(directoryKey, key, name),
     IJsonDefinitionDescriptor<TOwnership, TPlacement, TData>
         where TOwnership : DefinitionOwnership
         where TPlacement : DefinitionPlacement

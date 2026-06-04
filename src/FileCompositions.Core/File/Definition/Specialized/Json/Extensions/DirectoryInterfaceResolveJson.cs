@@ -17,7 +17,7 @@ public static class DirectoryInterfaceResolveJson
             try
             {
                 var json = JsonDefinition.Convert<TData>(new FileContext(@interface.StorageBackend, @interface.Address), name);
-                await json.Read(cancellationToken).ConfigureAwait(false);
+                await json.ReadAsync(cancellationToken).ConfigureAwait(false);
 
                 return json;
             }
@@ -35,7 +35,7 @@ public static class DirectoryInterfaceResolveJson
             try
             {
                 var json = JsonDefinition.Convert<TData>(new FileContext(@interface.StorageBackend, @interface.Address), name);
-                await json.Read(cancellationToken).ConfigureAwait(false);
+                await json.ReadAsync(cancellationToken).ConfigureAwait(false);
 
                 return json;
             }
@@ -53,7 +53,7 @@ public static class DirectoryInterfaceResolveJson
             try
             {
                 var json = JsonDefinition.Convert<TData>(new FileContext(@interface.StorageBackend, @interface.Address), name);
-                await json.Read(cancellationToken).ConfigureAwait(false);
+                await json.ReadAsync(cancellationToken).ConfigureAwait(false);
 
                 return json;
             }
@@ -71,7 +71,7 @@ public static class DirectoryInterfaceResolveJson
             try
             {
                 var json = JsonDefinition.Convert<TData>(new FileContext(@interface.StorageBackend, @interface.Address), name);
-                await json.Read(cancellationToken).ConfigureAwait(false);
+                await json.ReadAsync(cancellationToken).ConfigureAwait(false);
 
                 return json;
             }

@@ -16,5 +16,5 @@ public interface IResourceSchemaFileRegistrar<TInNecessity>
         where TOwnership : DefinitionOwnership
         where TPlacement : DefinitionPlacement
         where TDefinition : class, IFileDefinition<TOwnership, TPlacement>
-        where TDescriptor : IFileDefinitionDescriptor<TDefinition, TOwnership, TPlacement>;
+        where TDescriptor : IFileDefinitionDescriptor<TOwnership, TPlacement, TDefinition>;
 }

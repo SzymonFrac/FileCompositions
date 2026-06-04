@@ -27,7 +27,7 @@ internal class HostResourceSchemaDbRegisterBuilder<TInOwnership, TInNecessity, T
         where TOwnership : DefinitionOwnership
         where TPlacement : DefinitionPlacement
         where TDefinition : class, IFileDefinition<TOwnership, TPlacement>
-        where TDescriptor : IFileDefinitionDescriptor<TDefinition, TOwnership, TPlacement> =>
+        where TDescriptor : IFileDefinitionDescriptor<TOwnership, TPlacement, TDefinition> =>
             new((in services) => services
                 .AddKeyedSingleton<TDefinition>(descriptor.Key, (sp, key) =>
                 {

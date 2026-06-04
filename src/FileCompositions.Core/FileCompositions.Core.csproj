@@ -13,8 +13,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Assets\Dll\Default.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
 
 	<InternalsVisibleTo Include="FileCompositions.Core.Database" />
+	<InternalsVisibleTo Include="FileCompositions.Core.LanguageExt" />
 	<InternalsVisibleTo Include="FileCompositions.Hosting" />
 	<InternalsVisibleTo Include="FileCompositions.Hosting.EntityFrameworkCore" />
   </ItemGroup>

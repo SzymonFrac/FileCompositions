@@ -1,6 +1,5 @@
 ﻿using FileCompositions.Core.Directory.Context;
 using FileCompositions.Core.Directory.Definition.Init;
-using FileCompositions.Core.Directory.Definition.Key;
 using FileCompositions.Core.Directory.Interface;
 using FileCompositions.Core.Directory.Operator;
 using FileCompositions.Core.Quality.Necessity;
@@ -15,6 +14,4 @@ public interface IDirectoryDefinition<TOwnership, TNecessity> : IDirectoryInterf
         where TNecessity : DefinitionNecessity
 {
     internal IDirectoryContext Context { get; }
-
-    DirectoryDefinitionKey Key { get; }
 }

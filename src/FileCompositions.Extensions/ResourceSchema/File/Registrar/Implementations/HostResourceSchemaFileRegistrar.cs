@@ -24,7 +24,7 @@ internal sealed class HostResourceSchemaFileRegistrar<TInOwnership, TInNecessity
         where TOwnership : DefinitionOwnership
         where TPlacement : DefinitionPlacement
         where TDefinition : class, IFileDefinition<TOwnership, TPlacement>
-        where TDescriptor : IFileDefinitionDescriptor<TDefinition, TOwnership, TPlacement> =>
+        where TDescriptor : IFileDefinitionDescriptor<TOwnership, TPlacement, TDefinition> =>
             register += _factory
                 .Create<TInOwnership, TInNecessity>()
                 .Build<TOwnership, TPlacement, TDefinition, TDescriptor>(descriptor);
@@ -33,12 +33,13 @@ internal sealed class HostResourceSchemaFileRegistrar<TInOwnership, TInNecessity
         where TOwnership : DefinitionOwnership
         where TPlacement : DefinitionPlacement
         where TDefinition : class, IFileDefinition<TOwnership, TPlacement>
-        where TDescriptor : IFileDefinitionDescriptor<TDefinition, TOwnership, TPlacement> =>
+        where TDescriptor : IFileDefinitionDescriptor<TOwnership, TPlacement, TDefinition> =>
             register += factory
                 .Create<TInOwnership, TInNecessity>()
                 .Build<TOwnership, TPlacement, TDefinition, TDescriptor>(descriptor);
 
     public HostResourceSchemaRegister? Build() => register;
+
 
     DirectoryDefinitionKey IResourceSchemaFileRegistrar<TInNecessity>.DirectoryKey => DirectoryKey;
 }
