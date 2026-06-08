@@ -9,12 +9,11 @@
   <ItemGroup>
     <ProjectReference Include="..\FileCompositions.Core\FileCompositions.Core.csproj" />
 	  
-	<InternalsVisibleTo Include="FileCompositions.Extensions" />
 	<InternalsVisibleTo Include="FileCompositions.Hosting.EntityFrameworkCore" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="10.0.7" />
+    <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="10.0.8" />
   </ItemGroup>
 
 </Project>

@@ -1,11 +1,11 @@
 ﻿using FileCompositions.Core.File.Definition.Key;
-using FileCompositions.Core.Storage.Location;
+using FileCompositions.Core.FileSystem.Location;
 
 namespace FileCompositions.Core.Exception.ExternalRequiredMissing;
 
-internal class ExternalRequiredFileMissingException : System.Exception
+internal sealed class ExternalRequiredFileMissingException : System.Exception
 {
-    public required StorageLocation Location { get; init; }
+    public required FileSystemLocation Location { get; init; }
     public required FileDefinitionKey Key { get; init; }
 
     public ExternalRequiredFileMissingException() : base() { }

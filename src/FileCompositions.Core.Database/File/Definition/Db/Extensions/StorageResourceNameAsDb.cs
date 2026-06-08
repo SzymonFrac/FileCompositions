@@ -1,13 +1,13 @@
 ﻿using FileCompositions.Core.Database.File.Definition.Db.Implementations;
-using FileCompositions.Core.Storage.Resource.Name;
+using FileCompositions.Core.FileSystem.Resource.Name;
 
 namespace FileCompositions.Core.Database.File.Definition.Db.Extensions;
 
 public static class StorageResourceNameAsDb
 {
-    extension(StorageResourceName)
+    extension(FileSystemResourceName)
     {
-        public static StorageResourceName CreateDb(string name) =>
-            StorageResourceName.Create(name, DbDefinition.Extension);
+        public static FileSystemResourceName CreateDb(string name) =>
+            FileSystemResourceName.Create(name, DbDefinition.Extension);
     }
 }

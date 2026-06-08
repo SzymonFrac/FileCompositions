@@ -2,6 +2,6 @@
   <Project Path="src/FileCompositions.Core.Database/FileCompositions.Core.Database.csproj" />
   <Project Path="src/FileCompositions.Core.LanguageExt/FileCompositions.Core.LanguageExt.csproj" />
   <Project Path="src/FileCompositions.Core/FileCompositions.Core.csproj" />
-  <Project Path="src/FileCompositions.Extensions/FileCompositions.Hosting.csproj" />
   <Project Path="src/FileCompositions.Hosting.EntityFrameworkCore/FileCompositions.Hosting.EntityFrameworkCore.csproj" />
+  <Project Path="src/FileCompositions.Hosting/FileCompositions.Hosting.csproj" />
 </Solution>

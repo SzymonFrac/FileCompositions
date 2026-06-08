@@ -1,13 +1,13 @@
 ﻿using FileCompositions.Core.File.Definition.Specialized.Dll.Implementations;
-using FileCompositions.Core.Storage.Resource.Name;
+using FileCompositions.Core.FileSystem.Resource.Name;
 
 namespace FileCompositions.Core.File.Definition.Specialized.Dll.Extensions;
 
 public static class StorageResourceNameAsDll
 {
-    extension(StorageResourceName)
+    extension(FileSystemResourceName)
     {
-        public static StorageResourceName CreateDll(string name) =>
-            StorageResourceName.Create(name, DllDefinition.Extension);
+        public static FileSystemResourceName CreateDll(string name) =>
+            FileSystemResourceName.Create(name, DllDefinition.Extension);
     }
 }

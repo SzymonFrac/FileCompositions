@@ -6,10 +6,10 @@ using System.Text.Json;
 
 namespace FileCompositions.Core.File.Resource.Specialized.Json.Builder.Implementations;
 
-internal sealed class JsonResourceBuilder<TData>(JsonInterfaceFormat format)
+internal sealed class JsonResourceBuilder<TData>
     : AbstractFileResourceBuilder, IJsonResourceBuilder<TData>
 {
-    private JsonInterfaceFormat format = format;
+    private JsonInterfaceFormat format = JsonInterfaceFormat.Default;
 
     public IJsonResourceBuilder<TData> WithName(string name)
     {

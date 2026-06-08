@@ -2,10 +2,10 @@
 using FileCompositions.Core.File.Definition.Init;
 using FileCompositions.Core.File.Interface;
 using FileCompositions.Core.File.Operator;
+using FileCompositions.Core.FileSystem.Resource.Extension;
+using FileCompositions.Core.FileSystem.Resource.Name;
 using FileCompositions.Core.Quality.Ownership;
 using FileCompositions.Core.Quality.Placement;
-using FileCompositions.Core.Storage.Resource.Extension;
-using FileCompositions.Core.Storage.Resource.Name;
 
 namespace FileCompositions.Core.File.Definition;
 
@@ -17,10 +17,10 @@ public interface IFileDefinition<TOwnership, TPlacement> : IFileInterface<TOwner
 {
     internal IFileContext Context { get; }
 
-    StorageResourceName Name { get; }
+    FileSystemResourceName Name { get; }
 }
 
 public interface IFileDefinition
 {
-    abstract static StorageResourceExtension Extension { get; }
+    abstract static FileSystemResourceExtension Extension { get; }
 }

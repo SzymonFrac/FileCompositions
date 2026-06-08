@@ -1,21 +1,21 @@
 ﻿using FileCompositions.Core.File.Context;
 using FileCompositions.Core.File.Interface;
 using FileCompositions.Core.File.Operator;
+using FileCompositions.Core.FileSystem;
+using FileCompositions.Core.FileSystem.Location;
+using FileCompositions.Core.FileSystem.Resource.Name;
 using FileCompositions.Core.Quality.Ownership.Implementations;
 using FileCompositions.Core.Quality.Placement.Implementations;
-using FileCompositions.Core.Storage.Backend;
-using FileCompositions.Core.Storage.Location;
-using FileCompositions.Core.Storage.Resource.Name;
 
 namespace FileCompositions.Core.File.Resource.Abstract;
 
-internal abstract class AbstractFileResource(IFileContext context, StorageResourceName name) : IFileResource
+internal abstract class AbstractFileResource(IFileContext context, FileSystemResourceName name) : IFileResource
 {
     public IFileContext Context { get; } = context;
-    public StorageResourceName Name { get; } = name;
+    public FileSystemResourceName Name { get; } = name;
 
-    public StorageLocation GetLocation() => Context.Address.With(Name);
+    public FileSystemLocation GetLocation() => Context.Address.With(Name);
 
-    IStorageBackend IFileInterface<ExternalDefinition, RequiredInRequired>.StorageBackend => Context.StorageBackend;
-    IStorageBackend IFileOperator<ExternalDefinition, RequiredInRequired>.StorageBackend => Context.StorageBackend;
+    IFileSystem IFileInterface<ExternalDefinition, RequiredInRequired>.StorageBackend => Context.StorageBackend;
+    IFileSystem IFileOperator<ExternalDefinition, RequiredInRequired>.StorageBackend => Context.StorageBackend;
 }

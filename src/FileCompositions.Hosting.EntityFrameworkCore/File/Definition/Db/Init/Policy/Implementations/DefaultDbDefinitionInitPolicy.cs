@@ -8,7 +8,7 @@ using System.Diagnostics;
 
 namespace FileCompositions.Hosting.EntityFrameworkCore.File.Definition.Db.Init.Policy.Implementations;
 
-internal class DefaultDbDefinitionInitPolicy<TOwnership, TPlacement, TDbContext> : IDbDefinitionInitPolicy<TOwnership, TPlacement, TDbContext>
+internal sealed class DefaultDbDefinitionInitPolicy<TOwnership, TPlacement, TDbContext> : IDbDefinitionInitPolicy<TOwnership, TPlacement, TDbContext>
     where TOwnership : DefinitionOwnership
     where TPlacement : DefinitionPlacement
     where TDbContext : DbContext

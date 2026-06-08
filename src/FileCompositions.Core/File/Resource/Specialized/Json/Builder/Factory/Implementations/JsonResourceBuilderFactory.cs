@@ -1,18 +1,12 @@
-﻿using FileCompositions.Core.File.Interface.Specialized.Json.Builder.Factory;
-using FileCompositions.Core.File.Interface.Specialized.Json.Format;
-using FileCompositions.Core.File.Resource.Specialized.Json.Builder.Implementations;
+﻿using FileCompositions.Core.File.Resource.Specialized.Json.Builder.Implementations;
 
 namespace FileCompositions.Core.File.Resource.Specialized.Json.Builder.Factory.Implementations;
 
-internal sealed class JsonResourceBuilderFactory(JsonInterfaceFormat format) : IJsonResourceBuilderFactory
+internal sealed class JsonResourceBuilderFactory : IJsonResourceBuilderFactory
 {
-    public static JsonResourceBuilderFactory Default { get; } = new(JsonInterfaceFormat.Default);
-
-    private readonly JsonInterfaceFormat _jsonSerializerOptions = format;
+    public static JsonResourceBuilderFactory Default { get; } = new();
 
     public IJsonResourceBuilder<TData> CreateDefault<TData>() =>
-        new JsonResourceBuilder<TData>(_jsonSerializerOptions);
-    public IJsonResourceBuilder<TData> Create<TData>(JsonInterfaceFormat format) =>
-        new JsonResourceBuilder<TData>(format);
+        new JsonResourceBuilder<TData>();
 
 }

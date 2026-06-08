@@ -1,10 +1,10 @@
-﻿using FileCompositions.Core.Storage.Address;
-using FileCompositions.Core.Storage.Backend;
+﻿using FileCompositions.Core.FileSystem;
+using FileCompositions.Core.FileSystem.Address;
 
 namespace FileCompositions.Core.File.Context.Implementations;
 
-internal sealed class FileContext(IStorageBackend storageBackend, StorageAddress address) : IFileContext
+internal sealed class FileContext(IFileSystem storageBackend, FileSystemAddress address) : IFileContext
 {
-    public IStorageBackend StorageBackend { get; } = storageBackend;
-    public StorageAddress Address { get; } = address;
+    public IFileSystem StorageBackend { get; } = storageBackend;
+    public FileSystemAddress Address { get; } = address;
 }

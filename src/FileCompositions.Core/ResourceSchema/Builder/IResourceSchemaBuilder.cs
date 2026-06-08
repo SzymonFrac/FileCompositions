@@ -1,10 +1,8 @@
-﻿using FileCompositions.Core.ResourceSchema.File.Definition.Registrar;
-using FileCompositions.Core.ResourceSchema.StorageBackend.Registrar;
+﻿using FileCompositions.Core.ResourceSchema.FileSystem.Registrar;
 
 namespace FileCompositions.Core.ResourceSchema.Builder;
 
 public interface IResourceSchemaBuilder
 {
-    IResourceSchemaBuilder ConfigureStorageBackends(Action<IResourceSchemaStorageBackendRegistrar> config);
-    IResourceSchemaBuilder ConfigureDefinitions(Action<IResourceSchemaFileDefinitionRegistrar> config);
+    IResourceSchemaBuilder ConfigureStorageBackends(Action<IResourceSchemaFileSystemRegistrar> config);
 }

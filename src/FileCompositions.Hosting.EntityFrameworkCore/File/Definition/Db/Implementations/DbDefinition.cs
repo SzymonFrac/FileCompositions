@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FileCompositions.Hosting.EntityFrameworkCore.File.Definition.Db.Implementations;
 
-internal class DbDefinition<TOwnership, TPlacement, TDbContext>(IFileContext context, FileDefinitionKey key, string name)
+internal sealed class DbDefinition<TOwnership, TPlacement, TDbContext>(IFileContext context, FileDefinitionKey key, string name)
     : AbstractDbDefinition<TOwnership, TPlacement, TDbContext>(context, key, name)
         where TOwnership : DefinitionOwnership
         where TPlacement : DefinitionPlacement

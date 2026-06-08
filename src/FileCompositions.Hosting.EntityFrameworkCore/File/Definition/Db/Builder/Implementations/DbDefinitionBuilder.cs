@@ -15,7 +15,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FileCompositions.Hosting.EntityFrameworkCore.File.Definition.Db.Builder.Implementations;
 
-internal class DbDefinitionBuilder<TOwnership, TNecessity, TDbContext>
+internal sealed class DbDefinitionBuilder<TOwnership, TNecessity, TDbContext>
     : AbstractFileDefinitionBuilder<TOwnership, TNecessity>, IDbDefinitionBuilder<TOwnership, TNecessity, TDbContext>
         where TOwnership : DefinitionOwnership
         where TNecessity : DefinitionNecessity

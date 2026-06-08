@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FileCompositions.Hosting.EntityFrameworkCore.Host.ResourceSchema.File.Register.Builder.Factory.Implementations;
 
-internal class HostResourceSchemaDbRegisterBuilderFactory<TDbContext> : IHostResourceSchemaFileRegisterBuilderFactory
+internal sealed class HostResourceSchemaDbRegisterBuilderFactory<TDbContext> : IHostResourceSchemaFileRegisterBuilderFactory
     where TDbContext : DbContext
 {
     public IHostResourceSchemaFileRegisterBuilder Create<TInOwnership, TInNecessity>()

@@ -1,4 +1,4 @@
-﻿namespace FileCompositions.Core.File.Interface.Specialized.Dll.Builder.Factory;
+﻿namespace FileCompositions.Core.File.Resource.Specialized.Dll.Builder.Factory;
 
 internal interface IDllResourceBuilderFactory
 {

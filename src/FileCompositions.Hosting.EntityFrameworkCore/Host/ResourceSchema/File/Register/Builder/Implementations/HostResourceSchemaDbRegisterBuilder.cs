@@ -16,7 +16,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace FileCompositions.Hosting.EntityFrameworkCore.Host.ResourceSchema.File.Register.Builder.Implementations;
 
-internal class HostResourceSchemaDbRegisterBuilder<TInOwnership, TInNecessity, TDbContext> : IHostResourceSchemaFileRegisterBuilder
+internal sealed class HostResourceSchemaDbRegisterBuilder<TInOwnership, TInNecessity, TDbContext> : IHostResourceSchemaFileRegisterBuilder
     where TInOwnership : DefinitionOwnership
     where TInNecessity : DefinitionNecessity
     where TDbContext : DbContext

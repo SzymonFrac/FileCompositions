@@ -1,5 +1,4 @@
 ﻿using FileCompositions.Core.File.Context;
-using FileCompositions.Core.File.Interface.Specialized.Dll.Builder;
 using FileCompositions.Core.File.Resource.Builder.Abstract;
 using FileCompositions.Core.File.Resource.Specialized.Dll.Implementations;
 

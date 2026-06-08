@@ -1,7 +1,7 @@
-﻿using FileCompositions.Core.Quality.Necessity;
+﻿using FileCompositions.Core.FileSystem;
+using FileCompositions.Core.FileSystem.Address;
+using FileCompositions.Core.Quality.Necessity;
 using FileCompositions.Core.Quality.Ownership;
-using FileCompositions.Core.Storage.Address;
-using FileCompositions.Core.Storage.Backend;
 
 namespace FileCompositions.Core.Directory.Operator;
 
@@ -9,7 +9,7 @@ public interface IDirectoryOperator<TOwnership, TNecessity>
     where TOwnership : DefinitionOwnership
     where TNecessity : DefinitionNecessity
 {
-    internal IStorageBackend StorageBackend { get; }
+    internal IFileSystem StorageBackend { get; }
 
-    internal StorageAddress Address { get; }
+    internal FileSystemAddress Address { get; }
 }

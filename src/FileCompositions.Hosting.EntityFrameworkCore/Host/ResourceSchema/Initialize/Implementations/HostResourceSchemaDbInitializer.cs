@@ -8,7 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace FileCompositions.Hosting.EntityFrameworkCore.Host.ResourceSchema.Initialize.Implementations;
 
-internal class HostResourceSchemaDbInitializer<TOwnsership, TPlacement, TDbContext>(FileDefinitionKey key) : IHostResourceSchemaInitializer
+internal sealed class HostResourceSchemaDbInitializer<TOwnsership, TPlacement, TDbContext>(FileDefinitionKey key) : IHostResourceSchemaInitializer
     where TOwnsership : DefinitionOwnership
     where TPlacement : DefinitionPlacement
     where TDbContext : DbContext

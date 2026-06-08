@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FileCompositions.Hosting.EntityFrameworkCore.File.Definition.Db.Builder.Factory.Implementations;
 
-public class DbDefinitionBuilderFactory<TInNecessity>(DirectoryDefinitionKey key) : IDbDefinitionBuilderFactory<TInNecessity>
+public sealed class DbDefinitionBuilderFactory<TInNecessity>(DirectoryDefinitionKey key) : IDbDefinitionBuilderFactory<TInNecessity>
     where TInNecessity : DefinitionNecessity
 {
     public DirectoryDefinitionKey Key { get; } = key;
