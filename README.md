@@ -1,6 +1,21 @@
-# FileCompositions
-[![NuGet](https://img.shields.io/nuget/v/FileCompositions.Core)](https://www.nuget.org/packages/FileCompositions.Core/)
-[![GitHub license](https://img.shields.io/github/license/mashape/apistatus.svg)](LICENSE.txt)
+<h1 align="center">
+  FileCompositions
+</h1>
+
+<p align="center">
+  <a href="https://www.nuget.org/packages/FileCompositions.Core/"><img src="https://img.shields.io/nuget/v/FileCompositions.Core"></a>
+  <a href="LICENSE.txt"><img src="https://img.shields.io/github/license/mashape/apistatus.svg"></a>
+</p>
+
+<p align="center">
+  FileCompositions is a C# library that allows a program to define files and directories as resources in DI from many file systems.
+</p>
+
+![Demo](assets/FileCompositionsDemo.gif)
+
+## Requirements
+Targets
+`.NET 10.0`
 
 ## Installation
 Via [NuGet](https://www.nuget.org/packages/FileCompositions.Core)
@@ -8,16 +23,16 @@ Via [NuGet](https://www.nuget.org/packages/FileCompositions.Core)
 dotnet add package FileCompositions.Core
 ```
 
-Currently [FileCompositions.Extensions](https://www.nuget.org/packages/FileCompositions.Extensions) is the only way of defining file resources using `IHost`
+Currently [FileCompositions.Hosting](https://www.nuget.org/packages/FileCompositions.Hosting) is the only way of defining file resources using `IHost`
 ```sh
-dotnet add package FileCompositions.Extensions
+dotnet add package FileCompositions.Hosting
 ```
 
-## Sample Usage
+## Getting Started
 To get started, use the IHost extension to configure file resources.
 ```csharp
 private static IHost CreateHost() => Host.CreateDefaultBuilder()
-  .ConfigureFileResources(schema =>
+  .ConfigureFileComposition(schema =>
   {
     ...
   })
@@ -25,66 +40,55 @@ private static IHost CreateHost() => Host.CreateDefaultBuilder()
   .Build()
 ```
 
-### Compose Resources
-> [!NOTE]
-> Defining file resources does not implicitly create any resource. Each file must be [Ensured](/docs/validations/README.md).
-> Storage addresses (directories) will be implicitly created unless marked as [Optional](/docs/optional/README.md)
-```csharp
-.ConfigureFileResources(schema =>
-{
-    // Resources includes Directories and Files
-    schema.ConfigureResources((resources, ctx) =>
-    {
-        resources.Directories(dirs => dirs
-            .Store(register => register
-                .UseKey(new DirectoryLocationKey(0))
-                .Register(config => config
-                    .WithAddress(StorageAddress.Create("C:\\My\\Storage\\Directory"))))
-            .Store(register => register
-                .UseKey(new DirectoryLocationKey(1))
-                .Register(config => config
-                    .WithAddress(StorageAddress.Create("C:\\My\\Other\\Storage\\Directory")))));
+### Add Definitions
+To add any files, you first must define a directory.
 
-        resources.Files(files => files
-            .Store(register => register
-                .To(new DirectoryLocationKey(0))
-                .UseKey(new("mySampleJsonFile"))
-                .File(config => config
-                    .WithName("sampleJsonFile"))
-                .Register(mux => mux
-                    .AsJson<MyJsonSettings>(json => json
-                        .UseSerializerOptions(new() { WriteIndented = true }))))
-            .Store(register => register
-                .To(new DirectoryLocationKey(1))
-                .UseKey(new("mySampleDbFile"))
-                .File(config => config
-                    .WithName("sampleDbFile"))
-                .Register(mux => mux.AsDb())));
-    });
-}
+```csharp
+// Todo:
+// Define a Requied and Strict json file of type MyApplicationData, with name "myConfiguration"
+// in 'Roaming/MyFunApp' directory.
+
+static IHost CreateHost() => Host.CreateDefaultBuilder()
+    .ConfigureFileComposition(schema =>
+    {
+        schema.ConfigureDefinitions(registrar => registrar
+            .Store(directory =>
+            {
+                directory.Define(def => def
+                    .CreateLocal(Environment.SpecialFolder.ApplicationData,
+                        "MyFunApp")
+                    .WithKey(new DirectoryDefinitionKey(0)));
+
+                directory.WithFiles(files => files
+                    .DefineJson(json => json
+                        .Create<MyApplicationData>()
+                        .WithName("myConfiguration")
+                        .WithKey(new FileDefinitionKey(0))));
+
+                return directory;
+            }));
+    })
+    .Build();
 ```
 
-### Composition Options
-File resources and directories have configurable options, which are shown in the [docs](/docs)
+> [!Note]
+> Initially, every definition is `Required` and `Strict` unless configured otherwise.
+> Find out more about [`Qualities`](/docs/Qualities)
 
-### Consume Resources
-> [!IMPORTANT]
-> A [database file](/docs/FileTypes/Db.md) is not intended to be consumed as a service. Instead, it defines a .db file to use when migrating in EFCore using Sqlite.
-> You should inject your `AppDbContext` instead.
+### Use your Definitions
+Finally, use your definitions like any other DI service.
+
 ```csharp
 public class MyConsumerClass
 {
-    private readonly IJsonFileResource<MyJsonSettings> _jsonFile;
-    private readonly IDbFileResource _dbFileResource;
+    private readonly IJsonDefinition<StrictDefinition, RequiredInRequired, MyApplicationData> _jsonFile;
 
-    public MyConsumerClass([FromKeyedServices("mySampleJsonFile")] IJsonFileResource<MyJsonSettings> jsonFile,
-      [FromKeyedServices("mySampleDbFile")] IDbFileResource dbFileResource)
+    public MyConsumerClass([FromKeyedServices(0)] IJsonDefinition<StrictDefinition, RequiredInRequired, MyApplicationData> jsonFile)
     {
         _jsonFile = jsonFile;
-        _dbFileResource = dbFileResource;
     }
-    public async Task<MyJsonSettings?> ReadSampleFile(CancellationToken cancellationToken = default) =>
-        await _jsonFile.Read(cancellationToken);
+    public async Task<MyApplicationData> ReadSampleFile(CancellationToken cancellationToken = default) =>
+        await _jsonFile.ReadAsync(cancellationToken);
 }
 ```
 
@@ -94,10 +98,8 @@ public class MyConsumerClass
 - Unify all or as many standard file types under one library. Allow custom user-defined file types compatibility with composition.
 - Create native storage backend implementations for major cloud providers.
 - Allow composition beyond IHost.
-- Allow resource schema to automatically assign ids for directories.
-- Simplify and expand settings capabilities during composition time, to remove bloat syntax and allow for any setting type to be available.
-- Native validations for all files with custom handlers.
-- Extensions for functional programming, possibly using C# Language Extensions. Eg. allow `Option<T>` rather than `T?` for .json, .txt, .config etc.
+- Include validations for different file types, which will give the app greater control over its files.
+- Allow Optional (and Required) files/directories to depend on data from other files. Eg. to store a definition's file path.
 
 If there are any features that should exist in the library to make it easier to integrate with real production code, please raise the issue.
 
