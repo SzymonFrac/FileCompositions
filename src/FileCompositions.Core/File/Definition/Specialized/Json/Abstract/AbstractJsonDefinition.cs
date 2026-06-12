@@ -2,8 +2,7 @@
 using FileCompositions.Core.File.Definition.Abstract;
 using FileCompositions.Core.File.Definition.Key;
 using FileCompositions.Core.File.Definition.Specialized.Json.Extensions;
-using FileCompositions.Core.File.Definition.Specialized.Json.Init;
-using FileCompositions.Core.File.Definition.Specialized.Json.Init.Policy;
+using FileCompositions.Core.File.Init.Specialized.Json.Policy;
 using FileCompositions.Core.File.Interface.Specialized.Json.Format;
 using FileCompositions.Core.FileSystem.Resource.Name;
 using FileCompositions.Core.Quality.Ownership;
@@ -19,7 +18,7 @@ internal abstract class AbstractJsonDefinition<TOwnership, TPlacement, TData>(IF
     public JsonInterfaceFormat Format { get; } = format;
     public TData? Default { get; } = @default;
 
-    public required IJsonDefinitionInitPolicy<TOwnership, TPlacement, TData> InitPolicy { get; init; }
+    public required IJsonInitPolicy<TOwnership, TPlacement, TData> InitPolicy { get; init; }
 
     public override ValueTask InitializeAsync(CancellationToken cancellationToken = default) =>
         InitPolicy.GetPolicy(this).Invoke(cancellationToken);

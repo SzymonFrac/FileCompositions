@@ -5,7 +5,7 @@ using FileCompositions.Core.File.Definition.Key;
 using FileCompositions.Core.FileSystem.Resource.Name;
 using FileCompositions.Core.Quality.Ownership;
 using FileCompositions.Core.Quality.Placement;
-using FileCompositions.Hosting.EntityFrameworkCore.File.Definition.Db.Init.Policy;
+using FileCompositions.Hosting.EntityFrameworkCore.File.Init.Policy;
 using Microsoft.EntityFrameworkCore;
 
 namespace FileCompositions.Hosting.EntityFrameworkCore.File.Definition.Db.Abstract;
@@ -16,7 +16,7 @@ internal abstract class AbstractDbDefinition<TOwnership, TPlacement, TDbContext>
         where TPlacement : DefinitionPlacement
         where TDbContext : DbContext
 {
-    public required IDbDefinitionInitPolicy<TOwnership, TPlacement, TDbContext> InitPolicy { get; init; }
+    public required IDbInitPolicy<TOwnership, TPlacement, TDbContext> InitPolicy { get; init; }
 
     public ValueTask InitializeAsync(in TDbContext db, CancellationToken cancellationToken) =>
         InitPolicy.GetPolicy(this).Invoke(db, cancellationToken);

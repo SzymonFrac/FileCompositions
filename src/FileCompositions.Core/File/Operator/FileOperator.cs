@@ -1,16 +1,13 @@
-﻿using FileCompositions.Core.Quality.Ownership.Implementations;
+﻿using FileCompositions.Core.Quality.Ownership;
+using FileCompositions.Core.Quality.Ownership.Implementations;
 using FileCompositions.Core.Quality.Placement.Implementations;
 
 namespace FileCompositions.Core.File.Operator;
 
 public static class FileOperator
 {
-    extension(IFileOperator<StrictDefinition, RequiredInRequired> @operator)
-    {
-
-    }
-
-    extension(IFileOperator<ExternalDefinition, RequiredInRequired> @operator)
+    extension<TOwnership>(IFileOperator<TOwnership, RequiredInRequired> @operator)
+        where TOwnership : DefinitionOwnership
     {
 
     }
@@ -25,11 +22,15 @@ public static class FileOperator
             if (await @operator.StorageBackend.ExistsAsync(@operator.GetLocation(), cancellationToken).ConfigureAwait(false))
                 await @operator.StorageBackend.DeleteAsync(@operator.GetLocation(), cancellationToken).ConfigureAwait(false);
         }
+
+        public ValueTask<bool> ExistsAsync(CancellationToken cancellationToken = default) =>
+            @operator.StorageBackend.ExistsAsync(@operator.GetLocation(), cancellationToken);
     }
 
     extension(IFileOperator<ExternalDefinition, OptionalInRequired> @operator)
     {
-
+        public ValueTask<bool> ExistsAsync(CancellationToken cancellationToken = default) =>
+            @operator.StorageBackend.ExistsAsync(@operator.GetLocation(), cancellationToken);
     }
 
     extension(IFileOperator<StrictDefinition, OptionalInOptional> @operator)
@@ -48,10 +49,14 @@ public static class FileOperator
             if (await @operator.StorageBackend.ExistsAsync(@operator.GetLocation(), cancellationToken).ConfigureAwait(false))
                 await @operator.StorageBackend.DeleteAsync(@operator.GetLocation(), cancellationToken).ConfigureAwait(false);
         }
+
+        public ValueTask<bool> ExistsAsync(CancellationToken cancellationToken = default) =>
+            @operator.StorageBackend.ExistsAsync(@operator.GetLocation(), cancellationToken);
     }
 
     extension(IFileOperator<ExternalDefinition, OptionalInOptional> @operator)
     {
-
+        public ValueTask<bool> ExistsAsync(CancellationToken cancellationToken = default) =>
+            @operator.StorageBackend.ExistsAsync(@operator.GetLocation(), cancellationToken);
     }
 }

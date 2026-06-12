@@ -6,7 +6,7 @@ namespace FileCompositions.Hosting.ResourceSchema.Builder;
 
 public interface IHostResourceSchemaBuilder : IResourceSchemaBuilder
 {
-    new IHostResourceSchemaBuilder ConfigureStorageBackends(Action<IResourceSchemaFileSystemRegistrar> config);
+    new IHostResourceSchemaBuilder ConfigureFileSystems(Action<IResourceSchemaFileSystemRegistrar> config);
     IHostResourceSchemaBuilder ConfigureDefinitions(Action<IHostResourceSchemaRegisterBuilder> config);
     internal IHostResourceSchema Build();
 }

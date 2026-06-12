@@ -5,7 +5,7 @@ using FileCompositions.Core.File.Definition.Key;
 using FileCompositions.Core.File.Definition.Specialized.Dll.Descriptor;
 using FileCompositions.Core.File.Definition.Specialized.Dll.Descriptor.Implementations;
 using FileCompositions.Core.File.Definition.Specialized.Dll.Implementations;
-using FileCompositions.Core.File.Definition.Specialized.Dll.Init.Policy.Implementations;
+using FileCompositions.Core.File.Init.Specialized.Dll.Policy.Implementations;
 using FileCompositions.Core.Quality.Necessity;
 using FileCompositions.Core.Quality.Necessity.Implementations;
 using FileCompositions.Core.Quality.Ownership;
@@ -50,7 +50,7 @@ internal sealed class DllDefinitionBuilder<TOwnership, TNecessity>
 
         return new DllDefinition<TOwnership, TPlacement>(context, Key, Name)
         {
-            InitPolicy = new DefaultDllDefinitionInitPolicy<TOwnership, TPlacement>()
+            InitPolicy = new DefaultDllInitPolicy<TOwnership, TPlacement>()
         };
     }
 
@@ -62,7 +62,7 @@ internal sealed class DllDefinitionBuilder<TOwnership, TNecessity>
 
         return new DllDefinitionDescriptor<TOwnership, TPlacement>(DirectoryKey, Key, Name)
         {
-            InitPolicy = new DefaultDllDefinitionInitPolicy<TOwnership, TPlacement>()
+            InitPolicy = new DefaultDllInitPolicy<TOwnership, TPlacement>()
         };
     }
 

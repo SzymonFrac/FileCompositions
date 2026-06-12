@@ -7,22 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Directory\Location\**" />
-    <Compile Remove="File\LocationResolver\**" />
-    <EmbeddedResource Remove="Directory\Location\**" />
-    <EmbeddedResource Remove="File\LocationResolver\**" />
-    <None Remove="Directory\Location\**" />
-    <None Remove="File\LocationResolver\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <EmbeddedResource Include="Assets\Dll\Default.dll" />
   </ItemGroup>
 
   <ItemGroup>
 
 	<InternalsVisibleTo Include="FileCompositions.Core.Database" />
-	<InternalsVisibleTo Include="FileCompositions.Core.LanguageExt" />
 	<InternalsVisibleTo Include="FileCompositions.Hosting" />
 	<InternalsVisibleTo Include="FileCompositions.Hosting.EntityFrameworkCore" />
   </ItemGroup>

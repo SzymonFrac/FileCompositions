@@ -14,9 +14,9 @@ public static class DirectoryInterfaceResolveDb
         where TOwnership : DefinitionOwnership
         where TNecessity : DefinitionNecessity
     {
-        public async ValueTask<IDbResource?> GetDbResource(string name, CancellationToken cancellationToken = default) =>
-            await @interface.StorageBackend.ExistsAsync(@interface.Address.With(FileSystemResourceName.CreateDb(name)), cancellationToken)
-                ? DbDefinition.Convert(new FileContext(@interface.StorageBackend, @interface.Address), name)
+        public async ValueTask<IDbResource?> GetDbResourceAsync(string name, CancellationToken cancellationToken = default) =>
+            await @interface.StorageBackend.ExistsAsync(@interface.GetAddress().With(FileSystemResourceName.CreateDb(name)), cancellationToken)
+                ? DbDefinition.Convert(new FileContext(@interface.StorageBackend, @interface.GetAddress()), name)
                 : default;
     }
 }

@@ -3,7 +3,7 @@ using FileCompositions.Core.File.Context;
 using FileCompositions.Core.File.Definition.Descriptor.Abstract;
 using FileCompositions.Core.File.Definition.Key;
 using FileCompositions.Core.File.Definition.Specialized.Json.Implementations;
-using FileCompositions.Core.File.Definition.Specialized.Json.Init.Policy;
+using FileCompositions.Core.File.Init.Specialized.Json.Policy;
 using FileCompositions.Core.File.Interface.Specialized.Json.Format;
 using FileCompositions.Core.Quality.Ownership;
 using FileCompositions.Core.Quality.Placement;
@@ -19,7 +19,7 @@ internal sealed class JsonDefinitionDescriptor<TOwnership, TPlacement, TData>(Di
     private readonly JsonInterfaceFormat format = format;
     private readonly TData? @default = @default;
     
-    public required IJsonDefinitionInitPolicy<TOwnership, TPlacement, TData> InitPolicy { get; init; }
+    public required IJsonInitPolicy<TOwnership, TPlacement, TData> InitPolicy { get; init; }
 
     public override IJsonDefinition<TOwnership, TPlacement, TData> Activate(in IFileContext context) =>
         new JsonDefinition<TOwnership, TPlacement, TData>(context, Key, Name, format, @default)

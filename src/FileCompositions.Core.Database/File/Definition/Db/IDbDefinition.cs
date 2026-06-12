@@ -1,4 +1,4 @@
-﻿using FileCompositions.Core.Database.File.Definition.Db.Init;
+﻿using FileCompositions.Core.Database.File.Init;
 using FileCompositions.Core.Database.File.Interface.Specialized.Db;
 using FileCompositions.Core.Database.File.Operator.Specialized.Db;
 using FileCompositions.Core.Database.File.Resource.Db;
@@ -11,7 +11,7 @@ namespace FileCompositions.Core.Database.File.Definition.Db;
 
 public interface IDbDefinition<TOwnership, TPlacement> : IFileDefinition<TOwnership, TPlacement>,
     IDbInterface<TOwnership, TPlacement>,
-    IDbDefinitionInit<TOwnership, TPlacement>,
+    IDbInit<TOwnership, TPlacement>,
     IDbOperator<TOwnership, TPlacement>
         where TOwnership : DefinitionOwnership
         where TPlacement : DefinitionPlacement;

@@ -10,7 +10,7 @@ public static class HostBuilderFileComposition
 {
     extension(IHostBuilder builder)
     {
-        public IHostBuilder ConfigureFileResources(Action<IHostResourceSchemaBuilder> config) =>
+        public IHostBuilder ConfigureFileComposition(Action<IHostResourceSchemaBuilder> config) =>
             builder.ConfigureServices((ctx, services) =>
             {
                 services.AddSingleton<LocalFileSystem>();

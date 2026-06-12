@@ -1,6 +1,6 @@
 ﻿using FileCompositions.Core.File.Context;
-using FileCompositions.Core.File.Definition.Init;
 using FileCompositions.Core.File.Definition.Key;
+using FileCompositions.Core.File.Init;
 using FileCompositions.Core.File.Interface;
 using FileCompositions.Core.File.Operator;
 using FileCompositions.Core.FileSystem;
@@ -21,9 +21,10 @@ internal abstract class AbstractFileDefinition<TOwnership, TPlacement>(IFileCont
     public FileSystemResourceName Name { get; } = name;
 
     public FileSystemLocation GetLocation() => Context.Address.With(Name);
+    public FileDefinitionKey? GetKey() => Key;
     public abstract ValueTask InitializeAsync(CancellationToken cancellationToken = default);
 
     IFileSystem IFileInterface<TOwnership, TPlacement>.StorageBackend => Context.StorageBackend;
+    IFileSystem IFileInit<TOwnership, TPlacement>.StorageBackend => Context.StorageBackend;
     IFileSystem IFileOperator<TOwnership, TPlacement>.StorageBackend => Context.StorageBackend;
-    IFileSystem IFileDefinitionInit<TOwnership, TPlacement>.StorageBackend => Context.StorageBackend;
 }

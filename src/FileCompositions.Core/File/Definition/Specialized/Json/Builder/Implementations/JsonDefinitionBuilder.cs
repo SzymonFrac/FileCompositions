@@ -5,7 +5,7 @@ using FileCompositions.Core.File.Definition.Key;
 using FileCompositions.Core.File.Definition.Specialized.Json.Descriptor;
 using FileCompositions.Core.File.Definition.Specialized.Json.Descriptor.Implementations;
 using FileCompositions.Core.File.Definition.Specialized.Json.Implementations;
-using FileCompositions.Core.File.Definition.Specialized.Json.Init.Policy.Implementations;
+using FileCompositions.Core.File.Init.Specialized.Json.Policy.Implementations;
 using FileCompositions.Core.File.Interface.Specialized.Json.Format;
 using FileCompositions.Core.Quality.Necessity;
 using FileCompositions.Core.Quality.Necessity.Implementations;
@@ -76,8 +76,8 @@ internal sealed class JsonDefinitionBuilder<TOwnership, TNecessity, TData>
         return new JsonDefinition<TOwnership, TPlacement, TData>(context, Key, Name, format, @default)
         { 
             InitPolicy = initializeWithSerialize
-                ? new SerializeJsonDefinitionInitPolicy<TOwnership, TPlacement, TData>()
-                : new DefaultJsonDefinitionInitPolicy<TOwnership, TPlacement, TData>()
+                ? new SerializeJsonInitPolicy<TOwnership, TPlacement, TData>()
+                : new DefaultJsonInitPolicy<TOwnership, TPlacement, TData>()
         };
     }
 
@@ -90,8 +90,8 @@ internal sealed class JsonDefinitionBuilder<TOwnership, TNecessity, TData>
         return new JsonDefinitionDescriptor<TOwnership, TPlacement, TData>(DirectoryKey, Key, Name, format, @default)
         {
             InitPolicy = initializeWithSerialize
-                ? new SerializeJsonDefinitionInitPolicy<TOwnership, TPlacement, TData>()
-                : new DefaultJsonDefinitionInitPolicy<TOwnership, TPlacement, TData>()
+                ? new SerializeJsonInitPolicy<TOwnership, TPlacement, TData>()
+                : new DefaultJsonInitPolicy<TOwnership, TPlacement, TData>()
         };
     }
 }

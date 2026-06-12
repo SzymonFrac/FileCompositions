@@ -1,5 +1,5 @@
 ﻿using FileCompositions.Core.Database.File.Definition.Db.Extensions;
-using FileCompositions.Core.Database.File.Definition.Db.Init.Policy;
+using FileCompositions.Core.Database.File.Init.Policy;
 using FileCompositions.Core.File.Context;
 using FileCompositions.Core.File.Definition.Abstract;
 using FileCompositions.Core.File.Definition.Key;
@@ -14,7 +14,7 @@ internal abstract class AbstractDbDefinition<TOwnership, TPlacement>(IFileContex
         where TOwnership : DefinitionOwnership
         where TPlacement : DefinitionPlacement
 {
-    public required IDbDefinitionInitPolicy<TOwnership, TPlacement> InitPolicy { get; init; }
+    public required IDbInitPolicy<TOwnership, TPlacement> InitPolicy { get; init; }
 
     public override ValueTask InitializeAsync(CancellationToken cancellationToken = default) =>
         InitPolicy.GetPolicy(this).Invoke(cancellationToken);

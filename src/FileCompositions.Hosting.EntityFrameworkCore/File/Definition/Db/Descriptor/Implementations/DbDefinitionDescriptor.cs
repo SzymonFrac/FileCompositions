@@ -5,7 +5,7 @@ using FileCompositions.Core.File.Definition.Key;
 using FileCompositions.Core.Quality.Ownership;
 using FileCompositions.Core.Quality.Placement;
 using FileCompositions.Hosting.EntityFrameworkCore.File.Definition.Db.Implementations;
-using FileCompositions.Hosting.EntityFrameworkCore.File.Definition.Db.Init.Policy;
+using FileCompositions.Hosting.EntityFrameworkCore.File.Init.Policy;
 using Microsoft.EntityFrameworkCore;
 
 namespace FileCompositions.Hosting.EntityFrameworkCore.File.Definition.Db.Descriptor.Implementations;
@@ -17,7 +17,7 @@ internal sealed class DbDefinitionDescriptor<TOwnership, TPlacement, TDbContext>
         where TPlacement : DefinitionPlacement
         where TDbContext : DbContext
 {
-    public required IDbDefinitionInitPolicy<TOwnership, TPlacement, TDbContext> InitPolicy { get; init; }
+    public required IDbInitPolicy<TOwnership, TPlacement, TDbContext> InitPolicy { get; init; }
 
     public override IDbDefinition<TOwnership, TPlacement, TDbContext> Activate(in IFileContext context) =>
         new DbDefinition<TOwnership, TPlacement, TDbContext>(context, Key, Name)

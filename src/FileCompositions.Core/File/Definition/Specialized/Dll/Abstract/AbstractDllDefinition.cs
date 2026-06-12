@@ -2,7 +2,7 @@
 using FileCompositions.Core.File.Definition.Abstract;
 using FileCompositions.Core.File.Definition.Key;
 using FileCompositions.Core.File.Definition.Specialized.Dll.Extensions;
-using FileCompositions.Core.File.Definition.Specialized.Dll.Init.Policy;
+using FileCompositions.Core.File.Init.Specialized.Dll.Policy;
 using FileCompositions.Core.FileSystem.Resource.Name;
 using FileCompositions.Core.Quality.Ownership;
 using FileCompositions.Core.Quality.Placement;
@@ -17,7 +17,7 @@ internal abstract class AbstractDllDefinition<TOwnership, TPlacement>(IFileConte
 {
     public Assembly? Assembly { get; set; }
 
-    public required IDllDefinitionInitPolicy<TOwnership, TPlacement> InitPolicy { get; init; }
+    public required IDllInitPolicy<TOwnership, TPlacement> InitPolicy { get; init; }
 
     public override ValueTask InitializeAsync(CancellationToken cancellationToken) =>
         InitPolicy.GetPolicy(this).Invoke(cancellationToken);

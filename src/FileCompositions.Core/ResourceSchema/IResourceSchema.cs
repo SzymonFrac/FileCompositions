@@ -1,6 +1,3 @@
 ﻿namespace FileCompositions.Core.ResourceSchema;
 
-internal interface IResourceSchema
-{
-
-}
+internal interface IResourceSchema;

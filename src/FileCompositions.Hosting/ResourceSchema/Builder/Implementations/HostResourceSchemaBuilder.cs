@@ -12,7 +12,7 @@ internal sealed class HostResourceSchemaBuilder : IHostResourceSchemaBuilder
     private readonly HostResourceSchemaFileSystemRegistrar _storageBackendRegistrar = new();
     private readonly HostResourceSchemaRegisterBuilder _registerBuilder = new();
 
-    public IHostResourceSchemaBuilder ConfigureStorageBackends(Action<IResourceSchemaFileSystemRegistrar> config)
+    public IHostResourceSchemaBuilder ConfigureFileSystems(Action<IResourceSchemaFileSystemRegistrar> config)
     {
         config(_storageBackendRegistrar);
         return this;
@@ -32,6 +32,6 @@ internal sealed class HostResourceSchemaBuilder : IHostResourceSchemaBuilder
         return schema;
     }
 
-    IResourceSchemaBuilder IResourceSchemaBuilder.ConfigureStorageBackends(Action<IResourceSchemaFileSystemRegistrar> config) =>
-        ConfigureStorageBackends(config);
+    IResourceSchemaBuilder IResourceSchemaBuilder.ConfigureFileSystems(Action<IResourceSchemaFileSystemRegistrar> config) =>
+        ConfigureFileSystems(config);
 }

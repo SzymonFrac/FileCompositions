@@ -6,7 +6,7 @@ namespace FileCompositions.Core.Exception.ExternalRequiredMissing;
 internal sealed class ExternalRequiredFileMissingException : System.Exception
 {
     public required FileSystemLocation Location { get; init; }
-    public required FileDefinitionKey Key { get; init; }
+    public required FileDefinitionKey? Key { get; init; }
 
     public ExternalRequiredFileMissingException() : base() { }
     public ExternalRequiredFileMissingException(string message) : base(message) { }

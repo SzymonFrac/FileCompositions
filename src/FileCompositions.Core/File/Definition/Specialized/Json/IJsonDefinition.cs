@@ -1,5 +1,5 @@
 ﻿using FileCompositions.Core.File.Context;
-using FileCompositions.Core.File.Definition.Specialized.Json.Init;
+using FileCompositions.Core.File.Init.Specialized.Json;
 using FileCompositions.Core.File.Interface.Specialized.Json;
 using FileCompositions.Core.File.Operator.Specialized.Json;
 using FileCompositions.Core.File.Resource.Specialized.Json;
@@ -10,7 +10,7 @@ namespace FileCompositions.Core.File.Definition.Specialized.Json;
 
 public interface IJsonDefinition<TOwnership, TPlacement, TData> : IFileDefinition<TOwnership, TPlacement>,
     IJsonInterface<TOwnership, TPlacement, TData>,
-    IJsonDefinitionInit<TOwnership, TPlacement, TData>,
+    IJsonInit<TOwnership, TPlacement, TData>,
     IJsonOperator<TOwnership, TPlacement, TData>
         where TOwnership : DefinitionOwnership
         where TPlacement : DefinitionPlacement;

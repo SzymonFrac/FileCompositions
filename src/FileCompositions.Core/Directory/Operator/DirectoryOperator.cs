@@ -18,14 +18,18 @@ public static class DirectoryOperator
     extension(IDirectoryOperator<StrictDefinition, OptionalDefinition> @operator)
     {
         public ValueTask CreateAsync(CancellationToken cancellationToken = default) =>
-            @operator.StorageBackend.CreateAsync(@operator.Address, cancellationToken);
+            @operator.StorageBackend.CreateAsync(@operator.GetAddress(), cancellationToken);
 
         public ValueTask DeleteAsync(CancellationToken cancellationToken = default) =>
-            @operator.StorageBackend.DeleteAsync(@operator.Address, cancellationToken);
+            @operator.StorageBackend.DeleteAsync(@operator.GetAddress(), cancellationToken);
+
+        public ValueTask<bool> ExistsAsync(CancellationToken cancellationToken = default) =>
+            @operator.StorageBackend.ExistsAsync(@operator.GetAddress(), cancellationToken);
     }
 
     extension(IDirectoryOperator<ExternalDefinition, OptionalDefinition> @operator)
     {
-
+        public ValueTask<bool> ExistsAsync(CancellationToken cancellationToken = default) =>
+            @operator.StorageBackend.ExistsAsync(@operator.GetAddress(), cancellationToken);
     }
 }

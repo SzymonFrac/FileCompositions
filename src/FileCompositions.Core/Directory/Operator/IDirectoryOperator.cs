@@ -11,5 +11,5 @@ public interface IDirectoryOperator<TOwnership, TNecessity>
 {
     internal IFileSystem StorageBackend { get; }
 
-    internal FileSystemAddress Address { get; }
+    internal FileSystemAddress GetAddress();
 }

@@ -10,7 +10,7 @@ using FileCompositions.Core.Quality.Placement;
 using FileCompositions.Hosting.EntityFrameworkCore.File.Definition.Db.Descriptor;
 using FileCompositions.Hosting.EntityFrameworkCore.File.Definition.Db.Descriptor.Implementations;
 using FileCompositions.Hosting.EntityFrameworkCore.File.Definition.Db.Implementations;
-using FileCompositions.Hosting.EntityFrameworkCore.File.Definition.Db.Init.Policy.Implementations;
+using FileCompositions.Hosting.EntityFrameworkCore.File.Init.Policy.Implementations;
 using Microsoft.EntityFrameworkCore;
 
 namespace FileCompositions.Hosting.EntityFrameworkCore.File.Definition.Db.Builder.Implementations;
@@ -61,8 +61,8 @@ internal sealed class DbDefinitionBuilder<TOwnership, TNecessity, TDbContext>
         return new DbDefinition<TOwnership, TPlacement, TDbContext>(context, Key, Name)
         {
             InitPolicy = migrate
-                ? new MigrateDbDefinitionInitPolicy<TOwnership, TPlacement, TDbContext>()
-                : new DefaultDbDefinitionInitPolicy<TOwnership, TPlacement, TDbContext>()
+                ? new MigrateDbInitPolicy<TOwnership, TPlacement, TDbContext>()
+                : new DefaultDbInitPolicy<TOwnership, TPlacement, TDbContext>()
         };
     }
 
@@ -75,8 +75,8 @@ internal sealed class DbDefinitionBuilder<TOwnership, TNecessity, TDbContext>
         return new DbDefinitionDescriptor<TOwnership, TPlacement, TDbContext>(DirectoryKey, Key, Name)
         {
             InitPolicy = migrate
-                ? new MigrateDbDefinitionInitPolicy<TOwnership, TPlacement, TDbContext>()
-                : new DefaultDbDefinitionInitPolicy<TOwnership, TPlacement, TDbContext>()
+                ? new MigrateDbInitPolicy<TOwnership, TPlacement, TDbContext>()
+                : new DefaultDbInitPolicy<TOwnership, TPlacement, TDbContext>()
         };
     }
 }

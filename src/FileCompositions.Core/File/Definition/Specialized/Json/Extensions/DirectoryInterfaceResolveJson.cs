@@ -12,11 +12,11 @@ public static class DirectoryInterfaceResolveJson
 {
     extension(IDirectoryInterface<StrictDefinition, RequiredDefinition> @interface)
     {
-        public async ValueTask<IJsonResource<TData>?> GetJsonResourceAsync<TData>(string name, CancellationToken cancellationToken = default)
+        public async Task<IJsonResource<TData>?> GetJsonResourceAsync<TData>(string name, CancellationToken cancellationToken = default)
         {
             try
             {
-                var context = new FileContext(@interface.StorageBackend, @interface.Address);
+                var context = new FileContext(@interface.StorageBackend, @interface.GetAddress());
                 var json = JsonDefinition.Convert<TData>(context, name);
                 await json.ReadAsync(cancellationToken).ConfigureAwait(false);
 
@@ -31,11 +31,12 @@ public static class DirectoryInterfaceResolveJson
 
     extension(IDirectoryInterface<ExternalDefinition, RequiredDefinition> @interface)
     {
-        public async ValueTask<IJsonResource<TData>?> GetJsonResourceAsync<TData>(string name, CancellationToken cancellationToken = default)
+        public async Task<IJsonResource<TData>?> GetJsonResourceAsync<TData>(string name, CancellationToken cancellationToken = default)
         {
             try
             {
-                var json = JsonDefinition.Convert<TData>(new FileContext(@interface.StorageBackend, @interface.Address), name);
+                var context = new FileContext(@interface.StorageBackend, @interface.GetAddress());
+                var json = JsonDefinition.Convert<TData>(context, name);
                 await json.ReadAsync(cancellationToken).ConfigureAwait(false);
 
                 return json;
@@ -49,11 +50,12 @@ public static class DirectoryInterfaceResolveJson
 
     extension(IDirectoryInterface<StrictDefinition, OptionalDefinition> @interface)
     {
-        public async ValueTask<IJsonResource<TData>?> GetJsonResourceAsync<TData>(string name, CancellationToken cancellationToken = default)
+        public async Task<IJsonResource<TData>?> GetJsonResourceAsync<TData>(string name, CancellationToken cancellationToken = default)
         {
             try
             {
-                var json = JsonDefinition.Convert<TData>(new FileContext(@interface.StorageBackend, @interface.Address), name);
+                var context = new FileContext(@interface.StorageBackend, @interface.GetAddress());
+                var json = JsonDefinition.Convert<TData>(context, name);
                 await json.ReadAsync(cancellationToken).ConfigureAwait(false);
 
                 return json;
@@ -67,11 +69,12 @@ public static class DirectoryInterfaceResolveJson
 
     extension(IDirectoryInterface<ExternalDefinition, OptionalDefinition> @interface)
     {
-        public async ValueTask<IJsonResource<TData>?> GetJsonResourceAsync<TData>(string name, CancellationToken cancellationToken = default)
+        public async Task<IJsonResource<TData>?> GetJsonResourceAsync<TData>(string name, CancellationToken cancellationToken = default)
         {
             try
             {
-                var json = JsonDefinition.Convert<TData>(new FileContext(@interface.StorageBackend, @interface.Address), name);
+                var context = new FileContext(@interface.StorageBackend, @interface.GetAddress());
+                var json = JsonDefinition.Convert<TData>(context, name);
                 await json.ReadAsync(cancellationToken).ConfigureAwait(false);
 
                 return json;

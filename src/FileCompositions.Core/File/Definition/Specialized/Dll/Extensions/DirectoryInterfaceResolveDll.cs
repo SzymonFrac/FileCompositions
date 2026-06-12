@@ -14,9 +14,9 @@ public static class DirectoryInterfaceResolveDll
         where TOwnership : DefinitionOwnership
         where TNecessity : DefinitionNecessity
     {
-        public async ValueTask<IDllResource?> GetDllResource(string name, CancellationToken cancellationToken = default) =>
-            await @interface.StorageBackend.ExistsAsync(@interface.Address.With(FileSystemResourceName.CreateDll(name)), cancellationToken)
-                ? DllDefinition.Convert(new FileContext(@interface.StorageBackend, @interface.Address), name)
+        public async Task<IDllResource?> GetDllResourceAsync(string name, CancellationToken cancellationToken = default) =>
+            await @interface.StorageBackend.ExistsAsync(@interface.GetAddress().With(FileSystemResourceName.CreateDll(name)), cancellationToken)
+                ? DllDefinition.Convert(new FileContext(@interface.StorageBackend, @interface.GetAddress()), name)
                 : default;
     }
 }

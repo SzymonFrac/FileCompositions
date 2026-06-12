@@ -1,5 +1,5 @@
 ﻿using FileCompositions.Core.File.Context;
-using FileCompositions.Core.File.Definition.Specialized.Dll.Init;
+using FileCompositions.Core.File.Init.Specialized.Dll;
 using FileCompositions.Core.File.Interface.Specialized.Dll;
 using FileCompositions.Core.File.Operator.Specialized.Dll;
 using FileCompositions.Core.File.Resource.Specialized.Dll;
@@ -10,7 +10,7 @@ namespace FileCompositions.Core.File.Definition.Specialized.Dll;
 
 public interface IDllDefinition<TOwnership, TPlacement> : IFileDefinition<TOwnership, TPlacement>,
     IDllInterface<TOwnership, TPlacement>,
-    IDllDefinitionInit<TOwnership, TPlacement>,
+    IDllInit<TOwnership, TPlacement>,
     IDllOperator<TOwnership, TPlacement>
         where TOwnership : DefinitionOwnership
         where TPlacement : DefinitionPlacement;

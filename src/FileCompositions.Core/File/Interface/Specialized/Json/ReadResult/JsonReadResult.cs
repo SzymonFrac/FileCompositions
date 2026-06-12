@@ -41,20 +41,6 @@ public static class JsonReadResult
                     break;
             }
         }
-        public Task<TResult> MatchAsync<TResult>(Func<T, Task<TResult>> some, Func<Task<TResult>> none, Func<Task<TResult>> missing) => result switch
-        {
-            JsonSomeResult<T> v => some(v.Value),
-            JsonNoneResult<T> => none(),
-            JsonMissingResult<T> => missing(),
-            _ => throw new UnreachableException()
-        };
-        public Task MatchAsync<TResult>(Func<T, Task> some, Func<Task> none, Func<Task> missing) => result switch
-        {
-            JsonSomeResult<T> v => some(v.Value),
-            JsonNoneResult<T> => none(),
-            JsonMissingResult<T> => missing(),
-            _ => throw new UnreachableException()
-        };
 
         public JsonReadResult<TResult> Map<TResult>(Func<T, TResult> f) => result switch
         {

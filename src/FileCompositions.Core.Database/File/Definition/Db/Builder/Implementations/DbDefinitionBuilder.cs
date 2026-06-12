@@ -1,7 +1,7 @@
 ﻿using FileCompositions.Core.Database.File.Definition.Db.Descriptor;
 using FileCompositions.Core.Database.File.Definition.Db.Descriptor.Implementations;
 using FileCompositions.Core.Database.File.Definition.Db.Implementations;
-using FileCompositions.Core.Database.File.Definition.Db.Init.Policy.Implementations;
+using FileCompositions.Core.Database.File.Init.Policy.Implementations;
 using FileCompositions.Core.Directory.Definition.Key;
 using FileCompositions.Core.File.Context;
 using FileCompositions.Core.File.Definition.Builder.Abstract;
@@ -50,7 +50,7 @@ internal sealed class DbDefinitionBuilder<TOwnership, TNecessity>
 
         return new DbDefinition<TOwnership, TPlacement>(context, Key, Name)
         {
-            InitPolicy = new DefaultDbDefinitionInitPolicy<TOwnership, TPlacement>()
+            InitPolicy = new DefaultDbInitPolicy<TOwnership, TPlacement>()
         };
         
     }
@@ -63,7 +63,7 @@ internal sealed class DbDefinitionBuilder<TOwnership, TNecessity>
 
         return new DbDefinitionDescriptor<TOwnership, TPlacement>(DirectoryKey, Key, Name)
         {
-            InitPolicy = new DefaultDbDefinitionInitPolicy<TOwnership, TPlacement>()
+            InitPolicy = new DefaultDbInitPolicy<TOwnership, TPlacement>()
         };
     }
 }
