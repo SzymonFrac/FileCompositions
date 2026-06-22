@@ -1,4 +1,4 @@
-name: Publish NuGet
+name: Publish
 
 on:
   release:
@@ -15,10 +15,10 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: 10.0.x
 
@@ -26,16 +26,29 @@ jobs:
         run: dotnet restore
 
       - name: Build
-        run: dotnet build --configuration Release --no-restore
+        run: |
+          dotnet build \
+            --configuration Release \
+            --no-restore \
+            -p:ContinuousIntegrationBuild=true
 
       - name: Pack
-        run: dotnet pack --configuration Release --no-build -o ./artifacts/packages
+        run: |
+          dotnet pack \
+            --configuration Release \
+            --no-build \
+            -p:PackageVersion=${GITHUB_REF_NAME#v} \
+            -o ./artifacts/packages
 
-      - name: Upload package
-        uses: actions/upload-artifact@v4
+      - name: Authenticate with NuGet
+        uses: NuGet/login@v1
+        id: login
         with:
-          name: nuget-package
-          path: ./artifacts/packages/*.nupkg
+          user: ${{ github.actor }}
 
-      - name: Publish
-        run: dotnet nuget push "./artifacts/packages/*.nupkg" --source https://api.nuget.org/v3/index.json
+      - name: Publish packages
+        run: |
+          dotnet nuget push "./artifacts/packages/*.nupkg" \
+            --source https://api.nuget.org/v3/index.json \
+            --api-key "${{ steps.login.outputs.NUGET_API_KEY }}" \
+            --skip-duplicate
