@@ -9,7 +9,8 @@
 
   <br>
 
-  <a href="https://github.com/SzymonFrac/FileCompositions/tree/master/docs">Documentation</a>
+  <a href="https://github.com/SzymonFrac/FileCompositions/tree/master/docs">Documentation</a> |
+  <a href="https://github.com/SzymonFrac/FileCompositions/tree/master/CONTRIBUTING.md">Contributions</a>
 </div>
 
 <p align="center">
@@ -124,12 +125,3 @@ public class MyConsumerClass
         _jsonFile.ReadAsync(cancellationToken);
 }
 ```
-
-## Contributions
-
-Please write any bugs with the library under [issues](https://github.com/SzymonFrac/FileCompositions/issues).
-
-In the future, main contributions could be new file types and file system implementations.
-
-There will be a proper CONTRIBUTING.md soon. Thanks for being interested in the project and don't hesitate to ask questions.
-
