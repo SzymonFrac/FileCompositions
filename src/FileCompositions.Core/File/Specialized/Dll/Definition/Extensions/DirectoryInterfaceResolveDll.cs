@@ -1,4 +1,4 @@
-﻿using FileCompositions.Core.Directory.Interface;
+﻿using FileCompositions.Core.Directory.Definition;
 using FileCompositions.Core.File.Context.Implementations;
 using FileCompositions.Core.File.Specialized.Dll.Definition.Implementations;
 using FileCompositions.Core.File.Specialized.Dll.Resource;
@@ -10,13 +10,13 @@ namespace FileCompositions.Core.File.Specialized.Dll.Definition.Extensions;
 
 public static class DirectoryInterfaceResolveDll
 {
-    extension<TOwnership, TNecessity>(IDirectoryInterface<TOwnership, TNecessity> @interface)
+    extension<TOwnership, TNecessity>(IDirectoryDefinition<TOwnership, TNecessity> directory)
         where TOwnership : DefinitionOwnership
         where TNecessity : DefinitionNecessity
     {
         public async Task<IDllResource?> GetDllResourceAsync(string name, CancellationToken cancellationToken = default) =>
-            await @interface.StorageBackend.ExistsAsync(@interface.GetAddress().With(FileSystemResourceName.CreateDll(name)), cancellationToken)
-                ? DllDefinition.Convert(new FileContext(@interface.StorageBackend, @interface.GetAddress()), name)
+            await directory.Context.StorageBackend.ExistsAsync(directory.Address.With(FileSystemResourceName.CreateDll(name)), cancellationToken)
+                ? DllDefinition.Convert(new FileContext(directory.Context.StorageBackend, directory.Address), name)
                 : default;
     }
 }

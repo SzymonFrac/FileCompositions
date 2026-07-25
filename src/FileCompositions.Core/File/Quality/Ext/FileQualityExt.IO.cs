@@ -6,74 +6,74 @@ namespace FileCompositions.Core.File.Quality.Ext;
 
 public static partial class FileQualityExt
 {
-    extension<TOwnership>(IFileQuality<TOwnership, RequiredInRequired> io)
+    extension<TOwnership>(IFileQuality<TOwnership, RequiredInRequired> file)
         where TOwnership : DefinitionOwnership
     {
         internal Task<Stream> OpenReadAsync(CancellationToken cancellationToken = default) =>
-            io.Context.StorageBackend.OpenReadAsync(io.GetLocation(), cancellationToken);
+            file.Context.StorageBackend.OpenReadAsync(file.GetLocation(), cancellationToken);
         internal Task<Stream> OpenWriteAsync(CancellationToken cancellationToken = default) =>
-            io.Context.StorageBackend.OpenWriteAsync(io.GetLocation(), cancellationToken);
+            file.Context.StorageBackend.OpenWriteAsync(file.GetLocation(), cancellationToken);
         internal Task<Stream> OpenAppendAsync(CancellationToken cancellationToken = default) =>
-            io.Context.StorageBackend.OpenAppendAsync(io.GetLocation(), cancellationToken);
+            file.Context.StorageBackend.OpenAppendAsync(file.GetLocation(), cancellationToken);
     }
 
-    extension(IFileQuality<StrictDefinition, OptionalInRequired> io)
+    extension(IFileQuality<StrictDefinition, OptionalInRequired> file)
     {
         internal async Task<Stream?> OpenReadAsync(CancellationToken cancellationToken = default) =>
-            await io.Context.StorageBackend.ExistsAsync(io.GetLocation(), cancellationToken).ConfigureAwait(false)
-                ? await io.Context.StorageBackend.OpenReadAsync(io.GetLocation(), cancellationToken).ConfigureAwait(false)
+            await file.Context.StorageBackend.ExistsAsync(file.GetLocation(), cancellationToken).ConfigureAwait(false)
+                ? await file.Context.StorageBackend.OpenReadAsync(file.GetLocation(), cancellationToken).ConfigureAwait(false)
                 : default;
         internal Task<Stream> OpenWriteAsync(CancellationToken cancellationToken = default) =>
-            io.Context.StorageBackend.OpenWriteAsync(io.GetLocation(), cancellationToken);
+            file.Context.StorageBackend.OpenWriteAsync(file.GetLocation(), cancellationToken);
         internal Task<Stream> OpenAppendAsync(CancellationToken cancellationToken = default) =>
-            io.Context.StorageBackend.OpenAppendAsync(io.GetLocation(), cancellationToken);
+            file.Context.StorageBackend.OpenAppendAsync(file.GetLocation(), cancellationToken);
     }
 
-    extension(IFileQuality<ExternalDefinition, OptionalInRequired> io)
+    extension(IFileQuality<ExternalDefinition, OptionalInRequired> file)
     {
         internal async Task<Stream?> OpenReadAsync(CancellationToken cancellationToken = default) =>
-            await io.Context.StorageBackend.ExistsAsync(io.GetLocation(), cancellationToken).ConfigureAwait(false)
-                ? await io.Context.StorageBackend.OpenReadAsync(io.GetLocation(), cancellationToken).ConfigureAwait(false)
+            await file.Context.StorageBackend.ExistsAsync(file.GetLocation(), cancellationToken).ConfigureAwait(false)
+                ? await file.Context.StorageBackend.OpenReadAsync(file.GetLocation(), cancellationToken).ConfigureAwait(false)
                 : default;
         internal async Task<Stream?> OpenWriteAsync(CancellationToken cancellationToken = default) =>
-            await io.Context.StorageBackend.ExistsAsync(io.GetLocation(), cancellationToken).ConfigureAwait(false)
-                ? await io.Context.StorageBackend.OpenWriteAsync(io.GetLocation(), cancellationToken).ConfigureAwait(false)
+            await file.Context.StorageBackend.ExistsAsync(file.GetLocation(), cancellationToken).ConfigureAwait(false)
+                ? await file.Context.StorageBackend.OpenWriteAsync(file.GetLocation(), cancellationToken).ConfigureAwait(false)
                 : default;
         internal async Task<Stream?> OpenAppendAsync(CancellationToken cancellationToken = default) =>
-            await io.Context.StorageBackend.ExistsAsync(io.GetLocation(), cancellationToken).ConfigureAwait(false)
-                ? await io.Context.StorageBackend.OpenAppendAsync(io.GetLocation(), cancellationToken).ConfigureAwait(false)
-                : default;
-    }
-
-    extension(IFileQuality<StrictDefinition, OptionalInOptional> io)
-    {
-        internal async Task<Stream?> OpenReadAsync(CancellationToken cancellationToken = default) =>
-            await io.Context.StorageBackend.ExistsAsync(io.GetLocation(), cancellationToken).ConfigureAwait(false)
-                ? await io.Context.StorageBackend.OpenReadAsync(io.GetLocation(), cancellationToken).ConfigureAwait(false)
-                : default;
-        internal async Task<Stream?> OpenWriteAsync(CancellationToken cancellationToken = default) =>
-            await io.Context.StorageBackend.ExistsAsync(io.GetLocation().Address, cancellationToken).ConfigureAwait(false)
-                ? await io.Context.StorageBackend.OpenWriteAsync(io.GetLocation(), cancellationToken).ConfigureAwait(false)
-                : default;
-        internal async Task<Stream?> OpenAppendAsync(CancellationToken cancellationToken = default) =>
-            await io.Context.StorageBackend.ExistsAsync(io.GetLocation().Address, cancellationToken).ConfigureAwait(false)
-                ? await io.Context.StorageBackend.OpenAppendAsync(io.GetLocation(), cancellationToken).ConfigureAwait(false)
+            await file.Context.StorageBackend.ExistsAsync(file.GetLocation(), cancellationToken).ConfigureAwait(false)
+                ? await file.Context.StorageBackend.OpenAppendAsync(file.GetLocation(), cancellationToken).ConfigureAwait(false)
                 : default;
     }
 
-    extension(IFileQuality<ExternalDefinition, OptionalInOptional> io)
+    extension(IFileQuality<StrictDefinition, OptionalInOptional> file)
     {
         internal async Task<Stream?> OpenReadAsync(CancellationToken cancellationToken = default) =>
-            await io.Context.StorageBackend.ExistsAsync(io.GetLocation(), cancellationToken).ConfigureAwait(false)
-                ? await io.Context.StorageBackend.OpenReadAsync(io.GetLocation(), cancellationToken).ConfigureAwait(false)
+            await file.Context.StorageBackend.ExistsAsync(file.GetLocation(), cancellationToken).ConfigureAwait(false)
+                ? await file.Context.StorageBackend.OpenReadAsync(file.GetLocation(), cancellationToken).ConfigureAwait(false)
                 : default;
         internal async Task<Stream?> OpenWriteAsync(CancellationToken cancellationToken = default) =>
-            await io.Context.StorageBackend.ExistsAsync(io.GetLocation(), cancellationToken).ConfigureAwait(false)
-                ? await io.Context.StorageBackend.OpenWriteAsync(io.GetLocation(), cancellationToken).ConfigureAwait(false)
+            await file.Context.StorageBackend.ExistsAsync(file.GetLocation().Address, cancellationToken).ConfigureAwait(false)
+                ? await file.Context.StorageBackend.OpenWriteAsync(file.GetLocation(), cancellationToken).ConfigureAwait(false)
                 : default;
         internal async Task<Stream?> OpenAppendAsync(CancellationToken cancellationToken = default) =>
-            await io.Context.StorageBackend.ExistsAsync(io.GetLocation(), cancellationToken).ConfigureAwait(false)
-                ? await io.Context.StorageBackend.OpenAppendAsync(io.GetLocation(), cancellationToken).ConfigureAwait(false)
+            await file.Context.StorageBackend.ExistsAsync(file.GetLocation().Address, cancellationToken).ConfigureAwait(false)
+                ? await file.Context.StorageBackend.OpenAppendAsync(file.GetLocation(), cancellationToken).ConfigureAwait(false)
+                : default;
+    }
+
+    extension(IFileQuality<ExternalDefinition, OptionalInOptional> file)
+    {
+        internal async Task<Stream?> OpenReadAsync(CancellationToken cancellationToken = default) =>
+            await file.Context.StorageBackend.ExistsAsync(file.GetLocation(), cancellationToken).ConfigureAwait(false)
+                ? await file.Context.StorageBackend.OpenReadAsync(file.GetLocation(), cancellationToken).ConfigureAwait(false)
+                : default;
+        internal async Task<Stream?> OpenWriteAsync(CancellationToken cancellationToken = default) =>
+            await file.Context.StorageBackend.ExistsAsync(file.GetLocation(), cancellationToken).ConfigureAwait(false)
+                ? await file.Context.StorageBackend.OpenWriteAsync(file.GetLocation(), cancellationToken).ConfigureAwait(false)
+                : default;
+        internal async Task<Stream?> OpenAppendAsync(CancellationToken cancellationToken = default) =>
+            await file.Context.StorageBackend.ExistsAsync(file.GetLocation(), cancellationToken).ConfigureAwait(false)
+                ? await file.Context.StorageBackend.OpenAppendAsync(file.GetLocation(), cancellationToken).ConfigureAwait(false)
                 : default;
     }
 }

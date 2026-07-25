@@ -4,5 +4,4 @@ using FileCompositions.Core.Quality.Placement.Implementations;
 
 namespace FileCompositions.Core.File.Resource;
 
-//May be not needed anymore
 public interface IFileResource : IFileQuality<ExternalDefinition, RequiredInRequired>;

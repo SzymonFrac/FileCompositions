@@ -7,44 +7,44 @@ namespace FileCompositions.Core.File.Definition.Ext;
 
 public static partial class FileDefinitionExt
 {
-    extension(IFileDefinition<StrictDefinition, RequiredInRequired> init)
+    extension(IFileDefinition<StrictDefinition, RequiredInRequired> file)
     {
         public async ValueTask InitAsync(CancellationToken cancellationToken = default)
         {
-            if (!await init.Context.StorageBackend.ExistsAsync(init.GetLocation(), cancellationToken))
-                await init.Context.StorageBackend.CreateAsync(init.GetLocation(), cancellationToken);
+            if (!await file.Context.StorageBackend.ExistsAsync(file.GetLocation(), cancellationToken))
+                await file.Context.StorageBackend.CreateAsync(file.GetLocation(), cancellationToken);
         }
     }
 
-    extension(IFileDefinition<ExternalDefinition, RequiredInRequired> init)
+    extension(IFileDefinition<ExternalDefinition, RequiredInRequired> file)
     {
         public async ValueTask InitAsync(CancellationToken cancellationToken = default)
         {
-            if (!await init.Context.StorageBackend.ExistsAsync(init.GetLocation(), cancellationToken).ConfigureAwait(false))
+            if (!await file.Context.StorageBackend.ExistsAsync(file.GetLocation(), cancellationToken).ConfigureAwait(false))
                 throw new ExternalRequiredFileMissingException("A required, external file must exist.")
                 {
-                    Location = init.GetLocation(),
-                    Key = init.Key
+                    Location = file.GetLocation(),
+                    Key = file.Key
                 };
         }
     }
 
-    extension(IFileDefinition<StrictDefinition, OptionalInRequired> init)
+    extension(IFileDefinition<StrictDefinition, OptionalInRequired> file)
     {
         public ValueTask InitAsync(CancellationToken cancellationToken = default) => ValueTask.CompletedTask;
     }
 
-    extension(IFileDefinition<ExternalDefinition, OptionalInRequired> init)
+    extension(IFileDefinition<ExternalDefinition, OptionalInRequired> file)
     {
         public ValueTask InitAsync(CancellationToken cancellationToken = default) => ValueTask.CompletedTask;
     }
 
-    extension(IFileDefinition<StrictDefinition, OptionalInOptional> init)
+    extension(IFileDefinition<StrictDefinition, OptionalInOptional> file)
     {
         public ValueTask InitAsync(CancellationToken cancellationToken = default) => ValueTask.CompletedTask;
     }
 
-    extension(IFileDefinition<ExternalDefinition, OptionalInOptional> init)
+    extension(IFileDefinition<ExternalDefinition, OptionalInOptional> file)
     {
         public ValueTask InitAsync(CancellationToken cancellationToken = default) => ValueTask.CompletedTask;
     }

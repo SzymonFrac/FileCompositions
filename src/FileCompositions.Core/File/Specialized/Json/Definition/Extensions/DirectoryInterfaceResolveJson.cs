@@ -1,4 +1,4 @@
-﻿using FileCompositions.Core.Directory.Interface;
+﻿using FileCompositions.Core.Directory.Definition;
 using FileCompositions.Core.File.Context.Implementations;
 using FileCompositions.Core.File.Specialized.Json.Definition.Implementations;
 using FileCompositions.Core.File.Specialized.Json.Quality.Ext;
@@ -10,13 +10,13 @@ namespace FileCompositions.Core.File.Specialized.Json.Definition.Extensions;
 
 public static class DirectoryInterfaceResolveJson
 {
-    extension(IDirectoryInterface<StrictDefinition, RequiredDefinition> @interface)
+    extension(IDirectoryDefinition<StrictDefinition, RequiredDefinition> directory)
     {
         public async Task<IJsonResource<TData>?> GetJsonResourceAsync<TData>(string name, CancellationToken cancellationToken = default)
         {
             try
             {
-                var context = new FileContext(@interface.StorageBackend, @interface.GetAddress());
+                var context = new FileContext(directory.Context.StorageBackend, directory.Address);
                 var json = JsonDefinition.Convert<TData>(context, name);
                 await json.ReadAsync(cancellationToken).ConfigureAwait(false);
 
@@ -29,13 +29,13 @@ public static class DirectoryInterfaceResolveJson
         }
     }
 
-    extension(IDirectoryInterface<ExternalDefinition, RequiredDefinition> @interface)
+    extension(IDirectoryDefinition<ExternalDefinition, RequiredDefinition> directory)
     {
         public async Task<IJsonResource<TData>?> GetJsonResourceAsync<TData>(string name, CancellationToken cancellationToken = default)
         {
             try
             {
-                var context = new FileContext(@interface.StorageBackend, @interface.GetAddress());
+                var context = new FileContext(directory.Context.StorageBackend, directory.Address);
                 var json = JsonDefinition.Convert<TData>(context, name);
                 await json.ReadAsync(cancellationToken).ConfigureAwait(false);
 
@@ -48,13 +48,13 @@ public static class DirectoryInterfaceResolveJson
         }
     }
 
-    extension(IDirectoryInterface<StrictDefinition, OptionalDefinition> @interface)
+    extension(IDirectoryDefinition<StrictDefinition, OptionalDefinition> directory)
     {
         public async Task<IJsonResource<TData>?> GetJsonResourceAsync<TData>(string name, CancellationToken cancellationToken = default)
         {
             try
             {
-                var context = new FileContext(@interface.StorageBackend, @interface.GetAddress());
+                var context = new FileContext(directory.Context.StorageBackend, directory.Address);
                 var json = JsonDefinition.Convert<TData>(context, name);
                 await json.ReadAsync(cancellationToken).ConfigureAwait(false);
 
@@ -67,13 +67,13 @@ public static class DirectoryInterfaceResolveJson
         }
     }
 
-    extension(IDirectoryInterface<ExternalDefinition, OptionalDefinition> @interface)
+    extension(IDirectoryDefinition<ExternalDefinition, OptionalDefinition> directory)
     {
         public async Task<IJsonResource<TData>?> GetJsonResourceAsync<TData>(string name, CancellationToken cancellationToken = default)
         {
             try
             {
-                var context = new FileContext(@interface.StorageBackend, @interface.GetAddress());
+                var context = new FileContext(directory.Context.StorageBackend, directory.Address);
                 var json = JsonDefinition.Convert<TData>(context, name);
                 await json.ReadAsync(cancellationToken).ConfigureAwait(false);
 
