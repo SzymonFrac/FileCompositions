@@ -1,5 +1,6 @@
 ﻿using FileCompositions.Core.File.Context;
 using FileCompositions.Core.File.Definition;
+using FileCompositions.Core.File.Specialized.Dll.Quality;
 using FileCompositions.Core.File.Specialized.Dll.Resource;
 using FileCompositions.Core.Quality.Ownership;
 using FileCompositions.Core.Quality.Placement;

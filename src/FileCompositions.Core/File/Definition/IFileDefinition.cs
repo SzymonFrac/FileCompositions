@@ -11,6 +11,8 @@ public interface IFileDefinition<TOwnership, TPlacement> : IFileQuality<TOwnersh
     where TPlacement : DefinitionPlacement
 {
     FileDefinitionKey Key { get; }
+
+    ValueTask InitializeAsync(CancellationToken cancellationToken = default);
 }
 
 public interface IFileDefinition
