@@ -1,7 +1,7 @@
 ﻿using FileCompositions.Core.File.Context;
 using FileCompositions.Core.File.Definition.Abstract;
 using FileCompositions.Core.File.Definition.Key;
-using FileCompositions.Core.File.Specialized.Dll.Definition.Extensions;
+using FileCompositions.Core.File.Specialized.Dll.Definition.Ext;
 using FileCompositions.Core.File.Specialized.Dll.Definition.Init.Policy;
 using FileCompositions.Core.FileSystem.Resource.Name;
 using FileCompositions.Core.Quality.Ownership;

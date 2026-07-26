@@ -1,8 +1,7 @@
 ﻿using FileCompositions.Core.Quality.Necessity.Implementations;
 using FileCompositions.Core.Quality.Ownership;
 using FileCompositions.Core.Quality.Placement.Implementations;
-using FileCompositions.Hosting.EntityFrameworkCore.File.Specialized.Db.Definition;
-using FileCompositions.Hosting.EntityFrameworkCore.File.Specialized.Db.Definition.Builder.Extensions;
+using FileCompositions.Hosting.EntityFrameworkCore.File.Specialized.Db.Definition.Builder.Ext;
 using FileCompositions.Hosting.EntityFrameworkCore.File.Specialized.Db.Definition.Builder.Factory.Implementations;
 using FileCompositions.Hosting.EntityFrameworkCore.File.Specialized.Db.Definition.Config;
 using FileCompositions.Hosting.EntityFrameworkCore.File.Specialized.Db.Definition.Descriptor;
@@ -10,9 +9,9 @@ using FileCompositions.Hosting.EntityFrameworkCore.Host.ResourceSchema.File.Regi
 using FileCompositions.Hosting.ResourceSchema.File.Registrar;
 using Microsoft.EntityFrameworkCore;
 
-namespace FileCompositions.Hosting.EntityFrameworkCore.Host.ResourceSchema.File.Registrar;
+namespace FileCompositions.Hosting.EntityFrameworkCore.File.Specialized.Db.Definition.Ext;
 
-public static class HostResourceSchemaFileRegistrarHostDb
+public static partial class DbDefinitionExt
 {
     extension(IHostResourceSchemaFileRegistrar<RequiredDefinition> registrar)
     {

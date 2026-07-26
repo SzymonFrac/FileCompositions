@@ -1,4 +1,4 @@
-﻿using FileCompositions.Core.File.Specialized.Json.Definition.Builder.Extensions;
+﻿using FileCompositions.Core.File.Specialized.Json.Definition.Builder.Ext;
 using FileCompositions.Core.File.Specialized.Json.Definition.Builder.Factory.Implementation;
 using FileCompositions.Core.File.Specialized.Json.Definition.Config;
 using FileCompositions.Core.File.Specialized.Json.Definition.Descriptor;
@@ -7,9 +7,9 @@ using FileCompositions.Core.Quality.Ownership;
 using FileCompositions.Core.Quality.Placement.Implementations;
 using FileCompositions.Core.ResourceSchema.File.Registrar;
 
-namespace FileCompositions.Core.File.Specialized.Json.Definition.Extensions;
+namespace FileCompositions.Core.File.Specialized.Json.Definition.Ext;
 
-public static class ResourceSchemaRegisterJson
+public static partial class JsonDefinitionExt
 {
     extension<TResourceSchemaFileRegistrar>(TResourceSchemaFileRegistrar registrar)
         where TResourceSchemaFileRegistrar : IResourceSchemaFileRegistrar<RequiredDefinition>

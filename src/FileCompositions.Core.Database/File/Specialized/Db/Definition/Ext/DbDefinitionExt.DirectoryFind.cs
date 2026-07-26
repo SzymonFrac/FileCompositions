@@ -6,9 +6,9 @@ using FileCompositions.Core.FileSystem.Resource.Name;
 using FileCompositions.Core.Quality.Necessity;
 using FileCompositions.Core.Quality.Ownership;
 
-namespace FileCompositions.Core.Database.File.Specialized.Db.Definition.Extensions;
+namespace FileCompositions.Core.Database.File.Specialized.Db.Definition.Ext;
 
-public static class DirectoryInterfaceResolveDb
+public static partial class DbDefinitionExt
 {
     extension<TOwnership, TNecessity>(IDirectoryDefinition<TOwnership, TNecessity> directory)
         where TOwnership : DefinitionOwnership

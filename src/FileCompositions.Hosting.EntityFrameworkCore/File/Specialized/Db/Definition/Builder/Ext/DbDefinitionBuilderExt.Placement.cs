@@ -2,13 +2,12 @@
 using FileCompositions.Core.Quality.Necessity.Implementations;
 using FileCompositions.Core.Quality.Ownership;
 using FileCompositions.Core.Quality.Placement.Implementations;
-using FileCompositions.Hosting.EntityFrameworkCore.File.Specialized.Db.Definition.Builder;
 using FileCompositions.Hosting.EntityFrameworkCore.File.Specialized.Db.Definition.Descriptor;
 using Microsoft.EntityFrameworkCore;
 
-namespace FileCompositions.Hosting.EntityFrameworkCore.File.Specialized.Db.Definition.Builder.Extensions;
+namespace FileCompositions.Hosting.EntityFrameworkCore.File.Specialized.Db.Definition.Builder.Ext;
 
-internal static class DbDefinitionBuilderPlacement
+internal static class DbDefinitionBuilderExt
 {
     extension<TOwnership, TDbContext>(IDbDefinitionBuilder<TOwnership, RequiredDefinition, TDbContext> builder)
         where TOwnership : DefinitionOwnership

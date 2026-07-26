@@ -6,9 +6,9 @@ using FileCompositions.Core.File.Specialized.Json.Resource;
 using FileCompositions.Core.Quality.Necessity.Implementations;
 using FileCompositions.Core.Quality.Ownership.Implementations;
 
-namespace FileCompositions.Core.File.Specialized.Json.Definition.Extensions;
+namespace FileCompositions.Core.File.Specialized.Json.Definition.Ext;
 
-public static class DirectoryInterfaceResolveJson
+public static partial class JsonDefinitionExt
 {
     extension(IDirectoryDefinition<StrictDefinition, RequiredDefinition> directory)
     {

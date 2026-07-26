@@ -1,14 +1,12 @@
-﻿using FileCompositions.Core.Database.File.Specialized.Db.Definition;
-using FileCompositions.Core.Database.File.Specialized.Db.Definition.Builder;
-using FileCompositions.Core.Database.File.Specialized.Db.Definition.Descriptor;
+﻿using FileCompositions.Core.Database.File.Specialized.Db.Definition.Descriptor;
 using FileCompositions.Core.File.Context;
 using FileCompositions.Core.Quality.Necessity.Implementations;
 using FileCompositions.Core.Quality.Ownership;
 using FileCompositions.Core.Quality.Placement.Implementations;
 
-namespace FileCompositions.Core.Database.File.Specialized.Db.Definition.Builder.Extensions;
+namespace FileCompositions.Core.Database.File.Specialized.Db.Definition.Builder.Ext;
 
-internal static class DbDefinitionBuilderPlacement
+internal static partial class DbDefinitionBuilderExt
 {
     extension<TOwnership>(IDbDefinitionBuilder<TOwnership, RequiredDefinition> builder)
         where TOwnership : DefinitionOwnership

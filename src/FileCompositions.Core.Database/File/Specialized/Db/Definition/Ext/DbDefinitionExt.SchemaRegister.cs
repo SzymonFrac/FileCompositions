@@ -1,4 +1,4 @@
-﻿using FileCompositions.Core.Database.File.Specialized.Db.Definition.Builder.Extensions;
+﻿using FileCompositions.Core.Database.File.Specialized.Db.Definition.Builder.Ext;
 using FileCompositions.Core.Database.File.Specialized.Db.Definition.Builder.Factory.Implementations;
 using FileCompositions.Core.Database.File.Specialized.Db.Definition.Config;
 using FileCompositions.Core.Database.File.Specialized.Db.Definition.Descriptor;
@@ -7,12 +7,12 @@ using FileCompositions.Core.Quality.Ownership;
 using FileCompositions.Core.Quality.Placement.Implementations;
 using FileCompositions.Core.ResourceSchema.File.Registrar;
 
-namespace FileCompositions.Core.Database.File.Specialized.Db.Definition.Extensions;
+namespace FileCompositions.Core.Database.File.Specialized.Db.Definition.Ext;
 
-public static class ResourceSchemaRegisterDb
+public static partial class DbDefinitionExt
 {
     extension<TResourceSchemaFileRegistrar>(TResourceSchemaFileRegistrar registrar)
-        where TResourceSchemaFileRegistrar : IResourceSchemaFileRegistrar<RequiredDefinition>
+    where TResourceSchemaFileRegistrar : IResourceSchemaFileRegistrar<RequiredDefinition>
     {
         public TResourceSchemaFileRegistrar DefineDb<TOwnership>(DbDefinitionConfig<TOwnership, RequiredDefinition, RequiredDefinition> config)
             where TOwnership : DefinitionOwnership
@@ -51,5 +51,4 @@ public static class ResourceSchemaRegisterDb
             return registrar;
         }
     };
-
 }

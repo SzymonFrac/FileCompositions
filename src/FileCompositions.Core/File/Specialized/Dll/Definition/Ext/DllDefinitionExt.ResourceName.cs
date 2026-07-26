@@ -1,9 +1,9 @@
 ﻿using FileCompositions.Core.File.Specialized.Dll.Definition.Implementations;
 using FileCompositions.Core.FileSystem.Resource.Name;
 
-namespace FileCompositions.Core.File.Specialized.Dll.Definition.Extensions;
+namespace FileCompositions.Core.File.Specialized.Dll.Definition.Ext;
 
-public static class StorageResourceNameAsDll
+public static partial class DllDefinitionExt
 {
     extension(FileSystemResourceName)
     {

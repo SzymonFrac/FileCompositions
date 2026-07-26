@@ -1,4 +1,4 @@
-﻿using FileCompositions.Core.File.Specialized.Dll.Definition.Builder.Extensions;
+﻿using FileCompositions.Core.File.Specialized.Dll.Definition.Builder.Ext;
 using FileCompositions.Core.File.Specialized.Dll.Definition.Builder.Factory.Implementations;
 using FileCompositions.Core.File.Specialized.Dll.Definition.Config;
 using FileCompositions.Core.File.Specialized.Dll.Definition.Descriptor;
@@ -7,9 +7,9 @@ using FileCompositions.Core.Quality.Ownership;
 using FileCompositions.Core.Quality.Placement.Implementations;
 using FileCompositions.Core.ResourceSchema.File.Registrar;
 
-namespace FileCompositions.Core.File.Specialized.Dll.Definition.Extensions;
+namespace FileCompositions.Core.File.Specialized.Dll.Definition.Ext;
 
-public static class ResourceSchemaRegisterDll
+public static partial class DllDefinitionExt
 {
     extension<TResourceSchemaFileRegistrar>(TResourceSchemaFileRegistrar registrar)
         where TResourceSchemaFileRegistrar : IResourceSchemaFileRegistrar<RequiredDefinition>

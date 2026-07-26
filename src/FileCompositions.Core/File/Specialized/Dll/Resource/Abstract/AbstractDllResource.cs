@@ -1,6 +1,6 @@
 ﻿using FileCompositions.Core.File.Context;
 using FileCompositions.Core.File.Resource.Abstract;
-using FileCompositions.Core.File.Specialized.Dll.Definition.Extensions;
+using FileCompositions.Core.File.Specialized.Dll.Definition.Ext;
 using FileCompositions.Core.FileSystem.Resource.Name;
 using System.Reflection;
 

@@ -1,14 +1,12 @@
 ﻿using FileCompositions.Core.File.Context;
-using FileCompositions.Core.File.Specialized.Dll.Definition;
-using FileCompositions.Core.File.Specialized.Dll.Definition.Builder;
 using FileCompositions.Core.File.Specialized.Dll.Definition.Descriptor;
 using FileCompositions.Core.Quality.Necessity.Implementations;
 using FileCompositions.Core.Quality.Ownership;
 using FileCompositions.Core.Quality.Placement.Implementations;
 
-namespace FileCompositions.Core.File.Specialized.Dll.Definition.Builder.Extensions;
+namespace FileCompositions.Core.File.Specialized.Dll.Definition.Builder.Ext;
 
-internal static class DllDefinitionBuilderPlacement
+internal static partial class DllDefinitionBuilderExt
 {
     extension<TOwnership>(IDllDefinitionBuilder<TOwnership, RequiredDefinition> builder)
         where TOwnership : DefinitionOwnership

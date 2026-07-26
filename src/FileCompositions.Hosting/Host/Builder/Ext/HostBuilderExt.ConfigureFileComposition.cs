@@ -4,9 +4,9 @@ using FileCompositions.Hosting.ResourceSchema.Builder.Factory.Implementations;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace FileCompositions.Hosting.Host.Builder.Extensions;
+namespace FileCompositions.Hosting.Host.Builder.Ext;
 
-public static class HostBuilderFileComposition
+public static partial class HostBuilderExt
 {
     extension(IHostBuilder builder)
     {

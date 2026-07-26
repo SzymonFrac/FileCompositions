@@ -1,4 +1,4 @@
-﻿using FileCompositions.Core.Database.File.Specialized.Db.Definition.Extensions;
+﻿using FileCompositions.Core.Database.File.Specialized.Db.Definition.Ext;
 using FileCompositions.Core.File.Context;
 using FileCompositions.Core.File.Definition.Abstract;
 using FileCompositions.Core.File.Definition.Key;

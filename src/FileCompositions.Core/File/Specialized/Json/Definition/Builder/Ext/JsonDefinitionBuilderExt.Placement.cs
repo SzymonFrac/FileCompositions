@@ -1,14 +1,12 @@
 ﻿using FileCompositions.Core.File.Context;
-using FileCompositions.Core.File.Specialized.Json.Definition;
-using FileCompositions.Core.File.Specialized.Json.Definition.Builder;
 using FileCompositions.Core.File.Specialized.Json.Definition.Descriptor;
 using FileCompositions.Core.Quality.Necessity.Implementations;
 using FileCompositions.Core.Quality.Ownership;
 using FileCompositions.Core.Quality.Placement.Implementations;
 
-namespace FileCompositions.Core.File.Specialized.Json.Definition.Builder.Extensions;
+namespace FileCompositions.Core.File.Specialized.Json.Definition.Builder.Ext;
 
-internal static class JsonDefinitionBuilderPlacement
+internal static partial class JsonDefinitionBuilderExt
 {
     extension<TOwnership, TData>(IJsonDefinitionBuilder<TOwnership, RequiredDefinition, TData> builder)
         where TOwnership : DefinitionOwnership

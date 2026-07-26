@@ -1,7 +1,7 @@
 ﻿using FileCompositions.Core.File.Context;
 using FileCompositions.Core.File.Definition.Abstract;
 using FileCompositions.Core.File.Definition.Key;
-using FileCompositions.Core.File.Specialized.Json.Definition.Extensions;
+using FileCompositions.Core.File.Specialized.Json.Definition.Ext;
 using FileCompositions.Core.File.Specialized.Json.Definition.Init.Policy;
 using FileCompositions.Core.File.Specialized.Json.Format;
 using FileCompositions.Core.FileSystem.Resource.Name;

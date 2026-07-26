@@ -1,6 +1,6 @@
 ﻿using FileCompositions.Core.File.Context;
 using FileCompositions.Core.File.Resource.Abstract;
-using FileCompositions.Core.File.Specialized.Json.Definition.Extensions;
+using FileCompositions.Core.File.Specialized.Json.Definition.Ext;
 using FileCompositions.Core.File.Specialized.Json.Format;
 using FileCompositions.Core.FileSystem.Resource.Name;
 

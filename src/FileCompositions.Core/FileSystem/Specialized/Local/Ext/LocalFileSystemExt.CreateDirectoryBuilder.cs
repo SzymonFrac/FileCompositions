@@ -6,9 +6,9 @@ using FileCompositions.Core.Quality.Necessity.Implementations;
 using FileCompositions.Core.Quality.Ownership.Implementations;
 using static System.Environment;
 
-namespace FileCompositions.Core.FileSystem.Specialized.Local.Extensions;
+namespace FileCompositions.Core.FileSystem.Specialized.Local.Ext;
 
-public static class CreateLocalDirectoryBuilder
+public static partial class LocalFileSystemExt
 {
     extension(IDirectoryDefinitionBuilderFactory factory)
     {
