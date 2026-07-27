@@ -1,12 +1,12 @@
-﻿using FileCompositions.Core.Database.File.Interface.Specialized.Db;
-using FileCompositions.Core.Directory.Definition;
+﻿using FileCompositions.Core.Directory.Definition;
 using FileCompositions.Core.File.Context.Factory.Implementations;
 using FileCompositions.Core.File.Definition;
 using FileCompositions.Core.File.Definition.Descriptor;
 using FileCompositions.Core.Quality.Necessity;
 using FileCompositions.Core.Quality.Ownership;
 using FileCompositions.Core.Quality.Placement;
-using FileCompositions.Hosting.EntityFrameworkCore.File.Definition.Db;
+using FileCompositions.Hosting.EntityFrameworkCore.File.Specialized.Db.Definition;
+using FileCompositions.Hosting.EntityFrameworkCore.File.Specialized.Db.Quality.Ext;
 using FileCompositions.Hosting.EntityFrameworkCore.Host.ResourceSchema.Initialize.Implementations;
 using FileCompositions.Hosting.ResourceSchema.File.Register.Builder;
 using FileCompositions.Hosting.ResourceSchema.Initializer;
