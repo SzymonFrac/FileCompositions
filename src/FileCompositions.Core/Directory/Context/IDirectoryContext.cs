@@ -4,5 +4,5 @@ namespace FileCompositions.Core.Directory.Context;
 
 internal interface IDirectoryContext
 {
-    IFileSystem StorageBackend { get; }
+    IFileSystem FileSystem { get; }
 }

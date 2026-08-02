@@ -12,7 +12,7 @@ internal sealed partial class DefaultDllInitPolicy<TOwnership, TPlacement> : IDl
     where TOwnership : DefinitionOwnership
     where TPlacement : DefinitionPlacement
 {
-    public Func<CancellationToken, ValueTask> GetPolicy(IDllDefinition<TOwnership, TPlacement> init) => init switch
+    public Func<CancellationToken, Task> GetPolicy(IDllDefinition<TOwnership, TPlacement> init) => init switch
     {
         IDllDefinition<StrictDefinition, RequiredInRequired> sr => sr.InitDllAsync,
         IDllDefinition<ExternalDefinition, RequiredInRequired> er => er.InitDllAsync,
@@ -28,47 +28,49 @@ internal static partial class DefaultDllInitPolicy
 {
     extension(IDllDefinition<StrictDefinition, RequiredInRequired> dll)
     {
-        public async ValueTask InitDllAsync(CancellationToken cancellationToken = default)
-        {
-            if (!await dll.Context.StorageBackend.ExistsAsync(dll.GetLocation(), cancellationToken).ConfigureAwait(false))
+        public Task InitDllAsync(CancellationToken cancellationToken = default) =>
+            dll.RequestFileSystemAsync(async (fs, ct) =>
             {
-                await using var stream = await dll.Context.StorageBackend.OpenCreateAsync(dll.GetLocation(), cancellationToken).ConfigureAwait(false);
+                if (!await fs.ExistsAsync(dll.GetLocation(), ct).ConfigureAwait(false))
+                {
+                    await using var stream = await fs.OpenCreateAsync(dll.GetLocation(), ct).ConfigureAwait(false);
 
-                await using var @default = typeof(IDllDefinition<,>).Assembly
-                    .GetManifestResourceStream("FileCompositions.Core.Assets.Dll.Default.dll")!;
+                    await using var @default = typeof(IDllDefinition<,>).Assembly
+                        .GetManifestResourceStream("FileCompositions.Core.Assets.Dll.Default.dll")!;
 
-                await @default.CopyToAsync(stream, cancellationToken).ConfigureAwait(false);
-            }
-        }
+                    await @default.CopyToAsync(stream, ct).ConfigureAwait(false);
+                }
+            },
+                cancellationToken);
     }
 
     extension(IDllDefinition<ExternalDefinition, RequiredInRequired> dll)
     {
-        public ValueTask InitDllAsync(CancellationToken cancellationToken = default) =>
+        public Task InitDllAsync(CancellationToken cancellationToken = default) =>
             dll.InitAsync(cancellationToken);
     }
 
     extension(IDllDefinition<StrictDefinition, OptionalInRequired> dll)
     {
-        public ValueTask InitDllAsync(CancellationToken cancellationToken = default) =>
+        public Task InitDllAsync(CancellationToken cancellationToken = default) =>
             dll.InitAsync(cancellationToken);
     }
 
     extension(IDllDefinition<ExternalDefinition, OptionalInRequired> dll)
     {
-        public ValueTask InitDllAsync(CancellationToken cancellationToken = default) =>
+        public Task InitDllAsync(CancellationToken cancellationToken = default) =>
             dll.InitAsync(cancellationToken);
     }
 
     extension(IDllDefinition<StrictDefinition, OptionalInOptional> dll)
     {
-        public ValueTask InitDllAsync(CancellationToken cancellationToken = default) =>
+        public Task InitDllAsync(CancellationToken cancellationToken = default) =>
             dll.InitAsync(cancellationToken);
     }
 
     extension(IDllDefinition<ExternalDefinition, OptionalInOptional> dll)
     {
-        public ValueTask InitDllAsync(CancellationToken cancellationToken = default) =>
+        public Task InitDllAsync(CancellationToken cancellationToken = default) =>
             dll.InitAsync(cancellationToken);
     }
 }

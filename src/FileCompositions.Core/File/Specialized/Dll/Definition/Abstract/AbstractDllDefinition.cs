@@ -19,7 +19,7 @@ internal abstract class AbstractDllDefinition<TOwnership, TPlacement>(IFileConte
 
     public required IDllInitPolicy<TOwnership, TPlacement> InitPolicy { get; init; }
 
-    public override ValueTask InitializeAsync(CancellationToken cancellationToken) =>
+    public override Task InitializeAsync(CancellationToken cancellationToken) =>
         InitPolicy.GetPolicy(this).Invoke(cancellationToken);
 }
 

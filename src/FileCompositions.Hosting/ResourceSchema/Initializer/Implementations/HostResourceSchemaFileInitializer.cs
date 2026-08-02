@@ -12,7 +12,7 @@ internal sealed class HostResourceSchemaFileInitializer<TDefinition, TOwnsership
     where TPlacement : DefinitionPlacement
 {
     private readonly FileDefinitionKey _key = key;
-    public ValueTask InitializeAsync(IServiceProvider services, CancellationToken cancellationToken = default) =>
+    public Task InitializeAsync(IServiceProvider services, CancellationToken cancellationToken = default) =>
         services.GetRequiredKeyedService<TDefinition>(_key)
             .InitializeAsync(cancellationToken);
 }

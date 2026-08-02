@@ -16,6 +16,6 @@ internal abstract class AbstractDbDefinition<TOwnership, TPlacement>(IFileContex
 {
     public required IDbInitPolicy<TOwnership, TPlacement> InitPolicy { get; init; }
 
-    public override ValueTask InitializeAsync(CancellationToken cancellationToken = default) =>
+    public override Task InitializeAsync(CancellationToken cancellationToken = default) =>
         InitPolicy.GetPolicy(this).Invoke(cancellationToken);
 }

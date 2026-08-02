@@ -17,6 +17,8 @@ internal sealed class HostResourceSchemaFileRegisterBuilder<TInOwnership, TInNec
         where TInOwnership : DefinitionOwnership
         where TInNecessity : DefinitionNecessity
 {
+    // This should be in DI:
+    // Similarly, pass the init trigger/policy as DI to all definitions too. Or as descriptor?
     public IFileContextFactory FileContextFactory { get; init; } = new FileContextFactory();
 
     public HostResourceSchemaRegister Build<TOwnership, TPlacement, TDefinition, TDescriptor>(TDescriptor descriptor)

@@ -13,7 +13,7 @@ internal sealed partial class DefaultJsonInitPolicy<TOwnership, TPlacement, TDat
     where TOwnership : DefinitionOwnership
     where TPlacement : DefinitionPlacement
 {
-    public Func<CancellationToken, ValueTask> GetPolicy(IJsonDefinition<TOwnership, TPlacement, TData> init) => init switch
+    public Func<CancellationToken, Task> GetPolicy(IJsonDefinition<TOwnership, TPlacement, TData> init) => init switch
     {
         IJsonDefinition<StrictDefinition, RequiredInRequired, TData> sr => sr.InitJsonAsync,
         IJsonDefinition<ExternalDefinition, RequiredInRequired, TData> er => er.InitJsonAsync,
@@ -29,43 +29,45 @@ internal static partial class DefaultJsonInitPolicy
 {
     extension<TData>(IJsonDefinition<StrictDefinition, RequiredInRequired, TData> json)
     {
-        public async ValueTask InitJsonAsync(CancellationToken cancellationToken = default)
-        {
-            if (!await json.Context.StorageBackend.ExistsAsync(json.GetLocation(), cancellationToken).ConfigureAwait(false))
+        public Task InitJsonAsync(CancellationToken cancellationToken = default) =>
+            json.RequestFileSystemAsync(async (fs, ct) =>
             {
-                await using var stream = await json.Context.StorageBackend.OpenWriteAsync(json.GetLocation(), cancellationToken).ConfigureAwait(false);
-                await JsonSerializer.SerializeAsync(stream, json.Default, json.Format.JsonSerializerOptions, cancellationToken).ConfigureAwait(false);
-            }
-        }
+                if (!await fs.ExistsAsync(json.GetLocation(), ct).ConfigureAwait(false))
+                {
+                    await using var stream = await fs.OpenWriteAsync(json.GetLocation(), ct).ConfigureAwait(false);
+                    await JsonSerializer.SerializeAsync(stream, json.Default, json.Format.JsonSerializerOptions, ct).ConfigureAwait(false);
+                }
+            },
+                cancellationToken);
     }
 
     extension<TData>(IJsonDefinition<ExternalDefinition, RequiredInRequired, TData> json)
     {
-        public ValueTask InitJsonAsync(CancellationToken cancellationToken = default) =>
+        public Task InitJsonAsync(CancellationToken cancellationToken = default) =>
             json.InitAsync(cancellationToken);
     }
 
     extension<TData>(IJsonDefinition<StrictDefinition, OptionalInRequired, TData> json)
     {
-        public ValueTask InitJsonAsync(CancellationToken cancellationToken = default) =>
+        public Task InitJsonAsync(CancellationToken cancellationToken = default) =>
             json.InitAsync(cancellationToken);
     }
 
     extension<TData>(IJsonDefinition<ExternalDefinition, OptionalInRequired, TData> json)
     {
-        public ValueTask InitJsonAsync(CancellationToken cancellationToken = default) =>
+        public Task InitJsonAsync(CancellationToken cancellationToken = default) =>
             json.InitAsync(cancellationToken);
     }
 
     extension<TData>(IJsonDefinition<StrictDefinition, OptionalInOptional, TData> json)
     {
-        public ValueTask InitJsonAsync(CancellationToken cancellationToken = default) =>
+        public Task InitJsonAsync(CancellationToken cancellationToken = default) =>
             json.InitAsync(cancellationToken);
     }
 
     extension<TData>(IJsonDefinition<ExternalDefinition, OptionalInOptional, TData> json)
     {
-        public ValueTask InitJsonAsync(CancellationToken cancellationToken = default) =>
+        public Task InitJsonAsync(CancellationToken cancellationToken = default) =>
             json.InitAsync(cancellationToken);
     }
 }

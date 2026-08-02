@@ -7,5 +7,5 @@ internal interface IDllInitPolicy<TOwnership, TPlacement>
     where TOwnership : DefinitionOwnership
     where TPlacement : DefinitionPlacement
 {
-    Func<CancellationToken, ValueTask> GetPolicy(IDllDefinition<TOwnership, TPlacement> init);
+    Func<CancellationToken, Task> GetPolicy(IDllDefinition<TOwnership, TPlacement> init);
 }

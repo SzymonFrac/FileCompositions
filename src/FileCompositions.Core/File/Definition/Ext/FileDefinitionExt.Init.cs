@@ -9,43 +9,47 @@ public static partial class FileDefinitionExt
 {
     extension(IFileDefinition<StrictDefinition, RequiredInRequired> file)
     {
-        public async ValueTask InitAsync(CancellationToken cancellationToken = default)
-        {
-            if (!await file.Context.StorageBackend.ExistsAsync(file.GetLocation(), cancellationToken))
-                await file.Context.StorageBackend.CreateAsync(file.GetLocation(), cancellationToken);
-        }
+        public Task InitAsync(CancellationToken cancellationToken = default) =>
+            file.RequestFileSystemAsync(async (fs, ct) =>
+            {
+                if (!await fs.ExistsAsync(file.GetLocation(), ct).ConfigureAwait(false))
+                    await fs.CreateAsync(file.GetLocation(), ct).ConfigureAwait(false);
+            },
+                cancellationToken);
     }
 
     extension(IFileDefinition<ExternalDefinition, RequiredInRequired> file)
     {
-        public async ValueTask InitAsync(CancellationToken cancellationToken = default)
-        {
-            if (!await file.Context.StorageBackend.ExistsAsync(file.GetLocation(), cancellationToken).ConfigureAwait(false))
-                throw new ExternalRequiredFileMissingException("A required, external file must exist.")
-                {
-                    Location = file.GetLocation(),
-                    Key = file.Key
-                };
-        }
+        public Task InitAsync(CancellationToken cancellationToken = default) =>
+            file.RequestFileSystemAsync(async (fs, ct) =>
+            {
+                if (!await fs.ExistsAsync(file.GetLocation(), ct).ConfigureAwait(false))
+                    throw new ExternalRequiredFileMissingException("A required, external file must exist.")
+                    {
+                        Location = file.GetLocation(),
+                        Key = file.Key
+                    };
+            },
+                cancellationToken);
     }
 
     extension(IFileDefinition<StrictDefinition, OptionalInRequired> file)
     {
-        public ValueTask InitAsync(CancellationToken cancellationToken = default) => ValueTask.CompletedTask;
+        public Task InitAsync(CancellationToken cancellationToken = default) => Task.CompletedTask;
     }
 
     extension(IFileDefinition<ExternalDefinition, OptionalInRequired> file)
     {
-        public ValueTask InitAsync(CancellationToken cancellationToken = default) => ValueTask.CompletedTask;
+        public Task InitAsync(CancellationToken cancellationToken = default) => Task.CompletedTask;
     }
 
     extension(IFileDefinition<StrictDefinition, OptionalInOptional> file)
     {
-        public ValueTask InitAsync(CancellationToken cancellationToken = default) => ValueTask.CompletedTask;
+        public Task InitAsync(CancellationToken cancellationToken = default) => Task.CompletedTask;
     }
 
     extension(IFileDefinition<ExternalDefinition, OptionalInOptional> file)
     {
-        public ValueTask InitAsync(CancellationToken cancellationToken = default) => ValueTask.CompletedTask;
+        public Task InitAsync(CancellationToken cancellationToken = default) => Task.CompletedTask;
     }
 }

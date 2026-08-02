@@ -13,7 +13,7 @@ internal sealed class DefaultDbInitPolicy<TOwnership, TPlacement, TDbContext> : 
     where TPlacement : DefinitionPlacement
     where TDbContext : DbContext
 {
-    public Func<TDbContext, CancellationToken, ValueTask> GetPolicy(IDbDefinition<TOwnership, TPlacement, TDbContext> init) => init switch
+    public Func<TDbContext, CancellationToken, Task> GetPolicy(IDbDefinition<TOwnership, TPlacement, TDbContext> init) => init switch
     {
         IDbDefinition<StrictDefinition, RequiredInRequired, TDbContext> sr => sr.InitDbAsync,
         IDbDefinition<ExternalDefinition, RequiredInRequired, TDbContext> er => er.InitDbAsync,
@@ -27,45 +27,45 @@ internal sealed class DefaultDbInitPolicy<TOwnership, TPlacement, TDbContext> : 
 
 internal static partial class DefaultDbInitPolicy
 {
-    extension<TDbContext>(IDbDefinition<StrictDefinition, RequiredInRequired, TDbContext> init)
+    extension<TDbContext>(IDbDefinition<StrictDefinition, RequiredInRequired, TDbContext> db)
         where TDbContext : DbContext
     {
-        public ValueTask InitDbAsync(TDbContext _, CancellationToken cancellationToken = default) =>
-            init.InitAsync(cancellationToken);
+        public Task InitDbAsync(TDbContext _, CancellationToken cancellationToken = default) =>
+            db.InitAsync(cancellationToken);
     }
 
-    extension<TDbContext>(IDbDefinition<ExternalDefinition, RequiredInRequired, TDbContext> init)
+    extension<TDbContext>(IDbDefinition<ExternalDefinition, RequiredInRequired, TDbContext> db)
         where TDbContext : DbContext
     {
-        public ValueTask InitDbAsync(TDbContext _, CancellationToken cancellationToken = default) =>
-            init.InitAsync(cancellationToken);
+        public Task InitDbAsync(TDbContext _, CancellationToken cancellationToken = default) =>
+            db.InitAsync(cancellationToken);
     }
 
-    extension<TDbContext>(IDbDefinition<StrictDefinition, OptionalInRequired, TDbContext> init)
+    extension<TDbContext>(IDbDefinition<StrictDefinition, OptionalInRequired, TDbContext> db)
         where TDbContext : DbContext
     {
-        public ValueTask InitDbAsync(TDbContext _, CancellationToken cancellationToken = default) =>
-            init.InitAsync(cancellationToken);
+        public Task InitDbAsync(TDbContext _, CancellationToken cancellationToken = default) =>
+            db.InitAsync(cancellationToken);
     }
 
-    extension<TDbContext>(IDbDefinition<ExternalDefinition, OptionalInRequired, TDbContext> init)
+    extension<TDbContext>(IDbDefinition<ExternalDefinition, OptionalInRequired, TDbContext> db)
         where TDbContext : DbContext
     {
-        public ValueTask InitDbAsync(TDbContext _, CancellationToken cancellationToken = default) =>
-            init.InitAsync(cancellationToken);
+        public Task InitDbAsync(TDbContext _, CancellationToken cancellationToken = default) =>
+            db.InitAsync(cancellationToken);
     }
 
-    extension<TDbContext>(IDbDefinition<StrictDefinition, OptionalInOptional, TDbContext> init)
+    extension<TDbContext>(IDbDefinition<StrictDefinition, OptionalInOptional, TDbContext> db)
         where TDbContext : DbContext
     {
-        public ValueTask InitDbAsync(TDbContext _, CancellationToken cancellationToken = default) =>
-            init.InitAsync(cancellationToken);
+        public Task InitDbAsync(TDbContext _, CancellationToken cancellationToken = default) =>
+            db.InitAsync(cancellationToken);
     }
 
-    extension<TDbContext>(IDbDefinition<ExternalDefinition, OptionalInOptional, TDbContext> init)
+    extension<TDbContext>(IDbDefinition<ExternalDefinition, OptionalInOptional, TDbContext> db)
         where TDbContext : DbContext
     {
-        public ValueTask InitDbAsync(TDbContext _, CancellationToken cancellationToken = default) =>
-            init.InitAsync(cancellationToken);
+        public Task InitDbAsync(TDbContext _, CancellationToken cancellationToken = default) =>
+            db.InitAsync(cancellationToken);
     }
 }

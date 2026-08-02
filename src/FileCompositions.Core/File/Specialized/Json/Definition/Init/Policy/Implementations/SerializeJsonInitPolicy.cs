@@ -12,7 +12,7 @@ internal sealed partial class SerializeJsonInitPolicy<TOwnership, TPlacement, TD
     where TOwnership : DefinitionOwnership
     where TPlacement : DefinitionPlacement
 {
-    public Func<CancellationToken, ValueTask> GetPolicy(IJsonDefinition<TOwnership, TPlacement, TData> init) => init switch
+    public Func<CancellationToken, Task> GetPolicy(IJsonDefinition<TOwnership, TPlacement, TData> init) => init switch
     {
         IJsonDefinition<StrictDefinition, RequiredInRequired, TData> sr => sr.SerializeInitJsonAsync,
         IJsonDefinition<ExternalDefinition, RequiredInRequired, TData> er => er.SerializeInitJsonAsync,
@@ -28,97 +28,109 @@ internal static partial class SerializeJsonInitPolicy
 {
     extension<TData>(IJsonDefinition<StrictDefinition, RequiredInRequired, TData> json)
     {
-        public async ValueTask SerializeInitJsonAsync(CancellationToken cancellationToken = default)
-        {
-            try
+        public Task SerializeInitJsonAsync(CancellationToken cancellationToken = default) =>
+            json.RequestFileSystemAsync(async (fs, ct) =>
             {
-                await using var read = await json.Context.StorageBackend.OpenReadAsync(json.GetLocation(), cancellationToken).ConfigureAwait(false);
-                await JsonSerializer.DeserializeAsync<TData>(read, json.Format.JsonSerializerOptions, cancellationToken).ConfigureAwait(false);
+                try
+                {
+                    await using var read = await fs.OpenReadAsync(json.GetLocation(), ct).ConfigureAwait(false);
+                    await JsonSerializer.DeserializeAsync<TData>(read, json.Format.JsonSerializerOptions, ct).ConfigureAwait(false);
 
-                return;
-            }
-            catch
-            {
-                await using var write = await json.Context.StorageBackend.OpenWriteAsync(json.GetLocation(), cancellationToken).ConfigureAwait(false);
-                await JsonSerializer.SerializeAsync(write, json.Default, json.Format.JsonSerializerOptions, cancellationToken).ConfigureAwait(false);
-            }
-        }
+                    return;
+                }
+                catch
+                {
+                    await using var write = await fs.OpenWriteAsync(json.GetLocation(), ct).ConfigureAwait(false);
+                    await JsonSerializer.SerializeAsync(write, json.Default, json.Format.JsonSerializerOptions, ct).ConfigureAwait(false);
+                }
+            },
+                cancellationToken);
     }
 
     extension<TData>(IJsonDefinition<ExternalDefinition, RequiredInRequired, TData> json)
     {
-        public async ValueTask SerializeInitJsonAsync(CancellationToken cancellationToken = default)
-        {
-            await using var read = await json.Context.StorageBackend.OpenReadAsync(json.GetLocation(), cancellationToken).ConfigureAwait(false);
-            await JsonSerializer.DeserializeAsync<TData>(read, json.Format.JsonSerializerOptions, cancellationToken).ConfigureAwait(false);
-        }
+        public Task SerializeInitJsonAsync(CancellationToken cancellationToken = default) =>
+            json.RequestFileSystemAsync(async (fs, ct) =>
+            {
+                await using var read = await fs.OpenReadAsync(json.GetLocation(), ct).ConfigureAwait(false);
+                await JsonSerializer.DeserializeAsync<TData>(read, json.Format.JsonSerializerOptions, ct).ConfigureAwait(false);
+            },
+                cancellationToken);
     }
 
     extension<TData>(IJsonDefinition<StrictDefinition, OptionalInRequired, TData> json)
     {
-        public async ValueTask SerializeInitJsonAsync(CancellationToken cancellationToken = default)
-        {
-            if (!await json.Context.StorageBackend.ExistsAsync(json.GetLocation(), cancellationToken))
-                return;
-
-            try
+        public Task SerializeInitJsonAsync(CancellationToken cancellationToken = default) =>
+            json.RequestFileSystemAsync(async (fs, ct) =>
             {
-                await using var read = await json.Context.StorageBackend.OpenReadAsync(json.GetLocation(), cancellationToken).ConfigureAwait(false);
-                await JsonSerializer.DeserializeAsync<TData>(read, json.Format.JsonSerializerOptions, cancellationToken).ConfigureAwait(false);
+                if (!await fs.ExistsAsync(json.GetLocation(), ct))
+                    return;
 
-                return;
-            }
-            catch
-            {
-                await using var write = await json.Context.StorageBackend.OpenWriteAsync(json.GetLocation(), cancellationToken).ConfigureAwait(false);
-                await JsonSerializer.SerializeAsync(write, json.Default, json.Format.JsonSerializerOptions, cancellationToken).ConfigureAwait(false);
-            }
-        }
+                try
+                {
+                    await using var read = await fs.OpenReadAsync(json.GetLocation(), ct).ConfigureAwait(false);
+                    await JsonSerializer.DeserializeAsync<TData>(read, json.Format.JsonSerializerOptions, ct).ConfigureAwait(false);
+
+                    return;
+                }
+                catch
+                {
+                    await using var write = await fs.OpenWriteAsync(json.GetLocation(), ct).ConfigureAwait(false);
+                    await JsonSerializer.SerializeAsync(write, json.Default, json.Format.JsonSerializerOptions, ct).ConfigureAwait(false);
+                }
+            },
+                cancellationToken);
     }
 
     extension<TData>(IJsonDefinition<ExternalDefinition, OptionalInRequired, TData> json)
     {
-        public async ValueTask SerializeInitJsonAsync(CancellationToken cancellationToken = default)
-        {
-            if (!await json.Context.StorageBackend.ExistsAsync(json.GetLocation(), cancellationToken))
+        public Task SerializeInitJsonAsync(CancellationToken cancellationToken = default) =>
+            json.RequestFileSystemAsync(async (fs, ct) =>
             {
-                await using var read = await json.Context.StorageBackend.OpenReadAsync(json.GetLocation(), cancellationToken).ConfigureAwait(false);
-                await JsonSerializer.DeserializeAsync<TData>(read, json.Format.JsonSerializerOptions, cancellationToken).ConfigureAwait(false);
-            }
-        }
+                if (!await fs.ExistsAsync(json.GetLocation(), ct))
+                {
+                    await using var read = await fs.OpenReadAsync(json.GetLocation(), ct).ConfigureAwait(false);
+                    await JsonSerializer.DeserializeAsync<TData>(read, json.Format.JsonSerializerOptions, ct).ConfigureAwait(false);
+                }
+            },
+                cancellationToken);
     }
 
     extension<TData>(IJsonDefinition<StrictDefinition, OptionalInOptional, TData> json)
     {
-        public async ValueTask SerializeInitJsonAsync(CancellationToken cancellationToken = default)
-        {
-            if (!await json.Context.StorageBackend.ExistsAsync(json.GetLocation(), cancellationToken))
-                return;
-
-            try
+        public Task SerializeInitJsonAsync(CancellationToken cancellationToken = default) =>
+            json.RequestFileSystemAsync(async (fs, ct) =>
             {
-                await using var read = await json.Context.StorageBackend.OpenReadAsync(json.GetLocation(), cancellationToken).ConfigureAwait(false);
-                await JsonSerializer.DeserializeAsync<TData>(read, json.Format.JsonSerializerOptions, cancellationToken).ConfigureAwait(false);
+                if (!await fs.ExistsAsync(json.GetLocation(), ct))
+                    return;
 
-                return;
-            }
-            catch
-            {
-                await using var write = await json.Context.StorageBackend.OpenWriteAsync(json.GetLocation(), cancellationToken).ConfigureAwait(false);
-                await JsonSerializer.SerializeAsync(write, json.Default, json.Format.JsonSerializerOptions, cancellationToken).ConfigureAwait(false);
-            }
-        }
+                try
+                {
+                    await using var read = await fs.OpenReadAsync(json.GetLocation(), ct).ConfigureAwait(false);
+                    await JsonSerializer.DeserializeAsync<TData>(read, json.Format.JsonSerializerOptions, ct).ConfigureAwait(false);
+
+                    return;
+                }
+                catch
+                {
+                    await using var write = await fs.OpenWriteAsync(json.GetLocation(), ct).ConfigureAwait(false);
+                    await JsonSerializer.SerializeAsync(write, json.Default, json.Format.JsonSerializerOptions, ct).ConfigureAwait(false);
+                }
+            },
+                cancellationToken);
     }
 
     extension<TData>(IJsonDefinition<ExternalDefinition, OptionalInOptional, TData> json)
     {
-        public async ValueTask SerializeInitJsonAsync(CancellationToken cancellationToken = default)
-        {
-            if (!await json.Context.StorageBackend.ExistsAsync(json.GetLocation(), cancellationToken))
+        public Task SerializeInitJsonAsync(CancellationToken cancellationToken = default) =>
+            json.RequestFileSystemAsync(async (fs, ct) =>
             {
-                await using var read = await json.Context.StorageBackend.OpenReadAsync(json.GetLocation(), cancellationToken).ConfigureAwait(false);
-                await JsonSerializer.DeserializeAsync<TData>(read, json.Format.JsonSerializerOptions, cancellationToken).ConfigureAwait(false);
-            }
-        }
+                if (!await fs.ExistsAsync(json.GetLocation(), ct))
+                {
+                    await using var read = await fs.OpenReadAsync(json.GetLocation(), ct).ConfigureAwait(false);
+                    await JsonSerializer.DeserializeAsync<TData>(read, json.Format.JsonSerializerOptions, ct).ConfigureAwait(false);
+                }
+            },
+                cancellationToken);
     }
 }

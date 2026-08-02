@@ -9,5 +9,5 @@ internal interface IDbInitPolicy<TOwnership, TPlacement, TDbContext>
     where TPlacement : DefinitionPlacement
     where TDbContext : DbContext
 {
-    Func<TDbContext, CancellationToken, ValueTask> GetPolicy(IDbDefinition<TOwnership, TPlacement, TDbContext> init);
+    Func<TDbContext, CancellationToken, Task> GetPolicy(IDbDefinition<TOwnership, TPlacement, TDbContext> init);
 }

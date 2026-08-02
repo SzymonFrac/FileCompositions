@@ -12,7 +12,7 @@ public interface IFileDefinition<TOwnership, TPlacement> : IFileQuality<TOwnersh
 {
     FileDefinitionKey Key { get; }
 
-    internal ValueTask InitializeAsync(CancellationToken cancellationToken = default);
+    internal Task InitializeAsync(CancellationToken cancellationToken = default);
 }
 
 public interface IFileDefinition

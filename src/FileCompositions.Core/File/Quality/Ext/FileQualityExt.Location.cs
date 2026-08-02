@@ -10,6 +10,6 @@ public static partial class FileQualityExt
         where TOwnership : DefinitionOwnership
         where TPlacement : DefinitionPlacement
     {
-        public FileSystemLocation GetLocation() => file.Context.Address.With(file.Name);
+        public FileSystemLocation GetLocation() => file.RequestAddress().With(file.Name);
     }
 }

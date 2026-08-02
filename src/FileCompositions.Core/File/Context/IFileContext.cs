@@ -1,12 +1,12 @@
-﻿using FileCompositions.Core.FileSystem;
-using FileCompositions.Core.FileSystem.Address;
+﻿using FileCompositions.Core.FileSystem.Address;
+using FileCompositions.Core.FileSystem.Source;
 
 namespace FileCompositions.Core.File.Context;
 
 internal interface IFileContext
 {
-    IFileSystem StorageBackend { get; }
-    
+    IFileSystemSource FileSystemSource { get; }
+
     FileSystemAddress Address { get; }
 }
 

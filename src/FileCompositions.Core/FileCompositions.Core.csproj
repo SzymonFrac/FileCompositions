@@ -7,11 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="File\Init\**" />
     <Compile Remove="File\Operator\**" />
-    <EmbeddedResource Remove="File\Init\**" />
     <EmbeddedResource Remove="File\Operator\**" />
-    <None Remove="File\Init\**" />
     <None Remove="File\Operator\**" />
   </ItemGroup>
 

@@ -20,6 +20,6 @@ internal abstract class AbstractJsonDefinition<TOwnership, TPlacement, TData>(IF
 
     public required IJsonInitPolicy<TOwnership, TPlacement, TData> InitPolicy { get; init; }
 
-    public override ValueTask InitializeAsync(CancellationToken cancellationToken = default) =>
+    public override Task InitializeAsync(CancellationToken cancellationToken = default) =>
         InitPolicy.GetPolicy(this).Invoke(cancellationToken);
 }

@@ -12,5 +12,5 @@ public interface IDbDefinition<TOwnership, TPlacement, TDbContext> : IFileDefini
         where TPlacement : DefinitionPlacement
         where TDbContext : DbContext
 {
-    ValueTask InitializeAsync(in TDbContext db, CancellationToken cancellationToken);
+    Task InitializeAsync(in TDbContext db, CancellationToken cancellationToken);
 }

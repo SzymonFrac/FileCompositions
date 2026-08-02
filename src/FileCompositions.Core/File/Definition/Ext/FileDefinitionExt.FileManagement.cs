@@ -15,49 +15,55 @@ public static partial class FileDefinitionExt
 
     extension(IFileDefinition<StrictDefinition, OptionalInRequired> file)
     {
-        internal ValueTask CreateAsync(CancellationToken cancellationToken = default) =>
-            file.Context.StorageBackend.CreateAsync(file.GetLocation(), cancellationToken);
+        internal Task CreateAsync(CancellationToken cancellationToken = default) =>
+            file.RequestFileSystemAsync((fs, ct) => fs.CreateAsync(file.GetLocation(), ct).AsTask(), cancellationToken);
 
-        public async ValueTask DeleteAsync(CancellationToken cancellationToken = default)
-        {
-            if (await file.Context.StorageBackend.ExistsAsync(file.GetLocation(), cancellationToken).ConfigureAwait(false))
-                await file.Context.StorageBackend.DeleteAsync(file.GetLocation(), cancellationToken).ConfigureAwait(false);
-        }
+        public Task DeleteAsync(CancellationToken cancellationToken = default) =>
+            file.RequestFileSystemAsync(async (fs, ct) =>
+            {
+                if (await fs.ExistsAsync(file.GetLocation(), ct).ConfigureAwait(false))
+                    await fs.DeleteAsync(file.GetLocation(), ct).ConfigureAwait(false);
+            },
+                cancellationToken);
 
-        public ValueTask<bool> ExistsAsync(CancellationToken cancellationToken = default) =>
-            file.Context.StorageBackend.ExistsAsync(file.GetLocation(), cancellationToken);
+        public Task<bool> ExistsAsync(CancellationToken cancellationToken = default) =>
+            file.RequestFileSystemAsync((fs, ct) => fs.ExistsAsync(file.GetLocation(), ct).AsTask(), cancellationToken);
     }
 
     extension(IFileDefinition<ExternalDefinition, OptionalInRequired> file)
     {
-        public ValueTask<bool> ExistsAsync(CancellationToken cancellationToken = default) =>
-            file.Context.StorageBackend.ExistsAsync(file.GetLocation(), cancellationToken);
+        public Task<bool> ExistsAsync(CancellationToken cancellationToken = default) =>
+            file.RequestFileSystemAsync((fs, ct) => fs.ExistsAsync(file.GetLocation(), ct).AsTask(), cancellationToken);
     }
 
     extension(IFileDefinition<StrictDefinition, OptionalInOptional> file)
     {
-        internal async ValueTask<bool> TryCreateAsync(CancellationToken cancellationToken = default)
-        {
-            var addressExists = await file.Context.StorageBackend.ExistsAsync(file.GetLocation().Address, cancellationToken).ConfigureAwait(false);
-            if (addressExists)
-                await file.Context.StorageBackend.CreateAsync(file.GetLocation(), cancellationToken).ConfigureAwait(false);
+        internal Task<bool> TryCreateAsync(CancellationToken cancellationToken = default) =>
+            file.RequestFileSystemAsync(async (fs, ct) =>
+            {
+                var addressExists = await fs.ExistsAsync(file.GetLocation().Address, ct).ConfigureAwait(false);
+                if (addressExists)
+                    await fs.CreateAsync(file.GetLocation(), ct).ConfigureAwait(false);
 
-            return addressExists;
-        }
+                return addressExists;
+            },
+                cancellationToken);
 
-        public async ValueTask DeleteAsync(CancellationToken cancellationToken = default)
-        {
-            if (await file.Context.StorageBackend.ExistsAsync(file.GetLocation(), cancellationToken).ConfigureAwait(false))
-                await file.Context.StorageBackend.DeleteAsync(file.GetLocation(), cancellationToken).ConfigureAwait(false);
-        }
+        public Task DeleteAsync(CancellationToken cancellationToken = default) =>
+            file.RequestFileSystemAsync(async (fs, ct) =>
+            {
+                if (await fs.ExistsAsync(file.GetLocation(), ct).ConfigureAwait(false))
+                    await fs.DeleteAsync(file.GetLocation(), ct).ConfigureAwait(false);
+            },
+                cancellationToken);
 
-        public ValueTask<bool> ExistsAsync(CancellationToken cancellationToken = default) =>
-            file.Context.StorageBackend.ExistsAsync(file.GetLocation(), cancellationToken);
+        public Task<bool> ExistsAsync(CancellationToken cancellationToken = default) =>
+            file.RequestFileSystemAsync((fs, ct) => fs.ExistsAsync(file.GetLocation(), ct).AsTask(), cancellationToken);
     }
 
     extension(IFileDefinition<ExternalDefinition, OptionalInOptional> file)
     {
-        public ValueTask<bool> ExistsAsync(CancellationToken cancellationToken = default) =>
-            file.Context.StorageBackend.ExistsAsync(file.GetLocation(), cancellationToken);
+        public Task<bool> ExistsAsync(CancellationToken cancellationToken = default) =>
+            file.RequestFileSystemAsync((fs, ct) => fs.ExistsAsync(file.GetLocation(), ct).AsTask(), cancellationToken);
     }
 }

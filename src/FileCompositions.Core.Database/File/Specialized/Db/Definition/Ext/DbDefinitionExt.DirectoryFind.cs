@@ -3,6 +3,7 @@ using FileCompositions.Core.Database.File.Specialized.Db.Resource;
 using FileCompositions.Core.Directory.Definition;
 using FileCompositions.Core.File.Context.Implementations;
 using FileCompositions.Core.FileSystem.Resource.Name;
+using FileCompositions.Core.FileSystem.Source.Implementations;
 using FileCompositions.Core.Quality.Necessity;
 using FileCompositions.Core.Quality.Ownership;
 
@@ -15,8 +16,8 @@ public static partial class DbDefinitionExt
         where TNecessity : DefinitionNecessity
     {
         public async ValueTask<IDbResource?> GetDbResourceAsync(string name, CancellationToken cancellationToken = default) =>
-            await directory.Context.StorageBackend.ExistsAsync(directory.Address.With(FileSystemResourceName.CreateDb(name)), cancellationToken)
-                ? DbDefinition.Convert(new FileContext(directory.Context.StorageBackend, directory.Address), name)
+            await directory.Context.FileSystem.ExistsAsync(directory.Address.With(FileSystemResourceName.CreateDb(name)), cancellationToken)
+                ? DbDefinition.Convert(new FileContext(new FileSystemSource(directory.Context.FileSystem), directory.Address), name)
                 : default;
     }
 }

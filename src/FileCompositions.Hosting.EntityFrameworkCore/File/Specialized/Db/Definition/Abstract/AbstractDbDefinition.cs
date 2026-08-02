@@ -18,9 +18,9 @@ internal abstract class AbstractDbDefinition<TOwnership, TPlacement, TDbContext>
 {
     public required IDbInitPolicy<TOwnership, TPlacement, TDbContext> InitPolicy { get; init; }
 
-    public ValueTask InitializeAsync(in TDbContext db, CancellationToken cancellationToken) =>
+    public Task InitializeAsync(in TDbContext db, CancellationToken cancellationToken) =>
         InitPolicy.GetPolicy(this).Invoke(db, cancellationToken);
 
-    public override ValueTask InitializeAsync(CancellationToken cancellationToken = default) =>
+    public override Task InitializeAsync(CancellationToken cancellationToken = default) =>
         throw new InvalidOperationException();
 }

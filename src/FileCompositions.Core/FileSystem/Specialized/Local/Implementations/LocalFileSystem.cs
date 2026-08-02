@@ -8,7 +8,7 @@ namespace FileCompositions.Core.FileSystem.Specialized.Local.Implementations;
 public sealed class LocalFileSystem : IFileSystem
 {
     Task<Stream> IFileSystem.OpenReadAsync(FileSystemLocation location, CancellationToken cancellationToken) =>
-                Task.FromResult<Stream>(System.IO.File.OpenRead(location.ToString()));
+        Task.FromResult<Stream>(System.IO.File.OpenRead(location.ToString()));
     Task<Stream> IFileSystem.OpenWriteAsync(FileSystemLocation location, CancellationToken cancellationToken) =>
         Task.FromResult<Stream>(System.IO.File.Create(location.ToString()));
     Task<Stream> IFileSystem.OpenAppendAsync(FileSystemLocation location, CancellationToken cancellationToken) =>

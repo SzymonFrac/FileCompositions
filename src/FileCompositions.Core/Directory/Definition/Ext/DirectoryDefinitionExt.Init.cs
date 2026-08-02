@@ -9,14 +9,14 @@ public static partial class DirectoryDefinitionExt
     extension(IDirectoryDefinition<StrictDefinition, RequiredDefinition> directory)
     {
         internal ValueTask InitAsync(CancellationToken cancellationToken = default) =>
-            directory.Context.StorageBackend.CreateAsync(directory.Address, cancellationToken);
+            directory.Context.FileSystem.CreateAsync(directory.Address, cancellationToken);
     }
 
     extension(IDirectoryDefinition<ExternalDefinition, RequiredDefinition> directory)
     {
         internal async ValueTask InitAsync(CancellationToken cancellationToken = default)
         {
-            if (!await directory.Context.StorageBackend.ExistsAsync(directory.Address, cancellationToken))
+            if (!await directory.Context.FileSystem.ExistsAsync(directory.Address, cancellationToken))
                 throw new ExternalRequiredDirectoryMissingException("A required, external directory must exist.")
                 {
                     Address = directory.Address,

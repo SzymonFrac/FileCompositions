@@ -7,5 +7,5 @@ internal interface IJsonInitPolicy<TOwnership, TPlacement, TData>
     where TOwnership : DefinitionOwnership
     where TPlacement : DefinitionPlacement
 {
-    Func<CancellationToken, ValueTask> GetPolicy(IJsonDefinition<TOwnership, TPlacement, TData> init);
+    Func<CancellationToken, Task> GetPolicy(IJsonDefinition<TOwnership, TPlacement, TData> init);
 }
