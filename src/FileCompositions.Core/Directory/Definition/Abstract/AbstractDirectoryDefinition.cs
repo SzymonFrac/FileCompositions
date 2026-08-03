@@ -2,6 +2,7 @@
 using FileCompositions.Core.Directory.Definition.Ext;
 using FileCompositions.Core.Directory.Definition.Key;
 using FileCompositions.Core.FileSystem.Address;
+using FileCompositions.Core.FileSystem.Request;
 using FileCompositions.Core.Quality.Necessity;
 using FileCompositions.Core.Quality.Necessity.Implementations;
 using FileCompositions.Core.Quality.Ownership;
@@ -19,6 +20,12 @@ internal abstract class AbstractDirectoryDefinition<TOwnership, TNecessity>(IDir
 
     public DirectoryDefinitionKey Key { get; } = key;
     public FileSystemAddress Address { get; } = address;
+
+
+    public ValueTask RequestFileSystemAsync(FileSystemRequest.Address request, CancellationToken cancellationToken) =>
+        Context.RequestFileSystemAsync(request, this, cancellationToken);
+    public ValueTask<TResult> RequestFileSystemAsync<TResult>(FileSystemRequest.Address<TResult> request, CancellationToken cancellationToken) =>
+        Context.RequestFileSystemAsync(request, this, cancellationToken);
 
     public ValueTask InitializeAsync(CancellationToken cancellationToken) => this switch
     {

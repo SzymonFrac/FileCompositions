@@ -1,5 +1,5 @@
 ﻿using FileCompositions.Core.Exception.ExternalRequiredMissing;
-using FileCompositions.Core.File.Quality.Ext;
+using FileCompositions.Core.File.Addressing.Ext;
 using FileCompositions.Core.Quality.Ownership.Implementations;
 using FileCompositions.Core.Quality.Placement.Implementations;
 
@@ -12,8 +12,8 @@ public static partial class FileDefinitionExt
         public Task InitAsync(CancellationToken cancellationToken = default) =>
             file.RequestFileSystemAsync(async (fss, ct) =>
             {
-                if (!await fss.ExistsLocationAsync(ct).ConfigureAwait(false))
-                    await fss.CreateLocationAsync(ct).ConfigureAwait(false);
+                if (!await fss.ExistsAsync(ct).ConfigureAwait(false))
+                    await fss.CreateAsync(ct).ConfigureAwait(false);
             },
                 cancellationToken);
     }
@@ -23,10 +23,10 @@ public static partial class FileDefinitionExt
         public Task InitAsync(CancellationToken cancellationToken = default) =>
             file.RequestFileSystemAsync(async (fss, ct) =>
             {
-                if (!await fss.ExistsLocationAsync(ct).ConfigureAwait(false))
+                if (!await fss.ExistsAsync(ct).ConfigureAwait(false))
                     throw new ExternalRequiredFileMissingException("A required, external file must exist.")
                     {
-                        Location = file.GetLocation(),
+                        Location = file.RequestLocation(),
                         Key = file.Key
                     };
             },

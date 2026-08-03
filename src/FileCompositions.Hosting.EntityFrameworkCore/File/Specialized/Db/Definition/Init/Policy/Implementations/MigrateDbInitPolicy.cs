@@ -1,5 +1,4 @@
 ﻿using FileCompositions.Core.File.Definition.Ext;
-using FileCompositions.Core.File.Quality.Ext;
 using FileCompositions.Core.Quality.Ownership;
 using FileCompositions.Core.Quality.Ownership.Implementations;
 using FileCompositions.Core.Quality.Placement;
@@ -49,7 +48,7 @@ internal static partial class MigrateDbInitPolicy
         public Task MigrateDbAsync(TDbContext dbContext, CancellationToken cancellationToken = default) =>
             db.RequestFileSystemAsync(async (fss, ct) =>
             {
-                if (await fss.ExistsLocationAsync(ct).ConfigureAwait(false))
+                if (await fss.ExistsAsync(ct).ConfigureAwait(false))
                     await dbContext.Database.MigrateAsync(ct).ConfigureAwait(false);
             },
                 cancellationToken);
@@ -68,7 +67,7 @@ internal static partial class MigrateDbInitPolicy
         public Task MigrateDbAsync(TDbContext dbContext, CancellationToken cancellationToken = default) =>
             db.RequestFileSystemAsync(async (fss, ct) =>
             {
-                if (await fss.ExistsLocationAsync(ct).ConfigureAwait(false))
+                if (await fss.ExistsAsync(ct).ConfigureAwait(false))
                     await dbContext.Database.MigrateAsync(ct).ConfigureAwait(false);
             },
                 cancellationToken);

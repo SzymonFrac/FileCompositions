@@ -62,7 +62,7 @@ internal static partial class SerializeJsonInitPolicy
         public Task SerializeInitJsonAsync(CancellationToken cancellationToken = default) =>
             json.RequestFileSystemAsync(async (fss, ct) =>
             {
-                if (!await fss.ExistsLocationAsync(ct))
+                if (!await fss.ExistsAsync(ct))
                     return;
 
                 try
@@ -86,7 +86,7 @@ internal static partial class SerializeJsonInitPolicy
         public Task SerializeInitJsonAsync(CancellationToken cancellationToken = default) =>
             json.RequestFileSystemAsync(async (fss, ct) =>
             {
-                if (!await fss.ExistsLocationAsync(ct))
+                if (!await fss.ExistsAsync(ct))
                 {
                     await using var read = await fss.OpenReadAsync(ct).ConfigureAwait(false);
                     await JsonSerializer.DeserializeAsync<TData>(read, json.Format.JsonSerializerOptions, ct).ConfigureAwait(false);
@@ -100,7 +100,7 @@ internal static partial class SerializeJsonInitPolicy
         public Task SerializeInitJsonAsync(CancellationToken cancellationToken = default) =>
             json.RequestFileSystemAsync(async (fss, ct) =>
             {
-                if (!await fss.ExistsLocationAsync(ct))
+                if (!await fss.ExistsAsync(ct))
                     return;
 
                 try
@@ -124,7 +124,7 @@ internal static partial class SerializeJsonInitPolicy
         public Task SerializeInitJsonAsync(CancellationToken cancellationToken = default) =>
             json.RequestFileSystemAsync(async (fss, ct) =>
             {
-                if (!await fss.ExistsLocationAsync(ct))
+                if (!await fss.ExistsAsync(ct))
                 {
                     await using var read = await fss.OpenReadAsync(ct).ConfigureAwait(false);
                     await JsonSerializer.DeserializeAsync<TData>(read, json.Format.JsonSerializerOptions, ct).ConfigureAwait(false);

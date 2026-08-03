@@ -30,7 +30,7 @@ internal static partial class DefaultDllInitPolicy
         public Task InitDllAsync(CancellationToken cancellationToken = default) =>
             dll.RequestFileSystemAsync(async (fss, ct) =>
             {
-                if (!await fss.ExistsLocationAsync(ct).ConfigureAwait(false))
+                if (!await fss.ExistsAsync(ct).ConfigureAwait(false))
                 {
                     await using var stream = await fss.OpenCreateAsync(ct).ConfigureAwait(false);
 

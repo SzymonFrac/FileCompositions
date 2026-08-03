@@ -1,6 +1,5 @@
 ﻿using FileCompositions.Core.File.Context;
 using FileCompositions.Core.File.Definition.Key;
-using FileCompositions.Core.File.Quality.Ext;
 using FileCompositions.Core.FileSystem.Address;
 using FileCompositions.Core.FileSystem.Request;
 using FileCompositions.Core.FileSystem.Resource.Name;
@@ -18,12 +17,12 @@ internal abstract class AbstractFileDefinition<TOwnership, TPlacement>(IFileCont
     public FileDefinitionKey Key { get; } = key;
     public FileSystemResourceName Name { get; } = name;
 
-    public abstract Task InitializeAsync(CancellationToken cancellationToken = default);
-
     public FileSystemAddress RequestAddress() => _context.Address;
 
-    public Task RequestFileSystemAsync(FileSystemRequest request, CancellationToken cancellationToken) =>
-        _context.RequestFileSystemAsync(request, this.GetLocation(), cancellationToken);
-    public Task<TResult> RequestFileSystemAsync<TResult>(FileSystemRequest<TResult> request, CancellationToken cancellationToken) =>
-        _context.RequestFileSystemAsync(request, this.GetLocation(), cancellationToken);
+    public abstract Task InitializeAsync(CancellationToken cancellationToken = default);
+
+    public Task RequestFileSystemAsync(FileSystemRequest.Location request, CancellationToken cancellationToken) =>
+        _context.RequestFileSystemAsync(request, this, cancellationToken);
+    public Task<TResult> RequestFileSystemAsync<TResult>(FileSystemRequest.Location<TResult> request, CancellationToken cancellationToken) =>
+        _context.RequestFileSystemAsync(request, this, cancellationToken);
 }
