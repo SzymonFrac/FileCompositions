@@ -1,5 +1,4 @@
-﻿using FileCompositions.Core.File.Quality.Ext;
-using FileCompositions.Core.Quality.Ownership;
+﻿using FileCompositions.Core.Quality.Ownership;
 using FileCompositions.Core.Quality.Ownership.Implementations;
 using FileCompositions.Core.Quality.Placement;
 using FileCompositions.Core.Quality.Placement.Implementations;
@@ -29,18 +28,18 @@ internal static partial class SerializeJsonInitPolicy
     extension<TData>(IJsonDefinition<StrictDefinition, RequiredInRequired, TData> json)
     {
         public Task SerializeInitJsonAsync(CancellationToken cancellationToken = default) =>
-            json.RequestFileSystemAsync(async (fs, ct) =>
+            json.RequestFileSystemAsync(async (fss, ct) =>
             {
                 try
                 {
-                    await using var read = await fs.OpenReadAsync(json.GetLocation(), ct).ConfigureAwait(false);
+                    await using var read = await fss.OpenReadAsync(ct).ConfigureAwait(false);
                     await JsonSerializer.DeserializeAsync<TData>(read, json.Format.JsonSerializerOptions, ct).ConfigureAwait(false);
 
                     return;
                 }
                 catch
                 {
-                    await using var write = await fs.OpenWriteAsync(json.GetLocation(), ct).ConfigureAwait(false);
+                    await using var write = await fss.OpenWriteAsync(ct).ConfigureAwait(false);
                     await JsonSerializer.SerializeAsync(write, json.Default, json.Format.JsonSerializerOptions, ct).ConfigureAwait(false);
                 }
             },
@@ -50,9 +49,9 @@ internal static partial class SerializeJsonInitPolicy
     extension<TData>(IJsonDefinition<ExternalDefinition, RequiredInRequired, TData> json)
     {
         public Task SerializeInitJsonAsync(CancellationToken cancellationToken = default) =>
-            json.RequestFileSystemAsync(async (fs, ct) =>
+            json.RequestFileSystemAsync(async (fss, ct) =>
             {
-                await using var read = await fs.OpenReadAsync(json.GetLocation(), ct).ConfigureAwait(false);
+                await using var read = await fss.OpenReadAsync(ct).ConfigureAwait(false);
                 await JsonSerializer.DeserializeAsync<TData>(read, json.Format.JsonSerializerOptions, ct).ConfigureAwait(false);
             },
                 cancellationToken);
@@ -61,21 +60,21 @@ internal static partial class SerializeJsonInitPolicy
     extension<TData>(IJsonDefinition<StrictDefinition, OptionalInRequired, TData> json)
     {
         public Task SerializeInitJsonAsync(CancellationToken cancellationToken = default) =>
-            json.RequestFileSystemAsync(async (fs, ct) =>
+            json.RequestFileSystemAsync(async (fss, ct) =>
             {
-                if (!await fs.ExistsAsync(json.GetLocation(), ct))
+                if (!await fss.ExistsLocationAsync(ct))
                     return;
 
                 try
                 {
-                    await using var read = await fs.OpenReadAsync(json.GetLocation(), ct).ConfigureAwait(false);
+                    await using var read = await fss.OpenReadAsync(ct).ConfigureAwait(false);
                     await JsonSerializer.DeserializeAsync<TData>(read, json.Format.JsonSerializerOptions, ct).ConfigureAwait(false);
 
                     return;
                 }
                 catch
                 {
-                    await using var write = await fs.OpenWriteAsync(json.GetLocation(), ct).ConfigureAwait(false);
+                    await using var write = await fss.OpenWriteAsync(ct).ConfigureAwait(false);
                     await JsonSerializer.SerializeAsync(write, json.Default, json.Format.JsonSerializerOptions, ct).ConfigureAwait(false);
                 }
             },
@@ -85,11 +84,11 @@ internal static partial class SerializeJsonInitPolicy
     extension<TData>(IJsonDefinition<ExternalDefinition, OptionalInRequired, TData> json)
     {
         public Task SerializeInitJsonAsync(CancellationToken cancellationToken = default) =>
-            json.RequestFileSystemAsync(async (fs, ct) =>
+            json.RequestFileSystemAsync(async (fss, ct) =>
             {
-                if (!await fs.ExistsAsync(json.GetLocation(), ct))
+                if (!await fss.ExistsLocationAsync(ct))
                 {
-                    await using var read = await fs.OpenReadAsync(json.GetLocation(), ct).ConfigureAwait(false);
+                    await using var read = await fss.OpenReadAsync(ct).ConfigureAwait(false);
                     await JsonSerializer.DeserializeAsync<TData>(read, json.Format.JsonSerializerOptions, ct).ConfigureAwait(false);
                 }
             },
@@ -99,21 +98,21 @@ internal static partial class SerializeJsonInitPolicy
     extension<TData>(IJsonDefinition<StrictDefinition, OptionalInOptional, TData> json)
     {
         public Task SerializeInitJsonAsync(CancellationToken cancellationToken = default) =>
-            json.RequestFileSystemAsync(async (fs, ct) =>
+            json.RequestFileSystemAsync(async (fss, ct) =>
             {
-                if (!await fs.ExistsAsync(json.GetLocation(), ct))
+                if (!await fss.ExistsLocationAsync(ct))
                     return;
 
                 try
                 {
-                    await using var read = await fs.OpenReadAsync(json.GetLocation(), ct).ConfigureAwait(false);
+                    await using var read = await fss.OpenReadAsync(ct).ConfigureAwait(false);
                     await JsonSerializer.DeserializeAsync<TData>(read, json.Format.JsonSerializerOptions, ct).ConfigureAwait(false);
 
                     return;
                 }
                 catch
                 {
-                    await using var write = await fs.OpenWriteAsync(json.GetLocation(), ct).ConfigureAwait(false);
+                    await using var write = await fss.OpenWriteAsync(ct).ConfigureAwait(false);
                     await JsonSerializer.SerializeAsync(write, json.Default, json.Format.JsonSerializerOptions, ct).ConfigureAwait(false);
                 }
             },
@@ -123,11 +122,11 @@ internal static partial class SerializeJsonInitPolicy
     extension<TData>(IJsonDefinition<ExternalDefinition, OptionalInOptional, TData> json)
     {
         public Task SerializeInitJsonAsync(CancellationToken cancellationToken = default) =>
-            json.RequestFileSystemAsync(async (fs, ct) =>
+            json.RequestFileSystemAsync(async (fss, ct) =>
             {
-                if (!await fs.ExistsAsync(json.GetLocation(), ct))
+                if (!await fss.ExistsLocationAsync(ct))
                 {
-                    await using var read = await fs.OpenReadAsync(json.GetLocation(), ct).ConfigureAwait(false);
+                    await using var read = await fss.OpenReadAsync(ct).ConfigureAwait(false);
                     await JsonSerializer.DeserializeAsync<TData>(read, json.Format.JsonSerializerOptions, ct).ConfigureAwait(false);
                 }
             },

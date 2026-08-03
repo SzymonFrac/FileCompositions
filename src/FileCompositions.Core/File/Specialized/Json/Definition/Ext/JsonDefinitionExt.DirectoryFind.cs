@@ -3,7 +3,6 @@ using FileCompositions.Core.File.Context.Implementations;
 using FileCompositions.Core.File.Specialized.Json.Definition.Implementations;
 using FileCompositions.Core.File.Specialized.Json.Quality.Ext;
 using FileCompositions.Core.File.Specialized.Json.Resource;
-using FileCompositions.Core.FileSystem.Source.Implementations;
 using FileCompositions.Core.Quality.Necessity.Implementations;
 using FileCompositions.Core.Quality.Ownership.Implementations;
 
@@ -17,7 +16,7 @@ public static partial class JsonDefinitionExt
         {
             try
             {
-                var context = new FileContext(new FileSystemSource(directory.Context.FileSystem), directory.Address);
+                var context = new FileContext(directory.Context.FileSystem, directory.Address);
                 var json = JsonDefinition.Convert<TData>(context, name);
                 await json.ReadAsync(cancellationToken).ConfigureAwait(false);
 
@@ -36,7 +35,7 @@ public static partial class JsonDefinitionExt
         {
             try
             {
-                var context = new FileContext(new FileSystemSource(directory.Context.FileSystem), directory.Address);
+                var context = new FileContext(directory.Context.FileSystem, directory.Address);
                 var json = JsonDefinition.Convert<TData>(context, name);
                 await json.ReadAsync(cancellationToken).ConfigureAwait(false);
 
@@ -55,7 +54,7 @@ public static partial class JsonDefinitionExt
         {
             try
             {
-                var context = new FileContext(new FileSystemSource(directory.Context.FileSystem), directory.Address);
+                var context = new FileContext(directory.Context.FileSystem, directory.Address);
                 var json = JsonDefinition.Convert<TData>(context, name);
                 await json.ReadAsync(cancellationToken).ConfigureAwait(false);
 
@@ -74,7 +73,7 @@ public static partial class JsonDefinitionExt
         {
             try
             {
-                var context = new FileContext(new FileSystemSource(directory.Context.FileSystem), directory.Address);
+                var context = new FileContext(directory.Context.FileSystem, directory.Address);
                 var json = JsonDefinition.Convert<TData>(context, name);
                 await json.ReadAsync(cancellationToken).ConfigureAwait(false);
 

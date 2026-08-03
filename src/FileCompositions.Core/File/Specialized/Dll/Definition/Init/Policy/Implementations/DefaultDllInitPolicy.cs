@@ -1,5 +1,4 @@
 ﻿using FileCompositions.Core.File.Definition.Ext;
-using FileCompositions.Core.File.Quality.Ext;
 using FileCompositions.Core.Quality.Ownership;
 using FileCompositions.Core.Quality.Ownership.Implementations;
 using FileCompositions.Core.Quality.Placement;
@@ -29,11 +28,11 @@ internal static partial class DefaultDllInitPolicy
     extension(IDllDefinition<StrictDefinition, RequiredInRequired> dll)
     {
         public Task InitDllAsync(CancellationToken cancellationToken = default) =>
-            dll.RequestFileSystemAsync(async (fs, ct) =>
+            dll.RequestFileSystemAsync(async (fss, ct) =>
             {
-                if (!await fs.ExistsAsync(dll.GetLocation(), ct).ConfigureAwait(false))
+                if (!await fss.ExistsLocationAsync(ct).ConfigureAwait(false))
                 {
-                    await using var stream = await fs.OpenCreateAsync(dll.GetLocation(), ct).ConfigureAwait(false);
+                    await using var stream = await fss.OpenCreateAsync(ct).ConfigureAwait(false);
 
                     await using var @default = typeof(IDllDefinition<,>).Assembly
                         .GetManifestResourceStream("FileCompositions.Core.Assets.Dll.Default.dll")!;

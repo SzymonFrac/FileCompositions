@@ -1,5 +1,4 @@
-﻿using FileCompositions.Core.File.Quality.Ext;
-using FileCompositions.Core.Quality.Ownership.Implementations;
+﻿using FileCompositions.Core.Quality.Ownership.Implementations;
 using FileCompositions.Core.Quality.Placement.Implementations;
 using System.Text.Json;
 
@@ -20,11 +19,11 @@ public static partial class JsonDefinitionExt
     extension<TData>(IJsonDefinition<StrictDefinition, OptionalInRequired, TData> json)
     {
         public Task CreateAsync(CancellationToken cancellationToken = default) =>
-            json.RequestFileSystemAsync(async (fs, ct) =>
+            json.RequestFileSystemAsync(async (fss, ct) =>
             {
-                if (await fs.ExistsAsync(json.GetLocation(), ct).ConfigureAwait(false))
+                if (await fss.ExistsLocationAsync(ct).ConfigureAwait(false))
                 {
-                    await using var stream = await fs.OpenCreateAsync(json.GetLocation(), ct).ConfigureAwait(false);
+                    await using var stream = await fss.OpenCreateAsync(ct).ConfigureAwait(false);
                     await JsonSerializer.SerializeAsync<TData?>(stream, default, json.Format.JsonSerializerOptions, cancellationToken).ConfigureAwait(false);
                 }
             },
@@ -39,12 +38,12 @@ public static partial class JsonDefinitionExt
     extension<TData>(IJsonDefinition<StrictDefinition, OptionalInOptional, TData> json)
     {
         public Task<bool> TryCreateAsync(CancellationToken cancellationToken = default) =>
-            json.RequestFileSystemAsync(async (fs, ct) =>
+            json.RequestFileSystemAsync(async (fss, ct) =>
             {
-                var addressExists = await fs.ExistsAsync(json.GetLocation().Address, ct).ConfigureAwait(false);
+                var addressExists = await fss.ExistsAddressAsync(ct).ConfigureAwait(false);
                 if (addressExists)
                 {
-                    await using var stream = await fs.OpenCreateAsync(json.GetLocation(), ct).ConfigureAwait(false);
+                    await using var stream = await fss.OpenCreateAsync(ct).ConfigureAwait(false);
                     await JsonSerializer.SerializeAsync<TData?>(stream, default, json.Format.JsonSerializerOptions, ct).ConfigureAwait(false);
                 }
 

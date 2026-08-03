@@ -1,4 +1,5 @@
 ﻿using FileCompositions.Core.File.Context;
+using FileCompositions.Core.File.Quality.Ext;
 using FileCompositions.Core.FileSystem.Address;
 using FileCompositions.Core.FileSystem.Request;
 using FileCompositions.Core.FileSystem.Resource.Name;
@@ -13,7 +14,7 @@ internal abstract class AbstractFileResource(IFileContext context, FileSystemRes
     public FileSystemAddress RequestAddress() => _context.Address;
 
     public Task RequestFileSystemAsync(FileSystemRequest request, CancellationToken cancellationToken) =>
-        _context.FileSystemSource.RequestFileSystemAsync(request, cancellationToken);
+        _context.RequestFileSystemAsync(request, this.GetLocation(), cancellationToken);
     public Task<TResult> RequestFileSystemAsync<TResult>(FileSystemRequest<TResult> request, CancellationToken cancellationToken) =>
-        _context.FileSystemSource.RequestFileSystemAsync(request, cancellationToken);
+        _context.RequestFileSystemAsync(request, this.GetLocation(), cancellationToken);
 }

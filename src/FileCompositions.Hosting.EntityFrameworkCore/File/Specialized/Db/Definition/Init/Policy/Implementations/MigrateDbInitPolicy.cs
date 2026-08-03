@@ -47,10 +47,10 @@ internal static partial class MigrateDbInitPolicy
         where TDbContext : DbContext
     {
         public Task MigrateDbAsync(TDbContext dbContext, CancellationToken cancellationToken = default) =>
-            db.RequestFileSystemAsync(async (fs, ct) =>
+            db.RequestFileSystemAsync(async (fss, ct) =>
             {
-                if (await fs.ExistsAsync(db.GetLocation(), ct))
-                    await dbContext.Database.MigrateAsync(ct);
+                if (await fss.ExistsLocationAsync(ct).ConfigureAwait(false))
+                    await dbContext.Database.MigrateAsync(ct).ConfigureAwait(false);
             },
                 cancellationToken);
     }
@@ -66,10 +66,10 @@ internal static partial class MigrateDbInitPolicy
         where TDbContext : DbContext
     {
         public Task MigrateDbAsync(TDbContext dbContext, CancellationToken cancellationToken = default) =>
-            db.RequestFileSystemAsync(async (fs, ct) =>
+            db.RequestFileSystemAsync(async (fss, ct) =>
             {
-                if (await fs.ExistsAsync(db.GetLocation(), ct))
-                    await dbContext.Database.MigrateAsync(ct);
+                if (await fss.ExistsLocationAsync(ct).ConfigureAwait(false))
+                    await dbContext.Database.MigrateAsync(ct).ConfigureAwait(false);
             },
                 cancellationToken);
         

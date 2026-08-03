@@ -1,4 +1,6 @@
-﻿namespace FileCompositions.Core.FileSystem.Request;
+﻿using FileCompositions.Core.FileSystem.Session;
 
-internal delegate Task FileSystemRequest(IFileSystem fileSystem, CancellationToken cancellationToken = default);
-internal delegate Task<TResult> FileSystemRequest<TResult>(IFileSystem fileSystem, CancellationToken cancellationToken = default);
+namespace FileCompositions.Core.FileSystem.Request;
+
+internal delegate Task FileSystemRequest(FileSystemSession fileSystemSession, CancellationToken cancellationToken = default);
+internal delegate Task<TResult> FileSystemRequest<TResult>(FileSystemSession fileSystemSession, CancellationToken cancellationToken = default);
