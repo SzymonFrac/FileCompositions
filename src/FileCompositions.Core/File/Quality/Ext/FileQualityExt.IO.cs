@@ -21,7 +21,7 @@ public static partial class FileQualityExt
     {
         internal Task<Stream?> OpenReadAsync(CancellationToken cancellationToken = default) =>
             file.RequestFileSystemAsync(async (fss, ct) =>
-                await fss.ExistsLocationAsync(ct).ConfigureAwait(false)
+                await fss.ExistsAsync(ct).ConfigureAwait(false)
                     ? await fss.OpenReadAsync(ct).ConfigureAwait(false)
                     : default,
                 cancellationToken);
@@ -35,19 +35,19 @@ public static partial class FileQualityExt
     {
         internal Task<Stream?> OpenReadAsync(CancellationToken cancellationToken = default) =>
             file.RequestFileSystemAsync(async (fss, ct) =>
-                await fss.ExistsLocationAsync(ct).ConfigureAwait(false)
+                await fss.ExistsAsync(ct).ConfigureAwait(false)
                     ? await fss.OpenReadAsync(ct).ConfigureAwait(false)
                     : default,
                 cancellationToken);
         internal Task<Stream?> OpenWriteAsync(CancellationToken cancellationToken = default) =>
             file.RequestFileSystemAsync(async (fss, ct) =>
-                await fss.ExistsLocationAsync(ct).ConfigureAwait(false)
+                await fss.ExistsAsync(ct).ConfigureAwait(false)
                     ? await fss.OpenWriteAsync(ct).ConfigureAwait(false)
                     : default,
                 cancellationToken);
         internal Task<Stream?> OpenAppendAsync(CancellationToken cancellationToken = default) =>
             file.RequestFileSystemAsync(async (fss, ct) =>
-                await fss.ExistsLocationAsync(ct).ConfigureAwait(false)
+                await fss.ExistsAsync(ct).ConfigureAwait(false)
                     ? await fss.OpenAppendAsync(ct).ConfigureAwait(false)
                     : default,
                 cancellationToken);
@@ -57,19 +57,19 @@ public static partial class FileQualityExt
     {
         internal Task<Stream?> OpenReadAsync(CancellationToken cancellationToken = default) =>
             file.RequestFileSystemAsync(async (fss, ct) =>
-                await fss.ExistsLocationAsync(ct).ConfigureAwait(false)
+                await fss.ExistsAsync(ct).ConfigureAwait(false)
                     ? await fss.OpenReadAsync(ct).ConfigureAwait(false)
                     : default,
                 cancellationToken);
         internal Task<Stream?> OpenWriteAsync(CancellationToken cancellationToken = default) =>
             file.RequestFileSystemAsync(async (fss, ct) =>
-                await fss.ExistsLocationAsync(ct).ConfigureAwait(false)
+                await fss.ExistsAsync(ct).ConfigureAwait(false)
                     ? await fss.OpenWriteAsync(ct).ConfigureAwait(false)
                     : default,
                 cancellationToken);
         internal Task<Stream?> OpenAppendAsync(CancellationToken cancellationToken = default) =>
             file.RequestFileSystemAsync(async (fss, ct) =>
-                await fss.ExistsLocationAsync(ct).ConfigureAwait(false)
+                await fss.ExistsAsync(ct).ConfigureAwait(false)
                     ? await fss.OpenAppendAsync(ct).ConfigureAwait(false)
                     : default,
                 cancellationToken);
@@ -79,19 +79,19 @@ public static partial class FileQualityExt
     {
         internal Task<Stream?> OpenReadAsync(CancellationToken cancellationToken = default) =>
             file.RequestFileSystemAsync(async (fss, ct) =>
-                await fss.ExistsLocationAsync(ct).ConfigureAwait(false)
+                await fss.ExistsAsync(ct).ConfigureAwait(false)
                     ? await fss.OpenReadAsync(ct).ConfigureAwait(false)
                     : default,
                 cancellationToken);
         internal Task<Stream?> OpenWriteAsync(CancellationToken cancellationToken = default) =>
             file.RequestFileSystemAsync(async (fss, ct) =>
-                await fss.ExistsLocationAsync(ct).ConfigureAwait(false)
+                await fss.ExistsAsync(ct).ConfigureAwait(false)
                     ? await fss.OpenWriteAsync(ct).ConfigureAwait(false)
                     : default,
                 cancellationToken);
         internal Task<Stream?> OpenAppendAsync(CancellationToken cancellationToken = default) =>
             file.RequestFileSystemAsync(async (fss, ct) =>
-                await fss.ExistsLocationAsync(ct).ConfigureAwait(false)
+                await fss.ExistsAsync(ct).ConfigureAwait(false)
                     ? await fss.OpenAppendAsync(ct).ConfigureAwait(false)
                     : default,
                 cancellationToken);

@@ -20,7 +20,7 @@ public static partial class DllDefinitionExt
         public Task CreateAsync(CancellationToken cancellationToken = default) =>
             dll.RequestFileSystemAsync(async (fss, ct) =>
             {
-                if (!await fss.ExistsLocationAsync(ct).ConfigureAwait(false))
+                if (!await fss.ExistsAsync(ct).ConfigureAwait(false))
                 {
                     await using var stream = await fss.OpenCreateAsync(ct).ConfigureAwait(false);
 
@@ -43,7 +43,7 @@ public static partial class DllDefinitionExt
         public Task<bool> TryCreateAsync(CancellationToken cancellationToken = default) =>
             dll.RequestFileSystemAsync(async (fss, ct) =>
             {
-                var addressExists = await fss.ExistsAddressAsync(ct).ConfigureAwait(false);
+                var addressExists = await fss.AddressExistsAsync(ct).ConfigureAwait(false);
                 if (addressExists)
                 {
                     await using var stream = await fss.OpenCreateAsync(ct).ConfigureAwait(false);

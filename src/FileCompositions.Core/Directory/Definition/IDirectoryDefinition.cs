@@ -11,6 +11,5 @@ public interface IDirectoryDefinition<TOwnership, TNecessity> : IDirectoryQualit
 {
     DirectoryDefinitionKey Key { get; }
 
-
     internal ValueTask InitializeAsync(CancellationToken cancellationToken = default);
 }

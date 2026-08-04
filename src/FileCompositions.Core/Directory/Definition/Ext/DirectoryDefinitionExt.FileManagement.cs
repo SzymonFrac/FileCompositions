@@ -18,18 +18,18 @@ public static partial class DirectoryDefinitionExt
     extension(IDirectoryDefinition<StrictDefinition, OptionalDefinition> directory)
     {
         public ValueTask CreateAsync(CancellationToken cancellationToken = default) =>
-            directory.Context.FileSystem.CreateAsync(directory.Address, cancellationToken);
+            directory.RequestFileSystemAsync((fss, ct) => fss.CreateAsync(ct), cancellationToken);
 
         public ValueTask DeleteAsync(CancellationToken cancellationToken = default) =>
-            directory.Context.FileSystem.DeleteAsync(directory.Address, cancellationToken);
+            directory.RequestFileSystemAsync((fss, ct) => fss.DeleteAsync(ct), cancellationToken);
 
         public ValueTask<bool> ExistsAsync(CancellationToken cancellationToken = default) =>
-            directory.Context.FileSystem.ExistsAsync(directory.Address, cancellationToken);
+            directory.RequestFileSystemAsync((fss, ct) => fss.ExistsAsync(ct), cancellationToken);
     }
 
     extension(IDirectoryDefinition<ExternalDefinition, OptionalDefinition> directory)
     {
         public ValueTask<bool> ExistsAsync(CancellationToken cancellationToken = default) =>
-            directory.Context.FileSystem.ExistsAsync(directory.Address, cancellationToken);
+            directory.RequestFileSystemAsync((fss, ct) => fss.ExistsAsync(ct), cancellationToken);
     }
 }

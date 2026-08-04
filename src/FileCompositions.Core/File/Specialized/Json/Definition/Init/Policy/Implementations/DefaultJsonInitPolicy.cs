@@ -31,7 +31,7 @@ internal static partial class DefaultJsonInitPolicy
         public Task InitJsonAsync(CancellationToken cancellationToken = default) =>
             json.RequestFileSystemAsync(async (fss, ct) =>
             {
-                if (!await fss.ExistsLocationAsync(ct).ConfigureAwait(false))
+                if (!await fss.ExistsAsync(ct).ConfigureAwait(false))
                 {
                     await using var stream = await fss.OpenWriteAsync(ct).ConfigureAwait(false);
                     await JsonSerializer.SerializeAsync(stream, json.Default, json.Format.JsonSerializerOptions, ct).ConfigureAwait(false);

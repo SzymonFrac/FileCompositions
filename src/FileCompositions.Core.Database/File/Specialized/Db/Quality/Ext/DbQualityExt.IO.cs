@@ -1,4 +1,4 @@
-﻿using FileCompositions.Core.File.Quality.Ext;
+﻿using FileCompositions.Core.File.Addressing.Ext;
 using FileCompositions.Core.Quality.Ownership;
 using FileCompositions.Core.Quality.Placement;
 using Microsoft.Data.Sqlite;
@@ -14,7 +14,7 @@ public static partial class DbQualityExt
         public SqliteConnectionStringBuilder GetConnectionStringBuilder() =>
             new()
             {
-                DataSource = db.GetLocation().ToString()
+                DataSource = db.RequestLocation().ToString()
             };
     }
 }
