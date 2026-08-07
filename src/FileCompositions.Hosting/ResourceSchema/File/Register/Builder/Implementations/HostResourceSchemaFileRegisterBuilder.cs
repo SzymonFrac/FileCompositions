@@ -1,8 +1,10 @@
 ﻿using FileCompositions.Core.Directory.Definition;
+using FileCompositions.Core.Directory.Definition.Key;
 using FileCompositions.Core.File.Context.Factory;
 using FileCompositions.Core.File.Context.Factory.Implementations;
 using FileCompositions.Core.File.Definition;
 using FileCompositions.Core.File.Definition.Descriptor;
+using FileCompositions.Core.File.Definition.Key;
 using FileCompositions.Core.Quality.Necessity;
 using FileCompositions.Core.Quality.Ownership;
 using FileCompositions.Core.Quality.Placement;
@@ -21,21 +23,44 @@ internal sealed class HostResourceSchemaFileRegisterBuilder<TInOwnership, TInNec
     // Similarly, pass the init trigger/policy as DI to all definitions too. Or as descriptor?
     public IFileContextFactory FileContextFactory { get; init; } = new FileContextFactory();
 
-    public HostResourceSchemaRegister Build<TOwnership, TPlacement, TDefinition, TDescriptor>(TDescriptor descriptor)
+    //public HostResourceSchemaRegister Build<TOwnership, TPlacement, TDefinition, TDescriptor>(TDescriptor descriptor)
+    //    where TOwnership : DefinitionOwnership
+    //    where TPlacement : DefinitionPlacement
+    //    where TDefinition : class, IFileDefinition<TOwnership, TPlacement>
+    //    where TDescriptor : IFileDefinitionDescriptor<TOwnership, TPlacement, TDefinition> =>
+    //        new((in services) => services
+    //            .AddKeyedSingleton<TDefinition>(descriptor.Key, (sp, key) =>
+    //            {
+    //                var directory = sp.GetRequiredKeyedService<IDirectoryDefinition<TInOwnership, TInNecessity>>(descriptor.DirectoryKey);
+    //                var context = FileContextFactory.Create(directory);
+
+    //                var file = descriptor.Activate(context);
+
+    //                // use key here to give identity??
+
+    //                return file;
+    //            })
+    //            .AddSingleton<IHostResourceSchemaInitializer>(
+    //                new HostResourceSchemaFileInitializer<TDefinition, TOwnership, TPlacement>(descriptor.Key)));
+
+    public HostResourceSchemaRegister Build<TOwnership, TPlacement, TDefinition>(DirectoryDefinitionKey directoryKey, FileDefinitionKey fileKey, FileDefinitionRequestDescriptor<TOwnership, TPlacement, TDefinition> descriptor)
         where TOwnership : DefinitionOwnership
         where TPlacement : DefinitionPlacement
-        where TDefinition : class, IFileDefinition<TOwnership, TPlacement>
-        where TDescriptor : IFileDefinitionDescriptor<TOwnership, TPlacement, TDefinition> =>
+        where TDefinition : class, IFileDefinition<TOwnership, TPlacement> =>
             new((in services) => services
-                .AddKeyedSingleton<TDefinition>(descriptor.Key, (sp, key) =>
+                .AddKeyedSingleton<TDefinition>(fileKey, (sp, key) =>
                 {
-                    var directory = sp.GetRequiredKeyedService<IDirectoryDefinition<TInOwnership, TInNecessity>>(descriptor.DirectoryKey);
+                    var directory = sp.GetRequiredKeyedService<IDirectoryDefinition<TInOwnership, TInNecessity>>(directoryKey);
                     var context = FileContextFactory.Create(directory);
 
-                    var file = descriptor.Activate(context);
+                    var file = descriptor(context);
 
                     return file;
                 })
-                .AddSingleton<IHostResourceSchemaInitializer>(
-                    new HostResourceSchemaFileInitializer<TDefinition, TOwnership, TPlacement>(descriptor.Key)));
+                    .AddSingleton<IHostResourceSchemaInitializer>(
+                        new HostResourceSchemaFileInitializer<TDefinition, TOwnership, TPlacement>(fileKey)));
+
 }
+
+// If I had:
+// FileDescriptor del(out keys)
