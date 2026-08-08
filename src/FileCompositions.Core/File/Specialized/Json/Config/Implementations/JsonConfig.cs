@@ -8,7 +8,7 @@ using System.Text.Json;
 
 namespace FileCompositions.Core.File.Specialized.Json.Config.Implementations;
 
-internal class JsonConfig<TData> : IJsonConfig<TData>
+internal sealed class JsonConfig<TData> : IJsonConfig<TData>
 {
     private string? name;
     private JsonFormat format = JsonFormat.Default;

@@ -10,20 +10,20 @@ using FileCompositions.Core.Quality.Placement;
 
 namespace FileCompositions.Core.File.Specialized.Dll.Definition.Builder;
 
-public interface IDllDefinitionBuilder<TOwnership, TNecessity> : IFileDefinitionBuilder<TOwnership, TNecessity>
-    where TOwnership : DefinitionOwnership
-    where TNecessity : DefinitionNecessity
-{
-    IDllDefinitionBuilder<TOwnership, TNecessity> WithKey(FileDefinitionKey key);
-    IDllDefinitionBuilder<TOwnership, TNecessity> WithName(string name);
+//public interface IDllDefinitionBuilder<TOwnership, TNecessity> : IFileDefinitionBuilder<TOwnership, TNecessity>
+//    where TOwnership : DefinitionOwnership
+//    where TNecessity : DefinitionNecessity
+//{
+//    IDllDefinitionBuilder<TOwnership, TNecessity> WithKey(FileDefinitionKey key);
+//    IDllDefinitionBuilder<TOwnership, TNecessity> WithName(string name);
 
-    IDllDefinitionBuilder<ExternalDefinition, TNecessity> External();
-    IDllDefinitionBuilder<StrictDefinition, TNecessity> Strict();
-    IDllDefinitionBuilder<TOwnership, RequiredDefinition> Required();
-    IDllDefinitionBuilder<TOwnership, OptionalDefinition> Optional();
+//    IDllDefinitionBuilder<ExternalDefinition, TNecessity> External();
+//    IDllDefinitionBuilder<StrictDefinition, TNecessity> Strict();
+//    IDllDefinitionBuilder<TOwnership, RequiredDefinition> Required();
+//    IDllDefinitionBuilder<TOwnership, OptionalDefinition> Optional();
 
-    internal IDllDefinition<TOwnership, TPlacement> Build<TPlacement>(in IFileContext context)
-        where TPlacement : DefinitionPlacement;
-    internal IDllDefinitionDescriptor<TOwnership, TPlacement> BuildDescriptor<TPlacement>()
-        where TPlacement : DefinitionPlacement;
-}
+//    internal IDllDefinition<TOwnership, TPlacement> Build<TPlacement>(in IFileContext context)
+//        where TPlacement : DefinitionPlacement;
+//    internal IDllDefinitionDescriptor<TOwnership, TPlacement> BuildDescriptor<TPlacement>()
+//        where TPlacement : DefinitionPlacement;
+//}

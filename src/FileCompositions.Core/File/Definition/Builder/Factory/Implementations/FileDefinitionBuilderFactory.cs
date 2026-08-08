@@ -1,3 +1,6 @@
-﻿namespace FileCompositions.Core.File.Definition.Builder.Factory.Implementations;
+﻿using FileCompositions.Core.Quality.Necessity;
 
-public class FileDefinitionBuilderFactory : IFileDefinitionBuilderFactory;
+namespace FileCompositions.Core.File.Definition.Builder.Factory.Implementations;
+
+public class FileDefinitionBuilderFactory<TInNecessity> : IFileDefinitionBuilderFactory<TInNecessity>
+    where TInNecessity : DefinitionNecessity;

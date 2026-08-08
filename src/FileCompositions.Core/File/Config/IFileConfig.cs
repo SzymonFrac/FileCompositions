@@ -7,8 +7,6 @@ using FileCompositions.Core.Quality.Placement;
 namespace FileCompositions.Core.File.Config;
 
 // has .Json/.Dll too?
-
-// exists???
 public interface IFileConfig
 {
     internal Func<FileDefinitionKey, IFileContext, IFileDefinition<TOwnership, TPlacement>> Build<TOwnership, TPlacement>()

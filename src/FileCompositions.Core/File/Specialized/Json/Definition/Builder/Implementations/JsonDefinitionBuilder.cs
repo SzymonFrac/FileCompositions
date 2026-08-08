@@ -101,34 +101,41 @@ namespace FileCompositions.Core.File.Specialized.Json.Definition.Builder.Impleme
 //    }
 //}
 
-public class JsonDefinitionBuilder<TOwnership, TNecessity, TData> : IFileDefinitionBuilder<TOwnership, TNecessity>
-    where TOwnership : DefinitionOwnership
-    where TNecessity : DefinitionNecessity
+public class JsonDefinitionBuilder<TOwnership, TNecessity, TData>
+    : AbstractFileDefinitionBuilder<TOwnership, TNecessity, JsonDefinitionBuilder<TOwnership, TNecessity, TData>>
+        where TOwnership : DefinitionOwnership
+        where TNecessity : DefinitionNecessity
 {
     private readonly IJsonConfig<TData> _config;
-    private readonly FileDefinitionKey? _key;
 
     public JsonDefinitionBuilder(IJsonConfig<TData> config) => _config = config;
-    protected JsonDefinitionBuilder(IJsonConfig<TData> config, FileDefinitionKey? key = default) =>
-        (_config, _key) = (config, key);
+    protected JsonDefinitionBuilder(IJsonConfig<TData> config, FileDefinitionKey? key = default) : base(key) => _config = config;
 
-    public IFileDefinitionBuilder<TNewOwnership, TNewNecessity> Create<TNewOwnership, TNewNecessity>(FileDefinitionKey? key = default)
-        where TNewOwnership : DefinitionOwnership
-        where TNewNecessity : DefinitionNecessity =>
-            new JsonDefinitionBuilder<TNewOwnership, TNewNecessity, TData>(_config, key);
+    protected override JsonDefinitionBuilder<TOwnership, TNecessity, TData> Create<TNewOwnership, TNewNecessity>() => new(_config, Key);
+
+    public override JsonDefinitionBuilder<TOwnership, TNecessity, TData> WithKey(FileDefinitionKey key)
+    {
+        Key = key;
+        return this;
+    }
+
+    public JsonDefinitionBuilder<ExternalDefinition, TNecessity, TData> External() => new(_config, Key);
+    public JsonDefinitionBuilder<StrictDefinition, TNecessity, TData> Strict() => new(_config, Key);
+    public JsonDefinitionBuilder<TOwnership, RequiredDefinition, TData> Required() => new(_config, Key);
+    public JsonDefinitionBuilder<TOwnership, OptionalDefinition, TData> Optional() => new(_config, Key);
 
     internal FileDefinitionRequestDescriptor<TOwnership, TPlacement, IJsonDefinition<TOwnership, TPlacement, TData>> Build<TPlacement>(out FileDefinitionKey key)
         where TPlacement : DefinitionPlacement
     {
-        if (_key is null)
+        if (Key is null)
             throw new NullReferenceException("File must have a key.");
 
-        key = _key;
+        key = Key;
 
         // get config's delegate
         // partially apply here...
         var descriptor = _config.Build<TOwnership, TPlacement>();
-        var partialDescriptor = new FileDefinitionRequestDescriptor<TOwnership, TPlacement, IJsonDefinition<TOwnership, TPlacement, TData>>((IFileContext context) => descriptor(_key, context));
+        var partialDescriptor = new FileDefinitionRequestDescriptor<TOwnership, TPlacement, IJsonDefinition<TOwnership, TPlacement, TData>>((IFileContext context) => descriptor(Key, context));
 
         return partialDescriptor;
     }

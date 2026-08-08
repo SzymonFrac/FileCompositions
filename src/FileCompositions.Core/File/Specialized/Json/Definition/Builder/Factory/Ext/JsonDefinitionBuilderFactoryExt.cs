@@ -9,7 +9,7 @@ namespace FileCompositions.Core.File.Specialized.Json.Definition.Builder.Factory
 
 public static partial class JsonDefinitionBuilderFactoryExt
 {
-    extension(IFileDefinitionBuilderFactory factory)
+    extension(IFileDefinitionBuilderFactory<RequiredDefinition> factory)
     {
         public JsonDefinitionBuilder<StrictDefinition, RequiredDefinition, TData> Json<TData>(Action<IJsonConfig<TData>> config)
         {
@@ -17,6 +17,18 @@ public static partial class JsonDefinitionBuilderFactoryExt
             config(json);
             
             var builder = new JsonDefinitionBuilder<StrictDefinition, RequiredDefinition, TData>(json);
+            return builder;
+        }
+    }
+
+    extension(IFileDefinitionBuilderFactory<OptionalDefinition> factory)
+    {
+        public JsonDefinitionBuilder<StrictDefinition, OptionalDefinition, TData> Json<TData>(Action<IJsonConfig<TData>> config)
+        {
+            var json = new JsonConfig<TData>();
+            config(json);
+
+            var builder = new JsonDefinitionBuilder<StrictDefinition, OptionalDefinition, TData>(json);
             return builder;
         }
     }

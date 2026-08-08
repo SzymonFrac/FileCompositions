@@ -1,5 +1,6 @@
-﻿using FileCompositions.Core.Database.File.Specialized.Db.Definition.Descriptor;
-using FileCompositions.Core.File.Context;
+﻿using FileCompositions.Core.Database.File.Specialized.Db.Definition.Builder.Implementations;
+using FileCompositions.Core.File.Definition.Descriptor;
+using FileCompositions.Core.File.Definition.Key;
 using FileCompositions.Core.Quality.Necessity.Implementations;
 using FileCompositions.Core.Quality.Ownership;
 using FileCompositions.Core.Quality.Placement.Implementations;
@@ -8,27 +9,19 @@ namespace FileCompositions.Core.Database.File.Specialized.Db.Definition.Builder.
 
 internal static partial class DbDefinitionBuilderExt
 {
-    extension<TOwnership>(IDbDefinitionBuilder<TOwnership, RequiredDefinition> builder)
+    extension<TOwnership>(DbDefinitionBuilder<TOwnership, RequiredDefinition> builder)
         where TOwnership : DefinitionOwnership
     {
-        public IDbDefinition<TOwnership, RequiredInRequired> BuildInRequired(in IFileContext context) =>
-            builder.Build<RequiredInRequired>(context);
-
-        public IDbDefinitionDescriptor<TOwnership, RequiredInRequired> BuildDescriptorInRequired() =>
-            builder.BuildDescriptor<RequiredInRequired>();
+        public FileDefinitionRequestDescriptor<TOwnership, RequiredInRequired, IDbDefinition<TOwnership, RequiredInRequired>> BuildInRequired(out FileDefinitionKey key) =>
+            builder.Build<RequiredInRequired>(out key);
     }
 
-    extension<TOwnership>(IDbDefinitionBuilder<TOwnership, OptionalDefinition> builder)
+    extension<TOwnership>(DbDefinitionBuilder<TOwnership, OptionalDefinition> builder)
         where TOwnership : DefinitionOwnership
     {
-        public IDbDefinition<TOwnership, OptionalInRequired> BuildInRequired(in IFileContext context) =>
-            builder.Build<OptionalInRequired>(context);
-        public IDbDefinition<TOwnership, OptionalInOptional> BuildInOptional(in IFileContext context) =>
-            builder.Build<OptionalInOptional>(context);
-
-        public IDbDefinitionDescriptor<TOwnership, OptionalInRequired> BuildDescriptorInRequired() =>
-            builder.BuildDescriptor<OptionalInRequired>();
-        public IDbDefinitionDescriptor<TOwnership, OptionalInOptional> BuildDescriptorInOptional() =>
-            builder.BuildDescriptor<OptionalInOptional>();
+        public FileDefinitionRequestDescriptor<TOwnership, OptionalInRequired, IDbDefinition<TOwnership, OptionalInRequired>> BuildInRequired(out FileDefinitionKey key) =>
+            builder.Build<OptionalInRequired>(out key);
+        public FileDefinitionRequestDescriptor<TOwnership, OptionalInOptional, IDbDefinition<TOwnership, OptionalInOptional>> BuildInOptional(out FileDefinitionKey key) =>
+            builder.Build<OptionalInOptional>(out key);
     }
 }
