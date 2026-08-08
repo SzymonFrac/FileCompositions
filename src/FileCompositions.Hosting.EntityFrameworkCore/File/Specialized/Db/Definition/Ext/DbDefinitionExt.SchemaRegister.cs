@@ -17,15 +17,6 @@ public static partial class DbDefinitionExt
             where TOwnership : DefinitionOwnership
             where TDbContext : DbContext
         {
-            //var builder = new DbDefinitionBuilderFactory<RequiredDefinition>(registrar.DirectoryKey);
-            //var jsonBuilder = config(builder);
-            //var descriptor = jsonBuilder.BuildDescriptorInRequired();
-
-            //var registerBuilderFactory = new HostResourceSchemaDbRegisterBuilderFactory<TDbContext>();
-
-            //registrar.Store<TOwnership, RequiredInRequired, IDbDefinition<TOwnership, RequiredInRequired, TDbContext>, IDbDefinitionDescriptor<TOwnership, RequiredInRequired, TDbContext>>(descriptor, registerBuilderFactory);
-            //return registrar;
-
             var factory = new FileDefinitionBuilderFactory<RequiredDefinition>();
             var db = config(factory);
             var descriptor = db.BuildInRequired(out var key);
@@ -40,15 +31,6 @@ public static partial class DbDefinitionExt
             where TOwnership : DefinitionOwnership
             where TDbContext : DbContext
         {
-            //var builder = new DbDefinitionBuilderFactory<RequiredDefinition>(registrar.DirectoryKey);
-            //var jsonBuilder = config(builder);
-            //var descriptor = jsonBuilder.BuildDescriptorInRequired();
-
-            //var registerBuilderFactory = new HostResourceSchemaDbRegisterBuilderFactory<TDbContext>();
-
-            //registrar.Store<TOwnership, OptionalInRequired, IDbDefinition<TOwnership, OptionalInRequired, TDbContext>, IDbDefinitionDescriptor<TOwnership, OptionalInRequired, TDbContext>>(descriptor, registerBuilderFactory);
-            //return registrar;
-
             var factory = new FileDefinitionBuilderFactory<RequiredDefinition>();
             var db = config(factory);
             var descriptor = db.BuildInRequired(out var key);
@@ -66,15 +48,6 @@ public static partial class DbDefinitionExt
             where TOwnership : DefinitionOwnership
             where TDbContext : DbContext
         {
-            //var builder = new DbDefinitionBuilderFactory<OptionalDefinition>(registrar.DirectoryKey);
-            //var jsonBuilder = config(builder);
-            //var descriptor = jsonBuilder.BuildDescriptorInOptional();
-
-            //var registerBuilderFactory = new HostResourceSchemaDbRegisterBuilderFactory<TDbContext>();
-
-            //registrar.Store<TOwnership, OptionalInOptional, IDbDefinition<TOwnership, OptionalInOptional, TDbContext>, IDbDefinitionDescriptor<TOwnership, OptionalInOptional, TDbContext>>(descriptor, registerBuilderFactory);
-            //return registrar;
-
             var factory = new FileDefinitionBuilderFactory<OptionalDefinition>();
             var db = config(factory);
             var descriptor = db.BuildInOptional(out var key);

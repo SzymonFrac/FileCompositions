@@ -13,12 +13,6 @@ public interface IResourceSchemaFileRegistrar<TInNecessity>
 {
     internal DirectoryDefinitionKey DirectoryKey { get; }
 
-    //internal void Store<TOwnership, TPlacement, TDefinition, TDescriptor>(TDescriptor descriptor)
-    //    where TOwnership : DefinitionOwnership
-    //    where TPlacement : DefinitionPlacement
-    //    where TDefinition : class, IFileDefinition<TOwnership, TPlacement>
-    //    where TDescriptor : IFileDefinitionDescriptor<TOwnership, TPlacement, TDefinition>;
-
     // does the file register not even ever need to see Directory key, cause it's already here...
 
     internal void Define<TOwnership, TPlacement, TDefinition>(DirectoryDefinitionKey directoryKey, FileDefinitionKey fileKey, FileDefinitionRequestDescriptor<TOwnership, TPlacement, TDefinition> descriptor)

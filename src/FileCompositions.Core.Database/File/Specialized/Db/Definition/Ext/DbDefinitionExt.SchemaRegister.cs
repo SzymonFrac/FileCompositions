@@ -15,13 +15,6 @@ public static partial class DbDefinitionExt
         public TResourceSchemaFileRegistrar Define<TOwnership>(DbDefinitionConfig<TOwnership, RequiredDefinition, RequiredDefinition> config)
             where TOwnership : DefinitionOwnership
         {
-            //var builder = new DbDefinitionBuilderFactory<RequiredDefinition>(registrar.DirectoryKey);
-            //var jsonBuilder = config(builder);
-            //var descriptor = jsonBuilder.BuildDescriptorInRequired();
-
-            //registrar.Store<TOwnership, RequiredInRequired, IDbDefinition<TOwnership, RequiredInRequired>, IDbDefinitionDescriptor<TOwnership, RequiredInRequired>>(descriptor);
-            //return registrar;
-
             var factory = new FileDefinitionBuilderFactory<RequiredDefinition>();
             var db = config(factory);
             var descriptor = db.BuildInRequired(out var key);
@@ -33,13 +26,6 @@ public static partial class DbDefinitionExt
         public TResourceSchemaFileRegistrar Define<TOwnership>(DbDefinitionConfig<TOwnership, OptionalDefinition, RequiredDefinition> config)
             where TOwnership : DefinitionOwnership
         {
-            //var builder = new DbDefinitionBuilderFactory<RequiredDefinition>(registrar.DirectoryKey);
-            //var jsonBuilder = config(builder);
-            //var descriptor = jsonBuilder.BuildDescriptorInRequired();
-
-            //registrar.Store<TOwnership, OptionalInRequired, IDbDefinition<TOwnership, OptionalInRequired>, IDbDefinitionDescriptor<TOwnership, OptionalInRequired>>(descriptor);
-            //return registrar;
-
             var factory = new FileDefinitionBuilderFactory<RequiredDefinition>();
             var db = config(factory);
             var descriptor = db.BuildInRequired(out var key);
@@ -55,13 +41,6 @@ public static partial class DbDefinitionExt
         public TResourceSchemaFileRegistrar Define<TOwnership>(DbDefinitionConfig<TOwnership, OptionalDefinition, OptionalDefinition> config)
             where TOwnership : DefinitionOwnership
         {
-            //var builder = new DbDefinitionBuilderFactory<OptionalDefinition>(registrar.DirectoryKey);
-            //var jsonBuilder = config(builder);
-            //var descriptor = jsonBuilder.BuildDescriptorInOptional();
-
-            //registrar.Store<TOwnership, OptionalInOptional, IDbDefinition<TOwnership, OptionalInOptional>, IDbDefinitionDescriptor<TOwnership, OptionalInOptional>>(descriptor);
-            //return registrar;
-
             var factory = new FileDefinitionBuilderFactory<OptionalDefinition>();
             var db = config(factory);
             var descriptor = db.BuildInOptional(out var key);

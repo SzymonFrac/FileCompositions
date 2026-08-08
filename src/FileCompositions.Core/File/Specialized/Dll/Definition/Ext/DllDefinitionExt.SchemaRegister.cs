@@ -15,13 +15,6 @@ public static partial class DllDefinitionExt
         public TResourceSchemaFileRegistrar Define<TOwnership>(DllDefinitionConfig<TOwnership, RequiredDefinition, RequiredDefinition> config)
             where TOwnership : DefinitionOwnership
         {
-            //var builder = new DllDefinitionBuilderFactory<RequiredDefinition>(registrar.DirectoryKey);
-            //var dllBuilder = config(builder);
-            //var descriptor = dllBuilder.BuildDescriptorInRequired();
-
-            //registrar.Store<TOwnership, RequiredInRequired, IDllDefinition<TOwnership, RequiredInRequired>, IDllDefinitionDescriptor<TOwnership, RequiredInRequired>>(descriptor);
-            //return registrar;
-
             var factory = new FileDefinitionBuilderFactory<RequiredDefinition>();
             var dll = config(factory);
             var descriptor = dll.BuildInRequired(out var key);
@@ -33,13 +26,6 @@ public static partial class DllDefinitionExt
         public TResourceSchemaFileRegistrar Define<TOwnership>(DllDefinitionConfig<TOwnership, OptionalDefinition, RequiredDefinition> config)
             where TOwnership : DefinitionOwnership
         {
-            //var builder = new DllDefinitionBuilderFactory<RequiredDefinition>(registrar.DirectoryKey);
-            //var dllBuilder = config(builder);
-            //var descriptor = dllBuilder.BuildDescriptorInRequired();
-
-            //registrar.Store<TOwnership, OptionalInRequired, IDllDefinition<TOwnership, OptionalInRequired>, IDllDefinitionDescriptor<TOwnership, OptionalInRequired>>(descriptor);
-            //return registrar;
-
             var factory = new FileDefinitionBuilderFactory<RequiredDefinition>();
             var dll = config(factory);
             var descriptor = dll.BuildInRequired(out var key);
@@ -55,13 +41,6 @@ public static partial class DllDefinitionExt
         public TResourceSchemaFileRegistrar Define<TOwnership>(DllDefinitionConfig<TOwnership, OptionalDefinition, OptionalDefinition> config)
             where TOwnership : DefinitionOwnership
         {
-            //var builder = new DllDefinitionBuilderFactory<OptionalDefinition>(registrar.DirectoryKey);
-            //var dllBuilder = config(builder);
-            //var descriptor = dllBuilder.BuildDescriptorInOptional();
-
-            //registrar.Store<TOwnership, OptionalInOptional, IDllDefinition<TOwnership, OptionalInOptional>, IDllDefinitionDescriptor<TOwnership, OptionalInOptional>>(descriptor);
-            //return registrar;
-
             var factory = new FileDefinitionBuilderFactory<OptionalDefinition>();
             var dll = config(factory);
             var descriptor = dll.BuildInOptional(out var key);

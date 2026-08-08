@@ -1,5 +1,4 @@
 ﻿using FileCompositions.Core.File.Definition.Builder.Factory;
-using FileCompositions.Core.File.Definition.Builder.Factory.Implementations;
 using FileCompositions.Core.File.Specialized.Dll.Config;
 using FileCompositions.Core.File.Specialized.Dll.Config.Implementations;
 using FileCompositions.Core.File.Specialized.Dll.Definition.Builder.Implementations;
