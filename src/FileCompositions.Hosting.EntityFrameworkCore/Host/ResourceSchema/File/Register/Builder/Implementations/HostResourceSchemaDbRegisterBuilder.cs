@@ -1,7 +1,9 @@
 ﻿using FileCompositions.Core.Directory.Definition;
+using FileCompositions.Core.Directory.Definition.Key;
 using FileCompositions.Core.File.Context.Factory.Implementations;
 using FileCompositions.Core.File.Definition;
 using FileCompositions.Core.File.Definition.Descriptor;
+using FileCompositions.Core.File.Definition.Key;
 using FileCompositions.Core.Quality.Necessity;
 using FileCompositions.Core.Quality.Ownership;
 using FileCompositions.Core.Quality.Placement;
@@ -23,27 +25,26 @@ internal sealed class HostResourceSchemaDbRegisterBuilder<TInOwnership, TInNeces
 {
     private readonly FileContextFactory _fileContextFactory = new();
 
-    public HostResourceSchemaRegister Build<TOwnership, TPlacement, TDefinition, TDescriptor>(TDescriptor descriptor)
+    public HostResourceSchemaRegister Build<TOwnership, TPlacement, TDefinition>(DirectoryDefinitionKey directoryKey, FileDefinitionKey fileKey, FileDefinitionRequestDescriptor<TOwnership, TPlacement, TDefinition> descriptor)
         where TOwnership : DefinitionOwnership
         where TPlacement : DefinitionPlacement
-        where TDefinition : class, IFileDefinition<TOwnership, TPlacement>
-        where TDescriptor : IFileDefinitionDescriptor<TOwnership, TPlacement, TDefinition> =>
+        where TDefinition : class, IFileDefinition<TOwnership, TPlacement> =>
             new((in services) => services
-                .AddKeyedSingleton<TDefinition>(descriptor.Key, (sp, key) =>
+                .AddKeyedSingleton<TDefinition>(fileKey, (sp, key) =>
                 {
-                    var directory = sp.GetRequiredKeyedService<IDirectoryDefinition<TInOwnership, TInNecessity>>(descriptor.DirectoryKey);
+                    var directory = sp.GetRequiredKeyedService<IDirectoryDefinition<TInOwnership, TInNecessity>>(directoryKey);
                     var context = _fileContextFactory.Create(directory);
 
-                    var file = descriptor.Activate(context);
+                    var file = descriptor(context);
                     return file;
                 })
                 .AddDbContext<TDbContext>((sp, options) =>
                 {
-                    var db = sp.GetRequiredKeyedService<IDbDefinition<TOwnership, TPlacement, TDbContext>>(descriptor.Key);
+                    var db = sp.GetRequiredKeyedService<IDbDefinition<TOwnership, TPlacement, TDbContext>>(fileKey);
                     var connectionString = db.GetConnectionStringBuilder().ConnectionString;
 
                     options.UseSqlite(connectionString);
                 })
                 .AddSingleton<IHostResourceSchemaInitializer>(
-                    new HostResourceSchemaDbInitializer<TOwnership, TPlacement, TDbContext>(descriptor.Key)));
+                    new HostResourceSchemaDbInitializer<TOwnership, TPlacement, TDbContext>(fileKey)));
 }
