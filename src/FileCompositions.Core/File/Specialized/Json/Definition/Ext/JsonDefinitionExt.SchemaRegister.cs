@@ -17,9 +17,9 @@ public static partial class JsonDefinitionExt
         {
             var factory = new FileDefinitionBuilderFactory<RequiredDefinition>();
             var json = config(factory);
-            var descriptor = json.BuildInRequired(out var key);
+            var request = json.BuildInRequired(registrar.DirectoryKey);
 
-            registrar.Define(registrar.DirectoryKey, key, descriptor);
+            registrar.Define(request);
             return registrar;
         }
 
@@ -28,9 +28,9 @@ public static partial class JsonDefinitionExt
         {
             var factory = new FileDefinitionBuilderFactory<RequiredDefinition>();
             var json = config(factory);
-            var descriptor = json.BuildInRequired(out var key);
+            var request = json.BuildInRequired(registrar.DirectoryKey);
 
-            registrar.Define(registrar.DirectoryKey, key, descriptor);
+            registrar.Define(request);
             return registrar;
         }
     }
@@ -43,9 +43,9 @@ public static partial class JsonDefinitionExt
         {
             var factory = new FileDefinitionBuilderFactory<OptionalDefinition>();
             var json = config(factory);
-            var descriptor = json.BuildInOptional(out var key);
+            var request = json.BuildInOptional(registrar.DirectoryKey);
 
-            registrar.Define(registrar.DirectoryKey, key, descriptor);
+            registrar.Define(request);
             return registrar;
         }
     }

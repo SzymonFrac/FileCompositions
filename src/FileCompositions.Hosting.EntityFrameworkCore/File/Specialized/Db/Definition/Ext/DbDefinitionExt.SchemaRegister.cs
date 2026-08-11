@@ -19,11 +19,11 @@ public static partial class DbDefinitionExt
         {
             var factory = new FileDefinitionBuilderFactory<RequiredDefinition>();
             var db = config(factory);
-            var descriptor = db.BuildInRequired(out var key);
+            var request = db.BuildInRequired(registrar.DirectoryKey);
 
             var registerBuilderFactory = new HostResourceSchemaDbRegisterBuilderFactory<TDbContext>();
 
-            registrar.Define(registrar.DirectoryKey, key, descriptor, registerBuilderFactory);
+            registrar.Define(request, registerBuilderFactory);
             return registrar;
         }
 
@@ -33,11 +33,11 @@ public static partial class DbDefinitionExt
         {
             var factory = new FileDefinitionBuilderFactory<RequiredDefinition>();
             var db = config(factory);
-            var descriptor = db.BuildInRequired(out var key);
+            var request = db.BuildInRequired(registrar.DirectoryKey);
 
             var registerBuilderFactory = new HostResourceSchemaDbRegisterBuilderFactory<TDbContext>();
 
-            registrar.Define(registrar.DirectoryKey, key, descriptor, registerBuilderFactory);
+            registrar.Define(request, registerBuilderFactory);
             return registrar;
         }
     };
@@ -50,11 +50,11 @@ public static partial class DbDefinitionExt
         {
             var factory = new FileDefinitionBuilderFactory<OptionalDefinition>();
             var db = config(factory);
-            var descriptor = db.BuildInOptional(out var key);
+            var request = db.BuildInOptional(registrar.DirectoryKey);
 
             var registerBuilderFactory = new HostResourceSchemaDbRegisterBuilderFactory<TDbContext>();
 
-            registrar.Define(registrar.DirectoryKey, key, descriptor, registerBuilderFactory);
+            registrar.Define(request, registerBuilderFactory);
             return registrar;
         }
     };

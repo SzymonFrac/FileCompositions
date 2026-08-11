@@ -1,13 +1,13 @@
-﻿using FileCompositions.Core.File.Context;
+﻿using FileCompositions.Core.Directory.Definition.Key;
 using FileCompositions.Core.File.Definition.Builder.Abstract;
-using FileCompositions.Core.File.Definition.Descriptor;
 using FileCompositions.Core.File.Definition.Key;
-using FileCompositions.Core.File.Specialized.Dll.Config;
+using FileCompositions.Core.File.Specialized.Dll.Options;
 using FileCompositions.Core.Quality.Necessity;
 using FileCompositions.Core.Quality.Necessity.Implementations;
 using FileCompositions.Core.Quality.Ownership;
 using FileCompositions.Core.Quality.Ownership.Implementations;
 using FileCompositions.Core.Quality.Placement;
+using FileCompositions.Core.ResourceSchema.File.Register.Request;
 
 namespace FileCompositions.Core.File.Specialized.Dll.Definition.Builder.Implementations;
 
@@ -16,12 +16,10 @@ public class DllDefinitionBuilder<TOwnership, TNecessity>
         where TOwnership : DefinitionOwnership
         where TNecessity : DefinitionNecessity
 {
-    private readonly IDllConfig _config;
+    private readonly IDllOptions _config;
 
-    public DllDefinitionBuilder(IDllConfig config) => _config = config;
-    protected DllDefinitionBuilder(IDllConfig config, FileDefinitionKey? key = default) : base(key) => _config = config;
-
-    protected override DllDefinitionBuilder<TOwnership, TNecessity> Create<TNewOwnership, TNewNecessity>() => new(_config, Key);
+    public DllDefinitionBuilder(IDllOptions config) => _config = config;
+    protected DllDefinitionBuilder(IDllOptions config, FileDefinitionKey? key = default) : base(key) => _config = config;
 
     public override DllDefinitionBuilder<TOwnership, TNecessity> WithKey(FileDefinitionKey key)
     {
@@ -35,17 +33,14 @@ public class DllDefinitionBuilder<TOwnership, TNecessity>
     public DllDefinitionBuilder<TOwnership, OptionalDefinition> Optional() => new(_config, Key);
 
 
-    internal FileDefinitionRequestDescriptor<TOwnership, TPlacement, IDllDefinition<TOwnership, TPlacement>> Build<TPlacement>(out FileDefinitionKey key)
+    internal ResourceSchemaFileRegisterRequest<TOwnership, TPlacement, IDllDefinition<TOwnership, TPlacement>> Build<TPlacement>(DirectoryDefinitionKey directoryKey)
         where TPlacement : DefinitionPlacement
     {
-        if (Key is null)
-            throw new NullReferenceException("File must have a key.");
-
-        key = Key;
+        var key = BuildKey();
 
         var descriptor = _config.Build<TOwnership, TPlacement>();
-        var partialDescriptor = new FileDefinitionRequestDescriptor<TOwnership, TPlacement, IDllDefinition<TOwnership, TPlacement>>((IFileContext context) => descriptor(Key, context));
+        var request = descriptor(key);
 
-        return partialDescriptor;
+        return new(directoryKey, key, request);
     }
 }

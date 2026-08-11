@@ -1,7 +1,7 @@
 ﻿using FileCompositions.Core.File.Definition.Builder.Factory;
-using FileCompositions.Core.File.Specialized.Dll.Config;
-using FileCompositions.Core.File.Specialized.Dll.Config.Implementations;
 using FileCompositions.Core.File.Specialized.Dll.Definition.Builder.Implementations;
+using FileCompositions.Core.File.Specialized.Dll.Options;
+using FileCompositions.Core.File.Specialized.Dll.Options.Implementations;
 using FileCompositions.Core.Quality.Necessity.Implementations;
 using FileCompositions.Core.Quality.Ownership.Implementations;
 
@@ -11,9 +11,9 @@ public static partial class DllDefinitionBuilderFactoryExt
 {
     extension(IFileDefinitionBuilderFactory<RequiredDefinition> factory)
     {
-        public DllDefinitionBuilder<StrictDefinition, RequiredDefinition> Dll(Action<IDllConfig> config)
+        public DllDefinitionBuilder<StrictDefinition, RequiredDefinition> Dll(Action<IDllOptions> config)
         {
-            var dll = new DllConfig();
+            var dll = new DllOptions();
             config(dll);
 
             var builder = new DllDefinitionBuilder<StrictDefinition, RequiredDefinition>(dll);
@@ -23,9 +23,9 @@ public static partial class DllDefinitionBuilderFactoryExt
 
     extension(IFileDefinitionBuilderFactory<OptionalDefinition> factory)
     {
-        public DllDefinitionBuilder<StrictDefinition, OptionalDefinition> Dll(Action<IDllConfig> config)
+        public DllDefinitionBuilder<StrictDefinition, OptionalDefinition> Dll(Action<IDllOptions> config)
         {
-            var dll = new DllConfig();
+            var dll = new DllOptions();
             config(dll);
 
             var builder = new DllDefinitionBuilder<StrictDefinition, OptionalDefinition>(dll);

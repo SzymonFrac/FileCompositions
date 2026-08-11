@@ -17,9 +17,9 @@ public static partial class DbDefinitionExt
         {
             var factory = new FileDefinitionBuilderFactory<RequiredDefinition>();
             var db = config(factory);
-            var descriptor = db.BuildInRequired(out var key);
+            var request = db.BuildInRequired(registrar.DirectoryKey);
 
-            registrar.Define(registrar.DirectoryKey, key, descriptor);
+            registrar.Define(request);
             return registrar;
         }
 
@@ -28,9 +28,9 @@ public static partial class DbDefinitionExt
         {
             var factory = new FileDefinitionBuilderFactory<RequiredDefinition>();
             var db = config(factory);
-            var descriptor = db.BuildInRequired(out var key);
+            var request = db.BuildInRequired(registrar.DirectoryKey);
 
-            registrar.Define(registrar.DirectoryKey, key, descriptor);
+            registrar.Define(request);
             return registrar;
         }
     };
@@ -43,9 +43,9 @@ public static partial class DbDefinitionExt
         {
             var factory = new FileDefinitionBuilderFactory<OptionalDefinition>();
             var db = config(factory);
-            var descriptor = db.BuildInOptional(out var key);
+            var request = db.BuildInOptional(registrar.DirectoryKey);
 
-            registrar.Define(registrar.DirectoryKey, key, descriptor);
+            registrar.Define(request);
             return registrar;
         }
     };

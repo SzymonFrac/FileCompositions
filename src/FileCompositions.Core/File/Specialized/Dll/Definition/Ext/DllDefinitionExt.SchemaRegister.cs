@@ -17,9 +17,9 @@ public static partial class DllDefinitionExt
         {
             var factory = new FileDefinitionBuilderFactory<RequiredDefinition>();
             var dll = config(factory);
-            var descriptor = dll.BuildInRequired(out var key);
+            var request = dll.BuildInRequired(registrar.DirectoryKey);
 
-            registrar.Define(registrar.DirectoryKey, key, descriptor);
+            registrar.Define(request);
             return registrar;
         }
 
@@ -28,9 +28,9 @@ public static partial class DllDefinitionExt
         {
             var factory = new FileDefinitionBuilderFactory<RequiredDefinition>();
             var dll = config(factory);
-            var descriptor = dll.BuildInRequired(out var key);
+            var request = dll.BuildInRequired(registrar.DirectoryKey);
 
-            registrar.Define(registrar.DirectoryKey, key, descriptor);
+            registrar.Define(request);
             return registrar;
         }
     }
@@ -43,9 +43,9 @@ public static partial class DllDefinitionExt
         {
             var factory = new FileDefinitionBuilderFactory<OptionalDefinition>();
             var dll = config(factory);
-            var descriptor = dll.BuildInOptional(out var key);
+            var request = dll.BuildInOptional(registrar.DirectoryKey);
 
-            registrar.Define(registrar.DirectoryKey, key, descriptor);
+            registrar.Define(request);
             return registrar;
         }
     }

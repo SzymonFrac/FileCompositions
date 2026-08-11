@@ -1,13 +1,13 @@
-﻿using FileCompositions.Core.File.Context;
+﻿using FileCompositions.Core.Directory.Definition.Key;
 using FileCompositions.Core.File.Definition.Builder.Abstract;
-using FileCompositions.Core.File.Definition.Descriptor;
 using FileCompositions.Core.File.Definition.Key;
 using FileCompositions.Core.Quality.Necessity;
 using FileCompositions.Core.Quality.Necessity.Implementations;
 using FileCompositions.Core.Quality.Ownership;
 using FileCompositions.Core.Quality.Ownership.Implementations;
 using FileCompositions.Core.Quality.Placement;
-using FileCompositions.Hosting.EntityFrameworkCore.File.Specialized.Db.Config;
+using FileCompositions.Core.ResourceSchema.File.Register.Request;
+using FileCompositions.Hosting.EntityFrameworkCore.File.Specialized.Db.Options;
 using Microsoft.EntityFrameworkCore;
 
 namespace FileCompositions.Hosting.EntityFrameworkCore.File.Specialized.Db.Definition.Builder.Implementations;
@@ -18,12 +18,10 @@ public class DbDefinitionBuilder<TOwnership, TNecessity, TDbContext>
         where TNecessity : DefinitionNecessity
         where TDbContext : DbContext
 {
-    private readonly IDbConfig<TDbContext> _config;
+    private readonly IDbOptions<TDbContext> _config;
 
-    public DbDefinitionBuilder(IDbConfig<TDbContext> config) => _config = config;
-    protected DbDefinitionBuilder(IDbConfig<TDbContext> config, FileDefinitionKey? key = default) : base(key) => _config = config;
-
-    protected override DbDefinitionBuilder<TOwnership, TNecessity, TDbContext> Create<TNewOwnership, TNewNecessity>() => new(_config, Key);
+    public DbDefinitionBuilder(IDbOptions<TDbContext> config) => _config = config;
+    protected DbDefinitionBuilder(IDbOptions<TDbContext> config, FileDefinitionKey? key = default) : base(key) => _config = config;
 
     public override DbDefinitionBuilder<TOwnership, TNecessity, TDbContext> WithKey(FileDefinitionKey key)
     {
@@ -37,17 +35,14 @@ public class DbDefinitionBuilder<TOwnership, TNecessity, TDbContext>
     public DbDefinitionBuilder<TOwnership, OptionalDefinition, TDbContext> Optional() => new(_config, Key);
 
 
-    internal FileDefinitionRequestDescriptor<TOwnership, TPlacement, IDbDefinition<TOwnership, TPlacement, TDbContext>> Build<TPlacement>(out FileDefinitionKey key)
+    internal ResourceSchemaFileRegisterRequest<TOwnership, TPlacement, IDbDefinition<TOwnership, TPlacement, TDbContext>> Build<TPlacement>(DirectoryDefinitionKey directoryKey)
         where TPlacement : DefinitionPlacement
     {
-        if (Key is null)
-            throw new NullReferenceException("File must have a key.");
-
-        key = Key;
+        var key = BuildKey();
 
         var descriptor = _config.Build<TOwnership, TPlacement>();
-        var partialDescriptor = new FileDefinitionRequestDescriptor<TOwnership, TPlacement, IDbDefinition<TOwnership, TPlacement, TDbContext>>((IFileContext context) => descriptor(Key, context));
+        var request = descriptor(key);
 
-        return partialDescriptor;
+        return new(directoryKey, key, request);
     }
 }
