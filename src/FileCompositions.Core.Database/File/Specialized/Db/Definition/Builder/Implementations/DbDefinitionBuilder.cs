@@ -1,9 +1,5 @@
-﻿using FileCompositions.Core.Database.File.Specialized.Db.Definition.Descriptor;
-using FileCompositions.Core.Database.File.Specialized.Db.Definition.Descriptor.Implementations;
-using FileCompositions.Core.Database.File.Specialized.Db.Definition.Implementations;
-using FileCompositions.Core.Database.File.Specialized.Db.Definition.Init.Policy.Implementations;
+﻿using FileCompositions.Core.Database.File.Specialized.Db.Options;
 using FileCompositions.Core.Directory.Definition.Key;
-using FileCompositions.Core.File.Context;
 using FileCompositions.Core.File.Definition.Builder.Abstract;
 using FileCompositions.Core.File.Definition.Key;
 using FileCompositions.Core.Quality.Necessity;
@@ -11,59 +7,40 @@ using FileCompositions.Core.Quality.Necessity.Implementations;
 using FileCompositions.Core.Quality.Ownership;
 using FileCompositions.Core.Quality.Ownership.Implementations;
 using FileCompositions.Core.Quality.Placement;
+using FileCompositions.Core.ResourceSchema.File.Register.Request;
 
 namespace FileCompositions.Core.Database.File.Specialized.Db.Definition.Builder.Implementations;
 
-internal sealed class DbDefinitionBuilder<TOwnership, TNecessity>
-    : AbstractFileDefinitionBuilder<TOwnership, TNecessity>, IDbDefinitionBuilder<TOwnership, TNecessity>
+public class DbDefinitionBuilder<TOwnership, TNecessity>
+    : AbstractFileDefinitionBuilder<TOwnership, TNecessity, DbDefinitionBuilder<TOwnership, TNecessity>>
         where TOwnership : DefinitionOwnership
         where TNecessity : DefinitionNecessity
 {
-    internal DbDefinitionBuilder(DirectoryDefinitionKey directoryKey) : base(directoryKey) { }
-    private DbDefinitionBuilder(DirectoryDefinitionKey directoryKey, FileDefinitionKey key, string? name) : base(directoryKey, key, name) { }
+    private readonly IDbOptions _config;
 
-    public IDbDefinitionBuilder<TOwnership, TNecessity> WithKey(FileDefinitionKey key)
+    public DbDefinitionBuilder(IDbOptions config) => _config = config;
+    protected DbDefinitionBuilder(IDbOptions config, FileDefinitionKey? key = default) : base(key) => _config = config;
+
+    public override DbDefinitionBuilder<TOwnership, TNecessity> WithKey(FileDefinitionKey key)
     {
         Key = key;
         return this;
     }
-    public IDbDefinitionBuilder<TOwnership, TNecessity> WithName(string name)
-    {
-        Name = name;
-        return this;
-    }
 
-    public IDbDefinitionBuilder<ExternalDefinition, TNecessity> External() =>
-        new DbDefinitionBuilder<ExternalDefinition, TNecessity>(DirectoryKey, Key, Name);
-    public IDbDefinitionBuilder<StrictDefinition, TNecessity> Strict() =>
-        new DbDefinitionBuilder<StrictDefinition, TNecessity>(DirectoryKey, Key, Name);
-    public IDbDefinitionBuilder<TOwnership, RequiredDefinition> Required() =>
-        new DbDefinitionBuilder<TOwnership, RequiredDefinition>(DirectoryKey, Key, Name);
-    public IDbDefinitionBuilder<TOwnership, OptionalDefinition> Optional() =>
-        new DbDefinitionBuilder<TOwnership, OptionalDefinition>(DirectoryKey, Key, Name);
+    public DbDefinitionBuilder<ExternalDefinition, TNecessity> External() => new(_config, Key);
+    public DbDefinitionBuilder<StrictDefinition, TNecessity> Strict() => new(_config, Key);
+    public DbDefinitionBuilder<TOwnership, RequiredDefinition> Required() => new(_config, Key);
+    public DbDefinitionBuilder<TOwnership, OptionalDefinition> Optional() => new(_config, Key);
 
-    public IDbDefinition<TOwnership, TPlacement> Build<TPlacement>(in IFileContext context)
+
+    internal ResourceSchemaFileRegisterRequest<TOwnership, TPlacement, IDbDefinition<TOwnership, TPlacement>> Build<TPlacement>(DirectoryDefinitionKey directoryKey)
         where TPlacement : DefinitionPlacement
     {
-        if (Name is null)
-            throw new NullReferenceException("File must have a non-empty name.");
+        var key = BuildKey();
 
-        return new DbDefinition<TOwnership, TPlacement>(context, Key, Name)
-        {
-            InitPolicy = new DefaultDbInitPolicy<TOwnership, TPlacement>()
-        };
-        
-    }
+        var descriptor = _config.Build<TOwnership, TPlacement>();
+        var request = descriptor(key);
 
-    public IDbDefinitionDescriptor<TOwnership, TPlacement> BuildDescriptor<TPlacement>()
-        where TPlacement : DefinitionPlacement
-    {
-        if (Name is null)
-            throw new NullReferenceException("File must have a non-empty name.");
-
-        return new DbDefinitionDescriptor<TOwnership, TPlacement>(DirectoryKey, Key, Name)
-        {
-            InitPolicy = new DefaultDbInitPolicy<TOwnership, TPlacement>()
-        };
+        return new(directoryKey, key, request);
     }
 }

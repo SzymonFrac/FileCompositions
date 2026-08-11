@@ -19,10 +19,10 @@ internal sealed class DirectoryDefinitionBuilder<TOwnership, TNecessity, TSystem
         where TSystem : class, IFileSystem
 {
     private readonly FileSystemAddress address;
-    private DirectoryDefinitionKey key;
+    private DirectoryDefinitionKey? key;
 
     internal DirectoryDefinitionBuilder(FileSystemAddress a) => address = a;
-    private DirectoryDefinitionBuilder(DirectoryDefinitionKey k, FileSystemAddress a) =>
+    private DirectoryDefinitionBuilder(DirectoryDefinitionKey? k, FileSystemAddress a) =>
         (key, address) = (k, a);
 
     public IDirectoryDefinitionBuilder<TOwnership, TNecessity, TSystem> WithKey(DirectoryDefinitionKey k)
@@ -41,7 +41,11 @@ internal sealed class DirectoryDefinitionBuilder<TOwnership, TNecessity, TSystem
         new DirectoryDefinitionBuilder<TOwnership, OptionalDefinition, TSystem>(key, address);
 
     public IDirectoryDefinition<TOwnership, TNecessity> Build(in IDirectoryContext context) =>
-        new DirectoryDefinition<TOwnership, TNecessity>(context, key, address);
+        key is not null
+            ? new DirectoryDefinition<TOwnership, TNecessity>(context, key, address)
+            : throw new NullReferenceException("Directory must have a key.");
     public IDirectoryDefinitionDescriptor<TOwnership, TNecessity, TSystem> BuildDescriptor() =>
-        new DirectoryDefinitionDescriptor<TOwnership, TNecessity, TSystem>(key, address);
+        key is not null
+            ? new DirectoryDefinitionDescriptor<TOwnership, TNecessity, TSystem>(key, address)
+            : throw new NullReferenceException("Directory must have a key.");
 }

@@ -1,97 +1,45 @@
 ﻿using FileCompositions.Core.Directory.Definition.Key;
-using FileCompositions.Core.File.Context;
 using FileCompositions.Core.File.Definition.Builder.Abstract;
 using FileCompositions.Core.File.Definition.Key;
-using FileCompositions.Core.File.Specialized.Json.Definition.Descriptor;
-using FileCompositions.Core.File.Specialized.Json.Definition.Descriptor.Implementations;
-using FileCompositions.Core.File.Specialized.Json.Definition.Implementations;
-using FileCompositions.Core.File.Specialized.Json.Definition.Init.Policy.Implementations;
-using FileCompositions.Core.File.Specialized.Json.Format;
+using FileCompositions.Core.File.Specialized.Json.Options;
 using FileCompositions.Core.Quality.Necessity;
 using FileCompositions.Core.Quality.Necessity.Implementations;
 using FileCompositions.Core.Quality.Ownership;
 using FileCompositions.Core.Quality.Ownership.Implementations;
 using FileCompositions.Core.Quality.Placement;
-using System.Text.Json;
+using FileCompositions.Core.ResourceSchema.File.Register.Request;
 
 namespace FileCompositions.Core.File.Specialized.Json.Definition.Builder.Implementations;
 
-internal sealed class JsonDefinitionBuilder<TOwnership, TNecessity, TData>
-    : AbstractFileDefinitionBuilder<TOwnership, TNecessity>, IJsonDefinitionBuilder<TOwnership, TNecessity, TData>
+public class JsonDefinitionBuilder<TOwnership, TNecessity, TData>
+    : AbstractFileDefinitionBuilder<TOwnership, TNecessity, JsonDefinitionBuilder<TOwnership, TNecessity, TData>>
         where TOwnership : DefinitionOwnership
         where TNecessity : DefinitionNecessity
 {
-    private bool initializeWithSerialize = false;
-    private JsonFormat format;
-    private TData? @default;
+    private readonly IJsonOptions<TData> _options;
 
-    internal JsonDefinitionBuilder(DirectoryDefinitionKey directoryKey) : base(directoryKey) =>
-        format = JsonFormat.Default;
-    private JsonDefinitionBuilder(DirectoryDefinitionKey directoryKey, FileDefinitionKey key, string? name, JsonFormat f, TData? d = default)
-        : base(directoryKey, key, name) =>
-            (format, @default) = (f ?? JsonFormat.Default, d);
+    public JsonDefinitionBuilder(IJsonOptions<TData> options) => _options = options;
+    protected JsonDefinitionBuilder(IJsonOptions<TData> options, FileDefinitionKey? key = default) : base(key) => _options = options;
 
-    public IJsonDefinitionBuilder<TOwnership, TNecessity, TData> WithKey(FileDefinitionKey key)
+    public override JsonDefinitionBuilder<TOwnership, TNecessity, TData> WithKey(FileDefinitionKey key)
     {
         Key = key;
         return this;
     }
-    public IJsonDefinitionBuilder<TOwnership, TNecessity, TData> WithName(string name)
-    {
-        Name = name;
-        return this;
-    }
-    public IJsonDefinitionBuilder<TOwnership, TNecessity, TData> UseSerializerOptions(JsonSerializerOptions options)
-    {
-        format = format with { JsonSerializerOptions = options };
-        return this;
-    }
-    public IJsonDefinitionBuilder<TOwnership, TNecessity, TData> UseDefault(TData d)
-    {
-        @default = d;
-        return this;
-    }
-    public IJsonDefinitionBuilder<TOwnership, TNecessity, TData> InitializeWithSerialization()
-    {
-        initializeWithSerialize = true;
-        return this;
-    }
 
-    public IJsonDefinitionBuilder<ExternalDefinition, TNecessity, TData> External() =>
-        new JsonDefinitionBuilder<ExternalDefinition, TNecessity, TData>(DirectoryKey, Key, Name, format, @default);
-    public IJsonDefinitionBuilder<StrictDefinition, TNecessity, TData> Strict() =>
-        new JsonDefinitionBuilder<StrictDefinition, TNecessity, TData>(DirectoryKey, Key, Name, format, @default);
-    public IJsonDefinitionBuilder<TOwnership, RequiredDefinition, TData> Required() =>
-        new JsonDefinitionBuilder<TOwnership, RequiredDefinition, TData>(DirectoryKey, Key, Name, format, @default);
-    public IJsonDefinitionBuilder<TOwnership, OptionalDefinition, TData> Optional() =>
-        new JsonDefinitionBuilder<TOwnership, OptionalDefinition, TData>(DirectoryKey, Key, Name, format, @default);
+    public JsonDefinitionBuilder<ExternalDefinition, TNecessity, TData> External() => new(_options, Key);
+    public JsonDefinitionBuilder<StrictDefinition, TNecessity, TData> Strict() => new(_options, Key);
+    public JsonDefinitionBuilder<TOwnership, RequiredDefinition, TData> Required() => new(_options, Key);
+    public JsonDefinitionBuilder<TOwnership, OptionalDefinition, TData> Optional() => new(_options, Key);
 
-
-    public IJsonDefinition<TOwnership, TPlacement, TData> Build<TPlacement>(in IFileContext context)
+    internal ResourceSchemaFileRegisterRequest<TOwnership, TPlacement, IJsonDefinition<TOwnership, TPlacement, TData>> Build<TPlacement>(DirectoryDefinitionKey directoryKey)
         where TPlacement : DefinitionPlacement
     {
-        if (Name is null)
-            throw new NullReferenceException("File must have a non-empty name.");
+        var key = BuildKey();
 
-        return new JsonDefinition<TOwnership, TPlacement, TData>(context, Key, Name, format, @default)
-        { 
-            InitPolicy = initializeWithSerialize
-                ? new SerializeJsonInitPolicy<TOwnership, TPlacement, TData>()
-                : new DefaultJsonInitPolicy<TOwnership, TPlacement, TData>()
-        };
-    }
+        var descriptor = _options.Build<TOwnership, TPlacement>();
+        var request = descriptor(key);
 
-    public IJsonDefinitionDescriptor<TOwnership, TPlacement, TData> BuildDescriptor<TPlacement>()
-        where TPlacement : DefinitionPlacement
-    {
-        if (Name is null)
-            throw new NullReferenceException("File must have a non-empty name.");
-
-        return new JsonDefinitionDescriptor<TOwnership, TPlacement, TData>(DirectoryKey, Key, Name, format, @default)
-        {
-            InitPolicy = initializeWithSerialize
-                ? new SerializeJsonInitPolicy<TOwnership, TPlacement, TData>()
-                : new DefaultJsonInitPolicy<TOwnership, TPlacement, TData>()
-        };
+        return new(directoryKey, key, request);
     }
 }

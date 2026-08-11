@@ -1,19 +1,20 @@
-﻿using FileCompositions.Core.Directory.Definition.Key;
-using FileCompositions.Core.File.Definition.Key;
+﻿using FileCompositions.Core.File.Definition.Key;
 using FileCompositions.Core.Quality.Necessity;
 using FileCompositions.Core.Quality.Ownership;
 
 namespace FileCompositions.Core.File.Definition.Builder.Abstract;
 
-internal abstract class AbstractFileDefinitionBuilder<TOwnership, TNecessity> : IFileDefinitionBuilder<TOwnership, TNecessity>
+public abstract class AbstractFileDefinitionBuilder<TOwnership, TNecessity, TBuilder> : IFileDefinitionBuilder<TOwnership, TNecessity, TBuilder>
     where TOwnership : DefinitionOwnership
     where TNecessity : DefinitionNecessity
+    where TBuilder : IFileDefinitionBuilder<TOwnership, TNecessity, TBuilder>
 {
-    public DirectoryDefinitionKey DirectoryKey { get; }
-    protected FileDefinitionKey Key { get; set; }
-    protected string? Name { get; set; }
+    protected FileDefinitionKey? Key { get; set; }
 
-    internal AbstractFileDefinitionBuilder(DirectoryDefinitionKey directoryKey) => DirectoryKey = directoryKey;
-    protected AbstractFileDefinitionBuilder(DirectoryDefinitionKey directoryKey, FileDefinitionKey key, string? name) =>
-        (DirectoryKey, Key, Name) = (directoryKey, key, name);
+    protected AbstractFileDefinitionBuilder() { }
+    protected AbstractFileDefinitionBuilder(FileDefinitionKey? key = default) => Key = key;
+
+    protected FileDefinitionKey BuildKey() => Key ?? throw new NullReferenceException("File definition must have a key.");
+
+    public abstract TBuilder WithKey(FileDefinitionKey key);
 }

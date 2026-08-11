@@ -2,10 +2,10 @@
 using FileCompositions.Core.File.Context.Factory;
 using FileCompositions.Core.File.Context.Factory.Implementations;
 using FileCompositions.Core.File.Definition;
-using FileCompositions.Core.File.Definition.Descriptor;
 using FileCompositions.Core.Quality.Necessity;
 using FileCompositions.Core.Quality.Ownership;
 using FileCompositions.Core.Quality.Placement;
+using FileCompositions.Core.ResourceSchema.File.Register.Request;
 using FileCompositions.Hosting.ResourceSchema.Initializer;
 using FileCompositions.Hosting.ResourceSchema.Initializer.Implementations;
 using FileCompositions.Hosting.ResourceSchema.Register;
@@ -21,21 +21,21 @@ internal sealed class HostResourceSchemaFileRegisterBuilder<TInOwnership, TInNec
     // Similarly, pass the init trigger/policy as DI to all definitions too. Or as descriptor?
     public IFileContextFactory FileContextFactory { get; init; } = new FileContextFactory();
 
-    public HostResourceSchemaRegister Build<TOwnership, TPlacement, TDefinition, TDescriptor>(TDescriptor descriptor)
+
+    public HostResourceSchemaRegister Build<TOwnership, TPlacement, TDefinition>(ResourceSchemaFileRegisterRequest<TOwnership, TPlacement, TDefinition> request)
         where TOwnership : DefinitionOwnership
         where TPlacement : DefinitionPlacement
-        where TDefinition : class, IFileDefinition<TOwnership, TPlacement>
-        where TDescriptor : IFileDefinitionDescriptor<TOwnership, TPlacement, TDefinition> =>
+        where TDefinition : class, IFileDefinition<TOwnership, TPlacement> =>
             new((in services) => services
-                .AddKeyedSingleton<TDefinition>(descriptor.Key, (sp, key) =>
+                .AddKeyedSingleton<TDefinition>(request.FileKey, (sp, key) =>
                 {
-                    var directory = sp.GetRequiredKeyedService<IDirectoryDefinition<TInOwnership, TInNecessity>>(descriptor.DirectoryKey);
+                    var directory = sp.GetRequiredKeyedService<IDirectoryDefinition<TInOwnership, TInNecessity>>(request.DirectoryKey);
                     var context = FileContextFactory.Create(directory);
 
-                    var file = descriptor.Activate(context);
+                    var file = request.Request(context);
 
                     return file;
                 })
                 .AddSingleton<IHostResourceSchemaInitializer>(
-                    new HostResourceSchemaFileInitializer<TDefinition, TOwnership, TPlacement>(descriptor.Key)));
+                    new HostResourceSchemaFileInitializer<TDefinition, TOwnership, TPlacement>(request.FileKey)));
 }

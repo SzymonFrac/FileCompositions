@@ -47,7 +47,7 @@ internal sealed class HostResourceSchemaDirectoryRegistrar<TOwnership, TNecessit
         if (key is null)
             throw new ArgumentNullException(nameof(key));
 
-        var registrar = FileRegistrarFactory.Create<TOwnership, TNecessity>(key.Value);
+        var registrar = FileRegistrarFactory.Create<TOwnership, TNecessity>(key);
         config(registrar);
         var fileRegisters = registrar.Build();
 

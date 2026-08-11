@@ -1,37 +1,30 @@
-﻿using FileCompositions.Core.File.Context;
+﻿using FileCompositions.Core.Directory.Definition.Key;
 using FileCompositions.Core.Quality.Necessity.Implementations;
 using FileCompositions.Core.Quality.Ownership;
 using FileCompositions.Core.Quality.Placement.Implementations;
-using FileCompositions.Hosting.EntityFrameworkCore.File.Specialized.Db.Definition.Descriptor;
+using FileCompositions.Core.ResourceSchema.File.Register.Request;
+using FileCompositions.Hosting.EntityFrameworkCore.File.Specialized.Db.Definition.Builder.Implementations;
 using Microsoft.EntityFrameworkCore;
 
 namespace FileCompositions.Hosting.EntityFrameworkCore.File.Specialized.Db.Definition.Builder.Ext;
 
 internal static class DbDefinitionBuilderExt
 {
-    extension<TOwnership, TDbContext>(IDbDefinitionBuilder<TOwnership, RequiredDefinition, TDbContext> builder)
+    extension<TOwnership, TDbContext>(DbDefinitionBuilder<TOwnership, RequiredDefinition, TDbContext> builder)
         where TOwnership : DefinitionOwnership
         where TDbContext : DbContext
     {
-        public IDbDefinition<TOwnership, RequiredInRequired, TDbContext> BuildInRequired(in IFileContext context) =>
-            builder.Build<RequiredInRequired>(context);
-
-        public IDbDefinitionDescriptor<TOwnership, RequiredInRequired, TDbContext> BuildDescriptorInRequired() =>
-            builder.BuildDescriptor<RequiredInRequired>();
+        public ResourceSchemaFileRegisterRequest<TOwnership, RequiredInRequired, IDbDefinition<TOwnership, RequiredInRequired, TDbContext>> BuildInRequired(DirectoryDefinitionKey key) =>
+            builder.Build<RequiredInRequired>(key);
     }
 
-    extension<TOwnership, TDbContext>(IDbDefinitionBuilder<TOwnership, OptionalDefinition, TDbContext> builder)
+    extension<TOwnership, TDbContext>(DbDefinitionBuilder<TOwnership, OptionalDefinition, TDbContext> builder)
         where TOwnership : DefinitionOwnership
         where TDbContext : DbContext
     {
-        public IDbDefinition<TOwnership, OptionalInRequired, TDbContext> BuildInRequired(in IFileContext context) =>
-            builder.Build<OptionalInRequired>(context);
-        public IDbDefinition<TOwnership, OptionalInOptional, TDbContext> BuildInOptional(in IFileContext context) =>
-            builder.Build<OptionalInOptional>(context);
-
-        public IDbDefinitionDescriptor<TOwnership, OptionalInRequired, TDbContext> BuildDescriptorInRequired() =>
-            builder.BuildDescriptor<OptionalInRequired>();
-        public IDbDefinitionDescriptor<TOwnership, OptionalInOptional, TDbContext> BuildDescriptorInOptional() =>
-            builder.BuildDescriptor<OptionalInOptional>();
+        public ResourceSchemaFileRegisterRequest<TOwnership, OptionalInRequired, IDbDefinition<TOwnership, OptionalInRequired, TDbContext>> BuildInRequired(DirectoryDefinitionKey key) =>
+            builder.Build<OptionalInRequired>(key);
+        public ResourceSchemaFileRegisterRequest<TOwnership, OptionalInOptional, IDbDefinition<TOwnership, OptionalInOptional, TDbContext>> BuildInOptional(DirectoryDefinitionKey key) =>
+            builder.Build<OptionalInOptional>(key);
     }
 }

@@ -1,34 +1,27 @@
-﻿using FileCompositions.Core.File.Context;
-using FileCompositions.Core.File.Specialized.Dll.Definition.Descriptor;
+﻿using FileCompositions.Core.Directory.Definition.Key;
+using FileCompositions.Core.File.Specialized.Dll.Definition.Builder.Implementations;
 using FileCompositions.Core.Quality.Necessity.Implementations;
 using FileCompositions.Core.Quality.Ownership;
 using FileCompositions.Core.Quality.Placement.Implementations;
+using FileCompositions.Core.ResourceSchema.File.Register.Request;
 
 namespace FileCompositions.Core.File.Specialized.Dll.Definition.Builder.Ext;
 
 internal static partial class DllDefinitionBuilderExt
 {
-    extension<TOwnership>(IDllDefinitionBuilder<TOwnership, RequiredDefinition> builder)
+    extension<TOwnership>(DllDefinitionBuilder<TOwnership, RequiredDefinition> builder)
         where TOwnership : DefinitionOwnership
     {
-        public IDllDefinition<TOwnership, RequiredInRequired> BuildInRequired(in IFileContext context) =>
-            builder.Build<RequiredInRequired>(context);
-
-        public IDllDefinitionDescriptor<TOwnership, RequiredInRequired> BuildDescriptorInRequired() =>
-            builder.BuildDescriptor<RequiredInRequired>();
+        public ResourceSchemaFileRegisterRequest<TOwnership, RequiredInRequired, IDllDefinition<TOwnership, RequiredInRequired>> BuildInRequired(DirectoryDefinitionKey key) =>
+            builder.Build<RequiredInRequired>(key);
     }
 
-    extension<TOwnership>(IDllDefinitionBuilder<TOwnership, OptionalDefinition> builder)
+    extension<TOwnership>(DllDefinitionBuilder<TOwnership, OptionalDefinition> builder)
         where TOwnership : DefinitionOwnership
     {
-        public IDllDefinition<TOwnership, OptionalInRequired> BuildInRequired(in IFileContext context) =>
-            builder.Build<OptionalInRequired>(context);
-        public IDllDefinition<TOwnership, OptionalInOptional> BuildInOptional(in IFileContext context) =>
-            builder.Build<OptionalInOptional>(context);
-
-        public IDllDefinitionDescriptor<TOwnership, OptionalInRequired> BuildDescriptorInRequired() =>
-            builder.BuildDescriptor<OptionalInRequired>();
-        public IDllDefinitionDescriptor<TOwnership, OptionalInOptional> BuildDescriptorInOptional() =>
-            builder.BuildDescriptor<OptionalInOptional>();
+        public ResourceSchemaFileRegisterRequest<TOwnership, OptionalInRequired, IDllDefinition<TOwnership, OptionalInRequired>> BuildInRequired(DirectoryDefinitionKey key) =>
+            builder.Build<OptionalInRequired>(key);
+        public ResourceSchemaFileRegisterRequest<TOwnership, OptionalInOptional, IDllDefinition<TOwnership, OptionalInOptional>> BuildInOptional(DirectoryDefinitionKey key) =>
+            builder.Build<OptionalInOptional>(key);
     }
 }
