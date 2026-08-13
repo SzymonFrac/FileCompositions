@@ -1,27 +1,31 @@
-﻿using FileCompositions.Core.Database.File.Specialized.Db.Definition.Builder.Implementations;
-using FileCompositions.Core.Directory.Definition.Key;
-using FileCompositions.Core.Quality.Necessity.Implementations;
-using FileCompositions.Core.Quality.Ownership;
+﻿using FileCompositions.Core.Quality.Ownership;
 using FileCompositions.Core.Quality.Placement.Implementations;
-using FileCompositions.Core.ResourceSchema.File.Register.Request;
 
 namespace FileCompositions.Core.Database.File.Specialized.Db.Definition.Builder.Ext;
 
-internal static partial class DbDefinitionBuilderExt
+public static partial class DbDefinitionBuilderExt
 {
-    extension<TOwnership>(DbDefinitionBuilder<TOwnership, RequiredDefinition> builder)
+    extension<TOwnership>(IDbDefinitionBuilder<TOwnership, RequiredInRequired> builder)
         where TOwnership : DefinitionOwnership
     {
-        public ResourceSchemaFileRegisterRequest<TOwnership, RequiredInRequired, IDbDefinition<TOwnership, RequiredInRequired>> BuildInRequired(DirectoryDefinitionKey key) =>
-            builder.Build<RequiredInRequired>(key);
+        public IDbDefinitionBuilder<TOwnership, OptionalInRequired> Optional() =>
+            builder.Create<TOwnership, OptionalInRequired>();
+        public IDbDefinitionBuilder<TOwnership, RequiredInRequired> Required() =>
+            builder.Create<TOwnership, RequiredInRequired>();
     }
 
-    extension<TOwnership>(DbDefinitionBuilder<TOwnership, OptionalDefinition> builder)
+    extension<TOwnership>(IDbDefinitionBuilder<TOwnership, OptionalInRequired> builder)
         where TOwnership : DefinitionOwnership
     {
-        public ResourceSchemaFileRegisterRequest<TOwnership, OptionalInRequired, IDbDefinition<TOwnership, OptionalInRequired>> BuildInRequired(DirectoryDefinitionKey key) =>
-            builder.Build<OptionalInRequired>(key);
-        public ResourceSchemaFileRegisterRequest<TOwnership, OptionalInOptional, IDbDefinition<TOwnership, OptionalInOptional>> BuildInOptional(DirectoryDefinitionKey key) =>
-            builder.Build<OptionalInOptional>(key);
+        public IDbDefinitionBuilder<TOwnership, OptionalInRequired> Optional() =>
+            builder.Create<TOwnership, OptionalInRequired>();
+        public IDbDefinitionBuilder<TOwnership, RequiredInRequired> Required() =>
+            builder.Create<TOwnership, RequiredInRequired>();
+    }
+
+    extension<TOwnership>(IDbDefinitionBuilder<TOwnership, OptionalInOptional> builder)
+        where TOwnership : DefinitionOwnership
+    {
+
     }
 }

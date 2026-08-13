@@ -1,7 +1,7 @@
 ﻿using FileCompositions.Core.File.Definition.Builder.Factory.Implementations;
 using FileCompositions.Core.Quality.Necessity.Implementations;
 using FileCompositions.Core.Quality.Ownership;
-using FileCompositions.Hosting.EntityFrameworkCore.File.Specialized.Db.Definition.Builder.Ext;
+using FileCompositions.Core.Quality.Placement.Implementations;
 using FileCompositions.Hosting.EntityFrameworkCore.File.Specialized.Db.Definition.Config;
 using FileCompositions.Hosting.EntityFrameworkCore.Host.ResourceSchema.File.Register.Builder.Factory.Implementations;
 using FileCompositions.Hosting.ResourceSchema.File.Registrar;
@@ -13,13 +13,13 @@ public static partial class DbDefinitionExt
 {
     extension(IHostResourceSchemaFileRegistrar<RequiredDefinition> registrar)
     {
-        public IHostResourceSchemaFileRegistrar<RequiredDefinition> Define<TOwnership, TDbContext>(DbDefinitionConfig<TOwnership, RequiredDefinition, RequiredDefinition, TDbContext> config)
+        public IHostResourceSchemaFileRegistrar<RequiredDefinition> Define<TOwnership, TDbContext>(DbDefinitionConfig<TOwnership, RequiredInRequired, RequiredDefinition, TDbContext> config)
             where TOwnership : DefinitionOwnership
             where TDbContext : DbContext
         {
             var factory = new FileDefinitionBuilderFactory<RequiredDefinition>();
             var db = config(factory);
-            var request = db.BuildInRequired(registrar.DirectoryKey);
+            var request = db.Build(registrar.DirectoryKey);
 
             var registerBuilderFactory = new HostResourceSchemaDbRegisterBuilderFactory<TDbContext>();
 
@@ -27,13 +27,13 @@ public static partial class DbDefinitionExt
             return registrar;
         }
 
-        public IHostResourceSchemaFileRegistrar<RequiredDefinition> Define<TOwnership, TDbContext>(DbDefinitionConfig<TOwnership, OptionalDefinition, RequiredDefinition, TDbContext> config)
+        public IHostResourceSchemaFileRegistrar<RequiredDefinition> Define<TOwnership, TDbContext>(DbDefinitionConfig<TOwnership, OptionalInRequired, RequiredDefinition, TDbContext> config)
             where TOwnership : DefinitionOwnership
             where TDbContext : DbContext
         {
             var factory = new FileDefinitionBuilderFactory<RequiredDefinition>();
             var db = config(factory);
-            var request = db.BuildInRequired(registrar.DirectoryKey);
+            var request = db.Build(registrar.DirectoryKey);
 
             var registerBuilderFactory = new HostResourceSchemaDbRegisterBuilderFactory<TDbContext>();
 
@@ -44,13 +44,13 @@ public static partial class DbDefinitionExt
 
     extension(IHostResourceSchemaFileRegistrar<OptionalDefinition> registrar)
     {
-        public IHostResourceSchemaFileRegistrar<OptionalDefinition> Define<TOwnership, TDbContext>(DbDefinitionConfig<TOwnership, OptionalDefinition, OptionalDefinition, TDbContext> config)
+        public IHostResourceSchemaFileRegistrar<OptionalDefinition> Define<TOwnership, TDbContext>(DbDefinitionConfig<TOwnership, OptionalInOptional, OptionalDefinition, TDbContext> config)
             where TOwnership : DefinitionOwnership
             where TDbContext : DbContext
         {
             var factory = new FileDefinitionBuilderFactory<OptionalDefinition>();
             var db = config(factory);
-            var request = db.BuildInOptional(registrar.DirectoryKey);
+            var request = db.Build(registrar.DirectoryKey);
 
             var registerBuilderFactory = new HostResourceSchemaDbRegisterBuilderFactory<TDbContext>();
 
