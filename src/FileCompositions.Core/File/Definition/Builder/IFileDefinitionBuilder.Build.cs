@@ -1,6 +1,7 @@
-﻿using FileCompositions.Core.File.Definition.Key;
+﻿using FileCompositions.Core.Directory.Definition.Key;
 using FileCompositions.Core.Quality.Ownership;
 using FileCompositions.Core.Quality.Placement;
+using FileCompositions.Core.ResourceSchema.File.Register.Request;
 
 namespace FileCompositions.Core.File.Definition.Builder;
 
@@ -10,5 +11,5 @@ public partial interface IFileDefinitionBuilder<TOwnership, TPlacement, TDefinit
     where TDefinition : IFileDefinition<TOwnership, TPlacement>
     where TBuilder : IFileDefinitionBuilder<TOwnership, TPlacement, TDefinition, TBuilder>
 {
-    TBuilder WithKey(FileDefinitionKey key);
-};
+    internal ResourceSchemaFileRegisterRequest<TOwnership, TPlacement, TDefinition> Build(DirectoryDefinitionKey directoryKey);
+}

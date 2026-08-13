@@ -1,27 +1,31 @@
-﻿using FileCompositions.Core.Directory.Definition.Key;
-using FileCompositions.Core.File.Specialized.Dll.Definition.Builder.Implementations;
-using FileCompositions.Core.Quality.Necessity.Implementations;
-using FileCompositions.Core.Quality.Ownership;
+﻿using FileCompositions.Core.Quality.Ownership;
 using FileCompositions.Core.Quality.Placement.Implementations;
-using FileCompositions.Core.ResourceSchema.File.Register.Request;
 
 namespace FileCompositions.Core.File.Specialized.Dll.Definition.Builder.Ext;
 
-internal static partial class DllDefinitionBuilderExt
+public static partial class DllDefinitionBuilderExt
 {
-    extension<TOwnership>(DllDefinitionBuilder<TOwnership, RequiredDefinition> builder)
+    extension<TOwnership>(IDllDefinitionBuilder<TOwnership, RequiredInRequired> builder)
         where TOwnership : DefinitionOwnership
     {
-        public ResourceSchemaFileRegisterRequest<TOwnership, RequiredInRequired, IDllDefinition<TOwnership, RequiredInRequired>> BuildInRequired(DirectoryDefinitionKey key) =>
-            builder.Build<RequiredInRequired>(key);
+        public IDllDefinitionBuilder<TOwnership, OptionalInRequired> Optional() =>
+            builder.Create<TOwnership, OptionalInRequired>();
+        public IDllDefinitionBuilder<TOwnership, RequiredInRequired> Required() =>
+            builder.Create<TOwnership, RequiredInRequired>();
     }
 
-    extension<TOwnership>(DllDefinitionBuilder<TOwnership, OptionalDefinition> builder)
+    extension<TOwnership>(IDllDefinitionBuilder<TOwnership, OptionalInRequired> builder)
         where TOwnership : DefinitionOwnership
     {
-        public ResourceSchemaFileRegisterRequest<TOwnership, OptionalInRequired, IDllDefinition<TOwnership, OptionalInRequired>> BuildInRequired(DirectoryDefinitionKey key) =>
-            builder.Build<OptionalInRequired>(key);
-        public ResourceSchemaFileRegisterRequest<TOwnership, OptionalInOptional, IDllDefinition<TOwnership, OptionalInOptional>> BuildInOptional(DirectoryDefinitionKey key) =>
-            builder.Build<OptionalInOptional>(key);
+        public IDllDefinitionBuilder<TOwnership, OptionalInRequired> Optional() =>
+            builder.Create<TOwnership, OptionalInRequired>();
+        public IDllDefinitionBuilder<TOwnership, RequiredInRequired> Required() =>
+            builder.Create<TOwnership, RequiredInRequired>();
+    }
+
+    extension<TOwnership>(IDllDefinitionBuilder<TOwnership, OptionalInOptional> builder)
+        where TOwnership : DefinitionOwnership
+    {
+
     }
 }

@@ -1,11 +1,12 @@
-﻿using FileCompositions.Core.Database.File.Specialized.Db.Definition.Builder.Implementations;
+﻿using FileCompositions.Core.Database.File.Specialized.Db.Definition.Builder;
 using FileCompositions.Core.File.Definition.Builder.Factory;
 using FileCompositions.Core.Quality.Necessity;
 using FileCompositions.Core.Quality.Ownership;
+using FileCompositions.Core.Quality.Placement;
 
 namespace FileCompositions.Core.Database.File.Specialized.Db.Definition.Config;
 
-public delegate DbDefinitionBuilder<TOwnership, TNecessity> DbDefinitionConfig<TOwnership, TNecessity, TInNecessity>(IFileDefinitionBuilderFactory<TInNecessity> config)
+public delegate IDbDefinitionBuilder<TOwnership, TPlacement> DbDefinitionConfig<TOwnership, TPlacement, TInNecessity>(IFileDefinitionBuilderFactory<TInNecessity> config)
     where TOwnership : DefinitionOwnership
-    where TNecessity : DefinitionNecessity
+    where TPlacement : DefinitionPlacement
     where TInNecessity : DefinitionNecessity;

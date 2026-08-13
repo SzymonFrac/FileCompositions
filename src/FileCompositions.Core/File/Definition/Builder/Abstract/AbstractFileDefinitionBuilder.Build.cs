@@ -1,6 +1,7 @@
-﻿using FileCompositions.Core.File.Definition.Key;
+﻿using FileCompositions.Core.Directory.Definition.Key;
 using FileCompositions.Core.Quality.Ownership;
 using FileCompositions.Core.Quality.Placement;
+using FileCompositions.Core.ResourceSchema.File.Register.Request;
 
 namespace FileCompositions.Core.File.Definition.Builder.Abstract;
 
@@ -10,12 +11,5 @@ internal abstract partial class AbstractFileDefinitionBuilder<TOwnership, TPlace
     where TDefinition : IFileDefinition<TOwnership, TPlacement>
     where TBuilder : IFileDefinitionBuilder<TOwnership, TPlacement, TDefinition, TBuilder>
 {
-    protected FileDefinitionKey? Key { get; set; }
-
-    protected AbstractFileDefinitionBuilder() { }
-    protected AbstractFileDefinitionBuilder(FileDefinitionKey? key = default) => Key = key;
-
-    protected FileDefinitionKey BuildKey() => Key ?? throw new NullReferenceException("File definition must have a key.");
-
-    public abstract TBuilder WithKey(FileDefinitionKey key);
+    public abstract ResourceSchemaFileRegisterRequest<TOwnership, TPlacement, TDefinition> Build(DirectoryDefinitionKey directoryKey);
 }
