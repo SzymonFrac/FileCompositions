@@ -1,4 +1,6 @@
-﻿namespace FileCompositions.Core.File.Extension.None;
+﻿using FileCompositions.Core.File.Extension;
+
+namespace FileCompositions.Core.File.No.Extension;
 
 internal sealed record NoFileExtension : FileExtension
 {

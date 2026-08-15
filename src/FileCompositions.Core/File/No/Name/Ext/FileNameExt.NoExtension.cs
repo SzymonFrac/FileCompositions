@@ -1,6 +1,7 @@
-﻿using FileCompositions.Core.File.Extension.None;
+﻿using FileCompositions.Core.File.Name;
+using FileCompositions.Core.File.No.Extension;
 
-namespace FileCompositions.Core.File.Name.Ext;
+namespace FileCompositions.Core.File.No.Name.Ext;
 
 public static partial class FileNameExt
 {
