@@ -1,10 +1,10 @@
-﻿using FileCompositions.Core.Database.File.Specialized.Db.Definition;
-using FileCompositions.Core.Database.File.Specialized.Db.Definition.Abstract;
+﻿using FileCompositions.Core.Database.File.Specialized.Db.Definition.Abstract;
+using FileCompositions.Core.Database.File.Specialized.Db.Extension;
 using FileCompositions.Core.Database.File.Specialized.Db.Resource;
 using FileCompositions.Core.Database.File.Specialized.Db.Resource.Builder.Factory.Implementations;
 using FileCompositions.Core.File.Context;
 using FileCompositions.Core.File.Definition.Key;
-using FileCompositions.Core.FileSystem.Resource.Extension;
+using FileCompositions.Core.File.Extension.Some;
 using FileCompositions.Core.Quality.Ownership;
 using FileCompositions.Core.Quality.Placement;
 
@@ -17,7 +17,7 @@ internal sealed class DbDefinition<TOwnership, TPlacement>(IFileContext context,
 
 internal sealed class DbDefinition : IDbDefinition
 {
-    public static FileSystemResourceExtension Extension { get; } = new(".db");
+    public static SomeFileExtension Extension { get; } = new DbExtension();
     private DbDefinition() { }
 
     public static IDbResource Convert(in IFileContext context, string name) =>
