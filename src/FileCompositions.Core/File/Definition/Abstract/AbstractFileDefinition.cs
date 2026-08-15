@@ -1,21 +1,21 @@
 ﻿using FileCompositions.Core.File.Context;
 using FileCompositions.Core.File.Definition.Key;
+using FileCompositions.Core.File.Name;
 using FileCompositions.Core.FileSystem.Address;
 using FileCompositions.Core.FileSystem.Request;
-using FileCompositions.Core.FileSystem.Resource.Name;
 using FileCompositions.Core.Quality.Ownership;
 using FileCompositions.Core.Quality.Placement;
 
 namespace FileCompositions.Core.File.Definition.Abstract;
 
-internal abstract class AbstractFileDefinition<TOwnership, TPlacement>(IFileContext context, FileDefinitionKey key, FileSystemResourceName name)
+internal abstract class AbstractFileDefinition<TOwnership, TPlacement>(IFileContext context, FileDefinitionKey key, FileName name)
     : IFileDefinition<TOwnership, TPlacement>
         where TOwnership : DefinitionOwnership
         where TPlacement : DefinitionPlacement
 {
     private readonly IFileContext _context = context;
     public FileDefinitionKey Key { get; } = key;
-    public FileSystemResourceName Name { get; } = name;
+    public FileName Name { get; } = name;
 
     public FileSystemAddress RequestAddress() => _context.Address;
 

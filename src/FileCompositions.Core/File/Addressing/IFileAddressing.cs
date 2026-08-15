@@ -1,11 +1,11 @@
-﻿using FileCompositions.Core.FileSystem.Address;
-using FileCompositions.Core.FileSystem.Resource.Name;
+﻿using FileCompositions.Core.File.Name;
+using FileCompositions.Core.FileSystem.Address;
 
 namespace FileCompositions.Core.File.Addressing;
 
 public interface IFileAddressing
 {
-    FileSystemResourceName Name { get; }
+    FileName Name { get; }
 
     FileSystemAddress RequestAddress();
 }
