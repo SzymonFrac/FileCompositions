@@ -1,6 +1,6 @@
-﻿using FileCompositions.Core.FileSystem.Address;
-using FileCompositions.Core.FileSystem.Resource.Name;
+﻿using FileCompositions.Core.File.Name;
+using FileCompositions.Core.FileSystem.Address;
 
 namespace FileCompositions.Core.FileSystem.Location;
 
-public abstract record FileSystemLocation(FileSystemAddress Address, FileSystemResourceName Name);
+public abstract record FileSystemLocation(FileSystemAddress Address, FileName Name);
