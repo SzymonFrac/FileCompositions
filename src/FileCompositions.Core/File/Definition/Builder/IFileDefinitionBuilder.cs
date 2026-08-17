@@ -1,14 +1,21 @@
 ﻿using FileCompositions.Core.File.Definition.Key;
+using FileCompositions.Core.File.Specialized.Dll.Definition.Builder;
+using FileCompositions.Core.File.Specialized.Json.Definition.Builder;
 using FileCompositions.Core.Quality.Ownership;
+using FileCompositions.Core.Quality.Ownership.Implementations;
 using FileCompositions.Core.Quality.Placement;
+using FileCompositions.Core.Quality.Placement.Implementations;
 
 namespace FileCompositions.Core.File.Definition.Builder;
 
-public partial interface IFileDefinitionBuilder<TOwnership, TPlacement, TDefinition, TBuilder>
+public partial interface IFileDefinitionBuilder<TOwnership, TPlacement, TBuilder>
     where TOwnership : DefinitionOwnership
     where TPlacement : DefinitionPlacement
-    where TDefinition : IFileDefinition<TOwnership, TPlacement>
-    where TBuilder : IFileDefinitionBuilder<TOwnership, TPlacement, TDefinition, TBuilder>
+    where TBuilder : IFileDefinitionBuilder<TOwnership, TPlacement, TBuilder>
 {
+    //internal IFileDefinitionBuilder<TNewOwnership, TNewPlacement, TBuilder> Create<TNewOwnership, TNewPlacement>()
+    //    where TNewOwnership : DefinitionOwnership
+    //    where TNewPlacement : DefinitionPlacement;
+    
     TBuilder WithKey(FileDefinitionKey key);
 };

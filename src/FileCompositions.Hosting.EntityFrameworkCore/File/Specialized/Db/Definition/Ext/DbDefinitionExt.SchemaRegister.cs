@@ -2,6 +2,7 @@
 using FileCompositions.Core.Quality.Necessity.Implementations;
 using FileCompositions.Core.Quality.Ownership;
 using FileCompositions.Core.Quality.Ownership.Implementations;
+using FileCompositions.Core.Quality.Placement;
 using FileCompositions.Core.Quality.Placement.Implementations;
 using FileCompositions.Hosting.EntityFrameworkCore.File.Specialized.Db.Definition.Config;
 using FileCompositions.Hosting.EntityFrameworkCore.Host.ResourceSchema.File.Register.Builder.Factory.Implementations;
@@ -14,11 +15,12 @@ public static partial class DbDefinitionExt
 {
     extension(IHostResourceSchemaFileRegistrar<RequiredDefinition> registrar)
     {
-        public IHostResourceSchemaFileRegistrar<RequiredDefinition> Define<TOwnership, TDbContext>(DbDefinitionConfig<TOwnership, RequiredInRequired, RequiredInRequired, TDbContext> config)
+        public IHostResourceSchemaFileRegistrar<RequiredDefinition> Define<TOwnership, TPlacement, TDbContext>(DbDefinitionConfig<TOwnership, TPlacement, RequiredInRequired, TDbContext> config)
             where TOwnership : DefinitionOwnership
+            where TPlacement : DefinitionPlacement
             where TDbContext : DbContext
         {
-            var noBuilder = new NoDefinitionBuilder<StrictDefinition, RequiredInRequired>();
+            var noBuilder = new NoFileDefinitionBuilder<StrictDefinition, RequiredInRequired>();
             var db = config(noBuilder);
             var request = db.Build(registrar.DirectoryKey);
 
@@ -28,28 +30,29 @@ public static partial class DbDefinitionExt
             return registrar;
         }
 
-        public IHostResourceSchemaFileRegistrar<RequiredDefinition> Define<TOwnership, TDbContext>(DbDefinitionConfig<TOwnership, OptionalInRequired, RequiredInRequired, TDbContext> config)
-            where TOwnership : DefinitionOwnership
-            where TDbContext : DbContext
-        {
-            var noBuilder = new NoDefinitionBuilder<StrictDefinition, RequiredInRequired>();
-            var db = config(noBuilder);
-            var request = db.Build(registrar.DirectoryKey);
+        //public IHostResourceSchemaFileRegistrar<RequiredDefinition> Define<TOwnership, TDbContext>(DbDefinitionConfig<TOwnership, OptionalInRequired, RequiredInRequired, TDbContext> config)
+        //    where TOwnership : DefinitionOwnership
+        //    where TDbContext : DbContext
+        //{
+        //    var noBuilder = new NoFileDefinitionBuilder<StrictDefinition, RequiredInRequired>();
+        //    var db = config(noBuilder);
+        //    var request = db.Build(registrar.DirectoryKey);
 
-            var registerBuilderFactory = new HostResourceSchemaDbRegisterBuilderFactory<TDbContext>();
+        //    var registerBuilderFactory = new HostResourceSchemaDbRegisterBuilderFactory<TDbContext>();
 
-            registrar.Define(request, registerBuilderFactory);
-            return registrar;
-        }
+        //    registrar.Define(request, registerBuilderFactory);
+        //    return registrar;
+        //}
     };
 
     extension(IHostResourceSchemaFileRegistrar<OptionalDefinition> registrar)
     {
-        public IHostResourceSchemaFileRegistrar<OptionalDefinition> Define<TOwnership, TDbContext>(DbDefinitionConfig<TOwnership, OptionalInOptional, OptionalInOptional, TDbContext> config)
+        public IHostResourceSchemaFileRegistrar<OptionalDefinition> Define<TOwnership, TPlacement, TDbContext>(DbDefinitionConfig<TOwnership, TPlacement, OptionalInOptional, TDbContext> config)
             where TOwnership : DefinitionOwnership
+            where TPlacement : DefinitionPlacement
             where TDbContext : DbContext
         {
-            var noBuilder = new NoDefinitionBuilder<StrictDefinition, OptionalInOptional>();
+            var noBuilder = new NoFileDefinitionBuilder<StrictDefinition, OptionalInOptional>();
             var db = config(noBuilder);
             var request = db.Build(registrar.DirectoryKey);
 

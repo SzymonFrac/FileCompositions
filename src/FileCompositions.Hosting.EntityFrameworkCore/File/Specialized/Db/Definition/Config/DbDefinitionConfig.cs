@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FileCompositions.Hosting.EntityFrameworkCore.File.Specialized.Db.Definition.Config;
 
-public delegate IDbDefinitionBuilder<TOwnership, TPlacement, TDbContext> DbDefinitionConfig<TOwnership, TPlacement, TInPlacement, TDbContext>(INoDefinitionBuilder<StrictDefinition, TInPlacement> config)
+public delegate IDbDefinitionBuilder<TOwnership, TPlacement, TDbContext> DbDefinitionConfig<TOwnership, TPlacement, TInPlacement, TDbContext>(INoFileDefinitionBuilder<StrictDefinition, TInPlacement> config)
     where TOwnership : DefinitionOwnership
     where TPlacement : DefinitionPlacement
     where TInPlacement : DefinitionPlacement
