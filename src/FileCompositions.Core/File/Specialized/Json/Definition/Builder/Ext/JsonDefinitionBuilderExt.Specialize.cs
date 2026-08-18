@@ -1,55 +1,58 @@
-﻿using FileCompositions.Core.File.Definition;
-using FileCompositions.Core.File.Definition.Builder;
+﻿using FileCompositions.Core.File.No.Definition.Builder;
 using FileCompositions.Core.File.Specialized.Json.Definition.Builder.Implementations;
 using FileCompositions.Core.File.Specialized.Json.Options;
-using FileCompositions.Core.File.Specialized.Json.Options.Implementations;
 using FileCompositions.Core.Quality.Ownership;
 using FileCompositions.Core.Quality.Ownership.Implementations;
+using FileCompositions.Core.Quality.Placement;
 using FileCompositions.Core.Quality.Placement.Implementations;
 
 namespace FileCompositions.Core.File.Specialized.Json.Definition.Builder.Ext;
 
 public static partial class JsonDefinitionBuilderExt
 {
-    extension<TOwnership, TDefinition, TBuilder>(TBuilder builder)
+    extension<TOwnership, TPlacement>(INoFileDefinitionBuilder<TOwnership, TPlacement> inner)
         where TOwnership : DefinitionOwnership
-        where TDefinition : IFileDefinition<TOwnership, RequiredInRequired>
-        where TBuilder : IFileDefinitionBuilder<TOwnership, RequiredInRequired, TDefinition, TBuilder>
+        where TPlacement : DefinitionPlacement
     {
-        public IJsonDefinitionBuilder<StrictDefinition, RequiredInRequired, TData> Json<TData>(Action<IJsonOptions<TData>> config)
-        {
-            var json = new JsonOptions<TData>();
-            config(json);
-
-            return new JsonDefinitionBuilder<StrictDefinition, RequiredInRequired, TData>(json);
-        }
+        internal IJsonDefinitionBuilder<TOwnership, TPlacement, TData> Json<TData>(Action<IJsonOptions<TData>> config) =>
+            new JsonDefinitionBuilder<TOwnership, TPlacement, TData>(inner, config);
     }
 
-    extension<TOwnership, TDefinition, TBuilder>(IFileDefinitionBuilder<TOwnership, OptionalInRequired, TDefinition, TBuilder> builder)
-        where TOwnership : DefinitionOwnership
-        where TDefinition : IFileDefinition<TOwnership, OptionalInRequired>
-        where TBuilder : IFileDefinitionBuilder<TOwnership, OptionalInRequired, TDefinition, TBuilder>
-    {
-        public IJsonDefinitionBuilder<StrictDefinition, OptionalInRequired, TData> Json<TData>(Action<IJsonOptions<TData>> config)
-        {
-            var json = new JsonOptions<TData>();
-            config(json);
 
-            return new JsonDefinitionBuilder<StrictDefinition, OptionalInRequired, TData>(json);
-        }
+
+    extension(INoFileDefinitionBuilder<StrictDefinition, RequiredInRequired> inner)
+    {
+        public IJsonDefinitionBuilder<StrictDefinition, RequiredInRequired, TData> Json<TData>(Action<IJsonOptions<TData>> config) =>
+            new JsonDefinitionBuilder<StrictDefinition, RequiredInRequired, TData>(inner, config);
     }
 
-    extension<TOwnership, TDefinition, TBuilder>(IFileDefinitionBuilder<TOwnership, OptionalInOptional, TDefinition, TBuilder> builder)
-        where TOwnership : DefinitionOwnership
-        where TDefinition : IFileDefinition<TOwnership, OptionalInOptional>
-        where TBuilder : IFileDefinitionBuilder<TOwnership, OptionalInOptional, TDefinition, TBuilder>
+    extension(INoFileDefinitionBuilder<ExternalDefinition, RequiredInRequired> inner)
     {
-        public IJsonDefinitionBuilder<StrictDefinition, OptionalInOptional, TData> Json<TData>(Action<IJsonOptions<TData>> config)
-        {
-            var json = new JsonOptions<TData>();
-            config(json);
+        public IJsonDefinitionBuilder<ExternalDefinition, RequiredInRequired, TData> Json<TData>(Action<IJsonOptions<TData>> config) =>
+            new JsonDefinitionBuilder<ExternalDefinition, RequiredInRequired, TData>(inner, config);
+    }
 
-            return new JsonDefinitionBuilder<StrictDefinition, OptionalInOptional, TData>(json);
-        }
+    extension(INoFileDefinitionBuilder<StrictDefinition, OptionalInRequired> inner)
+    {
+        public IJsonDefinitionBuilder<StrictDefinition, OptionalInRequired, TData> Json<TData>(Action<IJsonOptions<TData>> config) =>
+            new JsonDefinitionBuilder<StrictDefinition, OptionalInRequired, TData>(inner, config);
+    }
+
+    extension(INoFileDefinitionBuilder<ExternalDefinition, OptionalInRequired> inner)
+    {
+        public IJsonDefinitionBuilder<ExternalDefinition, OptionalInRequired, TData> Json<TData>(Action<IJsonOptions<TData>> config) =>
+            new JsonDefinitionBuilder<ExternalDefinition, OptionalInRequired, TData>(inner, config);
+    }
+
+    extension(INoFileDefinitionBuilder<StrictDefinition, OptionalInOptional> inner)
+    {
+        public IJsonDefinitionBuilder<StrictDefinition, OptionalInOptional, TData> Json<TData>(Action<IJsonOptions<TData>> config) =>
+            new JsonDefinitionBuilder<StrictDefinition, OptionalInOptional, TData>(inner, config);
+    }
+
+    extension(INoFileDefinitionBuilder<ExternalDefinition, OptionalInOptional> inner)
+    {
+        public IJsonDefinitionBuilder<ExternalDefinition, OptionalInOptional, TData> Json<TData>(Action<IJsonOptions<TData>> config) =>
+            new JsonDefinitionBuilder<ExternalDefinition, OptionalInOptional, TData>(inner, config);
     }
 }

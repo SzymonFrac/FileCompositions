@@ -1,23 +1,20 @@
-﻿using FileCompositions.Core.File.Definition.Builder.Abstract;
-using FileCompositions.Core.File.Definition.Key;
+﻿using FileCompositions.Core.File.Definition.Key;
+using FileCompositions.Core.File.No.Definition.Builder;
+using FileCompositions.Core.File.Specialized.Dll.Definition.Builder.Ext;
 using FileCompositions.Core.File.Specialized.Dll.Options;
 using FileCompositions.Core.Quality.Ownership;
 using FileCompositions.Core.Quality.Placement;
 
 namespace FileCompositions.Core.File.Specialized.Dll.Definition.Builder.Abstract;
 
-internal abstract partial class AbstractDllDefinitionBuilder<TOwnership, TPlacement>
-    : AbstractFileDefinitionBuilder<TOwnership, TPlacement, IDllDefinition<TOwnership, TPlacement>, IDllDefinitionBuilder<TOwnership, TPlacement>>,
-    IDllDefinitionBuilder<TOwnership, TPlacement>
+internal abstract partial class AbstractDllDefinitionBuilder<TOwnership, TPlacement>(INoFileDefinitionBuilder<TOwnership, TPlacement> inner, Action<IDllOptions> config)
+    : IDllDefinitionBuilder<TOwnership, TPlacement>
         where TOwnership : DefinitionOwnership
         where TPlacement : DefinitionPlacement
 {
-    protected IDllOptions Options { get; set; }
+    private readonly INoFileDefinitionBuilder<TOwnership, TPlacement> _inner = inner;
+    private readonly Action<IDllOptions> _config = config;
 
-    public AbstractDllDefinitionBuilder(IDllOptions options) => Options = options;
-    protected AbstractDllDefinitionBuilder(IDllOptions options, FileDefinitionKey? key = default) : base(key) => Options = options;
-
-    public abstract IDllDefinitionBuilder<TNewOwnership, TNewPlacement> Create<TNewOwnership, TNewPlacement>()
-        where TNewOwnership : DefinitionOwnership
-        where TNewPlacement : DefinitionPlacement;
+    public IDllDefinitionBuilder<TOwnership, TPlacement> WithKey(FileDefinitionKey key) =>
+        _inner.WithKey(key).Dll(_config);
 }

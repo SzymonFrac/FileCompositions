@@ -6,8 +6,8 @@ using FileCompositions.Core.Quality.Placement;
 
 namespace FileCompositions.Core.File.No.Definition.Implementations;
 
-internal sealed class NoDefinition<TOwnership, TPlacement>(IFileContext context, FileDefinitionKey key)
-    : AbstractFileDefinition<TOwnership, TPlacement>(context, key, default), INoDefinition<TOwnership, TPlacement>
+internal sealed class NoFileDefinition<TOwnership, TPlacement>(IFileContext context, FileDefinitionKey key)
+    : AbstractFileDefinition<TOwnership, TPlacement>(context, key, default), INoFileDefinition<TOwnership, TPlacement>
         where TOwnership : DefinitionOwnership
         where TPlacement : DefinitionPlacement
 {

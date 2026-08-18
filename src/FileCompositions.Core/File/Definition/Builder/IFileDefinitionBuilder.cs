@@ -4,11 +4,10 @@ using FileCompositions.Core.Quality.Placement;
 
 namespace FileCompositions.Core.File.Definition.Builder;
 
-public partial interface IFileDefinitionBuilder<TOwnership, TPlacement, TDefinition, TBuilder>
+public partial interface IFileDefinitionBuilder<TOwnership, TPlacement, TBuilder>
     where TOwnership : DefinitionOwnership
     where TPlacement : DefinitionPlacement
-    where TDefinition : IFileDefinition<TOwnership, TPlacement>
-    where TBuilder : IFileDefinitionBuilder<TOwnership, TPlacement, TDefinition, TBuilder>
+    where TBuilder : IFileDefinitionBuilder<TOwnership, TPlacement, TBuilder>
 {
     TBuilder WithKey(FileDefinitionKey key);
 };

@@ -6,7 +6,7 @@ using FileCompositions.Core.Quality.Placement;
 
 namespace FileCompositions.Core.File.Specialized.Dll.Definition.Config;
 
-public delegate IDllDefinitionBuilder<TOwnership, TPlacement> DllDefinitionConfig<TOwnership, TPlacement, TInPlacement>(INoDefinitionBuilder<StrictDefinition, TInPlacement> config)
+public delegate IDllDefinitionBuilder<TOwnership, TPlacement> DllDefinitionConfig<TOwnership, TPlacement, TInPlacement>(INoFileDefinitionBuilder<StrictDefinition, TInPlacement> config)
     where TOwnership : DefinitionOwnership
     where TPlacement : DefinitionPlacement
     where TInPlacement : DefinitionPlacement;

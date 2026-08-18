@@ -1,22 +1,23 @@
-﻿using FileCompositions.Core.Directory.Definition.Key;
-using FileCompositions.Core.File.Definition.Builder.Abstract;
+﻿using FileCompositions.Core.Database.File.Specialized.Db.Options.Implementations;
+using FileCompositions.Core.Directory.Definition.Key;
 using FileCompositions.Core.Quality.Ownership;
 using FileCompositions.Core.Quality.Placement;
 using FileCompositions.Core.ResourceSchema.File.Register.Request;
 
 namespace FileCompositions.Core.Database.File.Specialized.Db.Definition.Builder.Abstract;
 
-internal abstract partial class AbstractDbDefinitionBuilder<TOwnership, TPlacement>
-    : AbstractFileDefinitionBuilder<TOwnership, TPlacement, IDbDefinition<TOwnership, TPlacement>, IDbDefinitionBuilder<TOwnership, TPlacement>>,
-    IDbDefinitionBuilder<TOwnership, TPlacement>
-        where TOwnership : DefinitionOwnership
-        where TPlacement : DefinitionPlacement
+internal abstract partial class AbstractDbDefinitionBuilder<TOwnership, TPlacement> : IDbDefinitionBuilder<TOwnership, TPlacement>
+    where TOwnership : DefinitionOwnership
+    where TPlacement : DefinitionPlacement
 {
-    public override ResourceSchemaFileRegisterRequest<TOwnership, TPlacement, IDbDefinition<TOwnership, TPlacement>> Build(DirectoryDefinitionKey directoryKey)
+    public ResourceSchemaFileRegisterRequest<TOwnership, TPlacement, IDbDefinition<TOwnership, TPlacement>> Build(DirectoryDefinitionKey directoryKey)
     {
-        var key = BuildKey();
+        var options = new DbOptions();
+        _config(options);
 
-        var descriptor = Options.Build<TOwnership, TPlacement>();
+        var key = _inner.BuildKey();
+
+        var descriptor = options.Build<TOwnership, TPlacement>();
         var request = descriptor(key);
 
         return new(directoryKey, key, request);

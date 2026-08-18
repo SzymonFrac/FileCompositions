@@ -6,7 +6,7 @@ using FileCompositions.Core.Quality.Placement;
 
 namespace FileCompositions.Core.Database.File.Specialized.Db.Definition.Config;
 
-public delegate IDbDefinitionBuilder<TOwnership, TPlacement> DbDefinitionConfig<TOwnership, TPlacement, TInPlacement>(INoDefinitionBuilder<StrictDefinition, TInPlacement> config)
+public delegate IDbDefinitionBuilder<TOwnership, TPlacement> DbDefinitionConfig<TOwnership, TPlacement, TInPlacement>(INoFileDefinitionBuilder<StrictDefinition, TInPlacement> config)
     where TOwnership : DefinitionOwnership
     where TPlacement : DefinitionPlacement
     where TInPlacement : DefinitionPlacement;

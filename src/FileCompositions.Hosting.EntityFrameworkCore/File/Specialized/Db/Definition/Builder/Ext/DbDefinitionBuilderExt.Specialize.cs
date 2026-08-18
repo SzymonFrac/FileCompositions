@@ -1,59 +1,66 @@
-﻿using FileCompositions.Core.File.Definition;
-using FileCompositions.Core.File.Definition.Builder;
+﻿using FileCompositions.Core.File.No.Definition.Builder;
 using FileCompositions.Core.Quality.Ownership;
 using FileCompositions.Core.Quality.Ownership.Implementations;
+using FileCompositions.Core.Quality.Placement;
 using FileCompositions.Core.Quality.Placement.Implementations;
 using FileCompositions.Hosting.EntityFrameworkCore.File.Specialized.Db.Definition.Builder.Implementations;
 using FileCompositions.Hosting.EntityFrameworkCore.File.Specialized.Db.Options;
-using FileCompositions.Hosting.EntityFrameworkCore.File.Specialized.Db.Options.Implementations;
 using Microsoft.EntityFrameworkCore;
 
 namespace FileCompositions.Hosting.EntityFrameworkCore.File.Specialized.Db.Definition.Builder.Ext;
 
 public static partial class DbDefinitionBuilderExt
 {
-    extension<TOwnership, TDefinition, TBuilder>(IFileDefinitionBuilder<TOwnership, RequiredInRequired, TDefinition, TBuilder> builder)
+    extension<TOwnership, TPlacement>(INoFileDefinitionBuilder<TOwnership, TPlacement> inner)
         where TOwnership : DefinitionOwnership
-        where TDefinition : IFileDefinition<TOwnership, RequiredInRequired>
-        where TBuilder : IFileDefinitionBuilder<TOwnership, RequiredInRequired, TDefinition, TBuilder>
+        where TPlacement : DefinitionPlacement
+    {
+        internal IDbDefinitionBuilder<TOwnership, TPlacement, TDbContext> Db<TDbContext>(Action<IDbOptions<TDbContext>> config)
+            where TDbContext : DbContext =>
+                new DbDefinitionBuilder<TOwnership, TPlacement, TDbContext>(inner, config);
+    }
+
+
+
+    extension(INoFileDefinitionBuilder<StrictDefinition, RequiredInRequired> inner)
     {
         public IDbDefinitionBuilder<StrictDefinition, RequiredInRequired, TDbContext> Db<TDbContext>(Action<IDbOptions<TDbContext>> config)
-            where TDbContext : DbContext
-        {
-            var db = new DbOptions<TDbContext>();
-            config(db);
-
-            return new DbDefinitionBuilder<StrictDefinition, RequiredInRequired, TDbContext>(db);
-        }
+            where TDbContext : DbContext =>
+                new DbDefinitionBuilder<StrictDefinition, RequiredInRequired, TDbContext>(inner, config);
     }
 
-    extension<TOwnership, TDefinition, TBuilder>(IFileDefinitionBuilder<TOwnership, OptionalInRequired, TDefinition, TBuilder> builder)
-        where TOwnership : DefinitionOwnership
-        where TDefinition : IFileDefinition<TOwnership, OptionalInRequired>
-        where TBuilder : IFileDefinitionBuilder<TOwnership, OptionalInRequired, TDefinition, TBuilder>
+    extension(INoFileDefinitionBuilder<ExternalDefinition, RequiredInRequired> inner)
+    {
+        public IDbDefinitionBuilder<ExternalDefinition, RequiredInRequired, TDbContext> Db<TDbContext>(Action<IDbOptions<TDbContext>> config)
+            where TDbContext : DbContext =>
+                new DbDefinitionBuilder<ExternalDefinition, RequiredInRequired, TDbContext>(inner, config);
+    }
+
+    extension(INoFileDefinitionBuilder<StrictDefinition, OptionalInRequired> inner)
     {
         public IDbDefinitionBuilder<StrictDefinition, OptionalInRequired, TDbContext> Db<TDbContext>(Action<IDbOptions<TDbContext>> config)
-            where TDbContext : DbContext
-        {
-            var db = new DbOptions<TDbContext>();
-            config(db);
-
-            return new DbDefinitionBuilder<StrictDefinition, OptionalInRequired, TDbContext>(db);
-        }
+            where TDbContext : DbContext =>
+                new DbDefinitionBuilder<StrictDefinition, OptionalInRequired, TDbContext>(inner, config);
     }
 
-    extension<TOwnership, TDefinition, TBuilder>(IFileDefinitionBuilder<TOwnership, OptionalInOptional, TDefinition, TBuilder> builder)
-        where TOwnership : DefinitionOwnership
-        where TDefinition : IFileDefinition<TOwnership, OptionalInOptional>
-        where TBuilder : IFileDefinitionBuilder<TOwnership, OptionalInOptional, TDefinition, TBuilder>
+    extension(INoFileDefinitionBuilder<ExternalDefinition, OptionalInRequired> inner)
+    {
+        public IDbDefinitionBuilder<ExternalDefinition, OptionalInRequired, TDbContext> Db<TDbContext>(Action<IDbOptions<TDbContext>> config)
+            where TDbContext : DbContext =>
+                new DbDefinitionBuilder<ExternalDefinition, OptionalInRequired, TDbContext>(inner, config);
+    }
+
+    extension(INoFileDefinitionBuilder<StrictDefinition, OptionalInOptional> inner)
     {
         public IDbDefinitionBuilder<StrictDefinition, OptionalInOptional, TDbContext> Db<TDbContext>(Action<IDbOptions<TDbContext>> config)
-            where TDbContext : DbContext
-        {
-            var db = new DbOptions<TDbContext>();
-            config(db);
+            where TDbContext : DbContext =>
+                new DbDefinitionBuilder<StrictDefinition, OptionalInOptional, TDbContext>(inner, config);
+    }
 
-            return new DbDefinitionBuilder<StrictDefinition, OptionalInOptional, TDbContext>(db);
-        }
+    extension(INoFileDefinitionBuilder<ExternalDefinition, OptionalInOptional> inner)
+    {
+        public IDbDefinitionBuilder<ExternalDefinition, OptionalInOptional, TDbContext> Db<TDbContext>(Action<IDbOptions<TDbContext>> config)
+            where TDbContext : DbContext =>
+                new DbDefinitionBuilder<ExternalDefinition, OptionalInOptional, TDbContext>(inner, config);
     }
 }
