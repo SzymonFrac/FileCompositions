@@ -1,10 +1,6 @@
 ﻿using FileCompositions.Core.File.Definition.Key;
-using FileCompositions.Core.File.Specialized.Dll.Definition.Builder;
-using FileCompositions.Core.File.Specialized.Json.Definition.Builder;
 using FileCompositions.Core.Quality.Ownership;
-using FileCompositions.Core.Quality.Ownership.Implementations;
 using FileCompositions.Core.Quality.Placement;
-using FileCompositions.Core.Quality.Placement.Implementations;
 
 namespace FileCompositions.Core.File.Definition.Builder;
 
