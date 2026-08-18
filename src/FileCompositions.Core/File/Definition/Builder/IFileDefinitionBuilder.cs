@@ -9,9 +9,5 @@ public partial interface IFileDefinitionBuilder<TOwnership, TPlacement, TBuilder
     where TPlacement : DefinitionPlacement
     where TBuilder : IFileDefinitionBuilder<TOwnership, TPlacement, TBuilder>
 {
-    //internal IFileDefinitionBuilder<TNewOwnership, TNewPlacement, TBuilder> Create<TNewOwnership, TNewPlacement>()
-    //    where TNewOwnership : DefinitionOwnership
-    //    where TNewPlacement : DefinitionPlacement;
-    
     TBuilder WithKey(FileDefinitionKey key);
 };
