@@ -15,12 +15,6 @@ internal abstract partial class AbstractDllDefinitionBuilder<TOwnership, TPlacem
     private readonly INoFileDefinitionBuilder<TOwnership, TPlacement> _inner = inner;
     private readonly Action<IDllOptions> _config = config;
 
-    //public IFileDefinitionBuilder<TNewOwnership, TNewPlacement, IDllOptions> Create<TNewOwnership, TNewPlacement>()
-    //    where TNewOwnership : DefinitionOwnership
-    //    where TNewPlacement : DefinitionPlacement =>
-    //        _inner.Create<TNewOwnership, TNewPlacement>()
-    //            .Dll(_config);
-
     public IDllDefinitionBuilder<TOwnership, TPlacement> WithKey(FileDefinitionKey key) =>
         _inner.WithKey(key).Dll(_config);
 }

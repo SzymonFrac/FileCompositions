@@ -15,7 +15,7 @@ public static partial class DbDefinitionExt
 {
     extension(IHostResourceSchemaFileRegistrar<RequiredDefinition> registrar)
     {
-        public IHostResourceSchemaFileRegistrar<RequiredDefinition> Define<TOwnership, TPlacement, TDbContext>(DbDefinitionConfig<TOwnership, TPlacement, RequiredInRequired, TDbContext> config)
+        public IHostResourceSchemaFileRegistrar<RequiredDefinition> DefineInRequired<TOwnership, TPlacement, TDbContext>(DbDefinitionConfig<TOwnership, TPlacement, RequiredInRequired, TDbContext> config)
             where TOwnership : DefinitionOwnership
             where TPlacement : DefinitionPlacement
             where TDbContext : DbContext
@@ -29,25 +29,11 @@ public static partial class DbDefinitionExt
             registrar.Define(request, registerBuilderFactory);
             return registrar;
         }
-
-        //public IHostResourceSchemaFileRegistrar<RequiredDefinition> Define<TOwnership, TDbContext>(DbDefinitionConfig<TOwnership, OptionalInRequired, RequiredInRequired, TDbContext> config)
-        //    where TOwnership : DefinitionOwnership
-        //    where TDbContext : DbContext
-        //{
-        //    var noBuilder = new NoFileDefinitionBuilder<StrictDefinition, RequiredInRequired>();
-        //    var db = config(noBuilder);
-        //    var request = db.Build(registrar.DirectoryKey);
-
-        //    var registerBuilderFactory = new HostResourceSchemaDbRegisterBuilderFactory<TDbContext>();
-
-        //    registrar.Define(request, registerBuilderFactory);
-        //    return registrar;
-        //}
-    };
+    }
 
     extension(IHostResourceSchemaFileRegistrar<OptionalDefinition> registrar)
     {
-        public IHostResourceSchemaFileRegistrar<OptionalDefinition> Define<TOwnership, TPlacement, TDbContext>(DbDefinitionConfig<TOwnership, TPlacement, OptionalInOptional, TDbContext> config)
+        public IHostResourceSchemaFileRegistrar<OptionalDefinition> DefineInOptional<TOwnership, TPlacement, TDbContext>(DbDefinitionConfig<TOwnership, TPlacement, OptionalInOptional, TDbContext> config)
             where TOwnership : DefinitionOwnership
             where TPlacement : DefinitionPlacement
             where TDbContext : DbContext
@@ -61,5 +47,5 @@ public static partial class DbDefinitionExt
             registrar.Define(request, registerBuilderFactory);
             return registrar;
         }
-    };
+    }
 }

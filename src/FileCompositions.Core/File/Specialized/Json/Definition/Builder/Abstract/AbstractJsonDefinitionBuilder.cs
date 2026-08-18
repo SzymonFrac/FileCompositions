@@ -15,12 +15,6 @@ internal abstract partial class AbstractJsonDefinitionBuilder<TOwnership, TPlace
     private readonly INoFileDefinitionBuilder<TOwnership, TPlacement> _inner = inner;
     private readonly Action<IJsonOptions<TData>> _config = config;
 
-    //public IFileDefinitionBuilder<TNewOwnership, TNewPlacement, IJsonOptions<TData>> Create<TNewOwnership, TNewPlacement>()
-    //    where TNewOwnership : DefinitionOwnership
-    //    where TNewPlacement : DefinitionPlacement =>
-    //        _inner.Create<TNewOwnership, TNewPlacement>()
-    //            .Json(_config);
-
     public IJsonDefinitionBuilder<TOwnership, TPlacement, TData> WithKey(FileDefinitionKey key) =>
         _inner.WithKey(key).Json(_config);
 }

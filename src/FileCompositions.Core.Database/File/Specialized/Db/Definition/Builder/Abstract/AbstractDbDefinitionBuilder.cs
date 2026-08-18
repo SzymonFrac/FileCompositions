@@ -15,12 +15,6 @@ internal abstract partial class AbstractDbDefinitionBuilder<TOwnership, TPlaceme
     private readonly INoFileDefinitionBuilder<TOwnership, TPlacement> _inner = inner;
     private readonly Action<IDbOptions> _config = config;
 
-    //public IFileDefinitionBuilder<TNewOwnership, TNewPlacement, IDbOptions> Create<TNewOwnership, TNewPlacement>()
-    //    where TNewOwnership : DefinitionOwnership
-    //    where TNewPlacement : DefinitionPlacement =>
-    //        _inner.Create<TNewOwnership, TNewPlacement>()
-    //            .Db(_config);
-
     public IDbDefinitionBuilder<TOwnership, TPlacement> WithKey(FileDefinitionKey key) =>
         _inner.WithKey(key).Db(_config);
 }

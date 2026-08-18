@@ -14,7 +14,7 @@ public static partial class JsonDefinitionExt
     extension<TResourceSchemaFileRegistrar>(TResourceSchemaFileRegistrar registrar)
         where TResourceSchemaFileRegistrar : IResourceSchemaFileRegistrar<RequiredDefinition>
     {
-        public TResourceSchemaFileRegistrar Define<TOwnership, TPlacement, TData>(JsonDefinitionConfig<TOwnership, TPlacement, RequiredInRequired, TData> config)
+        public TResourceSchemaFileRegistrar DefineInRequired<TOwnership, TPlacement, TData>(JsonDefinitionConfig<TOwnership, TPlacement, RequiredInRequired, TData> config)
             where TOwnership : DefinitionOwnership
             where TPlacement : DefinitionPlacement
         {
@@ -25,23 +25,12 @@ public static partial class JsonDefinitionExt
             registrar.Define(request);
             return registrar;
         }
-
-        //public TResourceSchemaFileRegistrar Define<TOwnership, TData>(JsonDefinitionConfig<TOwnership, OptionalInRequired, TData> config)
-        //    where TOwnership : DefinitionOwnership
-        //{
-        //    var noBuilder = new NoFileDefinitionBuilder<StrictDefinition, RequiredInRequired>();
-        //    var json = config(noBuilder);
-        //    var request = json.Build(registrar.DirectoryKey);
-
-        //    registrar.Define(request);
-        //    return registrar;
-        //}
     }
 
     extension<TResourceSchemaFileRegistrar>(TResourceSchemaFileRegistrar registrar)
         where TResourceSchemaFileRegistrar : IResourceSchemaFileRegistrar<OptionalDefinition>
     {
-        public TResourceSchemaFileRegistrar Define<TOwnership, TPlacement, TData>(JsonDefinitionConfig<TOwnership, TPlacement, OptionalInOptional, TData> config)
+        public TResourceSchemaFileRegistrar DefineInOptional<TOwnership, TPlacement, TData>(JsonDefinitionConfig<TOwnership, TPlacement, OptionalInOptional, TData> config)
             where TOwnership : DefinitionOwnership
             where TPlacement : DefinitionPlacement
         {
