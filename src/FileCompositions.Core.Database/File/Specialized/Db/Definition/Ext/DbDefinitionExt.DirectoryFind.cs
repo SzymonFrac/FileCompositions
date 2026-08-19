@@ -1,9 +1,4 @@
-﻿using FileCompositions.Core.Database.File.Specialized.Db.Definition.Implementations;
-using FileCompositions.Core.Database.File.Specialized.Db.Name.Ext;
-using FileCompositions.Core.Database.File.Specialized.Db.Resource;
-using FileCompositions.Core.Directory.Definition;
-using FileCompositions.Core.File.Context.Implementations;
-using FileCompositions.Core.File.Name;
+﻿using FileCompositions.Core.Directory.Definition;
 using FileCompositions.Core.Quality.Necessity;
 using FileCompositions.Core.Quality.Ownership;
 
@@ -15,9 +10,9 @@ public static partial class DbDefinitionExt
         where TOwnership : DefinitionOwnership
         where TNecessity : DefinitionNecessity
     {
-        public async ValueTask<IDbResource?> GetDbResourceAsync(string name, CancellationToken cancellationToken = default) =>
-            await directory.Context.FileSystem.ExistsAsync(directory.Address.With(FileName.CreateDb(name)), cancellationToken)
-                ? DbDefinition.Convert(new FileContext(directory.Context.FileSystem, directory.Address), name)
-                : default;
+        //public async ValueTask<IDbResource?> GetDbResourceAsync(string name, CancellationToken cancellationToken = default) =>
+        //    await directory.Context.FileSystem.ExistsAsync(directory.Address.With(FileName.CreateDb(name)), cancellationToken)
+        //        ? DbDefinition.Convert(new FileContext(directory.Context.FileSystem, directory.Address), name)
+        //        : default;
     }
 }
