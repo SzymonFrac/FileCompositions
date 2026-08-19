@@ -1,5 +1,4 @@
-﻿using FileCompositions.Core.File.Quality.Ext;
-using FileCompositions.Core.Quality.Ownership.Implementations;
+﻿using FileCompositions.Core.Quality.Ownership.Implementations;
 using FileCompositions.Core.Quality.Placement.Implementations;
 
 namespace FileCompositions.Core.File.Specialized.Dll.Definition.Ext;
@@ -18,18 +17,20 @@ public static partial class DllDefinitionExt
 
     extension(IDllDefinition<StrictDefinition, OptionalInRequired> dll)
     {
-        public async ValueTask CreateAsync(CancellationToken cancellationToken = default)
-        {
-            if (!await dll.Context.StorageBackend.ExistsAsync(dll.GetLocation(), cancellationToken).ConfigureAwait(false))
+        public Task CreateAsync(CancellationToken cancellationToken = default) =>
+            dll.RequestFileSystemAsync(async (fss, ct) =>
             {
-                await using var stream = await dll.Context.StorageBackend.OpenCreateAsync(dll.GetLocation(), cancellationToken).ConfigureAwait(false);
+                if (!await fss.ExistsAsync(ct).ConfigureAwait(false))
+                {
+                    await using var stream = await fss.OpenCreateAsync(ct).ConfigureAwait(false);
 
-                await using var @default = typeof(IDllDefinition<,>).Assembly
-                    .GetManifestResourceStream("FileCompositions.Core.Assets.Dll.Default.dll")!;
+                    await using var @default = typeof(IDllDefinition<,>).Assembly
+                        .GetManifestResourceStream("FileCompositions.Core.Assets.Dll.Default.dll")!;
 
-                await @default.CopyToAsync(stream, cancellationToken).ConfigureAwait(false);
-            }
-        }
+                    await @default.CopyToAsync(stream, ct).ConfigureAwait(false);
+                }
+            },
+                cancellationToken);
     }
 
     extension(IDllDefinition<ExternalDefinition, OptionalInRequired> dll)
@@ -39,21 +40,23 @@ public static partial class DllDefinitionExt
 
     extension(IDllDefinition<StrictDefinition, OptionalInOptional> dll)
     {
-        public async ValueTask<bool> TryCreateAsync(CancellationToken cancellationToken = default)
-        {
-            var addressExists = await dll.Context.StorageBackend.ExistsAsync(dll.GetLocation().Address, cancellationToken).ConfigureAwait(false);
-            if (addressExists)
+        public Task<bool> TryCreateAsync(CancellationToken cancellationToken = default) =>
+            dll.RequestFileSystemAsync(async (fss, ct) =>
             {
-                await using var stream = await dll.Context.StorageBackend.OpenCreateAsync(dll.GetLocation(), cancellationToken).ConfigureAwait(false);
+                var addressExists = await fss.AddressExistsAsync(ct).ConfigureAwait(false);
+                if (addressExists)
+                {
+                    await using var stream = await fss.OpenCreateAsync(ct).ConfigureAwait(false);
 
-                await using var @default = typeof(IDllDefinition<,>).Assembly
-                    .GetManifestResourceStream("FileCompositions.Core.Assets.Dll.Default.dll")!;
+                    await using var @default = typeof(IDllDefinition<,>).Assembly
+                        .GetManifestResourceStream("FileCompositions.Core.Assets.Dll.Default.dll")!;
 
-                await @default.CopyToAsync(stream, cancellationToken).ConfigureAwait(false);
-            }
+                    await @default.CopyToAsync(stream, ct).ConfigureAwait(false);
+                }
 
-            return addressExists;
-        }
+                return addressExists;
+            },
+                cancellationToken);
     }
 
     extension(IDllDefinition<ExternalDefinition, OptionalInOptional> dll)

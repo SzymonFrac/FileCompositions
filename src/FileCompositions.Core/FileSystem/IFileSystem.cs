@@ -3,7 +3,7 @@ using FileCompositions.Core.FileSystem.Location;
 
 namespace FileCompositions.Core.FileSystem;
 
-public interface IFileSystem
+public partial interface IFileSystem
 {
     Task<Stream> OpenReadAsync(FileSystemLocation location, CancellationToken cancellationToken = default);
     Task<Stream> OpenWriteAsync(FileSystemLocation location, CancellationToken cancellationToken = default);

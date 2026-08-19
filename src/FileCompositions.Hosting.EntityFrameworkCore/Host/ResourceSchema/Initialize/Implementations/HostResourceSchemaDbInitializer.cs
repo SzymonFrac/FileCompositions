@@ -14,7 +14,7 @@ internal sealed class HostResourceSchemaDbInitializer<TOwnsership, TPlacement, T
     where TDbContext : DbContext
 {
     private readonly FileDefinitionKey _key = key;
-    public ValueTask InitializeAsync(IServiceProvider services, CancellationToken cancellationToken = default) =>
+    public Task InitializeAsync(IServiceProvider services, CancellationToken cancellationToken = default) =>
         services.GetRequiredKeyedService<IDbDefinition<TOwnsership, TPlacement, TDbContext>>(_key)
             .InitializeAsync(services.GetRequiredService<TDbContext>(), cancellationToken);
 }

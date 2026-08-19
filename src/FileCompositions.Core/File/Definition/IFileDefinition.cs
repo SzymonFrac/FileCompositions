@@ -1,6 +1,6 @@
 ﻿using FileCompositions.Core.File.Definition.Key;
+using FileCompositions.Core.File.Extension.Some;
 using FileCompositions.Core.File.Quality;
-using FileCompositions.Core.FileSystem.Resource.Extension;
 using FileCompositions.Core.Quality.Ownership;
 using FileCompositions.Core.Quality.Placement;
 
@@ -12,10 +12,10 @@ public interface IFileDefinition<TOwnership, TPlacement> : IFileQuality<TOwnersh
 {
     FileDefinitionKey Key { get; }
 
-    internal ValueTask InitializeAsync(CancellationToken cancellationToken = default);
+    internal Task InitializeAsync(CancellationToken cancellationToken = default);
 }
 
 public interface IFileDefinition
 {
-    abstract static FileSystemResourceExtension Extension { get; }
+    abstract static SomeFileExtension Extension { get; }
 }

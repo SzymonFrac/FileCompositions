@@ -1,30 +1,15 @@
-﻿using FileCompositions.Core.Database.File.Specialized.Db.Definition;
-using FileCompositions.Core.Database.File.Specialized.Db.Definition.Descriptor;
-using FileCompositions.Core.File.Context;
+﻿using FileCompositions.Core.Directory.Definition.Key;
 using FileCompositions.Core.File.Definition.Builder;
-using FileCompositions.Core.File.Definition.Key;
-using FileCompositions.Core.Quality.Necessity;
-using FileCompositions.Core.Quality.Necessity.Implementations;
 using FileCompositions.Core.Quality.Ownership;
-using FileCompositions.Core.Quality.Ownership.Implementations;
 using FileCompositions.Core.Quality.Placement;
+using FileCompositions.Core.ResourceSchema.File.Register.Request;
 
 namespace FileCompositions.Core.Database.File.Specialized.Db.Definition.Builder;
 
-public interface IDbDefinitionBuilder<TOwnership, TNecessity> : IFileDefinitionBuilder<TOwnership, TNecessity>
-    where TOwnership : DefinitionOwnership
-    where TNecessity : DefinitionNecessity
+public interface IDbDefinitionBuilder<TOwnership, TPlacement>
+    : IFileDefinitionBuilder<TOwnership, TPlacement, IDbDefinitionBuilder<TOwnership, TPlacement>>
+        where TOwnership : DefinitionOwnership
+        where TPlacement : DefinitionPlacement
 {
-    IDbDefinitionBuilder<TOwnership, TNecessity> WithKey(FileDefinitionKey key);
-    IDbDefinitionBuilder<TOwnership, TNecessity> WithName(string name);
-
-    IDbDefinitionBuilder<ExternalDefinition, TNecessity> External();
-    IDbDefinitionBuilder<StrictDefinition, TNecessity> Strict();
-    IDbDefinitionBuilder<TOwnership, RequiredDefinition> Required();
-    IDbDefinitionBuilder<TOwnership, OptionalDefinition> Optional();
-
-    internal IDbDefinition<TOwnership, TPlacement> Build<TPlacement>(in IFileContext context)
-        where TPlacement : DefinitionPlacement;
-    internal IDbDefinitionDescriptor<TOwnership, TPlacement> BuildDescriptor<TPlacement>()
-        where TPlacement : DefinitionPlacement;
+    internal ResourceSchemaFileRegisterRequest<TOwnership, TPlacement, IDbDefinition<TOwnership, TPlacement>> Build(DirectoryDefinitionKey directoryKey);
 }

@@ -2,5 +2,5 @@
 
 internal interface IHostResourceSchemaInitializer
 {
-    ValueTask InitializeAsync(IServiceProvider services, CancellationToken cancellationToken = default);
+    Task InitializeAsync(IServiceProvider services, CancellationToken cancellationToken = default);
 }

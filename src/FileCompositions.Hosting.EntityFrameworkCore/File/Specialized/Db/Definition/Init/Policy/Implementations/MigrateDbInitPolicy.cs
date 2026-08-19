@@ -1,5 +1,4 @@
 ﻿using FileCompositions.Core.File.Definition.Ext;
-using FileCompositions.Core.File.Quality.Ext;
 using FileCompositions.Core.Quality.Ownership;
 using FileCompositions.Core.Quality.Ownership.Implementations;
 using FileCompositions.Core.Quality.Placement;
@@ -14,7 +13,7 @@ internal class MigrateDbInitPolicy<TOwnership, TPlacement, TDbContext> : IDbInit
     where TPlacement : DefinitionPlacement
     where TDbContext : DbContext
 {
-    public Func<TDbContext, CancellationToken, ValueTask> GetPolicy(IDbDefinition<TOwnership, TPlacement, TDbContext> init) => init switch
+    public Func<TDbContext, CancellationToken, Task> GetPolicy(IDbDefinition<TOwnership, TPlacement, TDbContext> init) => init switch
     {
         IDbDefinition<StrictDefinition, RequiredInRequired, TDbContext> sr => sr.MigrateDbAsync,
         IDbDefinition<ExternalDefinition, RequiredInRequired, TDbContext> er => er.MigrateDbAsync,
@@ -28,55 +27,57 @@ internal class MigrateDbInitPolicy<TOwnership, TPlacement, TDbContext> : IDbInit
 
 internal static partial class MigrateDbInitPolicy
 {
-    extension<TDbContext>(IDbDefinition<StrictDefinition, RequiredInRequired, TDbContext> init)
+    extension<TDbContext>(IDbDefinition<StrictDefinition, RequiredInRequired, TDbContext> db)
         where TDbContext : DbContext
     {
-        public async ValueTask MigrateDbAsync(TDbContext db, CancellationToken cancellationToken = default) =>
-            await db.Database.MigrateAsync(cancellationToken);
+        public Task MigrateDbAsync(TDbContext dbContext, CancellationToken cancellationToken = default) =>
+            dbContext.Database.MigrateAsync(cancellationToken);
     }
 
-    extension<TDbContext>(IDbDefinition<ExternalDefinition, RequiredInRequired, TDbContext> init)
+    extension<TDbContext>(IDbDefinition<ExternalDefinition, RequiredInRequired, TDbContext> db)
         where TDbContext : DbContext
     {
-        public async ValueTask MigrateDbAsync(TDbContext db, CancellationToken cancellationToken = default)
-        {
-            await init.InitAsync(cancellationToken);
-
-            await db.Database.MigrateAsync(cancellationToken);
-        }
+        public Task MigrateDbAsync(TDbContext dbContext, CancellationToken cancellationToken = default) =>
+            //await db.InitAsync(cancellationToken);
+            dbContext.Database.MigrateAsync(cancellationToken);
     }
 
-    extension<TDbContext>(IDbDefinition<StrictDefinition, OptionalInRequired, TDbContext> init)
+    extension<TDbContext>(IDbDefinition<StrictDefinition, OptionalInRequired, TDbContext> db)
         where TDbContext : DbContext
     {
-        public async ValueTask MigrateDbAsync(TDbContext db, CancellationToken cancellationToken = default)
-        {
-            if (await init.Context.StorageBackend.ExistsAsync(init.GetLocation(), cancellationToken))
-                await db.Database.MigrateAsync(cancellationToken);
-        }
+        public Task MigrateDbAsync(TDbContext dbContext, CancellationToken cancellationToken = default) =>
+            db.RequestFileSystemAsync(async (fss, ct) =>
+            {
+                if (await fss.ExistsAsync(ct).ConfigureAwait(false))
+                    await dbContext.Database.MigrateAsync(ct).ConfigureAwait(false);
+            },
+                cancellationToken);
     }
 
-    extension<TDbContext>(IDbDefinition<ExternalDefinition, OptionalInRequired, TDbContext> init)
+    extension<TDbContext>(IDbDefinition<ExternalDefinition, OptionalInRequired, TDbContext> db)
         where TDbContext : DbContext
     {
-        public ValueTask MigrateDbAsync(TDbContext db, CancellationToken cancellationToken = default) =>
-            init.InitAsync(cancellationToken);
+        public Task MigrateDbAsync(TDbContext dbContext, CancellationToken cancellationToken = default) =>
+            db.InitAsync(cancellationToken);
     }
 
-    extension<TDbContext>(IDbDefinition<StrictDefinition, OptionalInOptional, TDbContext> init)
+    extension<TDbContext>(IDbDefinition<StrictDefinition, OptionalInOptional, TDbContext> db)
         where TDbContext : DbContext
     {
-        public async ValueTask MigrateDbAsync(TDbContext db, CancellationToken cancellationToken = default)
-        {
-            if (await init.Context.StorageBackend.ExistsAsync(init.GetLocation(), cancellationToken))
-                await db.Database.MigrateAsync(cancellationToken);
-        }
+        public Task MigrateDbAsync(TDbContext dbContext, CancellationToken cancellationToken = default) =>
+            db.RequestFileSystemAsync(async (fss, ct) =>
+            {
+                if (await fss.ExistsAsync(ct).ConfigureAwait(false))
+                    await dbContext.Database.MigrateAsync(ct).ConfigureAwait(false);
+            },
+                cancellationToken);
+        
     }
 
-    extension<TDbContext>(IDbDefinition<ExternalDefinition, OptionalInOptional, TDbContext> init)
+    extension<TDbContext>(IDbDefinition<ExternalDefinition, OptionalInOptional, TDbContext> db)
         where TDbContext : DbContext
     {
-        public ValueTask MigrateDbAsync(TDbContext db, CancellationToken cancellationToken = default) =>
-            init.InitAsync(cancellationToken);
+        public Task MigrateDbAsync(TDbContext dbContext, CancellationToken cancellationToken = default) =>
+            db.InitAsync(cancellationToken);
     }
 }

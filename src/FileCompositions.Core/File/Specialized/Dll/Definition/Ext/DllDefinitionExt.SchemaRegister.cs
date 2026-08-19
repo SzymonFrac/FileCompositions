@@ -1,9 +1,9 @@
-﻿using FileCompositions.Core.File.Specialized.Dll.Definition.Builder.Ext;
-using FileCompositions.Core.File.Specialized.Dll.Definition.Builder.Factory.Implementations;
+﻿using FileCompositions.Core.File.No.Definition.Builder.Implementations;
 using FileCompositions.Core.File.Specialized.Dll.Definition.Config;
-using FileCompositions.Core.File.Specialized.Dll.Definition.Descriptor;
 using FileCompositions.Core.Quality.Necessity.Implementations;
 using FileCompositions.Core.Quality.Ownership;
+using FileCompositions.Core.Quality.Ownership.Implementations;
+using FileCompositions.Core.Quality.Placement;
 using FileCompositions.Core.Quality.Placement.Implementations;
 using FileCompositions.Core.ResourceSchema.File.Registrar;
 
@@ -14,25 +14,15 @@ public static partial class DllDefinitionExt
     extension<TResourceSchemaFileRegistrar>(TResourceSchemaFileRegistrar registrar)
         where TResourceSchemaFileRegistrar : IResourceSchemaFileRegistrar<RequiredDefinition>
     {
-        public TResourceSchemaFileRegistrar DefineDll<TOwnership>(DllDefinitionConfig<TOwnership, RequiredDefinition, RequiredDefinition> config)
+        public TResourceSchemaFileRegistrar DefineInRequired<TOwnership, TPlacement>(DllDefinitionConfig<TOwnership, TPlacement, RequiredInRequired> config)
             where TOwnership : DefinitionOwnership
+            where TPlacement : DefinitionPlacement
         {
-            var builder = new DllDefinitionBuilderFactory<RequiredDefinition>(registrar.DirectoryKey);
-            var dllBuilder = config(builder);
-            var descriptor = dllBuilder.BuildDescriptorInRequired();
+            var noBuilder = new NoFileDefinitionBuilder<StrictDefinition, RequiredInRequired>();
+            var dll = config(noBuilder);
+            var request = dll.Build(registrar.DirectoryKey);
 
-            registrar.Store<TOwnership, RequiredInRequired, IDllDefinition<TOwnership, RequiredInRequired>, IDllDefinitionDescriptor<TOwnership, RequiredInRequired>>(descriptor);
-            return registrar;
-        }
-
-        public TResourceSchemaFileRegistrar DefineDll<TOwnership>(DllDefinitionConfig<TOwnership, OptionalDefinition, RequiredDefinition> config)
-            where TOwnership : DefinitionOwnership
-        {
-            var builder = new DllDefinitionBuilderFactory<RequiredDefinition>(registrar.DirectoryKey);
-            var dllBuilder = config(builder);
-            var descriptor = dllBuilder.BuildDescriptorInRequired();
-
-            registrar.Store<TOwnership, OptionalInRequired, IDllDefinition<TOwnership, OptionalInRequired>, IDllDefinitionDescriptor<TOwnership, OptionalInRequired>>(descriptor);
+            registrar.Define(request);
             return registrar;
         }
     }
@@ -40,14 +30,15 @@ public static partial class DllDefinitionExt
     extension<TResourceSchemaFileRegistrar>(TResourceSchemaFileRegistrar registrar)
         where TResourceSchemaFileRegistrar : IResourceSchemaFileRegistrar<OptionalDefinition>
     {
-        public TResourceSchemaFileRegistrar DefineDll<TOwnership>(DllDefinitionConfig<TOwnership, OptionalDefinition, OptionalDefinition> config)
+        public TResourceSchemaFileRegistrar DefineInOptional<TOwnership, TPlacement>(DllDefinitionConfig<TOwnership, TPlacement, OptionalInOptional> config)
             where TOwnership : DefinitionOwnership
+            where TPlacement : DefinitionPlacement
         {
-            var builder = new DllDefinitionBuilderFactory<OptionalDefinition>(registrar.DirectoryKey);
-            var dllBuilder = config(builder);
-            var descriptor = dllBuilder.BuildDescriptorInOptional();
+            var noBuilder = new NoFileDefinitionBuilder<StrictDefinition, OptionalInOptional>();
+            var dll = config(noBuilder);
+            var request = dll.Build(registrar.DirectoryKey);
 
-            registrar.Store<TOwnership, OptionalInOptional, IDllDefinition<TOwnership, OptionalInOptional>, IDllDefinitionDescriptor<TOwnership, OptionalInOptional>>(descriptor);
+            registrar.Define(request);
             return registrar;
         }
     }

@@ -1,11 +1,12 @@
-﻿using FileCompositions.Core.File.Specialized.Json.Definition.Builder;
-using FileCompositions.Core.File.Specialized.Json.Definition.Builder.Factory;
-using FileCompositions.Core.Quality.Necessity;
+﻿using FileCompositions.Core.File.No.Definition.Builder;
+using FileCompositions.Core.File.Specialized.Json.Definition.Builder;
 using FileCompositions.Core.Quality.Ownership;
+using FileCompositions.Core.Quality.Ownership.Implementations;
+using FileCompositions.Core.Quality.Placement;
 
 namespace FileCompositions.Core.File.Specialized.Json.Definition.Config;
 
-public delegate IJsonDefinitionBuilder<TOwnership, TNecessity, TData> JsonDefinitionConfig<TOwnership, TNecessity, TInNecessity, TData>(IJsonDefinitionBuilderFactory<TInNecessity> config)
+public delegate IJsonDefinitionBuilder<TOwnership, TPlacement, TData> JsonDefinitionConfig<TOwnership, TPlacement, TInPlacement, TData>(INoFileDefinitionBuilder<StrictDefinition, TInPlacement> config)
     where TOwnership : DefinitionOwnership
-    where TNecessity : DefinitionNecessity
-    where TInNecessity : DefinitionNecessity;
+    where TPlacement : DefinitionPlacement
+    where TInPlacement : DefinitionPlacement;

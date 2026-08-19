@@ -11,7 +11,7 @@ internal sealed partial class DefaultDbInitPolicy<TOwnership, TPlacement> : IDbI
     where TOwnership : DefinitionOwnership
     where TPlacement : DefinitionPlacement
 {
-    public Func<CancellationToken, ValueTask> GetPolicy(IDbDefinition<TOwnership, TPlacement> init) => init switch
+    public Func<CancellationToken, Task> GetPolicy(IDbDefinition<TOwnership, TPlacement> init) => init switch
     {
         IDbDefinition<StrictDefinition, RequiredInRequired> sr => sr.InitDbAsync,
         IDbDefinition<ExternalDefinition, RequiredInRequired> er => er.InitDbAsync,
@@ -27,37 +27,37 @@ internal static partial class DefaultDbInitPolicy
 {
     extension(IDbDefinition<StrictDefinition, RequiredInRequired> init)
     {
-        public ValueTask InitDbAsync(CancellationToken cancellationToken = default) =>
+        public Task InitDbAsync(CancellationToken cancellationToken = default) =>
             init.InitAsync(cancellationToken);
     }
 
     extension(IDbDefinition<ExternalDefinition, RequiredInRequired> init)
     {
-        public ValueTask InitDbAsync(CancellationToken cancellationToken = default) =>
+        public Task InitDbAsync(CancellationToken cancellationToken = default) =>
             init.InitAsync(cancellationToken);
     }
 
     extension(IDbDefinition<StrictDefinition, OptionalInRequired> init)
     {
-        public ValueTask InitDbAsync(CancellationToken cancellationToken = default) =>
+        public Task InitDbAsync(CancellationToken cancellationToken = default) =>
             init.InitAsync(cancellationToken);
     }
 
     extension(IDbDefinition<ExternalDefinition, OptionalInRequired> init)
     {
-        public ValueTask InitDbAsync(CancellationToken cancellationToken = default) =>
+        public Task InitDbAsync(CancellationToken cancellationToken = default) =>
             init.InitAsync(cancellationToken);
     }
 
     extension(IDbDefinition<StrictDefinition, OptionalInOptional> init)
     {
-        public ValueTask InitDbAsync(CancellationToken cancellationToken = default) =>
+        public Task InitDbAsync(CancellationToken cancellationToken = default) =>
             init.InitAsync(cancellationToken);
     }
 
     extension(IDbDefinition<ExternalDefinition, OptionalInOptional> init)
     {
-        public ValueTask InitDbAsync(CancellationToken cancellationToken = default) =>
+        public Task InitDbAsync(CancellationToken cancellationToken = default) =>
             init.InitAsync(cancellationToken);
     }
 }
