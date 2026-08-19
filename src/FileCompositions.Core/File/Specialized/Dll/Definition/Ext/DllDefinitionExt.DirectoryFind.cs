@@ -1,8 +1,4 @@
 ﻿using FileCompositions.Core.Directory.Definition;
-using FileCompositions.Core.File.Context.Implementations;
-using FileCompositions.Core.File.Specialized.Dll.Definition.Implementations;
-using FileCompositions.Core.File.Specialized.Dll.Resource;
-using FileCompositions.Core.FileSystem.Resource.Name;
 using FileCompositions.Core.Quality.Necessity;
 using FileCompositions.Core.Quality.Ownership;
 
@@ -14,9 +10,9 @@ public static partial class DllDefinitionExt
         where TOwnership : DefinitionOwnership
         where TNecessity : DefinitionNecessity
     {
-        public async Task<IDllResource?> FindDllResourceAsync(string name, CancellationToken cancellationToken = default) =>
-            await directory.Context.FileSystem.ExistsAsync(directory.Address.With(FileSystemResourceName.CreateDll(name)), cancellationToken)
-                ? DllDefinition.Convert(new FileContext(directory.Context.FileSystem, directory.Address), name)
-                : default;
+        //public async Task<IDllResource?> FindDllResourceAsync(string name, CancellationToken cancellationToken = default) =>
+        //    await directory.Context.FileSystem.ExistsAsync(directory.Address.With(FileName.CreateDll(name)), cancellationToken)
+        //        ? DllDefinition.Convert(new FileContext(directory.Context.FileSystem, directory.Address), name)
+        //        : default;
     }
 }

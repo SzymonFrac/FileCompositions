@@ -1,9 +1,10 @@
 ﻿using FileCompositions.Core.Directory.Definition.Key;
 using FileCompositions.Core.File.Definition;
-using FileCompositions.Core.File.Definition.Descriptor;
 using FileCompositions.Core.Quality.Necessity;
 using FileCompositions.Core.Quality.Ownership;
 using FileCompositions.Core.Quality.Placement;
+using FileCompositions.Core.ResourceSchema.File.Register.Request;
+using FileCompositions.Core.ResourceSchema.File.Registrar;
 using FileCompositions.Hosting.ResourceSchema.File.Register.Builder.Factory;
 using FileCompositions.Hosting.ResourceSchema.File.Register.Builder.Factory.Implementations;
 using FileCompositions.Hosting.ResourceSchema.Register;
@@ -20,23 +21,28 @@ internal sealed class HostResourceSchemaFileRegistrar<TInOwnership, TInNecessity
     public DirectoryDefinitionKey DirectoryKey { get; } = directoryKey;
     public IHostResourceSchemaFileRegisterBuilderFactory RegisterBuilderFactory { get; init; } = new HostResourceSchemaFileRegisterBuilderFactory();
 
-    public void Store<TOwnership, TPlacement, TDefinition, TDescriptor>(TDescriptor descriptor)
+    DirectoryDefinitionKey IResourceSchemaFileRegistrar<TInNecessity>.DirectoryKey => DirectoryKey;
+
+    public void Define<TOwnership, TPlacement, TDefinition>(ResourceSchemaFileRegisterRequest<TOwnership, TPlacement, TDefinition> request)
         where TOwnership : DefinitionOwnership
         where TPlacement : DefinitionPlacement
-        where TDefinition : class, IFileDefinition<TOwnership, TPlacement>
-        where TDescriptor : IFileDefinitionDescriptor<TOwnership, TPlacement, TDefinition> =>
+        where TDefinition : class, IFileDefinition<TOwnership, TPlacement> =>
             register += RegisterBuilderFactory
                 .Create<TInOwnership, TInNecessity>()
-                .Build<TOwnership, TPlacement, TDefinition, TDescriptor>(descriptor);
+                .Build(request);
 
-    public void Store<TOwnership, TPlacement, TDefinition, TDescriptor>(TDescriptor descriptor, IHostResourceSchemaFileRegisterBuilderFactory factory)
+    public void Define<TOwnership, TPlacement, TDefinition>(ResourceSchemaFileRegisterRequest<TOwnership, TPlacement, TDefinition> request, IHostResourceSchemaFileRegisterBuilderFactory factory)
         where TOwnership : DefinitionOwnership
         where TPlacement : DefinitionPlacement
-        where TDefinition : class, IFileDefinition<TOwnership, TPlacement>
-        where TDescriptor : IFileDefinitionDescriptor<TOwnership, TPlacement, TDefinition> =>
+        where TDefinition : class, IFileDefinition<TOwnership, TPlacement> =>
             register += factory
                 .Create<TInOwnership, TInNecessity>()
-                .Build<TOwnership, TPlacement, TDefinition, TDescriptor>(descriptor);
+                .Build(request);
 
     public HostResourceSchemaRegister? Build() => register;
+
+    HostResourceSchemaRegister? IHostResourceSchemaFileRegistrar<TInNecessity>.Build()
+    {
+        return Build();
+    }
 }

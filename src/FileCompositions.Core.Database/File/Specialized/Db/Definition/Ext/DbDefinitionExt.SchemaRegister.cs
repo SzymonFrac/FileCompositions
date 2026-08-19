@@ -1,9 +1,9 @@
-﻿using FileCompositions.Core.Database.File.Specialized.Db.Definition.Builder.Ext;
-using FileCompositions.Core.Database.File.Specialized.Db.Definition.Builder.Factory.Implementations;
-using FileCompositions.Core.Database.File.Specialized.Db.Definition.Config;
-using FileCompositions.Core.Database.File.Specialized.Db.Definition.Descriptor;
+﻿using FileCompositions.Core.Database.File.Specialized.Db.Definition.Config;
+using FileCompositions.Core.File.No.Definition.Builder.Implementations;
 using FileCompositions.Core.Quality.Necessity.Implementations;
 using FileCompositions.Core.Quality.Ownership;
+using FileCompositions.Core.Quality.Ownership.Implementations;
+using FileCompositions.Core.Quality.Placement;
 using FileCompositions.Core.Quality.Placement.Implementations;
 using FileCompositions.Core.ResourceSchema.File.Registrar;
 
@@ -12,27 +12,17 @@ namespace FileCompositions.Core.Database.File.Specialized.Db.Definition.Ext;
 public static partial class DbDefinitionExt
 {
     extension<TResourceSchemaFileRegistrar>(TResourceSchemaFileRegistrar registrar)
-    where TResourceSchemaFileRegistrar : IResourceSchemaFileRegistrar<RequiredDefinition>
+        where TResourceSchemaFileRegistrar : IResourceSchemaFileRegistrar<RequiredDefinition>
     {
-        public TResourceSchemaFileRegistrar DefineDb<TOwnership>(DbDefinitionConfig<TOwnership, RequiredDefinition, RequiredDefinition> config)
+        public TResourceSchemaFileRegistrar DefineInRequired<TOwnership, TPlacement>(DbDefinitionConfig<TOwnership, TPlacement, RequiredInRequired> config)
             where TOwnership : DefinitionOwnership
+            where TPlacement : DefinitionPlacement
         {
-            var builder = new DbDefinitionBuilderFactory<RequiredDefinition>(registrar.DirectoryKey);
-            var jsonBuilder = config(builder);
-            var descriptor = jsonBuilder.BuildDescriptorInRequired();
+            var noBuilder = new NoFileDefinitionBuilder<StrictDefinition, RequiredInRequired>();
+            var db = config(noBuilder);
+            var request = db.Build(registrar.DirectoryKey);
 
-            registrar.Store<TOwnership, RequiredInRequired, IDbDefinition<TOwnership, RequiredInRequired>, IDbDefinitionDescriptor<TOwnership, RequiredInRequired>>(descriptor);
-            return registrar;
-        }
-
-        public TResourceSchemaFileRegistrar DefineDb<TOwnership>(DbDefinitionConfig<TOwnership, OptionalDefinition, RequiredDefinition> config)
-            where TOwnership : DefinitionOwnership
-        {
-            var builder = new DbDefinitionBuilderFactory<RequiredDefinition>(registrar.DirectoryKey);
-            var jsonBuilder = config(builder);
-            var descriptor = jsonBuilder.BuildDescriptorInRequired();
-
-            registrar.Store<TOwnership, OptionalInRequired, IDbDefinition<TOwnership, OptionalInRequired>, IDbDefinitionDescriptor<TOwnership, OptionalInRequired>>(descriptor);
+            registrar.Define(request);
             return registrar;
         }
     };
@@ -40,14 +30,15 @@ public static partial class DbDefinitionExt
     extension<TResourceSchemaFileRegistrar>(TResourceSchemaFileRegistrar registrar)
         where TResourceSchemaFileRegistrar : IResourceSchemaFileRegistrar<OptionalDefinition>
     {
-        public TResourceSchemaFileRegistrar DefineDb<TOwnership>(DbDefinitionConfig<TOwnership, OptionalDefinition, OptionalDefinition> config)
+        public TResourceSchemaFileRegistrar DefineInOptional<TOwnership, TPlacement>(DbDefinitionConfig<TOwnership, TPlacement, OptionalInOptional> config)
             where TOwnership : DefinitionOwnership
+            where TPlacement : DefinitionPlacement
         {
-            var builder = new DbDefinitionBuilderFactory<OptionalDefinition>(registrar.DirectoryKey);
-            var jsonBuilder = config(builder);
-            var descriptor = jsonBuilder.BuildDescriptorInOptional();
+            var noBuilder = new NoFileDefinitionBuilder<StrictDefinition, OptionalInOptional>();
+            var db = config(noBuilder);
+            var request = db.Build(registrar.DirectoryKey);
 
-            registrar.Store<TOwnership, OptionalInOptional, IDbDefinition<TOwnership, OptionalInOptional>, IDbDefinitionDescriptor<TOwnership, OptionalInOptional>>(descriptor);
+            registrar.Define(request);
             return registrar;
         }
     };

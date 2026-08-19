@@ -1,9 +1,9 @@
-﻿using FileCompositions.Core.File.Specialized.Json.Definition.Builder.Ext;
-using FileCompositions.Core.File.Specialized.Json.Definition.Builder.Factory.Implementation;
+﻿using FileCompositions.Core.File.No.Definition.Builder.Implementations;
 using FileCompositions.Core.File.Specialized.Json.Definition.Config;
-using FileCompositions.Core.File.Specialized.Json.Definition.Descriptor;
 using FileCompositions.Core.Quality.Necessity.Implementations;
 using FileCompositions.Core.Quality.Ownership;
+using FileCompositions.Core.Quality.Ownership.Implementations;
+using FileCompositions.Core.Quality.Placement;
 using FileCompositions.Core.Quality.Placement.Implementations;
 using FileCompositions.Core.ResourceSchema.File.Registrar;
 
@@ -14,25 +14,15 @@ public static partial class JsonDefinitionExt
     extension<TResourceSchemaFileRegistrar>(TResourceSchemaFileRegistrar registrar)
         where TResourceSchemaFileRegistrar : IResourceSchemaFileRegistrar<RequiredDefinition>
     {
-        public TResourceSchemaFileRegistrar DefineJson<TOwnership, TData>(JsonDefinitionConfig<TOwnership, RequiredDefinition, RequiredDefinition, TData> config)
+        public TResourceSchemaFileRegistrar DefineInRequired<TOwnership, TPlacement, TData>(JsonDefinitionConfig<TOwnership, TPlacement, RequiredInRequired, TData> config)
             where TOwnership : DefinitionOwnership
+            where TPlacement : DefinitionPlacement
         {
-            var builder = new JsonDefinitionBuilderFactory<RequiredDefinition>(registrar.DirectoryKey);
-            var jsonBuilder = config(builder);
-            var descriptor = jsonBuilder.BuildDescriptorInRequired();
+            var noBuilder = new NoFileDefinitionBuilder<StrictDefinition, RequiredInRequired>();
+            var json = config(noBuilder);
+            var request = json.Build(registrar.DirectoryKey);
 
-            registrar.Store<TOwnership, RequiredInRequired, IJsonDefinition<TOwnership, RequiredInRequired, TData>, IJsonDefinitionDescriptor<TOwnership, RequiredInRequired, TData>>(descriptor);
-            return registrar;
-        }
-
-        public TResourceSchemaFileRegistrar DefineJson<TOwnership, TData>(JsonDefinitionConfig<TOwnership, OptionalDefinition, RequiredDefinition, TData> config)
-            where TOwnership : DefinitionOwnership
-        {
-            var builder = new JsonDefinitionBuilderFactory<RequiredDefinition>(registrar.DirectoryKey);
-            var jsonBuilder = config(builder);
-            var descriptor = jsonBuilder.BuildDescriptorInRequired();
-
-            registrar.Store<TOwnership, OptionalInRequired, IJsonDefinition<TOwnership, OptionalInRequired, TData>, IJsonDefinitionDescriptor<TOwnership, OptionalInRequired, TData>>(descriptor);
+            registrar.Define(request);
             return registrar;
         }
     }
@@ -40,14 +30,15 @@ public static partial class JsonDefinitionExt
     extension<TResourceSchemaFileRegistrar>(TResourceSchemaFileRegistrar registrar)
         where TResourceSchemaFileRegistrar : IResourceSchemaFileRegistrar<OptionalDefinition>
     {
-        public TResourceSchemaFileRegistrar DefineJson<TOwnership, TData>(JsonDefinitionConfig<TOwnership, OptionalDefinition, OptionalDefinition, TData> config)
+        public TResourceSchemaFileRegistrar DefineInOptional<TOwnership, TPlacement, TData>(JsonDefinitionConfig<TOwnership, TPlacement, OptionalInOptional, TData> config)
             where TOwnership : DefinitionOwnership
+            where TPlacement : DefinitionPlacement
         {
-            var builder = new JsonDefinitionBuilderFactory<OptionalDefinition>(registrar.DirectoryKey);
-            var jsonBuilder = config(builder);
-            var descriptor = jsonBuilder.BuildDescriptorInOptional();
+            var noBuilder = new NoFileDefinitionBuilder<StrictDefinition, OptionalInOptional>();
+            var json = config(noBuilder);
+            var request = json.Build(registrar.DirectoryKey);
 
-            registrar.Store<TOwnership, OptionalInOptional, IJsonDefinition<TOwnership, OptionalInOptional, TData>, IJsonDefinitionDescriptor<TOwnership, OptionalInOptional, TData>>(descriptor);
+            registrar.Define(request);
             return registrar;
         }
     }

@@ -1,13 +1,14 @@
-﻿using FileCompositions.Core.Quality.Necessity;
+﻿using FileCompositions.Core.File.No.Definition.Builder;
 using FileCompositions.Core.Quality.Ownership;
+using FileCompositions.Core.Quality.Ownership.Implementations;
+using FileCompositions.Core.Quality.Placement;
 using FileCompositions.Hosting.EntityFrameworkCore.File.Specialized.Db.Definition.Builder;
-using FileCompositions.Hosting.EntityFrameworkCore.File.Specialized.Db.Definition.Builder.Factory;
 using Microsoft.EntityFrameworkCore;
 
 namespace FileCompositions.Hosting.EntityFrameworkCore.File.Specialized.Db.Definition.Config;
 
-public delegate IDbDefinitionBuilder<TOwnership, TNecessity, TDbContext> DbDefinitionConfig<TOwnership, TNecessity, TInNecessity, TDbContext>(IDbDefinitionBuilderFactory<TInNecessity> config)
+public delegate IDbDefinitionBuilder<TOwnership, TPlacement, TDbContext> DbDefinitionConfig<TOwnership, TPlacement, TInPlacement, TDbContext>(INoFileDefinitionBuilder<StrictDefinition, TInPlacement> config)
     where TOwnership : DefinitionOwnership
-    where TNecessity : DefinitionNecessity
-    where TInNecessity : DefinitionNecessity
+    where TPlacement : DefinitionPlacement
+    where TInPlacement : DefinitionPlacement
     where TDbContext : DbContext;

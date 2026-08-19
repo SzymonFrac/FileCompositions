@@ -1,21 +1,18 @@
-﻿using FileCompositions.Core.FileSystem.Location;
+﻿using FileCompositions.Core.File.Name;
+using FileCompositions.Core.FileSystem.Location;
 using FileCompositions.Core.FileSystem.Location.Implementations;
-using FileCompositions.Core.FileSystem.Resource.Name;
 using static System.Environment;
 
 namespace FileCompositions.Core.FileSystem.Address.Implementations;
 
 public sealed record LocalFileSystemAddress : FileSystemAddress
 {
-    private LocalFileSystemAddress(string value) => Value = value;
+    private LocalFileSystemAddress(ReadOnlySpan<char> value) : base(value) { }
 
-    public static LocalFileSystemAddress Create(string path)
-    {
-        if (string.IsNullOrWhiteSpace(path))
-            throw new ArgumentException(nameof(path));
-
-        return new LocalFileSystemAddress(Path.TrimEndingDirectorySeparator(path));
-    }
+    public static LocalFileSystemAddress Create(ReadOnlySpan<char> path) =>
+        path.IsWhiteSpace()
+            ? throw new ArgumentException("Address cannot be empty.", nameof(path))
+            : new LocalFileSystemAddress(Path.TrimEndingDirectorySeparator(path));
     public static LocalFileSystemAddress Create(params ReadOnlySpan<string> path) =>
         new(Path.Combine(path));
     public static LocalFileSystemAddress Create(SpecialFolder logical) =>
@@ -24,8 +21,8 @@ public sealed record LocalFileSystemAddress : FileSystemAddress
         new(Path.Combine([GetFolderPath(logical), .. path]));
 
     public LocalFileSystemAddress Extend(params ReadOnlySpan<string> path) =>
-        this with { Value = Path.Combine([Value, .. path]) };
+        new(Path.Combine([Value, .. path]));
 
-    public override FileSystemLocation With(FileSystemResourceName name) => new LocalFileSystemLocation(this, name);
+    public override FileSystemLocation With(FileName name) => new LocalFileSystemLocation(this, name);
     public override string ToString() => Value;
 }
