@@ -6,7 +6,7 @@ public static partial class FileSystemSource
 {
     public interface IFromAddress
     {
-        internal ValueTask RequestFileSystemAsync(FileSystemRequest.Address request, CancellationToken cancellationToken = default);
-        internal ValueTask<TResult> RequestFileSystemAsync<TResult>(FileSystemRequest.Address<TResult> request, CancellationToken cancellationToken = default);
+        internal Task RequestFileSystemAsync(FileSystemRequest.Address request, CancellationToken cancellationToken = default);
+        internal Task<TResult> RequestFileSystemAsync<TResult>(FileSystemRequest.Address<TResult> request, CancellationToken cancellationToken = default);
     }
 }

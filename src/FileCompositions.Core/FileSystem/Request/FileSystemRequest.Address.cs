@@ -2,6 +2,6 @@
 
 internal static partial class FileSystemRequest
 {
-    public delegate ValueTask Address(IFileSystem.AddressSession addressSession, CancellationToken cancellationToken = default);
-    public delegate ValueTask<TResult> Address<TResult>(IFileSystem.AddressSession addressSession, CancellationToken cancellationToken = default);
+    public delegate Task Address(IFileSystem.AddressSession addressSession, CancellationToken cancellationToken = default);
+    public delegate Task<TResult> Address<TResult>(IFileSystem.AddressSession addressSession, CancellationToken cancellationToken = default);
 }

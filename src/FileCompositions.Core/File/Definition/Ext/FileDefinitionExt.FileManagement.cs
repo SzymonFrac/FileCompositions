@@ -15,7 +15,7 @@ public static partial class FileDefinitionExt
     extension(IFileDefinition<StrictDefinition, OptionalInRequired> file)
     {
         internal Task CreateAsync(CancellationToken cancellationToken = default) =>
-            file.RequestFileSystemAsync((fss, ct) => fss.CreateAsync(ct).AsTask(), cancellationToken);
+            file.RequestFileSystemAsync((fss, ct) => fss.CreateAsync(ct), cancellationToken);
 
         public Task DeleteAsync(CancellationToken cancellationToken = default) =>
             file.RequestFileSystemAsync(async (fss, ct) =>
@@ -26,13 +26,13 @@ public static partial class FileDefinitionExt
                 cancellationToken);
 
         public Task<bool> ExistsAsync(CancellationToken cancellationToken = default) =>
-            file.RequestFileSystemAsync((fss, ct) => fss.ExistsAsync(ct).AsTask(), cancellationToken);
+            file.RequestFileSystemAsync((fss, ct) => fss.ExistsAsync(ct), cancellationToken);
     }
 
     extension(IFileDefinition<ExternalDefinition, OptionalInRequired> file)
     {
         public Task<bool> ExistsAsync(CancellationToken cancellationToken = default) =>
-            file.RequestFileSystemAsync((fss, ct) => fss.ExistsAsync(ct).AsTask(), cancellationToken);
+            file.RequestFileSystemAsync((fss, ct) => fss.ExistsAsync(ct), cancellationToken);
     }
 
     extension(IFileDefinition<StrictDefinition, OptionalInOptional> file)
@@ -57,12 +57,12 @@ public static partial class FileDefinitionExt
                 cancellationToken);
 
         public Task<bool> ExistsAsync(CancellationToken cancellationToken = default) =>
-            file.RequestFileSystemAsync((fss, ct) => fss.ExistsAsync(ct).AsTask(), cancellationToken);
+            file.RequestFileSystemAsync((fss, ct) => fss.ExistsAsync(ct), cancellationToken);
     }
 
     extension(IFileDefinition<ExternalDefinition, OptionalInOptional> file)
     {
         public Task<bool> ExistsAsync(CancellationToken cancellationToken = default) =>
-            file.RequestFileSystemAsync((fss, ct) => fss.ExistsAsync(ct).AsTask(), cancellationToken);
+            file.RequestFileSystemAsync((fss, ct) => fss.ExistsAsync(ct), cancellationToken);
     }
 }
