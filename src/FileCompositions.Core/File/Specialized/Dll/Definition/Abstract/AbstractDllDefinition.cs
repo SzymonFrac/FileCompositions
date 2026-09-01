@@ -1,9 +1,9 @@
 ﻿using FileCompositions.Core.File.Context;
 using FileCompositions.Core.File.Definition.Abstract;
 using FileCompositions.Core.File.Definition.Key;
-using FileCompositions.Core.File.Name;
 using FileCompositions.Core.File.Specialized.Dll.Definition.Init.Policy;
 using FileCompositions.Core.File.Specialized.Dll.Name.Ext;
+using FileCompositions.Core.FileSystem.Name;
 using FileCompositions.Core.Quality.Ownership;
 using FileCompositions.Core.Quality.Placement;
 using System.Reflection;
@@ -11,7 +11,7 @@ using System.Reflection;
 namespace FileCompositions.Core.File.Specialized.Dll.Definition.Abstract;
 
 internal abstract class AbstractDllDefinition<TOwnership, TPlacement>(IFileContext context, FileDefinitionKey key, string name)
-    : AbstractFileDefinition<TOwnership, TPlacement>(context, key, FileName.CreateDll(name)), IDllDefinition<TOwnership, TPlacement>
+    : AbstractFileDefinition<TOwnership, TPlacement>(context, key, FileSystemFilename.CreateDll(name)), IDllDefinition<TOwnership, TPlacement>
         where TOwnership : DefinitionOwnership
         where TPlacement : DefinitionPlacement
 {

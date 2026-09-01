@@ -7,8 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="FileSystem\**" />
     <Compile Remove="File\Operator\**" />
+    <EmbeddedResource Remove="FileSystem\**" />
     <EmbeddedResource Remove="File\Operator\**" />
+    <None Remove="FileSystem\**" />
     <None Remove="File\Operator\**" />
   </ItemGroup>
 
@@ -21,6 +24,10 @@
 	<InternalsVisibleTo Include="FileCompositions.Core.Database" />
 	<InternalsVisibleTo Include="FileCompositions.Hosting" />
 	<InternalsVisibleTo Include="FileCompositions.Hosting.EntityFrameworkCore" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FileCompositions.Core.FileSystem\FileCompositions.Core.FileSystem.csproj" />
   </ItemGroup>
 
 </Project>

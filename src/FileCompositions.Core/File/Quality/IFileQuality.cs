@@ -1,10 +1,14 @@
-﻿using FileCompositions.Core.File.Addressing;
-using FileCompositions.Core.FileSystem.Source;
+﻿using FileCompositions.Core.FileSystem.Addressing.File;
+using FileCompositions.Core.FileSystem.Proxy.File.Source;
 using FileCompositions.Core.Quality.Ownership;
 using FileCompositions.Core.Quality.Placement;
 
 namespace FileCompositions.Core.File.Quality;
 
-public interface IFileQuality<TOwnership, TPlacement> : IFileAddressing, FileSystemSource.IFromLocation
+public interface IFileQuality<TOwnership, TPlacement>
     where TOwnership : DefinitionOwnership
-    where TPlacement : DefinitionPlacement;
+    where TPlacement : DefinitionPlacement
+{
+    FileSystemFileAddressing Addressing { get; }
+    internal IFileSystemFileProxySource ProxySource { get; }
+}

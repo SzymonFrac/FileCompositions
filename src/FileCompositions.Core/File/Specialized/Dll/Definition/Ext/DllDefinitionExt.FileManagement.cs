@@ -1,4 +1,5 @@
-﻿using FileCompositions.Core.Quality.Ownership.Implementations;
+﻿using FileCompositions.Core.FileSystem.Proxy.File.Request;
+using FileCompositions.Core.Quality.Ownership.Implementations;
 using FileCompositions.Core.Quality.Placement.Implementations;
 
 namespace FileCompositions.Core.File.Specialized.Dll.Definition.Ext;
@@ -18,18 +19,18 @@ public static partial class DllDefinitionExt
     extension(IDllDefinition<StrictDefinition, OptionalInRequired> dll)
     {
         public Task CreateAsync(CancellationToken cancellationToken = default) =>
-            dll.RequestFileSystemAsync(async (fss, ct) =>
+            dll.ProxySource.RequestAsync((FileSystemFileProxyRequest)(async (proxy, ct) =>
             {
-                if (!await fss.ExistsAsync(ct).ConfigureAwait(false))
+                if (!await proxy.ExistsAsync(ct).ConfigureAwait(false))
                 {
-                    await using var stream = await fss.OpenCreateAsync(ct).ConfigureAwait(false);
+                    await using var stream = await proxy.OpenCreateAsync(ct).ConfigureAwait(false);
 
                     await using var @default = typeof(IDllDefinition<,>).Assembly
                         .GetManifestResourceStream("FileCompositions.Core.Assets.Dll.Default.dll")!;
 
                     await @default.CopyToAsync(stream, ct).ConfigureAwait(false);
                 }
-            },
+            }),
                 cancellationToken);
     }
 
@@ -41,12 +42,12 @@ public static partial class DllDefinitionExt
     extension(IDllDefinition<StrictDefinition, OptionalInOptional> dll)
     {
         public Task<bool> TryCreateAsync(CancellationToken cancellationToken = default) =>
-            dll.RequestFileSystemAsync(async (fss, ct) =>
+            dll.ProxySource.RequestAsync((FileSystemFileProxyRequest<bool>)(async (proxy, ct) =>
             {
-                var addressExists = await fss.AddressExistsAsync(ct).ConfigureAwait(false);
+                var addressExists = await proxy.AddressExistsAsync(ct).ConfigureAwait(false);
                 if (addressExists)
                 {
-                    await using var stream = await fss.OpenCreateAsync(ct).ConfigureAwait(false);
+                    await using var stream = await proxy.OpenCreateAsync(ct).ConfigureAwait(false);
 
                     await using var @default = typeof(IDllDefinition<,>).Assembly
                         .GetManifestResourceStream("FileCompositions.Core.Assets.Dll.Default.dll")!;
@@ -55,7 +56,7 @@ public static partial class DllDefinitionExt
                 }
 
                 return addressExists;
-            },
+            }),
                 cancellationToken);
     }
 

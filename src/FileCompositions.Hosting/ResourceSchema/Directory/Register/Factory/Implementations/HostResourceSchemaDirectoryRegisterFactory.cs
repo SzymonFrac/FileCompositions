@@ -20,9 +20,10 @@ internal sealed class HostResourceSchemaDirectoryRegisterFactory : IHostResource
             new((in services) => services
                 .AddKeyedSingleton<IDirectoryDefinition<TOwnership, TNecessity>>(descriptor.Key, (sp, key) =>
                 {
-                    var backend = sp.GetRequiredService<TFileSystem>();
+                    var fileSystem = sp.GetRequiredService<TFileSystem>();
+                    var sessionSource = fileSystem.RequestSessionSource();
 
-                    var directoryContext = new DirectoryContext(backend);
+                    var directoryContext = new DirectoryContext(sessionSource);
                     var directory = descriptor.Activate(directoryContext);
 
                     return directory;
