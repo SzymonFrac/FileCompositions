@@ -13,6 +13,5 @@ internal sealed class HostResourceSchemaDirectoryInitializer<TOwnership, TNecess
     private readonly DirectoryDefinitionKey _key = key;
     public Task InitializeAsync(IServiceProvider services, CancellationToken cancellationToken = default) =>
         services.GetRequiredKeyedService<IDirectoryDefinition<TOwnership, TNecessity>>(_key)
-            .InitializeAsync(cancellationToken)
-            .AsTask();
+            .InitializeAsync(cancellationToken);
 }

@@ -35,12 +35,12 @@ internal abstract class AbstractDirectoryDefinition<TOwnership, TNecessity>(IDir
         return request(context);
     }
 
-    public ValueTask RequestFileSystemAsync(FileSystemRequest.Address request, CancellationToken cancellationToken) =>
+    public Task RequestFileSystemAsync(FileSystemRequest.Address request, CancellationToken cancellationToken) =>
         _context.RequestFileSystemAsync(request, this, cancellationToken);
-    public ValueTask<TResult> RequestFileSystemAsync<TResult>(FileSystemRequest.Address<TResult> request, CancellationToken cancellationToken) =>
+    public Task<TResult> RequestFileSystemAsync<TResult>(FileSystemRequest.Address<TResult> request, CancellationToken cancellationToken) =>
         _context.RequestFileSystemAsync(request, this, cancellationToken);
 
-    public ValueTask InitializeAsync(CancellationToken cancellationToken) => this switch
+    public Task InitializeAsync(CancellationToken cancellationToken) => this switch
     {
         IDirectoryDefinition<StrictDefinition, RequiredDefinition> sr => sr.InitAsync(cancellationToken),
         IDirectoryDefinition<StrictDefinition, OptionalDefinition> so => so.InitAsync(cancellationToken),

@@ -16,28 +16,28 @@ public sealed class LocalFileSystem : IFileSystem
     Task<Stream> IFileSystem.OpenCreateAsync(FileSystemLocation location, CancellationToken cancellationToken) =>
         Task.FromResult<Stream>(System.IO.File.Open(location.ToString(), CreateNew, Write));
 
-    ValueTask<bool> IFileSystem.ExistsAsync(FileSystemAddress address, CancellationToken cancellationToken) =>
-        ValueTask.FromResult(System.IO.Directory.Exists(address.ToString()));
-    ValueTask<bool> IFileSystem.ExistsAsync(FileSystemLocation location, CancellationToken cancellationToken) =>
-        ValueTask.FromResult(System.IO.File.Exists(location.ToString()));
-    ValueTask IFileSystem.CreateAsync(FileSystemAddress address, CancellationToken cancellationToken)
+    Task<bool> IFileSystem.ExistsAsync(FileSystemAddress address, CancellationToken cancellationToken) =>
+        Task.FromResult(System.IO.Directory.Exists(address.ToString()));
+    Task<bool> IFileSystem.ExistsAsync(FileSystemLocation location, CancellationToken cancellationToken) =>
+        Task.FromResult(System.IO.File.Exists(location.ToString()));
+    Task IFileSystem.CreateAsync(FileSystemAddress address, CancellationToken cancellationToken)
     {
         System.IO.Directory.CreateDirectory(address.ToString());
-        return ValueTask.CompletedTask;
+        return Task.CompletedTask;
     }
-    ValueTask IFileSystem.CreateAsync(FileSystemLocation location, CancellationToken cancellationToken)
+    Task IFileSystem.CreateAsync(FileSystemLocation location, CancellationToken cancellationToken)
     {
         System.IO.File.Create(location.ToString()).Dispose();
-        return ValueTask.CompletedTask;
+        return Task.CompletedTask;
     }
-    ValueTask IFileSystem.DeleteAsync(FileSystemAddress address, CancellationToken cancellationToken)
+    Task IFileSystem.DeleteAsync(FileSystemAddress address, CancellationToken cancellationToken)
     {
         System.IO.Directory.Delete(address.ToString());
-        return ValueTask.CompletedTask;
+        return Task.CompletedTask;
     }
-    ValueTask IFileSystem.DeleteAsync(FileSystemLocation location, CancellationToken cancellationToken)
+    Task IFileSystem.DeleteAsync(FileSystemLocation location, CancellationToken cancellationToken)
     {
         System.IO.File.Delete(location.ToString());
-        return ValueTask.CompletedTask;
+        return Task.CompletedTask;
     }
 }

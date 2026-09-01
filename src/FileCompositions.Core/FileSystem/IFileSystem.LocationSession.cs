@@ -37,10 +37,10 @@ public partial interface IFileSystem
         public virtual Task<Stream> OpenAppendAsync(CancellationToken cancellationToken = default) => FileSystem.OpenAppendAsync(Location, cancellationToken);
         public virtual Task<Stream> OpenCreateAsync(CancellationToken cancellationToken = default) => FileSystem.OpenCreateAsync(Location, cancellationToken);
 
-        public virtual ValueTask<bool> ExistsAsync(CancellationToken cancellationToken = default) => FileSystem.ExistsAsync(Location, cancellationToken);
-        public virtual ValueTask<bool> AddressExistsAsync(CancellationToken cancellationToken = default) => FileSystem.ExistsAsync(Address, cancellationToken);
-        public virtual ValueTask CreateAsync(CancellationToken cancellationToken = default) => FileSystem.CreateAsync(Location, cancellationToken);
-        public virtual ValueTask DeleteAsync(CancellationToken cancellationToken = default) => FileSystem.DeleteAsync(Location, cancellationToken);
+        public virtual Task<bool> ExistsAsync(CancellationToken cancellationToken = default) => FileSystem.ExistsAsync(Location, cancellationToken);
+        public virtual Task<bool> AddressExistsAsync(CancellationToken cancellationToken = default) => FileSystem.ExistsAsync(Address, cancellationToken);
+        public virtual Task CreateAsync(CancellationToken cancellationToken = default) => FileSystem.CreateAsync(Location, cancellationToken);
+        public virtual Task DeleteAsync(CancellationToken cancellationToken = default) => FileSystem.DeleteAsync(Location, cancellationToken);
     }
 }
 
@@ -65,19 +65,19 @@ file sealed class Session(IFileAddressing addressing, IFileSystem fileSystem) : 
             ? base.OpenCreateAsync(cancellationToken)
             : throw new ObjectDisposedException(nameof(LocationSession));
 
-    public override ValueTask<bool> ExistsAsync(CancellationToken cancellationToken = default) =>
+    public override Task<bool> ExistsAsync(CancellationToken cancellationToken = default) =>
         !disposed
             ? base.ExistsAsync(cancellationToken)
             : throw new ObjectDisposedException(nameof(LocationSession));
-    public override ValueTask<bool> AddressExistsAsync(CancellationToken cancellationToken = default) =>
+    public override Task<bool> AddressExistsAsync(CancellationToken cancellationToken = default) =>
         !disposed
             ? base.AddressExistsAsync(cancellationToken)
             : throw new ObjectDisposedException(nameof(LocationSession));
-    public override ValueTask CreateAsync(CancellationToken cancellationToken = default) =>
+    public override Task CreateAsync(CancellationToken cancellationToken = default) =>
         !disposed
             ? base.CreateAsync(cancellationToken)
             : throw new ObjectDisposedException(nameof(LocationSession));
-    public override ValueTask DeleteAsync(CancellationToken cancellationToken = default) =>
+    public override Task DeleteAsync(CancellationToken cancellationToken = default) =>
         !disposed
             ? base.DeleteAsync(cancellationToken)
             : throw new ObjectDisposedException(nameof(LocationSession));

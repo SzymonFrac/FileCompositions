@@ -7,13 +7,13 @@ namespace FileCompositions.Core.FileSystem;
 
 public partial interface IFileSystem
 {
-    internal sealed ValueTask RequestSessionAsync(FileSystemRequest.Address request, IDirectoryAddressing addressing, CancellationToken cancellationToken = default)
+    internal sealed Task RequestSessionAsync(FileSystemRequest.Address request, IDirectoryAddressing addressing, CancellationToken cancellationToken = default)
     {
         using var session = new Session(addressing, this);
         return request(session, cancellationToken);
     }
 
-    internal sealed ValueTask<TResult> RequestSessionAsync<TResult>(FileSystemRequest.Address<TResult> request, IDirectoryAddressing addressing, CancellationToken cancellationToken = default)
+    internal sealed Task<TResult> RequestSessionAsync<TResult>(FileSystemRequest.Address<TResult> request, IDirectoryAddressing addressing, CancellationToken cancellationToken = default)
     {
         using var session = new Session(addressing, this);
         return request(session, cancellationToken);
@@ -30,9 +30,9 @@ public partial interface IFileSystem
         protected AddressSession(IDirectoryAddressing addressing, IFileSystem fileSystem) => (Addressing, FileSystem) = (addressing, fileSystem);
 
 
-        public virtual ValueTask<bool> ExistsAsync(CancellationToken cancellationToken = default) => FileSystem.ExistsAsync(Address, cancellationToken);
-        public virtual ValueTask CreateAsync(CancellationToken cancellationToken = default) => FileSystem.CreateAsync(Address, cancellationToken);
-        public virtual ValueTask DeleteAsync(CancellationToken cancellationToken = default) => FileSystem.DeleteAsync(Address, cancellationToken);
+        public virtual Task<bool> ExistsAsync(CancellationToken cancellationToken = default) => FileSystem.ExistsAsync(Address, cancellationToken);
+        public virtual Task CreateAsync(CancellationToken cancellationToken = default) => FileSystem.CreateAsync(Address, cancellationToken);
+        public virtual Task DeleteAsync(CancellationToken cancellationToken = default) => FileSystem.DeleteAsync(Address, cancellationToken);
     }
 }
 
@@ -40,15 +40,15 @@ file sealed class Session(IDirectoryAddressing addressing, IFileSystem fileSyste
 {
     private bool disposed = false;
 
-    public override ValueTask<bool> ExistsAsync(CancellationToken cancellationToken = default) =>
+    public override Task<bool> ExistsAsync(CancellationToken cancellationToken = default) =>
         !disposed
             ? base.ExistsAsync(cancellationToken)
             : throw new ObjectDisposedException(nameof(AddressSession));
-    public override ValueTask CreateAsync(CancellationToken cancellationToken = default) =>
+    public override Task CreateAsync(CancellationToken cancellationToken = default) =>
         !disposed
             ? base.CreateAsync(cancellationToken)
             : throw new ObjectDisposedException(nameof(AddressSession));
-    public override ValueTask DeleteAsync(CancellationToken cancellationToken = default) =>
+    public override Task DeleteAsync(CancellationToken cancellationToken = default) =>
         !disposed
             ? base.DeleteAsync(cancellationToken)
             : throw new ObjectDisposedException(nameof(AddressSession));

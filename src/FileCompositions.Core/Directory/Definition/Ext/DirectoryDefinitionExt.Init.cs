@@ -8,13 +8,13 @@ public static partial class DirectoryDefinitionExt
 {
     extension(IDirectoryDefinition<StrictDefinition, RequiredDefinition> directory)
     {
-        internal ValueTask InitAsync(CancellationToken cancellationToken = default) =>
+        internal Task InitAsync(CancellationToken cancellationToken = default) =>
             directory.RequestFileSystemAsync((fss, ct) => fss.CreateAsync(ct), cancellationToken);
     }
 
     extension(IDirectoryDefinition<ExternalDefinition, RequiredDefinition> directory)
     {
-        internal ValueTask InitAsync(CancellationToken cancellationToken = default) =>
+        internal Task InitAsync(CancellationToken cancellationToken = default) =>
             directory.RequestFileSystemAsync(async (fss, ct) =>
             {
                 if (!await fss.ExistsAsync(cancellationToken))
@@ -29,11 +29,11 @@ public static partial class DirectoryDefinitionExt
 
     extension(IDirectoryDefinition<StrictDefinition, OptionalDefinition> directory)
     {
-        internal ValueTask InitAsync(CancellationToken cancellationToken = default) => ValueTask.CompletedTask;
+        internal Task InitAsync(CancellationToken cancellationToken = default) => Task.CompletedTask;
     }
 
     extension(IDirectoryDefinition<ExternalDefinition, OptionalDefinition> directory)
     {
-        internal ValueTask InitAsync(CancellationToken cancellationToken = default) => ValueTask.CompletedTask;
+        internal Task InitAsync(CancellationToken cancellationToken = default) => Task.CompletedTask;
     }
 }
