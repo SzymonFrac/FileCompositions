@@ -33,20 +33,6 @@ internal partial interface IFileSystemSessionSource
 
             return request(proxy, cancellationToken);
         }
-        public ValueTask RequestAsync(FileSystemFileProxyValueRequest request, CancellationToken cancellationToken = default)
-        {
-            using var session = _source.RequestSession();
-            var proxy = session.RequestProxy(_addressing);
-
-            return request(proxy, cancellationToken);
-        }
-        public ValueTask<TResult> RequestAsync<TResult>(FileSystemFileProxyValueRequest<TResult> request, CancellationToken cancellationToken = default)
-        {
-            using var session = _source.RequestSession();
-            var proxy = session.RequestProxy(_addressing);
-
-            return request(proxy, cancellationToken);
-        }
     }
 
 
@@ -72,15 +58,14 @@ internal partial interface IFileSystemSessionSource
             public Task<Stream> OpenCreateAsync(CancellationToken cancellationToken = default) =>
                 _source.RequestAsync((in fs, ct) => fs.OpenCreateAsync(_fileAddressing.Location, ct), cancellationToken);
 
-            public ValueTask<bool> ExistsAsync(CancellationToken cancellationToken = default) =>
+            public Task<bool> ExistsAsync(CancellationToken cancellationToken = default) =>
                 _source.RequestAsync((in fs, ct) => fs.ExistsAsync(_fileAddressing.Location, ct), cancellationToken);
-            public ValueTask<bool> AddressExistsAsync(CancellationToken cancellationToken = default) =>
+            public Task<bool> AddressExistsAsync(CancellationToken cancellationToken = default) =>
                 _source.RequestAsync((in fs, ct) => fs.ExistsAsync(_fileAddressing.Address, ct), cancellationToken);
-            public ValueTask CreateAsync(CancellationToken cancellationToken = default) =>
+            public Task CreateAsync(CancellationToken cancellationToken = default) =>
                 _source.RequestAsync((in fs, ct) => fs.CreateAsync(_fileAddressing.Location, ct), cancellationToken);
-            public ValueTask DeleteAsync(CancellationToken cancellationToken = default) =>
+            public Task DeleteAsync(CancellationToken cancellationToken = default) =>
                 _source.RequestAsync((in fs, ct) => fs.DeleteAsync(_fileAddressing.Location, ct), cancellationToken);
-
         }
     }
 }

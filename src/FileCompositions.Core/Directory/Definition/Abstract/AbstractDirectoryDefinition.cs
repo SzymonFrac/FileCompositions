@@ -38,7 +38,7 @@ internal abstract class AbstractDirectoryDefinition<TOwnership, TNecessity>(IDir
         return request(context);
     }
 
-    public ValueTask InitializeAsync(CancellationToken cancellationToken) => this switch
+    public Task InitializeAsync(CancellationToken cancellationToken) => this switch
     {
         IDirectoryDefinition<StrictDefinition, RequiredDefinition> sr => sr.InitAsync(cancellationToken),
         IDirectoryDefinition<StrictDefinition, OptionalDefinition> so => so.InitAsync(cancellationToken),

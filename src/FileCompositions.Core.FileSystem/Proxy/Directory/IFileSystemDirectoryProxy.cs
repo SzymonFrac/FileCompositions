@@ -2,7 +2,7 @@
 
 internal interface IFileSystemDirectoryProxy : IFileSystemProxy
 {
-    ValueTask<bool> ExistsAsync(CancellationToken cancellationToken = default);
-    ValueTask CreateAsync(CancellationToken cancellationToken = default);
-    ValueTask DeleteAsync(CancellationToken cancellationToken = default);
+    Task<bool> ExistsAsync(CancellationToken cancellationToken = default);
+    Task CreateAsync(CancellationToken cancellationToken = default);
+    Task DeleteAsync(CancellationToken cancellationToken = default);
 }

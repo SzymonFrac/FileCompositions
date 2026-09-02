@@ -1,7 +1,5 @@
 ﻿using FileCompositions.Core.Directory.Definition.Key;
 using FileCompositions.Core.Directory.Quality;
-using FileCompositions.Core.File.Context;
-using FileCompositions.Core.File.Context.Implementations;
 using FileCompositions.Core.File.Definition;
 using FileCompositions.Core.File.Definition.Request;
 using FileCompositions.Core.Quality.Necessity;
@@ -21,5 +19,5 @@ public interface IDirectoryDefinition<TOwnership, TNecessity> : IDirectoryQualit
         where TRequestPlacement : DefinitionPlacement
         where TDefinition : IFileDefinition<TRequestOwnership, TRequestPlacement>;
 
-    internal ValueTask InitializeAsync(CancellationToken cancellationToken = default);
+    internal Task InitializeAsync(CancellationToken cancellationToken = default);
 }

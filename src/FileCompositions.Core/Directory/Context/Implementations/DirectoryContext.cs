@@ -7,10 +7,4 @@ internal sealed class DirectoryContext(IFileSystemSessionSource source) : IDirec
 {
     public IFileSystem FileSystem => throw new NotImplementedException();
     public IFileSystemSessionSource SessionSource { get; } = source;
-
-
-    //public ValueTask RequestFileSystemAsync(FileSystemRequest.Address request, IDirectoryAddressing addressing, CancellationToken cancellationToken = default) =>
-    //    FileSystem.RequestSessionAsync(request, addressing, cancellationToken);
-    //public ValueTask<TResult> RequestFileSystemAsync<TResult>(FileSystemRequest.Address<TResult> request, IDirectoryAddressing addressing, CancellationToken cancellationToken = default) =>
-    //    FileSystem.RequestSessionAsync(request, addressing, cancellationToken);
 }

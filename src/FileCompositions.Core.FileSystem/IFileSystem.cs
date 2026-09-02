@@ -10,10 +10,10 @@ public partial interface IFileSystem
     Task<Stream> OpenAppendAsync(FileSystemLocation location, CancellationToken cancellationToken = default);
     Task<Stream> OpenCreateAsync(FileSystemLocation location, CancellationToken cancellationToken = default);
 
-    ValueTask<bool> ExistsAsync(FileSystemAddress address, CancellationToken cancellationToken = default);
-    ValueTask<bool> ExistsAsync(FileSystemLocation location, CancellationToken cancellationToken = default);
-    ValueTask CreateAsync(FileSystemAddress address, CancellationToken cancellationToken = default);
-    ValueTask CreateAsync(FileSystemLocation location, CancellationToken cancellationToken = default);
-    ValueTask DeleteAsync(FileSystemAddress address, CancellationToken cancellationToken = default);
-    ValueTask DeleteAsync(FileSystemLocation location, CancellationToken cancellationToken = default);
+    Task<bool> ExistsAsync(FileSystemAddress address, CancellationToken cancellationToken = default);
+    Task<bool> ExistsAsync(FileSystemLocation location, CancellationToken cancellationToken = default);
+    Task CreateAsync(FileSystemAddress address, CancellationToken cancellationToken = default);
+    Task CreateAsync(FileSystemLocation location, CancellationToken cancellationToken = default);
+    Task DeleteAsync(FileSystemAddress address, CancellationToken cancellationToken = default);
+    Task DeleteAsync(FileSystemLocation location, CancellationToken cancellationToken = default);
 }

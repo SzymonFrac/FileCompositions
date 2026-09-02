@@ -16,7 +16,7 @@ public static partial class FileDefinitionExt
     extension(IFileDefinition<StrictDefinition, OptionalInRequired> file)
     {
         internal Task CreateAsync(CancellationToken cancellationToken = default) =>
-            file.ProxySource.RequestAsync((proxy, ct) => proxy.CreateAsync(ct).AsTask(), cancellationToken);
+            file.ProxySource.RequestAsync((proxy, ct) => proxy.CreateAsync(ct), cancellationToken);
 
         public Task DeleteAsync(CancellationToken cancellationToken = default) =>
             file.ProxySource.RequestAsync((FileSystemFileProxyRequest)(async (proxy, ct) =>
@@ -27,13 +27,13 @@ public static partial class FileDefinitionExt
                 cancellationToken);
 
         public Task<bool> ExistsAsync(CancellationToken cancellationToken = default) =>
-            file.ProxySource.RequestAsync((proxy, ct) => proxy.ExistsAsync(ct).AsTask(), cancellationToken);
+            file.ProxySource.RequestAsync((proxy, ct) => proxy.ExistsAsync(ct), cancellationToken);
     }
 
     extension(IFileDefinition<ExternalDefinition, OptionalInRequired> file)
     {
         public Task<bool> ExistsAsync(CancellationToken cancellationToken = default) =>
-            file.ProxySource.RequestAsync((proxy, ct) => proxy.ExistsAsync(ct).AsTask(), cancellationToken);
+            file.ProxySource.RequestAsync((proxy, ct) => proxy.ExistsAsync(ct), cancellationToken);
     }
 
     extension(IFileDefinition<StrictDefinition, OptionalInOptional> file)
@@ -58,12 +58,12 @@ public static partial class FileDefinitionExt
                 cancellationToken);
 
         public Task<bool> ExistsAsync(CancellationToken cancellationToken = default) =>
-            file.ProxySource.RequestAsync((proxy, ct) => proxy.ExistsAsync(ct).AsTask(), cancellationToken);
+            file.ProxySource.RequestAsync((proxy, ct) => proxy.ExistsAsync(ct), cancellationToken);
     }
 
     extension(IFileDefinition<ExternalDefinition, OptionalInOptional> file)
     {
         public Task<bool> ExistsAsync(CancellationToken cancellationToken = default) =>
-            file.ProxySource.RequestAsync((proxy, ct) => proxy.ExistsAsync(ct).AsTask(), cancellationToken);
+            file.ProxySource.RequestAsync((proxy, ct) => proxy.ExistsAsync(ct), cancellationToken);
     }
 }
