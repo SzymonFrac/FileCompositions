@@ -7,22 +7,11 @@ public partial interface IFileSystem
 {
     internal sealed IFileSystemSource RequestSource() => new Source(this);
 
-    // not a record tho
-    private sealed record Source : IFileSystemSource
+    private sealed class Source(in IFileSystem fileSystem) : IFileSystemSource
     {
-        private bool disposed = false;
+        private readonly IFileSystem _fileSystem = fileSystem;
 
-        private IFileSystem FileSystem => !disposed
-            ? field
-            : throw new ObjectDisposedException($"{typeof(IFileSystemSource)} is out of scope and has been disposed.");
-
-        public Source(in IFileSystem fileSystem) => FileSystem = fileSystem;
-
-        public Task RequestAsync(FileSystemRequest request, CancellationToken cancellationToken) => request(FileSystem, cancellationToken);
-        public Task<TResult> RequestAsync<TResult>(FileSystemRequest<TResult> request, CancellationToken cancellationToken) => request(FileSystem, cancellationToken);
-        public ValueTask RequestAsync(FileSystemValueRequest request, CancellationToken cancellationToken = default) => request(FileSystem, cancellationToken);
-        public ValueTask<TResult> RequestAsync<TResult>(FileSystemValueRequest<TResult> request, CancellationToken cancellationToken = default) => request(FileSystem, cancellationToken);
-
-        public void Dispose() => Interlocked.Exchange(ref disposed, true);
+        public Task RequestAsync(FileSystemRequest request, CancellationToken cancellationToken) => request(_fileSystem, cancellationToken);
+        public Task<TResult> RequestAsync<TResult>(FileSystemRequest<TResult> request, CancellationToken cancellationToken) => request(_fileSystem, cancellationToken);
     }
 }
