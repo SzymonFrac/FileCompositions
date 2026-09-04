@@ -1,7 +1,7 @@
 ---
-name: 'Restructure: [Assembly]'
+name: Restructure request
 about: Introduce a project assembly
-title: ''
+title: 'Restructure: [Assembly]'
 labels: 'Type: Restructure'
 assignees: ''
 

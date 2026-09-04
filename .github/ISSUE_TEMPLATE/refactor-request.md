@@ -2,7 +2,7 @@
 name: Refactor request
 about: Architecture refactor not including new features
 title: 'Refactor: [Problem]'
-labels: 'Type: Maintenance, Type: Restructure'
+labels: 'Type: Maintenance'
 assignees: ''
 
 ---
