@@ -1,4 +1,5 @@
-﻿using FileCompositions.Core.Quality.Ownership;
+﻿using FileCompositions.Core.FileSystem.Proxy.File.Request;
+using FileCompositions.Core.Quality.Ownership;
 using FileCompositions.Core.Quality.Ownership.Implementations;
 using FileCompositions.Core.Quality.Placement.Implementations;
 
@@ -15,54 +16,54 @@ public static partial class FileDefinitionExt
     extension(IFileDefinition<StrictDefinition, OptionalInRequired> file)
     {
         internal Task CreateAsync(CancellationToken cancellationToken = default) =>
-            file.RequestFileSystemAsync((fss, ct) => fss.CreateAsync(ct), cancellationToken);
+            file.ProxySource.RequestAsync((proxy, ct) => proxy.CreateAsync(ct), cancellationToken);
 
         public Task DeleteAsync(CancellationToken cancellationToken = default) =>
-            file.RequestFileSystemAsync(async (fss, ct) =>
+            file.ProxySource.RequestAsync((FileSystemFileProxyRequest)(async (proxy, ct) =>
             {
-                if (await fss.ExistsAsync(ct).ConfigureAwait(false))
-                    await fss.DeleteAsync(ct).ConfigureAwait(false);
-            },
+                if (await proxy.ExistsAsync(ct).ConfigureAwait(false))
+                    await proxy.DeleteAsync(ct).ConfigureAwait(false);
+            }),
                 cancellationToken);
 
         public Task<bool> ExistsAsync(CancellationToken cancellationToken = default) =>
-            file.RequestFileSystemAsync((fss, ct) => fss.ExistsAsync(ct), cancellationToken);
+            file.ProxySource.RequestAsync((proxy, ct) => proxy.ExistsAsync(ct), cancellationToken);
     }
 
     extension(IFileDefinition<ExternalDefinition, OptionalInRequired> file)
     {
         public Task<bool> ExistsAsync(CancellationToken cancellationToken = default) =>
-            file.RequestFileSystemAsync((fss, ct) => fss.ExistsAsync(ct), cancellationToken);
+            file.ProxySource.RequestAsync((proxy, ct) => proxy.ExistsAsync(ct), cancellationToken);
     }
 
     extension(IFileDefinition<StrictDefinition, OptionalInOptional> file)
     {
         internal Task<bool> TryCreateAsync(CancellationToken cancellationToken = default) =>
-            file.RequestFileSystemAsync(async (fss, ct) =>
+            file.ProxySource.RequestAsync((FileSystemFileProxyRequest<bool>)(async (proxy, ct) =>
             {
-                var addressExists = await fss.AddressExistsAsync(ct).ConfigureAwait(false);
+                var addressExists = await proxy.AddressExistsAsync(ct).ConfigureAwait(false);
                 if (addressExists)
-                    await fss.CreateAsync(ct).ConfigureAwait(false);
+                    await proxy.CreateAsync(ct).ConfigureAwait(false);
 
                 return addressExists;
-            },
+            }),
                 cancellationToken);
 
         public Task DeleteAsync(CancellationToken cancellationToken = default) =>
-            file.RequestFileSystemAsync(async (fss, ct) =>
+            file.ProxySource.RequestAsync((FileSystemFileProxyRequest)(async (proxy, ct) =>
             {
-                if (await fss.ExistsAsync(ct).ConfigureAwait(false))
-                    await fss.DeleteAsync(ct).ConfigureAwait(false);
-            },
+                if (await proxy.ExistsAsync(ct).ConfigureAwait(false))
+                    await proxy.DeleteAsync(ct).ConfigureAwait(false);
+            }),
                 cancellationToken);
 
         public Task<bool> ExistsAsync(CancellationToken cancellationToken = default) =>
-            file.RequestFileSystemAsync((fss, ct) => fss.ExistsAsync(ct), cancellationToken);
+            file.ProxySource.RequestAsync((proxy, ct) => proxy.ExistsAsync(ct), cancellationToken);
     }
 
     extension(IFileDefinition<ExternalDefinition, OptionalInOptional> file)
     {
         public Task<bool> ExistsAsync(CancellationToken cancellationToken = default) =>
-            file.RequestFileSystemAsync((fss, ct) => fss.ExistsAsync(ct), cancellationToken);
+            file.ProxySource.RequestAsync((proxy, ct) => proxy.ExistsAsync(ct), cancellationToken);
     }
 }

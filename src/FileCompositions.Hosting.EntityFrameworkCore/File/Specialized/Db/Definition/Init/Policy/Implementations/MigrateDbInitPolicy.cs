@@ -1,4 +1,5 @@
 ﻿using FileCompositions.Core.File.Definition.Ext;
+using FileCompositions.Core.FileSystem.Proxy.File.Request;
 using FileCompositions.Core.Quality.Ownership;
 using FileCompositions.Core.Quality.Ownership.Implementations;
 using FileCompositions.Core.Quality.Placement;
@@ -46,11 +47,11 @@ internal static partial class MigrateDbInitPolicy
         where TDbContext : DbContext
     {
         public Task MigrateDbAsync(TDbContext dbContext, CancellationToken cancellationToken = default) =>
-            db.RequestFileSystemAsync(async (fss, ct) =>
+            db.ProxySource.RequestAsync((FileSystemFileProxyRequest)(async (proxy, ct) =>
             {
-                if (await fss.ExistsAsync(ct).ConfigureAwait(false))
+                if (await proxy.ExistsAsync(ct).ConfigureAwait(false))
                     await dbContext.Database.MigrateAsync(ct).ConfigureAwait(false);
-            },
+            }),
                 cancellationToken);
     }
 
@@ -65,11 +66,11 @@ internal static partial class MigrateDbInitPolicy
         where TDbContext : DbContext
     {
         public Task MigrateDbAsync(TDbContext dbContext, CancellationToken cancellationToken = default) =>
-            db.RequestFileSystemAsync(async (fss, ct) =>
+            db.ProxySource.RequestAsync((FileSystemFileProxyRequest)(async (proxy, ct) =>
             {
-                if (await fss.ExistsAsync(ct).ConfigureAwait(false))
+                if (await proxy.ExistsAsync(ct).ConfigureAwait(false))
                     await dbContext.Database.MigrateAsync(ct).ConfigureAwait(false);
-            },
+            }),
                 cancellationToken);
         
     }

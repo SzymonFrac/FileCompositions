@@ -1,4 +1,5 @@
 ﻿using FileCompositions.Core.File.Definition.Ext;
+using FileCompositions.Core.FileSystem.Proxy.File.Request;
 using FileCompositions.Core.Quality.Ownership;
 using FileCompositions.Core.Quality.Ownership.Implementations;
 using FileCompositions.Core.Quality.Placement;
@@ -29,14 +30,14 @@ internal static partial class DefaultJsonInitPolicy
     extension<TData>(IJsonDefinition<StrictDefinition, RequiredInRequired, TData> json)
     {
         public Task InitJsonAsync(CancellationToken cancellationToken = default) =>
-            json.RequestFileSystemAsync(async (fss, ct) =>
+            json.ProxySource.RequestAsync((FileSystemFileProxyRequest)(async (proxy, ct) =>
             {
-                if (!await fss.ExistsAsync(ct).ConfigureAwait(false))
+                if (!await proxy.ExistsAsync(ct).ConfigureAwait(false))
                 {
-                    await using var stream = await fss.OpenWriteAsync(ct).ConfigureAwait(false);
+                    await using var stream = await proxy.OpenWriteAsync(ct).ConfigureAwait(false);
                     await JsonSerializer.SerializeAsync(stream, json.Default, json.Format.JsonSerializerOptions, ct).ConfigureAwait(false);
                 }
-            },
+            }),
                 cancellationToken);
     }
 

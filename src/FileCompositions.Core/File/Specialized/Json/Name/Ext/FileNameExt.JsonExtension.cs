@@ -1,15 +1,15 @@
-﻿using FileCompositions.Core.File.Name;
-using FileCompositions.Core.File.Specialized.Json.Definition.Implementations;
+﻿using FileCompositions.Core.File.Specialized.Json.Definition.Implementations;
+using FileCompositions.Core.FileSystem.Name;
 
 namespace FileCompositions.Core.File.Specialized.Json.Name.Ext;
 
 public static partial class FileNameExt
 {
-    extension(FileName)
+    extension(FileSystemFilename)
     {
-        public static FileName CreateJson(string name) =>
-            FileName.Create(name, JsonDefinition.Extension);
-        public static FileName CreateJson(ReadOnlySpan<char> name) =>
-            FileName.Create(name, JsonDefinition.Extension);
+        public static FileSystemFilename CreateJson(string name) =>
+            FileSystemFilename.Create(name, JsonDefinition.Extension);
+        public static FileSystemFilename CreateJson(ReadOnlySpan<char> name) =>
+            FileSystemFilename.Create(name, JsonDefinition.Extension);
     }
 }

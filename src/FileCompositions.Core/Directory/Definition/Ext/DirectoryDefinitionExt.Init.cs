@@ -9,18 +9,18 @@ public static partial class DirectoryDefinitionExt
     extension(IDirectoryDefinition<StrictDefinition, RequiredDefinition> directory)
     {
         internal Task InitAsync(CancellationToken cancellationToken = default) =>
-            directory.RequestFileSystemAsync((fss, ct) => fss.CreateAsync(ct), cancellationToken);
+            directory.ProxySource.RequestAsync((proxy, ct) => proxy.CreateAsync(ct), cancellationToken);
     }
 
     extension(IDirectoryDefinition<ExternalDefinition, RequiredDefinition> directory)
     {
         internal Task InitAsync(CancellationToken cancellationToken = default) =>
-            directory.RequestFileSystemAsync(async (fss, ct) =>
+            directory.ProxySource.RequestAsync(async (proxy, ct) =>
             {
-                if (!await fss.ExistsAsync(cancellationToken))
+                if (!await proxy.ExistsAsync(ct))
                     throw new ExternalRequiredDirectoryMissingException("A required, external directory must exist.")
                     {
-                        Address = directory.Address,
+                        Address = directory.Addressing.Address,
                         Key = directory.Key
                     };
             },

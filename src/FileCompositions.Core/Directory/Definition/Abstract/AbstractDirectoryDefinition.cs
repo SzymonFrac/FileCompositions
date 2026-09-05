@@ -5,7 +5,8 @@ using FileCompositions.Core.File.Context.Implementations;
 using FileCompositions.Core.File.Definition;
 using FileCompositions.Core.File.Definition.Request;
 using FileCompositions.Core.FileSystem.Address;
-using FileCompositions.Core.FileSystem.Request;
+using FileCompositions.Core.FileSystem.Addressing.Directory;
+using FileCompositions.Core.FileSystem.Proxy.Directory.Source;
 using FileCompositions.Core.Quality.Necessity;
 using FileCompositions.Core.Quality.Necessity.Implementations;
 using FileCompositions.Core.Quality.Ownership;
@@ -21,24 +22,21 @@ internal abstract class AbstractDirectoryDefinition<TOwnership, TNecessity>(IDir
         where TNecessity : DefinitionNecessity
 {
     private readonly IDirectoryContext _context = context;
+    private readonly FileSystemAddress _address = address;
 
     public DirectoryDefinitionKey Key { get; } = key;
-    public FileSystemAddress Address { get; } = address;
+    public FileSystemDirectoryAddressing Addressing => field ??= new(_address);
 
+    public IFileSystemDirectoryProxySource ProxySource => field ??= _context.SessionSource.RequestProxySource(Addressing);
 
     public TDefinition RequestFileDefinition<TRequestOwnership, TRequestPlacement, TDefinition>(FileDefinitionRequest<TRequestOwnership, TRequestPlacement, TDefinition> request)
         where TRequestOwnership : DefinitionOwnership
         where TRequestPlacement : DefinitionPlacement
         where TDefinition : IFileDefinition<TRequestOwnership, TRequestPlacement>
     {
-        var context = new FileContext(_context.FileSystem, Address);
+        var context = new FileContext(_context.SessionSource, Addressing);
         return request(context);
     }
-
-    public Task RequestFileSystemAsync(FileSystemRequest.Address request, CancellationToken cancellationToken) =>
-        _context.RequestFileSystemAsync(request, this, cancellationToken);
-    public Task<TResult> RequestFileSystemAsync<TResult>(FileSystemRequest.Address<TResult> request, CancellationToken cancellationToken) =>
-        _context.RequestFileSystemAsync(request, this, cancellationToken);
 
     public Task InitializeAsync(CancellationToken cancellationToken) => this switch
     {
@@ -48,6 +46,4 @@ internal abstract class AbstractDirectoryDefinition<TOwnership, TNecessity>(IDir
         IDirectoryDefinition<ExternalDefinition, OptionalDefinition> eo => eo.InitAsync(cancellationToken),
         _ => throw new UnreachableException()
     };
-
-
 }

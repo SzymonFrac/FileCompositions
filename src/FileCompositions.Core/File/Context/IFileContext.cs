@@ -1,14 +1,16 @@
-﻿using FileCompositions.Core.File.Addressing;
-using FileCompositions.Core.FileSystem.Address;
-using FileCompositions.Core.FileSystem.Request;
+﻿using FileCompositions.Core.FileSystem.Addressing.Directory;
+using FileCompositions.Core.FileSystem.Session.Source;
 
 namespace FileCompositions.Core.File.Context;
 
 internal interface IFileContext
 {
-    FileSystemAddress Address { get; }
+    IFileSystemSessionSource SessionSource { get; }
+    FileSystemDirectoryAddressing DirectoryAddressing { get; }
 
-    Task RequestFileSystemAsync(FileSystemRequest.Location request, IFileAddressing addressing, CancellationToken cancellationToken = default);
-    Task<TResult> RequestFileSystemAsync<TResult>(FileSystemRequest.Location<TResult> request, IFileAddressing addressing, CancellationToken cancellationToken = default);
+    //FileSystemAddress Address { get; }
+
+    //Task RequestFileSystemAsync(FileSystemRequest request, IFileAddressing addressing, CancellationToken cancellationToken = default);
+    //Task<TResult> RequestFileSystemAsync<TResult>(FileSystemRequest<TResult> request, IFileAddressing addressing, CancellationToken cancellationToken = default);
 }
 

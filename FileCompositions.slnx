@@ -1,5 +1,6 @@
 <Solution>
   <Project Path="src/FileCompositions.Core.Database/FileCompositions.Core.Database.csproj" />
+  <Project Path="src/FileCompositions.Core.FileSystem/FileCompositions.Core.FileSystem.csproj" Id="e0b91cc9-bc27-475a-8b3f-9fd7823eb988" />
   <Project Path="src/FileCompositions.Core/FileCompositions.Core.csproj" />
   <Project Path="src/FileCompositions.Hosting.EntityFrameworkCore/FileCompositions.Hosting.EntityFrameworkCore.csproj" />
   <Project Path="src/FileCompositions.Hosting/FileCompositions.Hosting.csproj" />
