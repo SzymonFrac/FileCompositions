@@ -46,24 +46,4 @@ internal abstract class AbstractDirectoryDefinition<TOwnership, TNecessity>(IDir
         IDirectoryDefinition<ExternalDefinition, OptionalDefinition> eo => eo.InitAsync(cancellationToken),
         _ => throw new UnreachableException()
     };
-
-
-    //public Task RequestFileSystemAsync(FileSystemDirectoryProxyRequest request, CancellationToken cancellationToken)
-    //{
-    //    using var session = _context.SessionSource.Create();
-    //    var proxy = session.RequestProxy(Addressing);
-
-    //    return request(proxy, cancellationToken);
-    //}
-    //    //_context.SessionSource.RequestAsync((in session, ct) =>
-    //    //    request(session.RequestProxy(Addressing), ct), cancellationToken);
-    //public Task<TResult> RequestFileSystemAsync<TResult>(FileSystemDirectoryProxyRequest<TResult> request, CancellationToken cancellationToken) =>
-    //    _context.SessionSource.RequestAsync((in session, ct) =>
-    //        request(session.RequestProxy(Addressing), ct), cancellationToken);
-    //public ValueTask RequestFileSystemAsync(FileSystemDirectoryProxyValueRequest request, CancellationToken cancellationToken) =>
-    //    _context.SessionSource.RequestAsync((in session, ct) =>
-    //        request(session.RequestProxy(Addressing), ct), cancellationToken);
-    //public ValueTask<TResult> RequestFileSystemAsync<TResult>(FileSystemDirectoryProxyValueRequest<TResult> request, CancellationToken cancellationToken) =>
-    //    _context.SessionSource.RequestAsync((in session, ct) =>
-    //        request(session.RequestProxy(Addressing), ct), cancellationToken);
 }
