@@ -1,6 +1,5 @@
 ﻿using FileCompositions.Core.Directory.Definition.Key;
-using FileCompositions.Core.Quality.Necessity;
-using FileCompositions.Core.Quality.Ownership;
+using FileCompositions.Core.Quality;
 using FileCompositions.Hosting.ResourceSchema.File.Register.Builder.Factory;
 using FileCompositions.Hosting.ResourceSchema.File.Register.Builder.Factory.Implementations;
 using FileCompositions.Hosting.ResourceSchema.File.Registrar.Implementations;
@@ -12,8 +11,8 @@ internal sealed class HostResourceSchemaFileRegistrarFactory : IHostResourceSche
     public IHostResourceSchemaFileRegisterBuilderFactory RegisterBuilderFactory { get; init; } = new HostResourceSchemaFileRegisterBuilderFactory();
 
     public IHostResourceSchemaFileRegistrar<TNecessity> Create<TOwnership, TNecessity>(DirectoryDefinitionKey key)
-        where TOwnership : DefinitionOwnership
-        where TNecessity : DefinitionNecessity =>
+        where TOwnership : Ownership
+        where TNecessity : Necessity =>
             new HostResourceSchemaFileRegistrar<TOwnership, TNecessity>(key)
             {
                 RegisterBuilderFactory = RegisterBuilderFactory

@@ -3,15 +3,14 @@ using FileCompositions.Core.Directory.Definition.Implementations;
 using FileCompositions.Core.Directory.Definition.Key;
 using FileCompositions.Core.FileSystem;
 using FileCompositions.Core.FileSystem.Address;
-using FileCompositions.Core.Quality.Necessity;
-using FileCompositions.Core.Quality.Ownership;
+using FileCompositions.Core.Quality;
 
 namespace FileCompositions.Core.Directory.Definition.Descriptor.Implementations;
 
 internal sealed class DirectoryDefinitionDescriptor<TOwnership, TNecessity, TFileSystem>(DirectoryDefinitionKey key, FileSystemAddress address)
     : IDirectoryDefinitionDescriptor<TOwnership, TNecessity, TFileSystem>
-        where TOwnership : DefinitionOwnership
-        where TNecessity : DefinitionNecessity
+        where TOwnership : Ownership
+        where TNecessity : Necessity
         where TFileSystem : class, IFileSystem
 {
     private readonly FileSystemAddress _address = address;

@@ -2,8 +2,7 @@
 using FileCompositions.Core.Directory.Definition;
 using FileCompositions.Core.Directory.Definition.Descriptor;
 using FileCompositions.Core.FileSystem;
-using FileCompositions.Core.Quality.Necessity;
-using FileCompositions.Core.Quality.Ownership;
+using FileCompositions.Core.Quality;
 using FileCompositions.Hosting.ResourceSchema.Initializer;
 using FileCompositions.Hosting.ResourceSchema.Initializer.Implementations;
 using FileCompositions.Hosting.ResourceSchema.Register;
@@ -14,8 +13,8 @@ namespace FileCompositions.Hosting.ResourceSchema.Directory.Register.Factory.Imp
 internal sealed class HostResourceSchemaDirectoryRegisterFactory : IHostResourceSchemaDirectoryRegisterFactory
 {
     public HostResourceSchemaRegister CreateDirectory<TOwnership, TNecessity, TFileSystem>(IDirectoryDefinitionDescriptor<TOwnership, TNecessity, TFileSystem> descriptor)
-        where TOwnership : DefinitionOwnership
-        where TNecessity : DefinitionNecessity
+        where TOwnership : Ownership
+        where TNecessity : Necessity
         where TFileSystem : class, IFileSystem =>
             new((in services) => services
                 .AddKeyedSingleton<IDirectoryDefinition<TOwnership, TNecessity>>(descriptor.Key, (sp, key) =>

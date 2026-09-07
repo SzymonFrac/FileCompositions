@@ -1,5 +1,4 @@
-﻿using FileCompositions.Core.Quality.Necessity;
-using FileCompositions.Core.Quality.Ownership;
+﻿using FileCompositions.Core.Quality;
 using FileCompositions.Hosting.EntityFrameworkCore.Host.ResourceSchema.File.Register.Builder.Implementations;
 using FileCompositions.Hosting.ResourceSchema.File.Register.Builder;
 using FileCompositions.Hosting.ResourceSchema.File.Register.Builder.Factory;
@@ -11,7 +10,7 @@ internal sealed class HostResourceSchemaDbRegisterBuilderFactory<TDbContext> : I
     where TDbContext : DbContext
 {
     public IHostResourceSchemaFileRegisterBuilder Create<TInOwnership, TInNecessity>()
-        where TInOwnership : DefinitionOwnership
-        where TInNecessity : DefinitionNecessity =>
+        where TInOwnership : Ownership
+        where TInNecessity : Necessity =>
             new HostResourceSchemaDbRegisterBuilder<TInOwnership, TInNecessity, TDbContext>();
 }

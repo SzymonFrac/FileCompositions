@@ -5,15 +5,14 @@ using FileCompositions.Core.File.Specialized.Dll.Definition.Abstract;
 using FileCompositions.Core.File.Specialized.Dll.Extension;
 using FileCompositions.Core.File.Specialized.Dll.Resource;
 using FileCompositions.Core.File.Specialized.Dll.Resource.Builder.Factory.Implementations;
-using FileCompositions.Core.Quality.Ownership;
-using FileCompositions.Core.Quality.Placement;
+using FileCompositions.Core.Quality;
 
 namespace FileCompositions.Core.File.Specialized.Dll.Definition.Implementations;
 
 internal sealed class DllDefinition<TOwnership, TPlacement>(IFileContext context, FileDefinitionKey key, string name) :
     AbstractDllDefinition<TOwnership, TPlacement>(context, key, name)
-        where TOwnership : DefinitionOwnership
-        where TPlacement : DefinitionPlacement;
+        where TOwnership : Ownership
+        where TPlacement : Placement;
 
 internal sealed class DllDefinition : IDllDefinition
 {

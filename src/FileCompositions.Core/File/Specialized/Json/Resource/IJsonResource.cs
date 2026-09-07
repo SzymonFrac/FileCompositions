@@ -1,8 +1,7 @@
 ﻿using FileCompositions.Core.File.Resource;
 using FileCompositions.Core.File.Specialized.Json.Quality;
-using FileCompositions.Core.Quality.Ownership.Implementations;
-using FileCompositions.Core.Quality.Placement.Implementations;
+using FileCompositions.Core.Quality;
 
 namespace FileCompositions.Core.File.Specialized.Json.Resource;
 
-public interface IJsonResource<TData> : IJsonQuality<ExternalDefinition, RequiredInRequired, TData>, IFileResource;
+public interface IJsonResource<TData> : IJsonQuality<Ownership.External, Placement.RequiredInRequired, TData>, IFileResource;

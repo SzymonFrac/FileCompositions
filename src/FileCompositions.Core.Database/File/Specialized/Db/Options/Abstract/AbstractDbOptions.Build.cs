@@ -6,8 +6,7 @@ using FileCompositions.Core.Database.File.Specialized.Db.Resource.Implementation
 using FileCompositions.Core.File.Definition.Descriptor;
 using FileCompositions.Core.File.Options.Abstract;
 using FileCompositions.Core.File.Resource.Request;
-using FileCompositions.Core.Quality.Ownership;
-using FileCompositions.Core.Quality.Placement;
+using FileCompositions.Core.Quality;
 
 namespace FileCompositions.Core.Database.File.Specialized.Db.Options.Abstract;
 
@@ -16,8 +15,8 @@ internal abstract partial class AbstractDbOptions : AbstractFileOptions<IDbOptio
     public FileResourceRequest<IDbResource> Build() =>
         (in context) => new DbResource(context, Name);
     public FileDefinitionDescriptor<TOwnership, TPlacement, IDbDefinition<TOwnership, TPlacement>> Build<TOwnership, TPlacement>()
-        where TOwnership : DefinitionOwnership
-        where TPlacement : DefinitionPlacement =>
+        where TOwnership : Ownership
+        where TPlacement : Placement =>
             key => (in context) => new DbDefinition<TOwnership, TPlacement>(context, key, Name)
             {
                 InitPolicy = new DefaultDbInitPolicy<TOwnership, TPlacement>()

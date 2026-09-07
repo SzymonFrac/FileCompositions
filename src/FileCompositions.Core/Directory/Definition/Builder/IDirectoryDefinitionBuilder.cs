@@ -2,24 +2,21 @@
 using FileCompositions.Core.Directory.Definition.Descriptor;
 using FileCompositions.Core.Directory.Definition.Key;
 using FileCompositions.Core.FileSystem;
-using FileCompositions.Core.Quality.Necessity;
-using FileCompositions.Core.Quality.Necessity.Implementations;
-using FileCompositions.Core.Quality.Ownership;
-using FileCompositions.Core.Quality.Ownership.Implementations;
+using FileCompositions.Core.Quality;
 
 namespace FileCompositions.Core.Directory.Definition.Builder;
 
 public interface IDirectoryDefinitionBuilder<TOwnership, TNecessity, TFileSystem>
-    where TOwnership : DefinitionOwnership
-    where TNecessity : DefinitionNecessity
+    where TOwnership : Ownership
+    where TNecessity : Necessity
     where TFileSystem : class, IFileSystem
 {
     IDirectoryDefinitionBuilder<TOwnership, TNecessity, TFileSystem> WithKey(DirectoryDefinitionKey key);
 
-    IDirectoryDefinitionBuilder<ExternalDefinition, TNecessity, TFileSystem> External();
-    IDirectoryDefinitionBuilder<StrictDefinition, TNecessity, TFileSystem> Strict();
-    IDirectoryDefinitionBuilder<TOwnership, RequiredDefinition, TFileSystem> Required();
-    IDirectoryDefinitionBuilder<TOwnership, OptionalDefinition, TFileSystem> Optional();
+    IDirectoryDefinitionBuilder<Ownership.External, TNecessity, TFileSystem> External();
+    IDirectoryDefinitionBuilder<Ownership.Internal, TNecessity, TFileSystem> Strict();
+    IDirectoryDefinitionBuilder<TOwnership, Necessity.Required, TFileSystem> Required();
+    IDirectoryDefinitionBuilder<TOwnership, Necessity.Optional, TFileSystem> Optional();
 
     internal IDirectoryDefinition<TOwnership, TNecessity> Build(in IDirectoryContext context);
     internal IDirectoryDefinitionDescriptor<TOwnership, TNecessity, TFileSystem> BuildDescriptor();

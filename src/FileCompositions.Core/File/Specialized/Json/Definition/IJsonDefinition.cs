@@ -2,15 +2,14 @@
 using FileCompositions.Core.File.Definition;
 using FileCompositions.Core.File.Specialized.Json.Quality;
 using FileCompositions.Core.File.Specialized.Json.Resource;
-using FileCompositions.Core.Quality.Ownership;
-using FileCompositions.Core.Quality.Placement;
+using FileCompositions.Core.Quality;
 
 namespace FileCompositions.Core.File.Specialized.Json.Definition;
 
 public interface IJsonDefinition<TOwnership, TPlacement, TData> : IFileDefinition<TOwnership, TPlacement>,
     IJsonQuality<TOwnership, TPlacement, TData>
-        where TOwnership : DefinitionOwnership
-        where TPlacement : DefinitionPlacement
+        where TOwnership : Ownership
+        where TPlacement : Placement
 {
     TData? Default { get; }
 }

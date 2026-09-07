@@ -1,12 +1,10 @@
 ﻿using FileCompositions.Core.File.No.Definition.Builder;
 using FileCompositions.Core.File.Specialized.Dll.Definition.Builder;
-using FileCompositions.Core.Quality.Ownership;
-using FileCompositions.Core.Quality.Ownership.Implementations;
-using FileCompositions.Core.Quality.Placement;
+using FileCompositions.Core.Quality;
 
 namespace FileCompositions.Core.File.Specialized.Dll.Definition.Config;
 
-public delegate IDllDefinitionBuilder<TOwnership, TPlacement> DllDefinitionConfig<TOwnership, TPlacement, TInPlacement>(INoFileDefinitionBuilder<StrictDefinition, TInPlacement> config)
-    where TOwnership : DefinitionOwnership
-    where TPlacement : DefinitionPlacement
-    where TInPlacement : DefinitionPlacement;
+public delegate IDllDefinitionBuilder<TOwnership, TPlacement> DllDefinitionConfig<TOwnership, TPlacement, TInPlacement>(INoFileDefinitionBuilder<Ownership.Internal, TInPlacement> config)
+    where TOwnership : Ownership
+    where TPlacement : Placement
+    where TInPlacement : Placement;

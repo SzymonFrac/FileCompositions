@@ -1,21 +1,20 @@
-﻿using FileCompositions.Core.Quality.Necessity.Implementations;
-using FileCompositions.Core.Quality.Ownership.Implementations;
+﻿using FileCompositions.Core.Quality;
 
 namespace FileCompositions.Core.Directory.Definition.Ext;
 
 public static partial class DirectoryDefinitionExt
 {
-    extension(IDirectoryDefinition<StrictDefinition, RequiredDefinition> directory)
+    extension(IDirectoryDefinition<Ownership.Internal, Necessity.Required> directory)
     {
 
     }
 
-    extension(IDirectoryDefinition<ExternalDefinition, RequiredDefinition> directory)
+    extension(IDirectoryDefinition<Ownership.External, Necessity.Required> directory)
     {
 
     }
 
-    extension(IDirectoryDefinition<StrictDefinition, OptionalDefinition> directory)
+    extension(IDirectoryDefinition<Ownership.Internal, Necessity.Optional> directory)
     {
         public Task CreateAsync(CancellationToken cancellationToken = default) =>
             directory.ProxySource.RequestAsync((proxy, ct) => proxy.CreateAsync(ct), cancellationToken);
@@ -27,7 +26,7 @@ public static partial class DirectoryDefinitionExt
             directory.ProxySource.RequestAsync((proxy, ct) => proxy.ExistsAsync(ct), cancellationToken);
     }
 
-    extension(IDirectoryDefinition<ExternalDefinition, OptionalDefinition> directory)
+    extension(IDirectoryDefinition<Ownership.External, Necessity.Optional> directory)
     {
         public Task<bool> ExistsAsync(CancellationToken cancellationToken = default) =>
             directory.ProxySource.RequestAsync((proxy, ct) => proxy.ExistsAsync(ct), cancellationToken);

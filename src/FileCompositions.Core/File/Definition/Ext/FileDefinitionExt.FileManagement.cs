@@ -1,19 +1,17 @@
 ﻿using FileCompositions.Core.FileSystem.Proxy.File.Request;
-using FileCompositions.Core.Quality.Ownership;
-using FileCompositions.Core.Quality.Ownership.Implementations;
-using FileCompositions.Core.Quality.Placement.Implementations;
+using FileCompositions.Core.Quality;
 
 namespace FileCompositions.Core.File.Definition.Ext;
 
 public static partial class FileDefinitionExt
 {
-    extension<TOwnership>(IFileDefinition<TOwnership, RequiredInRequired> file)
-        where TOwnership : DefinitionOwnership
+    extension<TOwnership>(IFileDefinition<TOwnership, Placement.RequiredInRequired> file)
+        where TOwnership : Ownership
     {
 
     }
 
-    extension(IFileDefinition<StrictDefinition, OptionalInRequired> file)
+    extension(IFileDefinition<Ownership.Internal, Placement.OptionalInRequired> file)
     {
         internal Task CreateAsync(CancellationToken cancellationToken = default) =>
             file.ProxySource.RequestAsync((proxy, ct) => proxy.CreateAsync(ct), cancellationToken);
@@ -30,13 +28,13 @@ public static partial class FileDefinitionExt
             file.ProxySource.RequestAsync((proxy, ct) => proxy.ExistsAsync(ct), cancellationToken);
     }
 
-    extension(IFileDefinition<ExternalDefinition, OptionalInRequired> file)
+    extension(IFileDefinition<Ownership.External, Placement.OptionalInRequired> file)
     {
         public Task<bool> ExistsAsync(CancellationToken cancellationToken = default) =>
             file.ProxySource.RequestAsync((proxy, ct) => proxy.ExistsAsync(ct), cancellationToken);
     }
 
-    extension(IFileDefinition<StrictDefinition, OptionalInOptional> file)
+    extension(IFileDefinition<Ownership.Internal, Placement.OptionalInOptional> file)
     {
         internal Task<bool> TryCreateAsync(CancellationToken cancellationToken = default) =>
             file.ProxySource.RequestAsync((FileSystemFileProxyRequest<bool>)(async (proxy, ct) =>
@@ -61,7 +59,7 @@ public static partial class FileDefinitionExt
             file.ProxySource.RequestAsync((proxy, ct) => proxy.ExistsAsync(ct), cancellationToken);
     }
 
-    extension(IFileDefinition<ExternalDefinition, OptionalInOptional> file)
+    extension(IFileDefinition<Ownership.External, Placement.OptionalInOptional> file)
     {
         public Task<bool> ExistsAsync(CancellationToken cancellationToken = default) =>
             file.ProxySource.RequestAsync((proxy, ct) => proxy.ExistsAsync(ct), cancellationToken);

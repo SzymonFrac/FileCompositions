@@ -1,14 +1,12 @@
 ﻿using FileCompositions.Core.FileSystem.Proxy.File.Request;
-using FileCompositions.Core.Quality.Ownership;
-using FileCompositions.Core.Quality.Ownership.Implementations;
-using FileCompositions.Core.Quality.Placement.Implementations;
+using FileCompositions.Core.Quality;
 
 namespace FileCompositions.Core.File.Quality.Ext;
 
 public static partial class FileQualityExt
 {
-    extension<TOwnership>(IFileQuality<TOwnership, RequiredInRequired> file)
-        where TOwnership : DefinitionOwnership
+    extension<TOwnership>(IFileQuality<TOwnership, Placement.RequiredInRequired> file)
+        where TOwnership : Ownership
     {
         internal Task<Stream> OpenReadAsync(CancellationToken cancellationToken = default) =>
             file.ProxySource.RequestAsync((proxy, ct) => proxy.OpenReadAsync(ct), cancellationToken);
@@ -18,7 +16,7 @@ public static partial class FileQualityExt
             file.ProxySource.RequestAsync((proxy, ct) => proxy.OpenAppendAsync(ct), cancellationToken);
     }
 
-    extension(IFileQuality<StrictDefinition, OptionalInRequired> file)
+    extension(IFileQuality<Ownership.Internal, Placement.OptionalInRequired> file)
     {
         internal Task<Stream?> OpenReadAsync(CancellationToken cancellationToken = default) =>
             file.ProxySource.RequestAsync((FileSystemFileProxyRequest<Stream?>)(async (proxy, ct) =>
@@ -32,7 +30,7 @@ public static partial class FileQualityExt
             file.ProxySource.RequestAsync((proxy, ct) => proxy.OpenAppendAsync(ct), cancellationToken);
     }
 
-    extension(IFileQuality<ExternalDefinition, OptionalInRequired> file)
+    extension(IFileQuality<Ownership.External, Placement.OptionalInRequired> file)
     {
         internal Task<Stream?> OpenReadAsync(CancellationToken cancellationToken = default) =>
             file.ProxySource.RequestAsync((FileSystemFileProxyRequest<Stream?>)(async (proxy, ct) =>
@@ -54,7 +52,7 @@ public static partial class FileQualityExt
                 cancellationToken);
     }
 
-    extension(IFileQuality<StrictDefinition, OptionalInOptional> file)
+    extension(IFileQuality<Ownership.Internal, Placement.OptionalInOptional> file)
     {
         internal Task<Stream?> OpenReadAsync(CancellationToken cancellationToken = default) =>
             file.ProxySource.RequestAsync((FileSystemFileProxyRequest<Stream?>)(async (proxy, ct) =>
@@ -76,7 +74,7 @@ public static partial class FileQualityExt
                 cancellationToken);
     }
 
-    extension(IFileQuality<ExternalDefinition, OptionalInOptional> file)
+    extension(IFileQuality<Ownership.External, Placement.OptionalInOptional> file)
     {
         internal Task<Stream?> OpenReadAsync(CancellationToken cancellationToken = default) =>
             file.ProxySource.RequestAsync((FileSystemFileProxyRequest<Stream?>)(async (proxy, ct) =>

@@ -1,6 +1,5 @@
 ﻿using FileCompositions.Core.Directory.Definition.Key;
-using FileCompositions.Core.Quality.Ownership;
-using FileCompositions.Core.Quality.Placement;
+using FileCompositions.Core.Quality;
 using FileCompositions.Core.ResourceSchema.File.Register.Request;
 using FileCompositions.Hosting.EntityFrameworkCore.File.Specialized.Db.Options.Implementations;
 using Microsoft.EntityFrameworkCore;
@@ -8,8 +7,8 @@ using Microsoft.EntityFrameworkCore;
 namespace FileCompositions.Hosting.EntityFrameworkCore.File.Specialized.Db.Definition.Builder.Abstract;
 
 internal abstract partial class AbstractDbDefinitionBuilder<TOwnership, TPlacement, TDbContext> : IDbDefinitionBuilder<TOwnership, TPlacement, TDbContext>
-    where TOwnership : DefinitionOwnership
-    where TPlacement : DefinitionPlacement
+    where TOwnership : Ownership
+    where TPlacement : Placement
     where TDbContext : DbContext
 {
     public ResourceSchemaFileRegisterRequest<TOwnership, TPlacement, IDbDefinition<TOwnership, TPlacement, TDbContext>> Build(DirectoryDefinitionKey directoryKey)

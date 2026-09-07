@@ -1,16 +1,14 @@
 ﻿using FileCompositions.Core.File.Quality.Ext;
 using FileCompositions.Core.File.Specialized.Json.ReadResult;
-using FileCompositions.Core.Quality.Ownership;
-using FileCompositions.Core.Quality.Ownership.Implementations;
-using FileCompositions.Core.Quality.Placement.Implementations;
+using FileCompositions.Core.Quality;
 using System.Text.Json;
 
 namespace FileCompositions.Core.File.Specialized.Json.Quality.Ext;
 
 public static partial class JsonQualityExt
 {
-    extension<TOwnership, TData>(IJsonQuality<TOwnership, RequiredInRequired, TData> json)
-        where TOwnership : DefinitionOwnership
+    extension<TOwnership, TData>(IJsonQuality<TOwnership, Placement.RequiredInRequired, TData> json)
+        where TOwnership : Ownership
     {
         public async Task<TData?> ReadAsync(CancellationToken cancellationToken = default)
         {
@@ -24,7 +22,7 @@ public static partial class JsonQualityExt
         }
     }
 
-    extension<TData>(IJsonQuality<StrictDefinition, OptionalInRequired, TData> json)
+    extension<TData>(IJsonQuality<Ownership.Internal, Placement.OptionalInRequired, TData> json)
     {
         public async Task<TData?> ReadAsync(CancellationToken cancellationToken = default)
         {
@@ -48,7 +46,7 @@ public static partial class JsonQualityExt
         }
     }
 
-    extension<TData>(IJsonQuality<ExternalDefinition, OptionalInRequired, TData> json)
+    extension<TData>(IJsonQuality<Ownership.External, Placement.OptionalInRequired, TData> json)
     {
         public async Task<TData?> ReadAsync(CancellationToken cancellationToken = default)
         {
@@ -75,7 +73,7 @@ public static partial class JsonQualityExt
         }
     }
 
-    extension<TData>(IJsonQuality<StrictDefinition, OptionalInOptional, TData> json)
+    extension<TData>(IJsonQuality<Ownership.Internal, Placement.OptionalInOptional, TData> json)
     {
         public async Task<TData?> ReadAsync(CancellationToken cancellationToken = default)
         {
@@ -102,7 +100,7 @@ public static partial class JsonQualityExt
         }
     }
 
-    extension<TData>(IJsonQuality<ExternalDefinition, OptionalInOptional, TData> json)
+    extension<TData>(IJsonQuality<Ownership.External, Placement.OptionalInOptional, TData> json)
     {
         public async Task<TData?> ReadAsync(CancellationToken cancellationToken = default)
         {

@@ -1,7 +1,5 @@
 ﻿using FileCompositions.Core.Directory.Quality;
 using FileCompositions.Core.File.Context.Implementations;
-using FileCompositions.Core.Quality.Necessity;
-using FileCompositions.Core.Quality.Ownership;
 
 namespace FileCompositions.Core.File.Context.Factory.Implementations;
 

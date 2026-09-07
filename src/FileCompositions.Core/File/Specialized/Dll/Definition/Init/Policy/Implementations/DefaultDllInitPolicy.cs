@@ -1,32 +1,29 @@
 ﻿using FileCompositions.Core.File.Definition.Ext;
 using FileCompositions.Core.FileSystem.Proxy.File.Request;
-using FileCompositions.Core.Quality.Ownership;
-using FileCompositions.Core.Quality.Ownership.Implementations;
-using FileCompositions.Core.Quality.Placement;
-using FileCompositions.Core.Quality.Placement.Implementations;
+using FileCompositions.Core.Quality;
 using System.Diagnostics;
 
 namespace FileCompositions.Core.File.Specialized.Dll.Definition.Init.Policy.Implementations;
 
 internal sealed partial class DefaultDllInitPolicy<TOwnership, TPlacement> : IDllInitPolicy<TOwnership, TPlacement>
-    where TOwnership : DefinitionOwnership
-    where TPlacement : DefinitionPlacement
+    where TOwnership : Ownership
+    where TPlacement : Placement
 {
     public Func<CancellationToken, Task> GetPolicy(IDllDefinition<TOwnership, TPlacement> init) => init switch
     {
-        IDllDefinition<StrictDefinition, RequiredInRequired> sr => sr.InitDllAsync,
-        IDllDefinition<ExternalDefinition, RequiredInRequired> er => er.InitDllAsync,
-        IDllDefinition<StrictDefinition, OptionalInRequired> so => so.InitDllAsync,
-        IDllDefinition<ExternalDefinition, OptionalInRequired> eo => eo.InitDllAsync,
-        IDllDefinition<StrictDefinition, OptionalInOptional> soo => soo.InitDllAsync,
-        IDllDefinition<ExternalDefinition, OptionalInOptional> eoo => eoo.InitDllAsync,
+        IDllDefinition<Ownership.Internal, Placement.RequiredInRequired> sr => sr.InitDllAsync,
+        IDllDefinition<Ownership.External, Placement.RequiredInRequired> er => er.InitDllAsync,
+        IDllDefinition<Ownership.Internal, Placement.OptionalInRequired> so => so.InitDllAsync,
+        IDllDefinition<Ownership.External, Placement.OptionalInRequired> eo => eo.InitDllAsync,
+        IDllDefinition<Ownership.Internal, Placement.OptionalInOptional> soo => soo.InitDllAsync,
+        IDllDefinition<Ownership.External, Placement.OptionalInOptional> eoo => eoo.InitDllAsync,
         _ => throw new UnreachableException()
     };
 }
 
 internal static partial class DefaultDllInitPolicy
 {
-    extension(IDllDefinition<StrictDefinition, RequiredInRequired> dll)
+    extension(IDllDefinition<Ownership.Internal, Placement.RequiredInRequired> dll)
     {
         public Task InitDllAsync(CancellationToken cancellationToken = default) =>
             dll.ProxySource.RequestAsync((FileSystemFileProxyRequest)(async (proxy, ct) =>
@@ -44,31 +41,31 @@ internal static partial class DefaultDllInitPolicy
                 cancellationToken);
     }
 
-    extension(IDllDefinition<ExternalDefinition, RequiredInRequired> dll)
+    extension(IDllDefinition<Ownership.External, Placement.RequiredInRequired> dll)
     {
         public Task InitDllAsync(CancellationToken cancellationToken = default) =>
             dll.InitAsync(cancellationToken);
     }
 
-    extension(IDllDefinition<StrictDefinition, OptionalInRequired> dll)
+    extension(IDllDefinition<Ownership.Internal, Placement.OptionalInRequired> dll)
     {
         public Task InitDllAsync(CancellationToken cancellationToken = default) =>
             dll.InitAsync(cancellationToken);
     }
 
-    extension(IDllDefinition<ExternalDefinition, OptionalInRequired> dll)
+    extension(IDllDefinition<Ownership.External, Placement.OptionalInRequired> dll)
     {
         public Task InitDllAsync(CancellationToken cancellationToken = default) =>
             dll.InitAsync(cancellationToken);
     }
 
-    extension(IDllDefinition<StrictDefinition, OptionalInOptional> dll)
+    extension(IDllDefinition<Ownership.Internal, Placement.OptionalInOptional> dll)
     {
         public Task InitDllAsync(CancellationToken cancellationToken = default) =>
             dll.InitAsync(cancellationToken);
     }
 
-    extension(IDllDefinition<ExternalDefinition, OptionalInOptional> dll)
+    extension(IDllDefinition<Ownership.External, Placement.OptionalInOptional> dll)
     {
         public Task InitDllAsync(CancellationToken cancellationToken = default) =>
             dll.InitAsync(cancellationToken);

@@ -1,8 +1,6 @@
 ﻿using FileCompositions.Core.Directory.Definition.Key;
 using FileCompositions.Core.File.Definition;
-using FileCompositions.Core.Quality.Necessity;
-using FileCompositions.Core.Quality.Ownership;
-using FileCompositions.Core.Quality.Placement;
+using FileCompositions.Core.Quality;
 using FileCompositions.Core.ResourceSchema.File.Register.Request;
 using FileCompositions.Core.ResourceSchema.File.Registrar;
 using FileCompositions.Hosting.ResourceSchema.File.Register.Builder.Factory;
@@ -13,8 +11,8 @@ namespace FileCompositions.Hosting.ResourceSchema.File.Registrar.Implementations
 
 internal sealed class HostResourceSchemaFileRegistrar<TInOwnership, TInNecessity>(DirectoryDefinitionKey directoryKey)
     : IHostResourceSchemaFileRegistrar<TInNecessity>
-        where TInOwnership : DefinitionOwnership
-        where TInNecessity : DefinitionNecessity
+        where TInOwnership : Ownership
+        where TInNecessity : Necessity
 {
     private HostResourceSchemaRegister? register;
 
@@ -24,16 +22,16 @@ internal sealed class HostResourceSchemaFileRegistrar<TInOwnership, TInNecessity
     DirectoryDefinitionKey IResourceSchemaFileRegistrar<TInNecessity>.DirectoryKey => DirectoryKey;
 
     public void Define<TOwnership, TPlacement, TDefinition>(ResourceSchemaFileRegisterRequest<TOwnership, TPlacement, TDefinition> request)
-        where TOwnership : DefinitionOwnership
-        where TPlacement : DefinitionPlacement
+        where TOwnership : Ownership
+        where TPlacement : Placement
         where TDefinition : class, IFileDefinition<TOwnership, TPlacement> =>
             register += RegisterBuilderFactory
                 .Create<TInOwnership, TInNecessity>()
                 .Build(request);
 
     public void Define<TOwnership, TPlacement, TDefinition>(ResourceSchemaFileRegisterRequest<TOwnership, TPlacement, TDefinition> request, IHostResourceSchemaFileRegisterBuilderFactory factory)
-        where TOwnership : DefinitionOwnership
-        where TPlacement : DefinitionPlacement
+        where TOwnership : Ownership
+        where TPlacement : Placement
         where TDefinition : class, IFileDefinition<TOwnership, TPlacement> =>
             register += factory
                 .Create<TInOwnership, TInNecessity>()

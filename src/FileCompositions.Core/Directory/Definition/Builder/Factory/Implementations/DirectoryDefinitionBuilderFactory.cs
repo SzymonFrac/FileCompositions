@@ -1,21 +1,18 @@
 ﻿using FileCompositions.Core.Directory.Definition.Builder.Implementations;
 using FileCompositions.Core.FileSystem;
 using FileCompositions.Core.FileSystem.Address;
-using FileCompositions.Core.Quality.Necessity;
-using FileCompositions.Core.Quality.Necessity.Implementations;
-using FileCompositions.Core.Quality.Ownership;
-using FileCompositions.Core.Quality.Ownership.Implementations;
+using FileCompositions.Core.Quality;
 
 namespace FileCompositions.Core.Directory.Definition.Builder.Factory.Implementations;
 
 internal sealed class DirectoryDefinitionBuilderFactory : IDirectoryDefinitionBuilderFactory
 {
-    public IDirectoryDefinitionBuilder<StrictDefinition, RequiredDefinition, TFileSystem> CreateDefault<TFileSystem>(FileSystemAddress address)
+    public IDirectoryDefinitionBuilder<Ownership.Internal, Necessity.Required, TFileSystem> CreateDefault<TFileSystem>(FileSystemAddress address)
         where TFileSystem : class, IFileSystem =>
-            new DirectoryDefinitionBuilder<StrictDefinition, RequiredDefinition, TFileSystem>(address);
+            new DirectoryDefinitionBuilder<Ownership.Internal, Necessity.Required, TFileSystem>(address);
     public IDirectoryDefinitionBuilder<TOwnership, TNecessity, TFileSystem> Create<TOwnership, TNecessity, TFileSystem>(FileSystemAddress address)
-        where TOwnership : DefinitionOwnership
-        where TNecessity : DefinitionNecessity
+        where TOwnership : Ownership
+        where TNecessity : Necessity
         where TFileSystem : class, IFileSystem =>
             new DirectoryDefinitionBuilder<TOwnership, TNecessity, TFileSystem>(address);
 }

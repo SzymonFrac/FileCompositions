@@ -1,13 +1,12 @@
 ﻿using FileCompositions.Core.Exception.ExternalRequiredMissing;
 using FileCompositions.Core.FileSystem.Proxy.File.Request;
-using FileCompositions.Core.Quality.Ownership.Implementations;
-using FileCompositions.Core.Quality.Placement.Implementations;
+using FileCompositions.Core.Quality;
 
 namespace FileCompositions.Core.File.Definition.Ext;
 
 public static partial class FileDefinitionExt
 {
-    extension(IFileDefinition<StrictDefinition, RequiredInRequired> file)
+    extension(IFileDefinition<Ownership.Internal, Placement.RequiredInRequired> file)
     {
         public Task InitAsync(CancellationToken cancellationToken = default) =>
             file.ProxySource.RequestAsync((FileSystemFileProxyRequest)(async (proxy, ct) =>
@@ -18,7 +17,7 @@ public static partial class FileDefinitionExt
                 cancellationToken);
     }
 
-    extension(IFileDefinition<ExternalDefinition, RequiredInRequired> file)
+    extension(IFileDefinition<Ownership.External, Placement.RequiredInRequired> file)
     {
         public Task InitAsync(CancellationToken cancellationToken = default) =>
             file.ProxySource.RequestAsync((FileSystemFileProxyRequest)(async (proxy, ct) =>
@@ -33,22 +32,22 @@ public static partial class FileDefinitionExt
                 cancellationToken);
     }
 
-    extension(IFileDefinition<StrictDefinition, OptionalInRequired> file)
+    extension(IFileDefinition<Ownership.Internal, Placement.OptionalInRequired> file)
     {
         public Task InitAsync(CancellationToken cancellationToken = default) => Task.CompletedTask;
     }
 
-    extension(IFileDefinition<ExternalDefinition, OptionalInRequired> file)
+    extension(IFileDefinition<Ownership.External, Placement.OptionalInRequired> file)
     {
         public Task InitAsync(CancellationToken cancellationToken = default) => Task.CompletedTask;
     }
 
-    extension(IFileDefinition<StrictDefinition, OptionalInOptional> file)
+    extension(IFileDefinition<Ownership.Internal, Placement.OptionalInOptional> file)
     {
         public Task InitAsync(CancellationToken cancellationToken = default) => Task.CompletedTask;
     }
 
-    extension(IFileDefinition<ExternalDefinition, OptionalInOptional> file)
+    extension(IFileDefinition<Ownership.External, Placement.OptionalInOptional> file)
     {
         public Task InitAsync(CancellationToken cancellationToken = default) => Task.CompletedTask;
     }

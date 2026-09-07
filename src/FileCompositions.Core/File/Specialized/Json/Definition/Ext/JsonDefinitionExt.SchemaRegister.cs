@@ -1,10 +1,6 @@
 ﻿using FileCompositions.Core.File.No.Definition.Builder.Implementations;
 using FileCompositions.Core.File.Specialized.Json.Definition.Config;
-using FileCompositions.Core.Quality.Necessity.Implementations;
-using FileCompositions.Core.Quality.Ownership;
-using FileCompositions.Core.Quality.Ownership.Implementations;
-using FileCompositions.Core.Quality.Placement;
-using FileCompositions.Core.Quality.Placement.Implementations;
+using FileCompositions.Core.Quality;
 using FileCompositions.Core.ResourceSchema.File.Registrar;
 
 namespace FileCompositions.Core.File.Specialized.Json.Definition.Ext;
@@ -12,13 +8,13 @@ namespace FileCompositions.Core.File.Specialized.Json.Definition.Ext;
 public static partial class JsonDefinitionExt
 {
     extension<TResourceSchemaFileRegistrar>(TResourceSchemaFileRegistrar registrar)
-        where TResourceSchemaFileRegistrar : IResourceSchemaFileRegistrar<RequiredDefinition>
+        where TResourceSchemaFileRegistrar : IResourceSchemaFileRegistrar<Necessity.Required>
     {
-        public TResourceSchemaFileRegistrar DefineInRequired<TOwnership, TPlacement, TData>(JsonDefinitionConfig<TOwnership, TPlacement, RequiredInRequired, TData> config)
-            where TOwnership : DefinitionOwnership
-            where TPlacement : DefinitionPlacement
+        public TResourceSchemaFileRegistrar DefineInRequired<TOwnership, TPlacement, TData>(JsonDefinitionConfig<TOwnership, TPlacement, Placement.RequiredInRequired, TData> config)
+            where TOwnership : Ownership
+            where TPlacement : Placement
         {
-            var noBuilder = new NoFileDefinitionBuilder<StrictDefinition, RequiredInRequired>();
+            var noBuilder = new NoFileDefinitionBuilder<Ownership.Internal, Placement.RequiredInRequired>();
             var json = config(noBuilder);
             var request = json.Build(registrar.DirectoryKey);
 
@@ -28,13 +24,13 @@ public static partial class JsonDefinitionExt
     }
 
     extension<TResourceSchemaFileRegistrar>(TResourceSchemaFileRegistrar registrar)
-        where TResourceSchemaFileRegistrar : IResourceSchemaFileRegistrar<OptionalDefinition>
+        where TResourceSchemaFileRegistrar : IResourceSchemaFileRegistrar<Necessity.Optional>
     {
-        public TResourceSchemaFileRegistrar DefineInOptional<TOwnership, TPlacement, TData>(JsonDefinitionConfig<TOwnership, TPlacement, OptionalInOptional, TData> config)
-            where TOwnership : DefinitionOwnership
-            where TPlacement : DefinitionPlacement
+        public TResourceSchemaFileRegistrar DefineInOptional<TOwnership, TPlacement, TData>(JsonDefinitionConfig<TOwnership, TPlacement, Placement.OptionalInOptional, TData> config)
+            where TOwnership : Ownership
+            where TPlacement : Placement
         {
-            var noBuilder = new NoFileDefinitionBuilder<StrictDefinition, OptionalInOptional>();
+            var noBuilder = new NoFileDefinitionBuilder<Ownership.Internal, Placement.OptionalInOptional>();
             var json = config(noBuilder);
             var request = json.Build(registrar.DirectoryKey);
 

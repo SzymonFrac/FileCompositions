@@ -1,10 +1,6 @@
 ﻿using FileCompositions.Core.File.No.Definition.Builder.Implementations;
 using FileCompositions.Core.File.Specialized.Dll.Definition.Config;
-using FileCompositions.Core.Quality.Necessity.Implementations;
-using FileCompositions.Core.Quality.Ownership;
-using FileCompositions.Core.Quality.Ownership.Implementations;
-using FileCompositions.Core.Quality.Placement;
-using FileCompositions.Core.Quality.Placement.Implementations;
+using FileCompositions.Core.Quality;
 using FileCompositions.Core.ResourceSchema.File.Registrar;
 
 namespace FileCompositions.Core.File.Specialized.Dll.Definition.Ext;
@@ -12,13 +8,13 @@ namespace FileCompositions.Core.File.Specialized.Dll.Definition.Ext;
 public static partial class DllDefinitionExt
 {
     extension<TResourceSchemaFileRegistrar>(TResourceSchemaFileRegistrar registrar)
-        where TResourceSchemaFileRegistrar : IResourceSchemaFileRegistrar<RequiredDefinition>
+        where TResourceSchemaFileRegistrar : IResourceSchemaFileRegistrar<Necessity.Required>
     {
-        public TResourceSchemaFileRegistrar DefineInRequired<TOwnership, TPlacement>(DllDefinitionConfig<TOwnership, TPlacement, RequiredInRequired> config)
-            where TOwnership : DefinitionOwnership
-            where TPlacement : DefinitionPlacement
+        public TResourceSchemaFileRegistrar DefineInRequired<TOwnership, TPlacement>(DllDefinitionConfig<TOwnership, TPlacement, Placement.RequiredInRequired> config)
+            where TOwnership : Ownership
+            where TPlacement : Placement
         {
-            var noBuilder = new NoFileDefinitionBuilder<StrictDefinition, RequiredInRequired>();
+            var noBuilder = new NoFileDefinitionBuilder<Ownership.Internal, Placement.RequiredInRequired>();
             var dll = config(noBuilder);
             var request = dll.Build(registrar.DirectoryKey);
 
@@ -28,13 +24,13 @@ public static partial class DllDefinitionExt
     }
 
     extension<TResourceSchemaFileRegistrar>(TResourceSchemaFileRegistrar registrar)
-        where TResourceSchemaFileRegistrar : IResourceSchemaFileRegistrar<OptionalDefinition>
+        where TResourceSchemaFileRegistrar : IResourceSchemaFileRegistrar<Necessity.Optional>
     {
-        public TResourceSchemaFileRegistrar DefineInOptional<TOwnership, TPlacement>(DllDefinitionConfig<TOwnership, TPlacement, OptionalInOptional> config)
-            where TOwnership : DefinitionOwnership
-            where TPlacement : DefinitionPlacement
+        public TResourceSchemaFileRegistrar DefineInOptional<TOwnership, TPlacement>(DllDefinitionConfig<TOwnership, TPlacement, Placement.OptionalInOptional> config)
+            where TOwnership : Ownership
+            where TPlacement : Placement
         {
-            var noBuilder = new NoFileDefinitionBuilder<StrictDefinition, OptionalInOptional>();
+            var noBuilder = new NoFileDefinitionBuilder<Ownership.Internal, Placement.OptionalInOptional>();
             var dll = config(noBuilder);
             var request = dll.Build(registrar.DirectoryKey);
 
