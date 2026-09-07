@@ -1,12 +1,11 @@
 ﻿using FileCompositions.Core.File.Definition.Key;
-using FileCompositions.Core.Quality.Ownership;
-using FileCompositions.Core.Quality.Placement;
+using FileCompositions.Core.Quality;
 
 namespace FileCompositions.Core.File.No.Definition.Builder.Implementations;
 
 internal sealed partial class NoFileDefinitionBuilder<TOwnership, TPlacement> : INoFileDefinitionBuilder<TOwnership, TPlacement>
-    where TOwnership : DefinitionOwnership
-    where TPlacement : DefinitionPlacement
+    where TOwnership : Ownership
+    where TPlacement : Placement
 {
     private readonly FileDefinitionKey? _key;
 
@@ -14,8 +13,8 @@ internal sealed partial class NoFileDefinitionBuilder<TOwnership, TPlacement> : 
     private NoFileDefinitionBuilder(FileDefinitionKey? key) => _key = key;
 
     public INoFileDefinitionBuilder<TNewOwnership, TNewPlacement> Create<TNewOwnership, TNewPlacement>()
-        where TNewOwnership : DefinitionOwnership
-        where TNewPlacement : DefinitionPlacement =>
+        where TNewOwnership : Ownership
+        where TNewPlacement : Placement =>
             new NoFileDefinitionBuilder<TNewOwnership, TNewPlacement>(_key);
 
     public INoFileDefinitionBuilder<TOwnership, TPlacement> WithKey(FileDefinitionKey key) =>

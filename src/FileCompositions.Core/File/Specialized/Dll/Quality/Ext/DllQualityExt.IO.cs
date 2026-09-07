@@ -1,6 +1,5 @@
 ﻿using FileCompositions.Core.File.Quality.Ext;
-using FileCompositions.Core.Quality.Ownership.Implementations;
-using FileCompositions.Core.Quality.Placement.Implementations;
+using FileCompositions.Core.Quality;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.Loader;
@@ -14,7 +13,7 @@ public static partial class DllQualityExt
             .Where(t => typeof(TInterface).IsAssignableFrom(t) && !t.IsAbstract && !t.IsInterface)
             .Select(type => (TInterface)Activator.CreateInstance(type)!);
 
-    extension(IDllQuality<StrictDefinition, RequiredInRequired> dll)
+    extension(IDllQuality<Ownership.Internal, Placement.RequiredInRequired> dll)
     {
         public async Task<Assembly> LoadAsync(CancellationToken cancellationToken = default) =>
             dll.Assembly ??= AssemblyLoadContext.Default.LoadFromStream(
@@ -92,7 +91,7 @@ public static partial class DllQualityExt
         }
     }
 
-    extension(IDllQuality<ExternalDefinition, RequiredInRequired> dll)
+    extension(IDllQuality<Ownership.External, Placement.RequiredInRequired> dll)
     {
         public async Task<Assembly> LoadAsync(CancellationToken cancellationToken = default) =>
             dll.Assembly ??= AssemblyLoadContext.Default.LoadFromStream(
@@ -170,7 +169,7 @@ public static partial class DllQualityExt
         }
     }
 
-    extension(IDllQuality<StrictDefinition, OptionalInRequired> dll)
+    extension(IDllQuality<Ownership.Internal, Placement.OptionalInRequired> dll)
     {
         public async Task<Assembly?> LoadAsync(CancellationToken cancellationToken = default) =>
             await dll.OpenReadAsync(cancellationToken).ConfigureAwait(false) is Stream stream
@@ -273,7 +272,7 @@ public static partial class DllQualityExt
         }
     }
 
-    extension(IDllQuality<ExternalDefinition, OptionalInRequired> dll)
+    extension(IDllQuality<Ownership.External, Placement.OptionalInRequired> dll)
     {
         public async Task<Assembly?> LoadAsync(CancellationToken cancellationToken = default) =>
             await dll.OpenReadAsync(cancellationToken).ConfigureAwait(false) is Stream stream
@@ -372,7 +371,7 @@ public static partial class DllQualityExt
         }
     }
 
-    extension(IDllQuality<StrictDefinition, OptionalInOptional> dll)
+    extension(IDllQuality<Ownership.Internal, Placement.OptionalInOptional> dll)
     {
         public async Task<Assembly?> LoadAsync(CancellationToken cancellationToken = default) =>
             await dll.OpenReadAsync(cancellationToken).ConfigureAwait(false) is Stream stream
@@ -471,7 +470,7 @@ public static partial class DllQualityExt
         }
     }
 
-    extension(IDllQuality<ExternalDefinition, OptionalInOptional> dll)
+    extension(IDllQuality<Ownership.External, Placement.OptionalInOptional> dll)
     {
         public async Task<Assembly?> LoadAsync(CancellationToken cancellationToken = default) =>
             await dll.OpenReadAsync(cancellationToken).ConfigureAwait(false) is Stream stream

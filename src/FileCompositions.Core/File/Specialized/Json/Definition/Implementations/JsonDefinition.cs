@@ -6,15 +6,14 @@ using FileCompositions.Core.File.Specialized.Json.Extension;
 using FileCompositions.Core.File.Specialized.Json.Format;
 using FileCompositions.Core.File.Specialized.Json.Resource;
 using FileCompositions.Core.File.Specialized.Json.Resource.Builder.Factory.Implementations;
-using FileCompositions.Core.Quality.Ownership;
-using FileCompositions.Core.Quality.Placement;
+using FileCompositions.Core.Quality;
 
 namespace FileCompositions.Core.File.Specialized.Json.Definition.Implementations;
 
 internal sealed class JsonDefinition<TOwnership, TPlacement, TData>(IFileContext context, FileDefinitionKey key, string name, JsonFormat format, TData? @default = default) :
     AbstractJsonDefinition<TOwnership, TPlacement, TData>(context, key, name, format, @default)
-        where TOwnership : DefinitionOwnership
-        where TPlacement : DefinitionPlacement;
+        where TOwnership : Ownership
+        where TPlacement : Placement;
 
 internal sealed class JsonDefinition : IJsonDefinition
 {

@@ -3,8 +3,6 @@ using FileCompositions.Core.File.Context.Implementations;
 using FileCompositions.Core.File.Specialized.Json.Definition.Implementations;
 using FileCompositions.Core.File.Specialized.Json.Quality.Ext;
 using FileCompositions.Core.File.Specialized.Json.Resource;
-using FileCompositions.Core.Quality.Necessity.Implementations;
-using FileCompositions.Core.Quality.Ownership.Implementations;
 
 namespace FileCompositions.Core.File.Specialized.Json.Definition.Ext;
 

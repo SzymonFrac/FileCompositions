@@ -3,8 +3,7 @@ using FileCompositions.Core.Directory.Definition.Builder.Factory.Implementations
 using FileCompositions.Core.Directory.Definition.Config;
 using FileCompositions.Core.Directory.Definition.Key;
 using FileCompositions.Core.FileSystem;
-using FileCompositions.Core.Quality.Necessity;
-using FileCompositions.Core.Quality.Ownership;
+using FileCompositions.Core.Quality;
 using FileCompositions.Core.ResourceSchema.Directory.Registrar;
 using FileCompositions.Hosting.ResourceSchema.Directory.Register.Factory;
 using FileCompositions.Hosting.ResourceSchema.Directory.Register.Factory.Implementations;
@@ -16,8 +15,8 @@ using FileCompositions.Hosting.ResourceSchema.Register;
 namespace FileCompositions.Hosting.ResourceSchema.Directory.Registrar.Implementations;
 
 internal sealed class HostResourceSchemaDirectoryRegistrar<TOwnership, TNecessity> : IHostResourceSchemaDirectoryRegistrar<TOwnership, TNecessity>
-    where TOwnership : DefinitionOwnership
-    where TNecessity : DefinitionNecessity
+    where TOwnership : Ownership
+    where TNecessity : Necessity
 {
     private HostResourceSchemaRegister? register;
     private readonly DirectoryDefinitionKey? key;
@@ -30,8 +29,8 @@ internal sealed class HostResourceSchemaDirectoryRegistrar<TOwnership, TNecessit
     private HostResourceSchemaDirectoryRegistrar(HostResourceSchemaRegister r, DirectoryDefinitionKey k) => (register, key) = (r, k);
 
     public IHostResourceSchemaDirectoryRegistrar<TDefOwnership, TDefNecessity> Define<TDefOwnership, TDefNecessity, TDefFileSystem>(DirectoryDefinitionConfig<TDefOwnership, TDefNecessity, TDefFileSystem> config)
-        where TDefOwnership : DefinitionOwnership
-        where TDefNecessity : DefinitionNecessity
+        where TDefOwnership : Ownership
+        where TDefNecessity : Necessity
         where TDefFileSystem : class, IFileSystem
     {
         var builder = config(DirectoryBuilderFactory);

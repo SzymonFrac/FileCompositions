@@ -1,7 +1,6 @@
 ﻿using FileCompositions.Core.File.Definition.Descriptor;
 using FileCompositions.Core.File.Options.Abstract;
-using FileCompositions.Core.Quality.Ownership;
-using FileCompositions.Core.Quality.Placement;
+using FileCompositions.Core.Quality;
 using FileCompositions.Hosting.EntityFrameworkCore.File.Specialized.Db.Definition;
 using FileCompositions.Hosting.EntityFrameworkCore.File.Specialized.Db.Definition.Implementations;
 using FileCompositions.Hosting.EntityFrameworkCore.File.Specialized.Db.Definition.Init.Policy.Implementations;
@@ -13,8 +12,8 @@ internal abstract partial class AbstractDbOptions<TDbContext> : AbstractFileOpti
     where TDbContext : DbContext
 {
     public FileDefinitionDescriptor<TOwnership, TPlacement, IDbDefinition<TOwnership, TPlacement, TDbContext>> Build<TOwnership, TPlacement>()
-        where TOwnership : DefinitionOwnership
-        where TPlacement : DefinitionPlacement =>
+        where TOwnership : Ownership
+        where TPlacement : Placement =>
             key => (in context) => new DbDefinition<TOwnership, TPlacement, TDbContext>(context, key, Name)
             {
                 InitPolicy = new DefaultDbInitPolicy<TOwnership, TPlacement, TDbContext>()

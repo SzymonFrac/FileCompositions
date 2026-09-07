@@ -1,8 +1,6 @@
 ﻿using FileCompositions.Core.Directory.Definition;
 using FileCompositions.Core.File.Definition;
-using FileCompositions.Core.Quality.Necessity;
-using FileCompositions.Core.Quality.Ownership;
-using FileCompositions.Core.Quality.Placement;
+using FileCompositions.Core.Quality;
 using FileCompositions.Core.ResourceSchema.File.Register.Request;
 using FileCompositions.Hosting.ResourceSchema.Initializer;
 using FileCompositions.Hosting.ResourceSchema.Initializer.Implementations;
@@ -12,12 +10,12 @@ using Microsoft.Extensions.DependencyInjection;
 namespace FileCompositions.Hosting.ResourceSchema.File.Register.Builder.Implementations;
 
 internal sealed class HostResourceSchemaFileRegisterBuilder<TInOwnership, TInNecessity> : IHostResourceSchemaFileRegisterBuilder
-        where TInOwnership : DefinitionOwnership
-        where TInNecessity : DefinitionNecessity
+        where TInOwnership : Ownership
+        where TInNecessity : Necessity
 {
     public HostResourceSchemaRegister Build<TOwnership, TPlacement, TDefinition>(ResourceSchemaFileRegisterRequest<TOwnership, TPlacement, TDefinition> request)
-        where TOwnership : DefinitionOwnership
-        where TPlacement : DefinitionPlacement
+        where TOwnership : Ownership
+        where TPlacement : Placement
         where TDefinition : class, IFileDefinition<TOwnership, TPlacement> =>
             new((in services) => services
                 .AddKeyedSingleton<TDefinition>(request.FileKey, (sp, key) =>

@@ -1,22 +1,21 @@
 ﻿using FileCompositions.Core.FileSystem.Proxy.File.Request;
-using FileCompositions.Core.Quality.Ownership.Implementations;
-using FileCompositions.Core.Quality.Placement.Implementations;
+using FileCompositions.Core.Quality;
 
 namespace FileCompositions.Core.File.Specialized.Dll.Definition.Ext;
 
 public static partial class DllDefinitionExt
 {
-    extension(IDllDefinition<StrictDefinition, RequiredInRequired> dll)
+    extension(IDllDefinition<Ownership.Internal, Placement.RequiredInRequired> dll)
     {
 
     }
 
-    extension(IDllDefinition<ExternalDefinition, RequiredInRequired> dll)
+    extension(IDllDefinition<Ownership.External, Placement.RequiredInRequired> dll)
     {
 
     }
 
-    extension(IDllDefinition<StrictDefinition, OptionalInRequired> dll)
+    extension(IDllDefinition<Ownership.Internal, Placement.OptionalInRequired> dll)
     {
         public Task CreateAsync(CancellationToken cancellationToken = default) =>
             dll.ProxySource.RequestAsync((FileSystemFileProxyRequest)(async (proxy, ct) =>
@@ -34,12 +33,12 @@ public static partial class DllDefinitionExt
                 cancellationToken);
     }
 
-    extension(IDllDefinition<ExternalDefinition, OptionalInRequired> dll)
+    extension(IDllDefinition<Ownership.External, Placement.OptionalInRequired> dll)
     {
 
     }
 
-    extension(IDllDefinition<StrictDefinition, OptionalInOptional> dll)
+    extension(IDllDefinition<Ownership.Internal, Placement.OptionalInOptional> dll)
     {
         public Task<bool> TryCreateAsync(CancellationToken cancellationToken = default) =>
             dll.ProxySource.RequestAsync((FileSystemFileProxyRequest<bool>)(async (proxy, ct) =>
@@ -60,7 +59,7 @@ public static partial class DllDefinitionExt
                 cancellationToken);
     }
 
-    extension(IDllDefinition<ExternalDefinition, OptionalInOptional> dll)
+    extension(IDllDefinition<Ownership.External, Placement.OptionalInOptional> dll)
     {
 
     }

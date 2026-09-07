@@ -1,14 +1,13 @@
 ﻿using FileCompositions.Core.Directory.Context;
 using FileCompositions.Core.Directory.Definition.Key;
 using FileCompositions.Core.FileSystem;
-using FileCompositions.Core.Quality.Necessity;
-using FileCompositions.Core.Quality.Ownership;
+using FileCompositions.Core.Quality;
 
 namespace FileCompositions.Core.Directory.Definition.Descriptor;
 
 internal interface IDirectoryDefinitionDescriptor<TOwnership, TNecessity, TFileSystem>
-    where TOwnership : DefinitionOwnership
-    where TNecessity : DefinitionNecessity
+    where TOwnership : Ownership
+    where TNecessity : Necessity
     where TFileSystem : class, IFileSystem
 {
     DirectoryDefinitionKey Key { get; }

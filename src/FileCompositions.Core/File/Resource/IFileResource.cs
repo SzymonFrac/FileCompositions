@@ -1,7 +1,6 @@
 ﻿using FileCompositions.Core.File.Quality;
-using FileCompositions.Core.Quality.Ownership.Implementations;
-using FileCompositions.Core.Quality.Placement.Implementations;
+using FileCompositions.Core.Quality;
 
 namespace FileCompositions.Core.File.Resource;
 
-public interface IFileResource : IFileQuality<ExternalDefinition, RequiredInRequired>;
+public interface IFileResource : IFileQuality<Ownership.External, Placement.RequiredInRequired>;

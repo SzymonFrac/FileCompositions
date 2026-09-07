@@ -7,8 +7,7 @@ using FileCompositions.Core.File.Specialized.Json.Definition.Init.Policy.Impleme
 using FileCompositions.Core.File.Specialized.Json.Format;
 using FileCompositions.Core.File.Specialized.Json.Resource;
 using FileCompositions.Core.File.Specialized.Json.Resource.Implementations;
-using FileCompositions.Core.Quality.Ownership;
-using FileCompositions.Core.Quality.Placement;
+using FileCompositions.Core.Quality;
 
 namespace FileCompositions.Core.File.Specialized.Json.Options.Abstract;
 
@@ -19,8 +18,8 @@ internal abstract partial class AbstractJsonOptions<TData> : AbstractFileOptions
     public FileResourceRequest<IJsonResource<TData>> Build() =>
         (in context) => new JsonResource<TData>(context, Name, BuildJsonFormat());
     public FileDefinitionDescriptor<TOwnership, TPlacement, IJsonDefinition<TOwnership, TPlacement, TData>> Build<TOwnership, TPlacement>()
-        where TOwnership : DefinitionOwnership
-        where TPlacement : DefinitionPlacement =>
+        where TOwnership : Ownership
+        where TPlacement : Placement =>
             key => (in context) => new JsonDefinition<TOwnership, TPlacement, TData>(context, key, Name, BuildJsonFormat())
             {
                 InitPolicy = new DefaultJsonInitPolicy<TOwnership, TPlacement, TData>()

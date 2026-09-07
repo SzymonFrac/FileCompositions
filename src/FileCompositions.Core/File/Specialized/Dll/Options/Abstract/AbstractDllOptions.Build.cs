@@ -6,8 +6,7 @@ using FileCompositions.Core.File.Specialized.Dll.Definition.Implementations;
 using FileCompositions.Core.File.Specialized.Dll.Definition.Init.Policy.Implementations;
 using FileCompositions.Core.File.Specialized.Dll.Resource;
 using FileCompositions.Core.File.Specialized.Dll.Resource.Implementations;
-using FileCompositions.Core.Quality.Ownership;
-using FileCompositions.Core.Quality.Placement;
+using FileCompositions.Core.Quality;
 
 namespace FileCompositions.Core.File.Specialized.Dll.Options.Abstract;
 
@@ -16,8 +15,8 @@ internal abstract partial class AbstractDllOptions : AbstractFileOptions<IDllOpt
     public FileResourceRequest<IDllResource> Build() =>
         (in context) => new DllResource(context, Name);
     public FileDefinitionDescriptor<TOwnership, TPlacement, IDllDefinition<TOwnership, TPlacement>> Build<TOwnership, TPlacement>()
-        where TOwnership : DefinitionOwnership
-        where TPlacement : DefinitionPlacement =>
+        where TOwnership : Ownership
+        where TPlacement : Placement =>
             key => (in context) => new DllDefinition<TOwnership, TPlacement>(context, key, Name)
             {
                 InitPolicy = new DefaultDllInitPolicy<TOwnership, TPlacement>()

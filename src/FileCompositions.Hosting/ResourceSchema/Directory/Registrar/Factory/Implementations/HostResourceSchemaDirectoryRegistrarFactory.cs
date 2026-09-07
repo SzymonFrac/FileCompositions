@@ -1,9 +1,6 @@
 ﻿using FileCompositions.Core.Directory.Definition.Builder.Factory;
 using FileCompositions.Core.Directory.Definition.Builder.Factory.Implementations;
-using FileCompositions.Core.Quality.Necessity;
-using FileCompositions.Core.Quality.Necessity.Implementations;
-using FileCompositions.Core.Quality.Ownership;
-using FileCompositions.Core.Quality.Ownership.Implementations;
+using FileCompositions.Core.Quality;
 using FileCompositions.Core.ResourceSchema.Directory.Registrar;
 using FileCompositions.Core.ResourceSchema.Directory.Registrar.Factory;
 using FileCompositions.Hosting.ResourceSchema.Directory.Register.Factory;
@@ -20,16 +17,16 @@ internal sealed class HostResourceSchemaDirectoryRegistrarFactory : IHostResourc
     public IHostResourceSchemaDirectoryRegisterFactory DirectoryRegisterFactory { get; init; } = new HostResourceSchemaDirectoryRegisterFactory();
     public IHostResourceSchemaFileRegistrarFactory FileRegistrarFactory { get; init; } = new HostResourceSchemaFileRegistrarFactory();
 
-    public IHostResourceSchemaDirectoryRegistrar<StrictDefinition, RequiredDefinition> Create() =>
-        new HostResourceSchemaDirectoryRegistrar<StrictDefinition, RequiredDefinition>()
+    public IHostResourceSchemaDirectoryRegistrar<Ownership.Internal, Necessity.Required> Create() =>
+        new HostResourceSchemaDirectoryRegistrar<Ownership.Internal, Necessity.Required>()
         {
             DirectoryBuilderFactory = DirectoryBuilderFactory,
             DirectoryRegisterFactory = DirectoryRegisterFactory,
             FileRegistrarFactory = FileRegistrarFactory
         };
     public IHostResourceSchemaDirectoryRegistrar<TOwnership, TNecessity> Create<TOwnership, TNecessity>()
-        where TOwnership : DefinitionOwnership
-        where TNecessity : DefinitionNecessity =>
+        where TOwnership : Ownership
+        where TNecessity : Necessity =>
             new HostResourceSchemaDirectoryRegistrar<TOwnership, TNecessity>()
             {
                 DirectoryBuilderFactory = DirectoryBuilderFactory,
@@ -37,7 +34,7 @@ internal sealed class HostResourceSchemaDirectoryRegistrarFactory : IHostResourc
                 FileRegistrarFactory = FileRegistrarFactory
             };
 
-    IResourceSchemaDirectoryRegistrar<StrictDefinition, RequiredDefinition> IResourceSchemaDirectoryRegistrarFactory.Create() =>
+    IResourceSchemaDirectoryRegistrar<Ownership.Internal, Necessity.Required> IResourceSchemaDirectoryRegistrarFactory.Create() =>
         Create();
     IResourceSchemaDirectoryRegistrar<TOwnership, TNecessity> IResourceSchemaDirectoryRegistrarFactory.Create<TOwnership, TNecessity>() =>
         Create<TOwnership, TNecessity>();

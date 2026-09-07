@@ -1,11 +1,10 @@
-﻿using FileCompositions.Core.Quality.Ownership;
-using FileCompositions.Core.Quality.Placement;
+﻿using FileCompositions.Core.Quality;
 
 namespace FileCompositions.Core.Database.File.Specialized.Db.Definition.Init.Policy;
 
 internal interface IDbInitPolicy<TOwnership, TPlacement>
-    where TOwnership : DefinitionOwnership
-    where TPlacement : DefinitionPlacement
+    where TOwnership : Ownership
+    where TPlacement : Placement
 {
     Func<CancellationToken, Task> GetPolicy(IDbDefinition<TOwnership, TPlacement> init);
 }

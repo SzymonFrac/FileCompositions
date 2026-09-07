@@ -1,5 +1,4 @@
-﻿using FileCompositions.Core.Quality.Ownership;
-using FileCompositions.Core.Quality.Placement;
+﻿using FileCompositions.Core.Quality;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,8 +7,8 @@ namespace FileCompositions.Hosting.EntityFrameworkCore.File.Specialized.Db.Quali
 public static partial class DbQualityExt
 {
     extension<TOwnership, TPlacement, TDbContext>(IDbQuality<TOwnership, TPlacement, TDbContext> db)
-        where TOwnership : DefinitionOwnership
-        where TPlacement : DefinitionPlacement
+        where TOwnership : Ownership
+        where TPlacement : Placement
         where TDbContext : DbContext
     {
         public SqliteConnectionStringBuilder GetConnectionStringBuilder() =>

@@ -1,11 +1,10 @@
-﻿using FileCompositions.Core.Quality.Ownership;
-using FileCompositions.Core.Quality.Placement;
+﻿using FileCompositions.Core.Quality;
 
 namespace FileCompositions.Core.File.Specialized.Dll.Definition.Init.Policy;
 
 internal interface IDllInitPolicy<TOwnership, TPlacement>
-    where TOwnership : DefinitionOwnership
-    where TPlacement : DefinitionPlacement
+    where TOwnership : Ownership
+    where TPlacement : Placement
 {
     Func<CancellationToken, Task> GetPolicy(IDllDefinition<TOwnership, TPlacement> init);
 }
