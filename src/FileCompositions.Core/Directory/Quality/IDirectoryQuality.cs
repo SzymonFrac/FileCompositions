@@ -1,4 +1,4 @@
-﻿using FileCompositions.Core.FileSystem.Addressing.Directory;
+﻿using FileCompositions.Core.FileSystem.Addressing;
 using FileCompositions.Core.FileSystem.Proxy.Directory.Source;
 using FileCompositions.Core.Quality;
 
@@ -8,6 +8,6 @@ public interface IDirectoryQuality<TOwnership, TNecessity>
     where TOwnership : Ownership
     where TNecessity : Necessity
 {
-    FileSystemDirectoryAddressing Addressing { get; }
-    internal IFileSystemDirectoryProxySource ProxySource { get; }
+    DirectoryAddressing Addressing { get; }
+    internal IDirectoryProxySource ProxySource { get; }
 }

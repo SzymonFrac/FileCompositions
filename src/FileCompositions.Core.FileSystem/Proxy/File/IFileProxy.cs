@@ -1,6 +1,6 @@
 ﻿namespace FileCompositions.Core.FileSystem.Proxy.File;
 
-internal interface IFileSystemFileProxy
+internal interface IFileProxy
 {
     public Task<Stream> OpenReadAsync(CancellationToken cancellationToken = default);
     public Task<Stream> OpenWriteAsync(CancellationToken cancellationToken = default);

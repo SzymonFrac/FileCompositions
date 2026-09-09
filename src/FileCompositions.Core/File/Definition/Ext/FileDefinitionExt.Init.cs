@@ -9,7 +9,7 @@ public static partial class FileDefinitionExt
     extension(IFileDefinition<Ownership.Internal, Placement.RequiredInRequired> file)
     {
         public Task InitAsync(CancellationToken cancellationToken = default) =>
-            file.ProxySource.RequestAsync((FileSystemFileProxyRequest)(async (proxy, ct) =>
+            file.ProxySource.RequestAsync((FileProxyRequest)(async (proxy, ct) =>
             {
                 if (!await proxy.ExistsAsync(ct).ConfigureAwait(false))
                     await proxy.CreateAsync(ct).ConfigureAwait(false);
@@ -20,7 +20,7 @@ public static partial class FileDefinitionExt
     extension(IFileDefinition<Ownership.External, Placement.RequiredInRequired> file)
     {
         public Task InitAsync(CancellationToken cancellationToken = default) =>
-            file.ProxySource.RequestAsync((FileSystemFileProxyRequest)(async (proxy, ct) =>
+            file.ProxySource.RequestAsync((FileProxyRequest)(async (proxy, ct) =>
             {
                 if (!await proxy.ExistsAsync(ct).ConfigureAwait(false))
                     throw new ExternalRequiredFileMissingException("A required, external file must exist.")

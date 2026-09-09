@@ -19,7 +19,7 @@ public static partial class FileQualityExt
     extension(IFileQuality<Ownership.Internal, Placement.OptionalInRequired> file)
     {
         internal Task<Stream?> OpenReadAsync(CancellationToken cancellationToken = default) =>
-            file.ProxySource.RequestAsync((FileSystemFileProxyRequest<Stream?>)(async (proxy, ct) =>
+            file.ProxySource.RequestAsync((FileProxyRequest<Stream?>)(async (proxy, ct) =>
                 await proxy.ExistsAsync(ct).ConfigureAwait(false)
                     ? await proxy.OpenReadAsync(ct).ConfigureAwait(false)
                     : default),
@@ -33,19 +33,19 @@ public static partial class FileQualityExt
     extension(IFileQuality<Ownership.External, Placement.OptionalInRequired> file)
     {
         internal Task<Stream?> OpenReadAsync(CancellationToken cancellationToken = default) =>
-            file.ProxySource.RequestAsync((FileSystemFileProxyRequest<Stream?>)(async (proxy, ct) =>
+            file.ProxySource.RequestAsync((FileProxyRequest<Stream?>)(async (proxy, ct) =>
                 await proxy.ExistsAsync(ct).ConfigureAwait(false)
                     ? await proxy.OpenReadAsync(ct).ConfigureAwait(false)
                     : default),
                 cancellationToken);
         internal Task<Stream?> OpenWriteAsync(CancellationToken cancellationToken = default) =>
-            file.ProxySource.RequestAsync((FileSystemFileProxyRequest<Stream?>)(async (proxy, ct) =>
+            file.ProxySource.RequestAsync((FileProxyRequest<Stream?>)(async (proxy, ct) =>
                 await proxy.ExistsAsync(ct).ConfigureAwait(false)
                     ? await proxy.OpenWriteAsync(ct).ConfigureAwait(false)
                     : default),
                 cancellationToken);
         internal Task<Stream?> OpenAppendAsync(CancellationToken cancellationToken = default) =>
-            file.ProxySource.RequestAsync((FileSystemFileProxyRequest<Stream?>)(async (proxy, ct) =>
+            file.ProxySource.RequestAsync((FileProxyRequest<Stream?>)(async (proxy, ct) =>
                 await proxy.ExistsAsync(ct).ConfigureAwait(false)
                     ? await proxy.OpenAppendAsync(ct).ConfigureAwait(false)
                     : default),
@@ -55,19 +55,19 @@ public static partial class FileQualityExt
     extension(IFileQuality<Ownership.Internal, Placement.OptionalInOptional> file)
     {
         internal Task<Stream?> OpenReadAsync(CancellationToken cancellationToken = default) =>
-            file.ProxySource.RequestAsync((FileSystemFileProxyRequest<Stream?>)(async (proxy, ct) =>
+            file.ProxySource.RequestAsync((FileProxyRequest<Stream?>)(async (proxy, ct) =>
                 await proxy.ExistsAsync(ct).ConfigureAwait(false)
                     ? await proxy.OpenReadAsync(ct).ConfigureAwait(false)
                     : default),
                 cancellationToken);
         internal Task<Stream?> OpenWriteAsync(CancellationToken cancellationToken = default) =>
-            file.ProxySource.RequestAsync((FileSystemFileProxyRequest<Stream?>)(async (proxy, ct) =>
+            file.ProxySource.RequestAsync((FileProxyRequest<Stream?>)(async (proxy, ct) =>
                 await proxy.ExistsAsync(ct).ConfigureAwait(false)
                     ? await proxy.OpenWriteAsync(ct).ConfigureAwait(false)
                     : default),
                 cancellationToken);
         internal Task<Stream?> OpenAppendAsync(CancellationToken cancellationToken = default) =>
-            file.ProxySource.RequestAsync((FileSystemFileProxyRequest<Stream?>)(async (proxy, ct) =>
+            file.ProxySource.RequestAsync((FileProxyRequest<Stream?>)(async (proxy, ct) =>
                 await proxy.ExistsAsync(ct).ConfigureAwait(false)
                     ? await proxy.OpenAppendAsync(ct).ConfigureAwait(false)
                     : default),
@@ -77,19 +77,19 @@ public static partial class FileQualityExt
     extension(IFileQuality<Ownership.External, Placement.OptionalInOptional> file)
     {
         internal Task<Stream?> OpenReadAsync(CancellationToken cancellationToken = default) =>
-            file.ProxySource.RequestAsync((FileSystemFileProxyRequest<Stream?>)(async (proxy, ct) =>
+            file.ProxySource.RequestAsync((FileProxyRequest<Stream?>)(async (proxy, ct) =>
                 await proxy.ExistsAsync(ct).ConfigureAwait(false)
                     ? await proxy.OpenReadAsync(ct).ConfigureAwait(false)
                     : default),
                 cancellationToken);
         internal Task<Stream?> OpenWriteAsync(CancellationToken cancellationToken = default) =>
-            file.ProxySource.RequestAsync((FileSystemFileProxyRequest<Stream?>)(async (proxy, ct) =>
+            file.ProxySource.RequestAsync((FileProxyRequest<Stream?>)(async (proxy, ct) =>
                 await proxy.ExistsAsync(ct).ConfigureAwait(false)
                     ? await proxy.OpenWriteAsync(ct).ConfigureAwait(false)
                     : default),
                 cancellationToken);
         internal Task<Stream?> OpenAppendAsync(CancellationToken cancellationToken = default) =>
-            file.ProxySource.RequestAsync((FileSystemFileProxyRequest<Stream?>)(async (proxy, ct) =>
+            file.ProxySource.RequestAsync((FileProxyRequest<Stream?>)(async (proxy, ct) =>
                 await proxy.ExistsAsync(ct).ConfigureAwait(false)
                     ? await proxy.OpenAppendAsync(ct).ConfigureAwait(false)
                     : default),

@@ -1,4 +1,4 @@
-﻿using FileCompositions.Core.File.Extension;
+﻿using FileCompositions.Core.FileSystem.Addressing;
 
 namespace FileCompositions.Core.File.No.Extension;
 

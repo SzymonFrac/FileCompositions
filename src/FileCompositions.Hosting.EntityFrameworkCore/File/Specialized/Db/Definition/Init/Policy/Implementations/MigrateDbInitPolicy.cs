@@ -44,7 +44,7 @@ internal static partial class MigrateDbInitPolicy
         where TDbContext : DbContext
     {
         public Task MigrateDbAsync(TDbContext dbContext, CancellationToken cancellationToken = default) =>
-            db.ProxySource.RequestAsync((FileSystemFileProxyRequest)(async (proxy, ct) =>
+            db.ProxySource.RequestAsync((FileProxyRequest)(async (proxy, ct) =>
             {
                 if (await proxy.ExistsAsync(ct).ConfigureAwait(false))
                     await dbContext.Database.MigrateAsync(ct).ConfigureAwait(false);
@@ -63,7 +63,7 @@ internal static partial class MigrateDbInitPolicy
         where TDbContext : DbContext
     {
         public Task MigrateDbAsync(TDbContext dbContext, CancellationToken cancellationToken = default) =>
-            db.ProxySource.RequestAsync((FileSystemFileProxyRequest)(async (proxy, ct) =>
+            db.ProxySource.RequestAsync((FileProxyRequest)(async (proxy, ct) =>
             {
                 if (await proxy.ExistsAsync(ct).ConfigureAwait(false))
                     await dbContext.Database.MigrateAsync(ct).ConfigureAwait(false);

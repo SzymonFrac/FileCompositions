@@ -1,12 +1,12 @@
-﻿using FileCompositions.Core.FileSystem.Addressing.Directory;
+﻿using FileCompositions.Core.FileSystem.Addressing;
 using FileCompositions.Core.FileSystem.Session.Source;
 
 namespace FileCompositions.Core.File.Context;
 
 internal interface IFileContext
 {
-    IFileSystemSessionSource SessionSource { get; }
-    FileSystemDirectoryAddressing DirectoryAddressing { get; }
+    ISessionSource SessionSource { get; }
+    DirectoryAddressing DirectoryAddressing { get; }
 
     //FileSystemAddress Address { get; }
 

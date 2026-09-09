@@ -1,8 +1,8 @@
-﻿using FileCompositions.Core.FileSystem.Address;
+﻿using FileCompositions.Core.FileSystem.Addressing;
 
 namespace FileCompositions.Core.Directory.Addressing;
 
 public interface IDirectoryAddressing
 {
-    FileSystemAddress Address { get; }
+    Address Address { get; }
 }

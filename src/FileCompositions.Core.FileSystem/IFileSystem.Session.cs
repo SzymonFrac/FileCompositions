@@ -5,9 +5,9 @@ namespace FileCompositions.Core.FileSystem;
 
 public partial interface IFileSystem
 {
-    internal IFileSystemSession RequestSession() => Session.Request(this);
+    internal ISession RequestSession() => Session.Request(this);
 
-    private sealed class Session : IFileSystemSession
+    private sealed class Session : ISession
     {
         private bool disposed = false;
 

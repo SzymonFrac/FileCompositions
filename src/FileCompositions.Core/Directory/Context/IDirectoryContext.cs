@@ -6,7 +6,7 @@ namespace FileCompositions.Core.Directory.Context;
 
 internal interface IDirectoryContext
 {
-    IFileSystemSessionSource SessionSource { get; }
+    ISessionSource SessionSource { get; }
 
     IFileSystem FileSystem { get; }
 }

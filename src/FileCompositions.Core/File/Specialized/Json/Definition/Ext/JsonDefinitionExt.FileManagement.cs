@@ -19,7 +19,7 @@ public static partial class JsonDefinitionExt
     extension<TData>(IJsonDefinition<Ownership.Internal, Placement.OptionalInRequired, TData> json)
     {
         public Task CreateAsync(CancellationToken cancellationToken = default) =>
-            json.ProxySource.RequestAsync((FileSystemFileProxyRequest)(async (proxy, ct) =>
+            json.ProxySource.RequestAsync((FileProxyRequest)(async (proxy, ct) =>
             {
                 if (await proxy.ExistsAsync(ct).ConfigureAwait(false))
                 {
@@ -38,7 +38,7 @@ public static partial class JsonDefinitionExt
     extension<TData>(IJsonDefinition<Ownership.Internal, Placement.OptionalInOptional, TData> json)
     {
         public Task<bool> TryCreateAsync(CancellationToken cancellationToken = default) =>
-            json.ProxySource.RequestAsync((FileSystemFileProxyRequest<bool>)(async (proxy, ct) =>
+            json.ProxySource.RequestAsync((FileProxyRequest<bool>)(async (proxy, ct) =>
             {
                 var addressExists = await proxy.AddressExistsAsync(ct).ConfigureAwait(false);
                 if (addressExists)

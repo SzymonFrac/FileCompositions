@@ -1,6 +1,6 @@
 ﻿namespace FileCompositions.Core.FileSystem.Proxy.Directory;
 
-internal interface IFileSystemDirectoryProxy
+internal interface IDirectoryProxy
 {
     Task<bool> ExistsAsync(CancellationToken cancellationToken = default);
     Task CreateAsync(CancellationToken cancellationToken = default);

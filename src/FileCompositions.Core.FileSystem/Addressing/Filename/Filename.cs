@@ -1,8 +1,6 @@
-﻿using FileCompositions.Core.FileSystem.Addressing;
+﻿namespace FileCompositions.Core.FileSystem.Addressing;
 
-namespace FileCompositions.Core.File.Name;
-
-public readonly record struct FileName
+public readonly record struct Filename
 {
     private readonly string _fullName;
 
@@ -15,12 +13,11 @@ public readonly record struct FileName
     public ReadOnlySpan<char> FullName => _fullName;
 
 
-    private FileName(string fullName) => _fullName = fullName;
+    private Filename(string fullName) => _fullName = fullName;
 
-    internal static FileName Create(ReadOnlySpan<char> name, FileExtension extension) => new(extension.Affix(name));
-    internal static FileName Create(string name, FileExtension extension) => new(extension.Affix(name));
+    internal static Filename Create(ReadOnlySpan<char> name, FileExtension extension) => new(extension.Affix(name));
+    internal static Filename Create(string name, FileExtension extension) => new(extension.Affix(name));
 
 
     public override string ToString() => _fullName;
-
 }

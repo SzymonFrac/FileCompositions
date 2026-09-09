@@ -27,7 +27,7 @@ internal static partial class DefaultJsonInitPolicy
     extension<TData>(IJsonDefinition<Ownership.Internal, Placement.RequiredInRequired, TData> json)
     {
         public Task InitJsonAsync(CancellationToken cancellationToken = default) =>
-            json.ProxySource.RequestAsync((FileSystemFileProxyRequest)(async (proxy, ct) =>
+            json.ProxySource.RequestAsync((FileProxyRequest)(async (proxy, ct) =>
             {
                 if (!await proxy.ExistsAsync(ct).ConfigureAwait(false))
                 {

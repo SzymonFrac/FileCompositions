@@ -1,4 +1,4 @@
-﻿namespace FileCompositions.Core.File.Extension;
+﻿namespace FileCompositions.Core.FileSystem.Addressing;
 
 public abstract record FileExtension
 {

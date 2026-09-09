@@ -26,7 +26,7 @@ internal static partial class DefaultDllInitPolicy
     extension(IDllDefinition<Ownership.Internal, Placement.RequiredInRequired> dll)
     {
         public Task InitDllAsync(CancellationToken cancellationToken = default) =>
-            dll.ProxySource.RequestAsync((FileSystemFileProxyRequest)(async (proxy, ct) =>
+            dll.ProxySource.RequestAsync((FileProxyRequest)(async (proxy, ct) =>
             {
                 if (!await proxy.ExistsAsync(ct).ConfigureAwait(false))
                 {

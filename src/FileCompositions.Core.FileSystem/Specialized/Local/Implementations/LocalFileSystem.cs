@@ -1,5 +1,4 @@
-﻿using FileCompositions.Core.FileSystem.Address;
-using FileCompositions.Core.FileSystem.Location;
+﻿using FileCompositions.Core.FileSystem.Addressing;
 using static System.IO.FileAccess;
 using static System.IO.FileMode;
 
@@ -7,37 +6,37 @@ namespace FileCompositions.Core.FileSystem.Specialized.Local.Implementations;
 
 public sealed class LocalFileSystem : IFileSystem
 {
-    Task<Stream> IFileSystem.OpenReadAsync(FileSystemLocation location, CancellationToken cancellationToken) =>
-        Task.FromResult<Stream>(System.IO.File.OpenRead(location.ToString()));
-    Task<Stream> IFileSystem.OpenWriteAsync(FileSystemLocation location, CancellationToken cancellationToken) =>
-        Task.FromResult<Stream>(System.IO.File.Create(location.ToString()));
-    Task<Stream> IFileSystem.OpenAppendAsync(FileSystemLocation location, CancellationToken cancellationToken) =>
-        Task.FromResult<Stream>(System.IO.File.Open(location.ToString(), Append, Write));
-    Task<Stream> IFileSystem.OpenCreateAsync(FileSystemLocation location, CancellationToken cancellationToken) =>
-        Task.FromResult<Stream>(System.IO.File.Open(location.ToString(), CreateNew, Write));
+    Task<Stream> IFileSystem.OpenReadAsync(Location location, CancellationToken cancellationToken) =>
+        Task.FromResult<Stream>(File.OpenRead(location.ToString()));
+    Task<Stream> IFileSystem.OpenWriteAsync(Location location, CancellationToken cancellationToken) =>
+        Task.FromResult<Stream>(File.Create(location.ToString()));
+    Task<Stream> IFileSystem.OpenAppendAsync(Location location, CancellationToken cancellationToken) =>
+        Task.FromResult<Stream>(File.Open(location.ToString(), Append, Write));
+    Task<Stream> IFileSystem.OpenCreateAsync(Location location, CancellationToken cancellationToken) =>
+        Task.FromResult<Stream>(File.Open(location.ToString(), CreateNew, Write));
 
-    Task<bool> IFileSystem.ExistsAsync(FileSystemAddress address, CancellationToken cancellationToken) =>
-        Task.FromResult(System.IO.Directory.Exists(address.ToString()));
-    Task<bool> IFileSystem.ExistsAsync(FileSystemLocation location, CancellationToken cancellationToken) =>
-        Task.FromResult(System.IO.File.Exists(location.ToString()));
-    Task IFileSystem.CreateAsync(FileSystemAddress address, CancellationToken cancellationToken)
+    Task<bool> IFileSystem.ExistsAsync(Address address, CancellationToken cancellationToken) =>
+        Task.FromResult(Directory.Exists(address.ToString()));
+    Task<bool> IFileSystem.ExistsAsync(Location location, CancellationToken cancellationToken) =>
+        Task.FromResult(File.Exists(location.ToString()));
+    Task IFileSystem.CreateAsync(Address address, CancellationToken cancellationToken)
     {
-        System.IO.Directory.CreateDirectory(address.ToString());
+        Directory.CreateDirectory(address.ToString());
         return Task.CompletedTask;
     }
-    Task IFileSystem.CreateAsync(FileSystemLocation location, CancellationToken cancellationToken)
+    Task IFileSystem.CreateAsync(Location location, CancellationToken cancellationToken)
     {
-        System.IO.File.Create(location.ToString()).Dispose();
+        File.Create(location.ToString()).Dispose();
         return Task.CompletedTask;
     }
-    Task IFileSystem.DeleteAsync(FileSystemAddress address, CancellationToken cancellationToken)
+    Task IFileSystem.DeleteAsync(Address address, CancellationToken cancellationToken)
     {
-        System.IO.Directory.Delete(address.ToString());
+        Directory.Delete(address.ToString());
         return Task.CompletedTask;
     }
-    Task IFileSystem.DeleteAsync(FileSystemLocation location, CancellationToken cancellationToken)
+    Task IFileSystem.DeleteAsync(Location location, CancellationToken cancellationToken)
     {
-        System.IO.File.Delete(location.ToString());
+        File.Delete(location.ToString());
         return Task.CompletedTask;
     }
 }

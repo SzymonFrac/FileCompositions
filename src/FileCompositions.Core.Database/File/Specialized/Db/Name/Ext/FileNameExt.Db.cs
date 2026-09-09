@@ -1,15 +1,15 @@
 ﻿using FileCompositions.Core.Database.File.Specialized.Db.Definition.Implementations;
-using FileCompositions.Core.FileSystem.Name;
+using FileCompositions.Core.FileSystem.Addressing;
 
 namespace FileCompositions.Core.Database.File.Specialized.Db.Name.Ext;
 
 public static partial class FileNameExt
 {
-    extension(FileSystemFilename)
+    extension(Filename)
     {
-        public static FileSystemFilename CreateDb(string name) =>
-            FileSystemFilename.Create(name, DbDefinition.Extension);
-        public static FileSystemFilename CreateDb(ReadOnlySpan<char> name) =>
-            FileSystemFilename.Create(name, DbDefinition.Extension);
+        public static Filename CreateDb(string name) =>
+            Filename.Create(name, DbDefinition.Extension);
+        public static Filename CreateDb(ReadOnlySpan<char> name) =>
+            Filename.Create(name, DbDefinition.Extension);
     }
 }

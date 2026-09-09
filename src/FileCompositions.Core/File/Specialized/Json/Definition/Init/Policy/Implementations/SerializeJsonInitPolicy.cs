@@ -26,7 +26,7 @@ internal static partial class SerializeJsonInitPolicy
     extension<TData>(IJsonDefinition<Ownership.Internal, Placement.RequiredInRequired, TData> json)
     {
         public Task SerializeInitJsonAsync(CancellationToken cancellationToken = default) =>
-            json.ProxySource.RequestAsync((FileSystemFileProxyRequest)(async (proxy, ct) =>
+            json.ProxySource.RequestAsync((FileProxyRequest)(async (proxy, ct) =>
             {
                 try
                 {
@@ -47,7 +47,7 @@ internal static partial class SerializeJsonInitPolicy
     extension<TData>(IJsonDefinition<Ownership.External, Placement.RequiredInRequired, TData> proxy)
     {
         public Task SerializeInitJsonAsync(CancellationToken cancellationToken = default) =>
-            proxy.ProxySource.RequestAsync((FileSystemFileProxyRequest)(async (fss, ct) =>
+            proxy.ProxySource.RequestAsync((FileProxyRequest)(async (fss, ct) =>
             {
                 await using var read = await fss.OpenReadAsync(ct).ConfigureAwait(false);
                 await JsonSerializer.DeserializeAsync<TData>(read, proxy.Format.JsonSerializerOptions, ct).ConfigureAwait(false);
@@ -58,7 +58,7 @@ internal static partial class SerializeJsonInitPolicy
     extension<TData>(IJsonDefinition<Ownership.Internal, Placement.OptionalInRequired, TData> json)
     {
         public Task SerializeInitJsonAsync(CancellationToken cancellationToken = default) =>
-            json.ProxySource.RequestAsync((FileSystemFileProxyRequest)(async (proxy, ct) =>
+            json.ProxySource.RequestAsync((FileProxyRequest)(async (proxy, ct) =>
             {
                 if (!await proxy.ExistsAsync(ct))
                     return;
@@ -82,7 +82,7 @@ internal static partial class SerializeJsonInitPolicy
     extension<TData>(IJsonDefinition<Ownership.External, Placement.OptionalInRequired, TData> json)
     {
         public Task SerializeInitJsonAsync(CancellationToken cancellationToken = default) =>
-            json.ProxySource.RequestAsync((FileSystemFileProxyRequest)(async (proxy, ct) =>
+            json.ProxySource.RequestAsync((FileProxyRequest)(async (proxy, ct) =>
             {
                 if (!await proxy.ExistsAsync(ct))
                 {
@@ -96,7 +96,7 @@ internal static partial class SerializeJsonInitPolicy
     extension<TData>(IJsonDefinition<Ownership.Internal, Placement.OptionalInOptional, TData> json)
     {
         public Task SerializeInitJsonAsync(CancellationToken cancellationToken = default) =>
-            json.ProxySource.RequestAsync((FileSystemFileProxyRequest)(async (proxy, ct) =>
+            json.ProxySource.RequestAsync((FileProxyRequest)(async (proxy, ct) =>
             {
                 if (!await proxy.ExistsAsync(ct))
                     return;
@@ -120,7 +120,7 @@ internal static partial class SerializeJsonInitPolicy
     extension<TData>(IJsonDefinition<Ownership.External, Placement.OptionalInOptional, TData> json)
     {
         public Task SerializeInitJsonAsync(CancellationToken cancellationToken = default) =>
-            json.ProxySource.RequestAsync((FileSystemFileProxyRequest)(async (proxy, ct) =>
+            json.ProxySource.RequestAsync((FileProxyRequest)(async (proxy, ct) =>
             {
                 if (!await proxy.ExistsAsync(ct))
                 {

@@ -1,10 +1,10 @@
-﻿using FileCompositions.Core.FileSystem.Addressing.Directory;
+﻿using FileCompositions.Core.FileSystem.Addressing;
 using FileCompositions.Core.FileSystem.Session.Source;
 
 namespace FileCompositions.Core.File.Context.Implementations;
 
-internal sealed class FileContext(IFileSystemSessionSource sessionSource, FileSystemDirectoryAddressing directoryAddressing) : IFileContext
+internal sealed class FileContext(ISessionSource sessionSource, DirectoryAddressing directoryAddressing) : IFileContext
 {
-    public IFileSystemSessionSource SessionSource { get; } = sessionSource;
-    public FileSystemDirectoryAddressing DirectoryAddressing { get; } = directoryAddressing;
+    public ISessionSource SessionSource { get; } = sessionSource;
+    public DirectoryAddressing DirectoryAddressing { get; } = directoryAddressing;
 }

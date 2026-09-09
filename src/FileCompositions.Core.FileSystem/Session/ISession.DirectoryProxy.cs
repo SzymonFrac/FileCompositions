@@ -1,19 +1,19 @@
-﻿using FileCompositions.Core.FileSystem.Addressing.Directory;
+﻿using FileCompositions.Core.FileSystem.Addressing;
 using FileCompositions.Core.FileSystem.Proxy.Directory;
 
 namespace FileCompositions.Core.FileSystem.Session;
 
-internal partial interface IFileSystemSession
+internal partial interface ISession
 {
-    sealed IFileSystemDirectoryProxy RequestProxy(in FileSystemDirectoryAddressing addressing) =>
+    sealed IDirectoryProxy RequestProxy(in DirectoryAddressing addressing) =>
         new DirectoryProxy(this, in addressing);
 
-    private sealed record DirectoryProxy : IFileSystemDirectoryProxy
+    private sealed record DirectoryProxy : IDirectoryProxy
     {
-        private readonly IFileSystemSession _session;
-        private readonly FileSystemDirectoryAddressing _directoryAddressing;
+        private readonly ISession _session;
+        private readonly DirectoryAddressing _directoryAddressing;
 
-        public DirectoryProxy(in IFileSystemSession session, in FileSystemDirectoryAddressing directoryAddressing) =>
+        public DirectoryProxy(in ISession session, in DirectoryAddressing directoryAddressing) =>
             (_session, _directoryAddressing) = (session, directoryAddressing);
 
 

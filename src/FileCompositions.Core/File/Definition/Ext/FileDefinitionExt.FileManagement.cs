@@ -17,7 +17,7 @@ public static partial class FileDefinitionExt
             file.ProxySource.RequestAsync((proxy, ct) => proxy.CreateAsync(ct), cancellationToken);
 
         public Task DeleteAsync(CancellationToken cancellationToken = default) =>
-            file.ProxySource.RequestAsync((FileSystemFileProxyRequest)(async (proxy, ct) =>
+            file.ProxySource.RequestAsync((FileProxyRequest)(async (proxy, ct) =>
             {
                 if (await proxy.ExistsAsync(ct).ConfigureAwait(false))
                     await proxy.DeleteAsync(ct).ConfigureAwait(false);
@@ -37,7 +37,7 @@ public static partial class FileDefinitionExt
     extension(IFileDefinition<Ownership.Internal, Placement.OptionalInOptional> file)
     {
         internal Task<bool> TryCreateAsync(CancellationToken cancellationToken = default) =>
-            file.ProxySource.RequestAsync((FileSystemFileProxyRequest<bool>)(async (proxy, ct) =>
+            file.ProxySource.RequestAsync((FileProxyRequest<bool>)(async (proxy, ct) =>
             {
                 var addressExists = await proxy.AddressExistsAsync(ct).ConfigureAwait(false);
                 if (addressExists)
@@ -48,7 +48,7 @@ public static partial class FileDefinitionExt
                 cancellationToken);
 
         public Task DeleteAsync(CancellationToken cancellationToken = default) =>
-            file.ProxySource.RequestAsync((FileSystemFileProxyRequest)(async (proxy, ct) =>
+            file.ProxySource.RequestAsync((FileProxyRequest)(async (proxy, ct) =>
             {
                 if (await proxy.ExistsAsync(ct).ConfigureAwait(false))
                     await proxy.DeleteAsync(ct).ConfigureAwait(false);
