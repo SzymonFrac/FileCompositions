@@ -1,4 +1,4 @@
-﻿using FileCompositions.Core.FileSystem.Proxy.File.Request;
+﻿using FileCompositions.Core.FileSystem.Abstractions.Proxy;
 using FileCompositions.Core.Quality;
 using System.Text.Json;
 
@@ -19,14 +19,14 @@ public static partial class JsonDefinitionExt
     extension<TData>(IJsonDefinition<Ownership.Internal, Placement.OptionalInRequired, TData> json)
     {
         public Task CreateAsync(CancellationToken cancellationToken = default) =>
-            json.ProxySource.RequestAsync((FileProxyRequest)(async (proxy, ct) =>
+            json.ProxySource.RequestAsync(async (proxy, ct) =>
             {
                 if (await proxy.ExistsAsync(ct).ConfigureAwait(false))
                 {
                     await using var stream = await proxy.OpenCreateAsync(ct).ConfigureAwait(false);
                     await JsonSerializer.SerializeAsync<TData?>(stream, default, json.Format.JsonSerializerOptions, cancellationToken).ConfigureAwait(false);
                 }
-            }),
+            },
                 cancellationToken);
     }
 
@@ -38,7 +38,7 @@ public static partial class JsonDefinitionExt
     extension<TData>(IJsonDefinition<Ownership.Internal, Placement.OptionalInOptional, TData> json)
     {
         public Task<bool> TryCreateAsync(CancellationToken cancellationToken = default) =>
-            json.ProxySource.RequestAsync((FileProxyRequest<bool>)(async (proxy, ct) =>
+            json.ProxySource.RequestAsync(async (proxy, ct) =>
             {
                 var addressExists = await proxy.AddressExistsAsync(ct).ConfigureAwait(false);
                 if (addressExists)
@@ -48,7 +48,7 @@ public static partial class JsonDefinitionExt
                 }
 
                 return addressExists;
-            }),
+            },
                 cancellationToken);
     }
 

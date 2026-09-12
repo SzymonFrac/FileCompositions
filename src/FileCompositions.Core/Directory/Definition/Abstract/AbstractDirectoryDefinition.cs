@@ -4,8 +4,9 @@ using FileCompositions.Core.Directory.Definition.Key;
 using FileCompositions.Core.File.Context.Implementations;
 using FileCompositions.Core.File.Definition;
 using FileCompositions.Core.File.Definition.Request;
-using FileCompositions.Core.FileSystem.Addressing;
-using FileCompositions.Core.FileSystem.Proxy.Directory.Source;
+using FileCompositions.Core.FileSystem.Abstractions;
+using FileCompositions.Core.FileSystem.Abstractions.Addressing;
+using FileCompositions.Core.FileSystem.Abstractions.Proxy.Source;
 using FileCompositions.Core.Quality;
 using System.Diagnostics;
 
@@ -22,7 +23,7 @@ internal abstract class AbstractDirectoryDefinition<TOwnership, TNecessity>(IDir
     public DirectoryDefinitionKey Key { get; } = key;
     public DirectoryAddressing Addressing => field ??= new(_address);
 
-    public IDirectoryProxySource ProxySource => field ??= _context.SessionSource.RequestProxySource(Addressing);
+    public IFileSystemProxySource<Entry.Directory> ProxySource => field ??= _context.SessionSource.RequestProxySource(Addressing);
 
     public TDefinition RequestFileDefinition<TRequestOwnership, TRequestPlacement, TDefinition>(FileDefinitionRequest<TRequestOwnership, TRequestPlacement, TDefinition> request)
         where TRequestOwnership : Ownership

@@ -1,4 +1,4 @@
-﻿using FileCompositions.Core.FileSystem.Proxy.File.Request;
+﻿using FileCompositions.Core.FileSystem.Abstractions.Proxy;
 using FileCompositions.Core.Quality;
 
 namespace FileCompositions.Core.File.Specialized.Dll.Definition.Ext;
@@ -18,7 +18,7 @@ public static partial class DllDefinitionExt
     extension(IDllDefinition<Ownership.Internal, Placement.OptionalInRequired> dll)
     {
         public Task CreateAsync(CancellationToken cancellationToken = default) =>
-            dll.ProxySource.RequestAsync((FileProxyRequest)(async (proxy, ct) =>
+            dll.ProxySource.RequestAsync(async (proxy, ct) =>
             {
                 if (!await proxy.ExistsAsync(ct).ConfigureAwait(false))
                 {
@@ -29,7 +29,7 @@ public static partial class DllDefinitionExt
 
                     await @default.CopyToAsync(stream, ct).ConfigureAwait(false);
                 }
-            }),
+            },
                 cancellationToken);
     }
 
@@ -41,7 +41,7 @@ public static partial class DllDefinitionExt
     extension(IDllDefinition<Ownership.Internal, Placement.OptionalInOptional> dll)
     {
         public Task<bool> TryCreateAsync(CancellationToken cancellationToken = default) =>
-            dll.ProxySource.RequestAsync((FileProxyRequest<bool>)(async (proxy, ct) =>
+            dll.ProxySource.RequestAsync(async (proxy, ct) =>
             {
                 var addressExists = await proxy.AddressExistsAsync(ct).ConfigureAwait(false);
                 if (addressExists)
@@ -55,7 +55,7 @@ public static partial class DllDefinitionExt
                 }
 
                 return addressExists;
-            }),
+            },
                 cancellationToken);
     }
 

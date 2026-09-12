@@ -1,4 +1,4 @@
-﻿using FileCompositions.Core.FileSystem.Addressing;
+﻿using FileCompositions.Core.FileSystem.Abstractions.Addressing;
 
 namespace FileCompositions.Core.Directory.Addressing;
 

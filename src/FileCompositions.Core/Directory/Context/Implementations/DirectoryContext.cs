@@ -1,10 +1,10 @@
 ﻿using FileCompositions.Core.FileSystem;
-using FileCompositions.Core.FileSystem.Session.Source;
+using FileCompositions.Core.FileSystem.Abstractions.Session.Source;
 
 namespace FileCompositions.Core.Directory.Context.Implementations;
 
-internal sealed class DirectoryContext(ISessionSource source) : IDirectoryContext
+internal sealed class DirectoryContext(IFileSystemSessionSource source) : IDirectoryContext
 {
     public IFileSystem FileSystem => throw new NotImplementedException();
-    public ISessionSource SessionSource { get; } = source;
+    public IFileSystemSessionSource SessionSource { get; } = source;
 }

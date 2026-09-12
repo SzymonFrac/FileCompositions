@@ -2,7 +2,7 @@
 using FileCompositions.Core.File.Context;
 using FileCompositions.Core.File.Definition.Abstract;
 using FileCompositions.Core.File.Definition.Key;
-using FileCompositions.Core.FileSystem.Addressing;
+using FileCompositions.Core.FileSystem.Abstractions.Addressing;
 using FileCompositions.Core.Quality;
 using FileCompositions.Hosting.EntityFrameworkCore.File.Specialized.Db.Definition.Init.Policy;
 using Microsoft.EntityFrameworkCore;

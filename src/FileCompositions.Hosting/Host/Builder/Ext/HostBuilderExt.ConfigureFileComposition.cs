@@ -1,7 +1,5 @@
-﻿using FileCompositions.Core.FileSystem.Specialized.Local.Implementations;
-using FileCompositions.Hosting.ResourceSchema.Builder;
+﻿using FileCompositions.Hosting.ResourceSchema.Builder;
 using FileCompositions.Hosting.ResourceSchema.Builder.Factory.Implementations;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 namespace FileCompositions.Hosting.Host.Builder.Ext;
@@ -13,8 +11,6 @@ public static partial class HostBuilderExt
         public IHostBuilder ConfigureFileComposition(Action<IHostResourceSchemaBuilder> config) =>
             builder.ConfigureServices((ctx, services) =>
             {
-                services.AddSingleton<LocalFileSystem>();
-
                 var builderFactory = new HostResourceSchemaBuilderFactory();
                 var builder = builderFactory.Create();
                 config(builder);

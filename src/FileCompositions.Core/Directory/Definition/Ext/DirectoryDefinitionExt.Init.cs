@@ -1,4 +1,5 @@
 ﻿using FileCompositions.Core.Exception.ExternalRequiredMissing;
+using FileCompositions.Core.FileSystem.Abstractions.Proxy;
 using FileCompositions.Core.Quality;
 
 namespace FileCompositions.Core.Directory.Definition.Ext;

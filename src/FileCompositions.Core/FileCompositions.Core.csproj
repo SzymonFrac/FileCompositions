@@ -27,7 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FileCompositions.Core.FileSystem\FileCompositions.Core.FileSystem.csproj" />
+    <ProjectReference Include="..\FileCompositions.Core.FileSystem.Abstractions\FileCompositions.Core.FileSystem.Abstractions.csproj" />
   </ItemGroup>
 
 </Project>

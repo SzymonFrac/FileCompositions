@@ -3,7 +3,7 @@ using FileCompositions.Core.Database.File.Specialized.Db.Name.Ext;
 using FileCompositions.Core.File.Context;
 using FileCompositions.Core.File.Definition.Abstract;
 using FileCompositions.Core.File.Definition.Key;
-using FileCompositions.Core.FileSystem.Addressing;
+using FileCompositions.Core.FileSystem.Abstractions.Addressing;
 using FileCompositions.Core.Quality;
 
 namespace FileCompositions.Core.Database.File.Specialized.Db.Definition.Abstract;

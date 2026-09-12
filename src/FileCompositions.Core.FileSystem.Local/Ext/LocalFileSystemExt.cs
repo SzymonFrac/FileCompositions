@@ -1,9 +1,10 @@
-﻿using FileCompositions.Core.FileSystem.Addressing.Implementations;
-using FileCompositions.Core.FileSystem.Specialized.Local.Implementations;
+﻿using FileCompositions.Core.Directory.Definition.Builder;
+using FileCompositions.Core.Directory.Definition.Builder.Factory;
+using FileCompositions.Core.FileSystem.Local.Addressing.Common;
 using FileCompositions.Core.Quality;
 using static System.Environment;
 
-namespace FileCompositions.Core.Directory.Definition.Builder.Factory.Ext;
+namespace FileCompositions.Core.FileSystem.Local.Ext;
 
 public static partial class LocalFileSystemExt
 {

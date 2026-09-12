@@ -1,5 +1,5 @@
 ﻿using FileCompositions.Core.FileSystem;
-using FileCompositions.Core.FileSystem.Addressing;
+using FileCompositions.Core.FileSystem.Abstractions.Addressing;
 using FileCompositions.Core.Quality;
 
 namespace FileCompositions.Core.Directory.Definition.Builder.Factory;

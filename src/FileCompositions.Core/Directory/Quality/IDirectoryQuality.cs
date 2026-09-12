@@ -1,5 +1,6 @@
-﻿using FileCompositions.Core.FileSystem.Addressing;
-using FileCompositions.Core.FileSystem.Proxy.Directory.Source;
+﻿using FileCompositions.Core.FileSystem.Abstractions;
+using FileCompositions.Core.FileSystem.Abstractions.Addressing;
+using FileCompositions.Core.FileSystem.Abstractions.Proxy.Source;
 using FileCompositions.Core.Quality;
 
 namespace FileCompositions.Core.Directory.Quality;
@@ -9,5 +10,5 @@ public interface IDirectoryQuality<TOwnership, TNecessity>
     where TNecessity : Necessity
 {
     DirectoryAddressing Addressing { get; }
-    internal IDirectoryProxySource ProxySource { get; }
+    internal IFileSystemProxySource<Entry.Directory> ProxySource { get; }
 }

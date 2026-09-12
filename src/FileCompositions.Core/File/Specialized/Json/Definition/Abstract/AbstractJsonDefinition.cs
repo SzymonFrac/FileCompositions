@@ -4,7 +4,7 @@ using FileCompositions.Core.File.Definition.Key;
 using FileCompositions.Core.File.Specialized.Json.Definition.Init.Policy;
 using FileCompositions.Core.File.Specialized.Json.Format;
 using FileCompositions.Core.File.Specialized.Json.Name.Ext;
-using FileCompositions.Core.FileSystem.Addressing;
+using FileCompositions.Core.FileSystem.Abstractions.Addressing;
 using FileCompositions.Core.Quality;
 
 namespace FileCompositions.Core.File.Specialized.Json.Definition.Abstract;

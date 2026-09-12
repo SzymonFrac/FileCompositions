@@ -1,7 +1,7 @@
 ﻿using FileCompositions.Core.Directory.Context;
 using FileCompositions.Core.Directory.Definition.Abstract;
 using FileCompositions.Core.Directory.Definition.Key;
-using FileCompositions.Core.FileSystem.Addressing;
+using FileCompositions.Core.FileSystem.Abstractions.Addressing;
 using FileCompositions.Core.Quality;
 
 namespace FileCompositions.Core.Directory.Definition.Implementations;

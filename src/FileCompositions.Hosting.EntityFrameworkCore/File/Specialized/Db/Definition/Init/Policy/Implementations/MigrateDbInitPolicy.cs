@@ -1,5 +1,5 @@
 ﻿using FileCompositions.Core.File.Definition.Ext;
-using FileCompositions.Core.FileSystem.Proxy.File.Request;
+using FileCompositions.Core.FileSystem.Abstractions.Proxy;
 using FileCompositions.Core.Quality;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
@@ -44,11 +44,11 @@ internal static partial class MigrateDbInitPolicy
         where TDbContext : DbContext
     {
         public Task MigrateDbAsync(TDbContext dbContext, CancellationToken cancellationToken = default) =>
-            db.ProxySource.RequestAsync((FileProxyRequest)(async (proxy, ct) =>
+            db.ProxySource.RequestAsync(async (proxy, ct) =>
             {
                 if (await proxy.ExistsAsync(ct).ConfigureAwait(false))
                     await dbContext.Database.MigrateAsync(ct).ConfigureAwait(false);
-            }),
+            },
                 cancellationToken);
     }
 
@@ -63,11 +63,11 @@ internal static partial class MigrateDbInitPolicy
         where TDbContext : DbContext
     {
         public Task MigrateDbAsync(TDbContext dbContext, CancellationToken cancellationToken = default) =>
-            db.ProxySource.RequestAsync((FileProxyRequest)(async (proxy, ct) =>
+            db.ProxySource.RequestAsync(async (proxy, ct) =>
             {
                 if (await proxy.ExistsAsync(ct).ConfigureAwait(false))
                     await dbContext.Database.MigrateAsync(ct).ConfigureAwait(false);
-            }),
+            },
                 cancellationToken);
         
     }

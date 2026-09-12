@@ -3,7 +3,7 @@ using FileCompositions.Core.File.Definition.Abstract;
 using FileCompositions.Core.File.Definition.Key;
 using FileCompositions.Core.File.Specialized.Dll.Definition.Init.Policy;
 using FileCompositions.Core.File.Specialized.Dll.Name.Ext;
-using FileCompositions.Core.FileSystem.Addressing;
+using FileCompositions.Core.FileSystem.Abstractions.Addressing;
 using FileCompositions.Core.Quality;
 using System.Reflection;
 

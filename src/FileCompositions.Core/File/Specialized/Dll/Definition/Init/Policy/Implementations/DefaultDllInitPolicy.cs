@@ -1,5 +1,5 @@
 ﻿using FileCompositions.Core.File.Definition.Ext;
-using FileCompositions.Core.FileSystem.Proxy.File.Request;
+using FileCompositions.Core.FileSystem.Abstractions.Proxy;
 using FileCompositions.Core.Quality;
 using System.Diagnostics;
 
@@ -26,7 +26,7 @@ internal static partial class DefaultDllInitPolicy
     extension(IDllDefinition<Ownership.Internal, Placement.RequiredInRequired> dll)
     {
         public Task InitDllAsync(CancellationToken cancellationToken = default) =>
-            dll.ProxySource.RequestAsync((FileProxyRequest)(async (proxy, ct) =>
+            dll.ProxySource.RequestAsync(async (proxy, ct) =>
             {
                 if (!await proxy.ExistsAsync(ct).ConfigureAwait(false))
                 {
@@ -37,7 +37,7 @@ internal static partial class DefaultDllInitPolicy
 
                     await @default.CopyToAsync(stream, ct).ConfigureAwait(false);
                 }
-            }),
+            },
                 cancellationToken);
     }
 

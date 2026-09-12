@@ -1,5 +1,5 @@
 ﻿using FileCompositions.Core.File.Specialized.Json.Definition.Implementations;
-using FileCompositions.Core.FileSystem.Addressing;
+using FileCompositions.Core.FileSystem.Abstractions.Addressing;
 
 namespace FileCompositions.Core.File.Specialized.Json.Name.Ext;
 
