@@ -14,7 +14,7 @@ public static partial class DbQualityExt
         public SqliteConnectionStringBuilder GetConnectionStringBuilder() =>
             new()
             {
-                DataSource = db.Addressing.Location.ToString()
+                DataSource = db.Location.ToString()
             };
     }
 }

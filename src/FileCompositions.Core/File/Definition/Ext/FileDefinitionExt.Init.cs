@@ -25,7 +25,7 @@ public static partial class FileDefinitionExt
                 if (!await proxy.ExistsAsync(ct).ConfigureAwait(false))
                     throw new ExternalRequiredFileMissingException("A required, external file must exist.")
                     {
-                        Location = file.Addressing.Location,
+                        Location = file.Location,
                         Key = file.Key
                     };
             },

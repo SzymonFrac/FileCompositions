@@ -10,6 +10,6 @@ internal abstract class AbstractFileResource(IFileContext context, Filename name
     private readonly IFileContext _context = context;
     private readonly Filename _name = name;
 
-    public FileAddressing Addressing => field ??= new(_context.DirectoryAddressing, _name);
-    public IFileSystemProxySource<Entry.File> ProxySource => field ??= _context.SessionSource.RequestProxySource(Addressing);
+    public Location Location => field ??= _context.Address.With(_name);
+    public IFileSystemProxySource<Entry.File> ProxySource => field ??= _context.SessionSource.RequestProxySource(Location);
 }

@@ -6,8 +6,8 @@ namespace FileCompositions.Core.FileSystem.Abstractions.Session.Source;
 
 public partial interface IFileSystemSessionSource
 {
-    sealed IFileSystemProxySource<Entry.Directory> RequestProxySource(DirectoryAddressing addressing) => new ProxySource<Entry.Directory>(this, new(addressing));
-    sealed IFileSystemProxySource<Entry.File> RequestProxySource(FileAddressing addressing) => new ProxySource<Entry.File>(this, new(addressing));
+    sealed IFileSystemProxySource<Entry.Directory> RequestProxySource(/*ref*/ Address address) => new ProxySource<Entry.Directory>(this, new(address));
+    sealed IFileSystemProxySource<Entry.File> RequestProxySource(Location location) => new ProxySource<Entry.File>(this, new(location));
 
     private sealed record ProxySource<TEntry> : IFileSystemProxySource<TEntry>
         where TEntry : Entry

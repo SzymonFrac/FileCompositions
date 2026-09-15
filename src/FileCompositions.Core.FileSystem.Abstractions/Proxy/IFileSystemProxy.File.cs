@@ -6,8 +6,7 @@ public static partial class FileSystemProxy
 {
     extension(IFileSystemProxy<Entry.File> proxy)
     {
-        private Address Address => proxy.Entry.Addressing.Address;
-        private Location Location => proxy.Entry.Addressing.Location;
+        private Location Location => proxy.Entry.Location;
 
         public Task<Stream> OpenReadAsync(CancellationToken cancellationToken = default) =>
             proxy.Session.Source.RequestAsync((in fs, ct) => fs.OpenReadAsync(proxy.Location, ct), cancellationToken);
@@ -21,7 +20,7 @@ public static partial class FileSystemProxy
         public Task<bool> ExistsAsync(CancellationToken cancellationToken = default) =>
             proxy.Session.Source.RequestAsync((in fs, ct) => fs.ExistsAsync(proxy.Location, ct), cancellationToken);
         public Task<bool> AddressExistsAsync(CancellationToken cancellationToken = default) =>
-            proxy.Session.Source.RequestAsync((in fs, ct) => fs.ExistsAsync(proxy.Address, ct), cancellationToken);
+            proxy.Session.Source.RequestAsync((in fs, ct) => fs.ExistsAsync(proxy.Location.Address, ct), cancellationToken);
         public Task CreateAsync(CancellationToken cancellationToken = default) =>
             proxy.Session.Source.RequestAsync((in fs, ct) => fs.CreateAsync(proxy.Location, ct), cancellationToken);
         public Task DeleteAsync(CancellationToken cancellationToken = default) =>

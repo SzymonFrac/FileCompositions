@@ -16,8 +16,8 @@ internal abstract class AbstractFileDefinition<TOwnership, TPlacement>(IFileCont
     private readonly Filename _name = name;
 
     public FileDefinitionKey Key { get; } = key;
-    public FileAddressing Addressing => field ??= new(_context.DirectoryAddressing, _name);
-    public IFileSystemProxySource<Entry.File> ProxySource => field ??= _context.SessionSource.RequestProxySource(Addressing);
+    public Location Location => field ??= _context.Address.With(_name);
+    public IFileSystemProxySource<Entry.File> ProxySource => field ??= _context.SessionSource.RequestProxySource(Location);
 
     public abstract Task InitializeAsync(CancellationToken cancellationToken = default);
 }

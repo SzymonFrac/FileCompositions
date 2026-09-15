@@ -6,7 +6,7 @@ public static partial class FileSystemProxy
 {
     extension(IFileSystemProxy<Entry.Directory> proxy)
     {
-        private Address Address => proxy.Entry.Addressing.Address;
+        private Address Address => proxy.Entry.Address;
 
         public Task<bool> ExistsAsync(CancellationToken cancellationToken = default) =>
             proxy.Session.Source.RequestAsync((in fs, ct) => fs.ExistsAsync(proxy.Address, ct), cancellationToken);

@@ -9,6 +9,6 @@ public interface IDirectoryQuality<TOwnership, TNecessity>
     where TOwnership : Ownership
     where TNecessity : Necessity
 {
-    DirectoryAddressing Addressing { get; }
     internal IFileSystemProxySource<Entry.Directory> ProxySource { get; }
+    Address Address { get; }
 }

@@ -20,7 +20,7 @@ public static partial class DirectoryDefinitionExt
                 if (!await proxy.ExistsAsync(ct))
                     throw new ExternalRequiredDirectoryMissingException("A required, external directory must exist.")
                     {
-                        Address = directory.Addressing.Address,
+                        Address = directory.Address,
                         Key = directory.Key
                     };
             },

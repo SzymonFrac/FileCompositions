@@ -9,6 +9,6 @@ public interface IFileQuality<TOwnership, TPlacement>
     where TOwnership : Ownership
     where TPlacement : Placement
 {
-    FileAddressing Addressing { get; }
     internal IFileSystemProxySource<Entry.File> ProxySource { get; }
+    Location Location { get; }
 }

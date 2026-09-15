@@ -3,8 +3,8 @@ using FileCompositions.Core.FileSystem.Abstractions.Session.Source;
 
 namespace FileCompositions.Core.File.Context.Implementations;
 
-internal sealed class FileContext(IFileSystemSessionSource sessionSource, DirectoryAddressing directoryAddressing) : IFileContext
+internal sealed class FileContext(IFileSystemSessionSource sessionSource, Address address) : IFileContext
 {
     public IFileSystemSessionSource SessionSource { get; } = sessionSource;
-    public DirectoryAddressing DirectoryAddressing { get; } = directoryAddressing;
+    public Address Address { get; } = address;
 }

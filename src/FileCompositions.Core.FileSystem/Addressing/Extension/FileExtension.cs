@@ -1,7 +1,0 @@
-﻿namespace FileCompositions.Core.FileSystem.Addressing;
-
-public abstract record FileExtension
-{
-    public abstract string Affix(ReadOnlySpan<char> name);
-    public abstract string Affix(string name);
-}

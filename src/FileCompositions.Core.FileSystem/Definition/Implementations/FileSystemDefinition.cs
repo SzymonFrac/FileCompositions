@@ -1,4 +1,5 @@
-﻿using FileCompositions.Core.FileSystem.Definition.Key;
+﻿using FileCompositions.Core.FileSystem.Abstractions.Definition;
+using FileCompositions.Core.FileSystem.Abstractions.Definition.Key;
 
 namespace FileCompositions.Core.FileSystem.Definition.Implementations;
 

@@ -4,6 +4,6 @@ namespace FileCompositions.Core.FileSystem.Abstractions;
 
 public abstract record Entry
 {
-    public sealed record Directory(DirectoryAddressing Addressing) : Entry;
-    public sealed record File(FileAddressing Addressing) : Entry;
+    public sealed record Directory(Address Address) : Entry;
+    public sealed record File(Location Location) : Entry;
 }

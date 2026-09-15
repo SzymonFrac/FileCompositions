@@ -6,5 +6,5 @@ namespace FileCompositions.Core.File.Context;
 internal interface IFileContext
 {
     IFileSystemSessionSource SessionSource { get; }
-    DirectoryAddressing DirectoryAddressing { get; }
+    Address Address { get; }
 }

@@ -18,19 +18,18 @@ internal abstract class AbstractDirectoryDefinition<TOwnership, TNecessity>(IDir
         where TNecessity : Necessity
 {
     private readonly IDirectoryContext _context = context;
-    private readonly Address _address = address;
 
+    public Address Address { get; } = address;
     public DirectoryDefinitionKey Key { get; } = key;
-    public DirectoryAddressing Addressing => field ??= new(_address);
-
-    public IFileSystemProxySource<Entry.Directory> ProxySource => field ??= _context.SessionSource.RequestProxySource(Addressing);
+    
+    public IFileSystemProxySource<Entry.Directory> ProxySource => field ??= _context.SessionSource.RequestProxySource(Address);
 
     public TDefinition RequestFileDefinition<TRequestOwnership, TRequestPlacement, TDefinition>(FileDefinitionRequest<TRequestOwnership, TRequestPlacement, TDefinition> request)
         where TRequestOwnership : Ownership
         where TRequestPlacement : Placement
         where TDefinition : IFileDefinition<TRequestOwnership, TRequestPlacement>
     {
-        var context = new FileContext(_context.SessionSource, Addressing);
+        var context = new FileContext(_context.SessionSource, Address);
         return request(context);
     }
 
