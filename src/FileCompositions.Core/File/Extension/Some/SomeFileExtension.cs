@@ -1,8 +1,8 @@
-﻿using FileCompositions.Core.FileSystem.Extension;
+﻿using FileCompositions.Core.FileSystem.Abstractions.Addressing;
 
 namespace FileCompositions.Core.File.Extension.Some;
 
-public abstract partial record SomeFileExtension : FileSystemFileExtension
+public abstract partial record SomeFileExtension : FileExtension
 {
     private readonly string _value;
 

@@ -13,4 +13,8 @@
 	  <InternalsVisibleTo Include="FileCompositions.Hosting.EntityFrameworkCore" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\FileCompositions.Core.FileSystem.Abstractions\FileCompositions.Core.FileSystem.Abstractions.csproj" />
+  </ItemGroup>
+
 </Project>

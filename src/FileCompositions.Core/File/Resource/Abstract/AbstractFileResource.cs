@@ -1,15 +1,15 @@
 ﻿using FileCompositions.Core.File.Context;
-using FileCompositions.Core.FileSystem.Addressing.File;
-using FileCompositions.Core.FileSystem.Name;
-using FileCompositions.Core.FileSystem.Proxy.File.Source;
+using FileCompositions.Core.FileSystem.Abstractions;
+using FileCompositions.Core.FileSystem.Abstractions.Addressing;
+using FileCompositions.Core.FileSystem.Abstractions.Proxy.Source;
 
 namespace FileCompositions.Core.File.Resource.Abstract;
 
-internal abstract class AbstractFileResource(IFileContext context, FileSystemFilename name) : IFileResource
+internal abstract class AbstractFileResource(IFileContext context, Filename name) : IFileResource
 {
     private readonly IFileContext _context = context;
-    private readonly FileSystemFilename _name = name;
+    private readonly Filename _name = name;
 
-    public FileSystemFileAddressing Addressing => field ??= new(_context.DirectoryAddressing, _name);
-    public IFileSystemFileProxySource ProxySource => field ??= _context.SessionSource.RequestProxySource(Addressing);
+    public Location Location => field ??= _context.Address.With(_name);
+    public IFileSystemProxySource<Entry.File> ProxySource => field ??= _context.SessionSource.RequestProxySource(Location);
 }

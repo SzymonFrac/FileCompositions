@@ -2,7 +2,7 @@
 using FileCompositions.Core.File.Context;
 using FileCompositions.Core.File.Definition.Abstract;
 using FileCompositions.Core.File.Definition.Key;
-using FileCompositions.Core.FileSystem.Name;
+using FileCompositions.Core.FileSystem.Abstractions.Addressing;
 using FileCompositions.Core.Quality;
 using FileCompositions.Hosting.EntityFrameworkCore.File.Specialized.Db.Definition.Init.Policy;
 using Microsoft.EntityFrameworkCore;
@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 namespace FileCompositions.Hosting.EntityFrameworkCore.File.Specialized.Db.Definition.Abstract;
 
 internal abstract class AbstractDbDefinition<TOwnership, TPlacement, TDbContext>(IFileContext context, FileDefinitionKey key, string name)
-    : AbstractFileDefinition<TOwnership, TPlacement>(context, key, FileSystemFilename.CreateDb(name)), IDbDefinition<TOwnership, TPlacement, TDbContext>
+    : AbstractFileDefinition<TOwnership, TPlacement>(context, key, Filename.CreateDb(name)), IDbDefinition<TOwnership, TPlacement, TDbContext>
         where TOwnership : Ownership
         where TPlacement : Placement
         where TDbContext : DbContext

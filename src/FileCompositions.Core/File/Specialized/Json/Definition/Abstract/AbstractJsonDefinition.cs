@@ -4,13 +4,13 @@ using FileCompositions.Core.File.Definition.Key;
 using FileCompositions.Core.File.Specialized.Json.Definition.Init.Policy;
 using FileCompositions.Core.File.Specialized.Json.Format;
 using FileCompositions.Core.File.Specialized.Json.Name.Ext;
-using FileCompositions.Core.FileSystem.Name;
+using FileCompositions.Core.FileSystem.Abstractions.Addressing;
 using FileCompositions.Core.Quality;
 
 namespace FileCompositions.Core.File.Specialized.Json.Definition.Abstract;
 
 internal abstract class AbstractJsonDefinition<TOwnership, TPlacement, TData>(IFileContext context, FileDefinitionKey key, string name, JsonFormat format, TData? @default = default)
-    : AbstractFileDefinition<TOwnership, TPlacement>(context, key, FileSystemFilename.CreateJson(name)), IJsonDefinition<TOwnership, TPlacement, TData>
+    : AbstractFileDefinition<TOwnership, TPlacement>(context, key, Filename.CreateJson(name)), IJsonDefinition<TOwnership, TPlacement, TData>
         where TOwnership : Ownership
         where TPlacement : Placement
 {

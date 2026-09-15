@@ -1,11 +1,11 @@
 ﻿using FileCompositions.Core.Directory.Definition.Key;
-using FileCompositions.Core.FileSystem.Address;
+using FileCompositions.Core.FileSystem.Abstractions.Addressing;
 
 namespace FileCompositions.Core.Exception.ExternalRequiredMissing;
 
 public sealed class ExternalRequiredDirectoryMissingException : System.Exception
 {
-    public required FileSystemAddress Address { get; init; }
+    public required Address Address { get; init; }
     public required DirectoryDefinitionKey Key { get; init; }
 
     public ExternalRequiredDirectoryMissingException() : base() { }

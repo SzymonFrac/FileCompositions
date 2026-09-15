@@ -4,7 +4,7 @@ using FileCompositions.Core.Directory.Definition.Descriptor.Implementations;
 using FileCompositions.Core.Directory.Definition.Implementations;
 using FileCompositions.Core.Directory.Definition.Key;
 using FileCompositions.Core.FileSystem;
-using FileCompositions.Core.FileSystem.Address;
+using FileCompositions.Core.FileSystem.Abstractions.Addressing;
 using FileCompositions.Core.Quality;
 
 namespace FileCompositions.Core.Directory.Definition.Builder.Implementations;
@@ -15,11 +15,11 @@ internal sealed class DirectoryDefinitionBuilder<TOwnership, TNecessity, TSystem
         where TNecessity : Necessity
         where TSystem : class, IFileSystem
 {
-    private readonly FileSystemAddress address;
+    private readonly Address address;
     private DirectoryDefinitionKey? key;
 
-    internal DirectoryDefinitionBuilder(FileSystemAddress a) => address = a;
-    private DirectoryDefinitionBuilder(DirectoryDefinitionKey? k, FileSystemAddress a) =>
+    internal DirectoryDefinitionBuilder(Address a) => address = a;
+    private DirectoryDefinitionBuilder(DirectoryDefinitionKey? k, Address a) =>
         (key, address) = (k, a);
 
     public IDirectoryDefinitionBuilder<TOwnership, TNecessity, TSystem> WithKey(DirectoryDefinitionKey k)

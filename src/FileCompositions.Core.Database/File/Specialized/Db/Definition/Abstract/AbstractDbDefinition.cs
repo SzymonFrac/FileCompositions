@@ -3,13 +3,13 @@ using FileCompositions.Core.Database.File.Specialized.Db.Name.Ext;
 using FileCompositions.Core.File.Context;
 using FileCompositions.Core.File.Definition.Abstract;
 using FileCompositions.Core.File.Definition.Key;
-using FileCompositions.Core.FileSystem.Name;
+using FileCompositions.Core.FileSystem.Abstractions.Addressing;
 using FileCompositions.Core.Quality;
 
 namespace FileCompositions.Core.Database.File.Specialized.Db.Definition.Abstract;
 
 internal abstract class AbstractDbDefinition<TOwnership, TPlacement>(IFileContext context, FileDefinitionKey key, string name)
-    : AbstractFileDefinition<TOwnership, TPlacement>(context, key, FileSystemFilename.CreateDb(name)), IDbDefinition<TOwnership, TPlacement>
+    : AbstractFileDefinition<TOwnership, TPlacement>(context, key, Filename.CreateDb(name)), IDbDefinition<TOwnership, TPlacement>
         where TOwnership : Ownership
         where TPlacement : Placement
 {

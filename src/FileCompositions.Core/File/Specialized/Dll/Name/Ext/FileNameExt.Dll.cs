@@ -1,15 +1,15 @@
 ﻿using FileCompositions.Core.File.Specialized.Dll.Definition.Implementations;
-using FileCompositions.Core.FileSystem.Name;
+using FileCompositions.Core.FileSystem.Abstractions.Addressing;
 
 namespace FileCompositions.Core.File.Specialized.Dll.Name.Ext;
 
 public static partial class FileNameExt
 {
-    extension(FileSystemFilename)
+    extension(Filename)
     {
-        public static FileSystemFilename CreateDll(string name) =>
-            FileSystemFilename.Create(name, DllDefinition.Extension);
-        public static FileSystemFilename CreateDll(ReadOnlySpan<char> name) =>
-            FileSystemFilename.Create(name, DllDefinition.Extension);
+        public static Filename CreateDll(string name) =>
+            Filename.Create(name, DllDefinition.Extension);
+        public static Filename CreateDll(ReadOnlySpan<char> name) =>
+            Filename.Create(name, DllDefinition.Extension);
     }
 }

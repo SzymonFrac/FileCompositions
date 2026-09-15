@@ -1,5 +1,5 @@
 ﻿using FileCompositions.Core.Exception.ExternalRequiredMissing;
-using FileCompositions.Core.FileSystem.Proxy.File.Request;
+using FileCompositions.Core.FileSystem.Abstractions.Proxy;
 using FileCompositions.Core.Quality;
 
 namespace FileCompositions.Core.File.Definition.Ext;
@@ -9,26 +9,26 @@ public static partial class FileDefinitionExt
     extension(IFileDefinition<Ownership.Internal, Placement.RequiredInRequired> file)
     {
         public Task InitAsync(CancellationToken cancellationToken = default) =>
-            file.ProxySource.RequestAsync((FileSystemFileProxyRequest)(async (proxy, ct) =>
+            file.ProxySource.RequestAsync(async (proxy, ct) =>
             {
                 if (!await proxy.ExistsAsync(ct).ConfigureAwait(false))
                     await proxy.CreateAsync(ct).ConfigureAwait(false);
-            }),
+            },
                 cancellationToken);
     }
 
     extension(IFileDefinition<Ownership.External, Placement.RequiredInRequired> file)
     {
         public Task InitAsync(CancellationToken cancellationToken = default) =>
-            file.ProxySource.RequestAsync((FileSystemFileProxyRequest)(async (proxy, ct) =>
+            file.ProxySource.RequestAsync(async (proxy, ct) =>
             {
                 if (!await proxy.ExistsAsync(ct).ConfigureAwait(false))
                     throw new ExternalRequiredFileMissingException("A required, external file must exist.")
                     {
-                        Location = file.Addressing.Location,
+                        Location = file.Location,
                         Key = file.Key
                     };
-            }),
+            },
                 cancellationToken);
     }
 
