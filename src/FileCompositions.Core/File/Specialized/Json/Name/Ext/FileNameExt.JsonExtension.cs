@@ -9,7 +9,5 @@ public static partial class FileNameExt
     {
         public static Filename CreateJson(string name) =>
             Filename.Create(name, JsonDefinition.Extension);
-        public static Filename CreateJson(ReadOnlySpan<char> name) =>
-            Filename.Create(name, JsonDefinition.Extension);
     }
 }

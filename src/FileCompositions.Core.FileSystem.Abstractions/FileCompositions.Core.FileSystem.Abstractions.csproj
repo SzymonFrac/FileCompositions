@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+    <ItemGroup>
+		<InternalsVisibleTo Include="FileCompositions.Core" />
+		<InternalsVisibleTo Include="FileCompositions.Core.Database" />
+	</ItemGroup>
 </Project>

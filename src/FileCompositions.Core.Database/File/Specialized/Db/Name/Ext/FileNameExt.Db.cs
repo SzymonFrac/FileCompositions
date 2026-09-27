@@ -7,9 +7,6 @@ public static partial class FileNameExt
 {
     extension(Filename)
     {
-        public static Filename CreateDb(string name) =>
-            Filename.Create(name, DbDefinition.Extension);
-        public static Filename CreateDb(ReadOnlySpan<char> name) =>
-            Filename.Create(name, DbDefinition.Extension);
+        public static Filename CreateDb(string name) => Filename.Create(name, DbDefinition.Extension);
     }
 }

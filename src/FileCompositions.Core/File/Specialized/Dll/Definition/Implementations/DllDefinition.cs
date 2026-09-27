@@ -1,10 +1,9 @@
 ﻿using FileCompositions.Core.File.Context;
 using FileCompositions.Core.File.Definition.Key;
-using FileCompositions.Core.File.Extension.Some;
 using FileCompositions.Core.File.Specialized.Dll.Definition.Abstract;
-using FileCompositions.Core.File.Specialized.Dll.Extension;
 using FileCompositions.Core.File.Specialized.Dll.Resource;
 using FileCompositions.Core.File.Specialized.Dll.Resource.Builder.Factory.Implementations;
+using FileCompositions.Core.FileSystem.Abstractions.Addressing;
 using FileCompositions.Core.Quality;
 
 namespace FileCompositions.Core.File.Specialized.Dll.Definition.Implementations;
@@ -16,7 +15,7 @@ internal sealed class DllDefinition<TOwnership, TPlacement>(IFileContext context
 
 internal sealed class DllDefinition : IDllDefinition
 {
-    public static SomeFileExtension Extension { get; } = new DllExtension();
+    public static Extension Extension { get; } = Extension.Some.Create(".dll");
     private DllDefinition() { }
 
     public static IDllResource Convert(in IFileContext context, string name) =>
