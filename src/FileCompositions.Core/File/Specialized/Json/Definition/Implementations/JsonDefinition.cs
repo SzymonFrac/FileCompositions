@@ -4,7 +4,7 @@ using FileCompositions.Core.File.Specialized.Json.Definition.Abstract;
 using FileCompositions.Core.File.Specialized.Json.Format;
 using FileCompositions.Core.File.Specialized.Json.Resource;
 using FileCompositions.Core.File.Specialized.Json.Resource.Builder.Factory.Implementations;
-using FileCompositions.Core.FileSystem.Abstractions.Addressing;
+using FileCompositions.Core.FileSystem.Addressing.Abstractions;
 using FileCompositions.Core.Quality;
 
 namespace FileCompositions.Core.File.Specialized.Json.Definition.Implementations;

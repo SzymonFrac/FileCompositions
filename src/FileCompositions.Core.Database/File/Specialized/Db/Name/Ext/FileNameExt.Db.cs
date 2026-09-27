@@ -1,5 +1,5 @@
 ﻿using FileCompositions.Core.Database.File.Specialized.Db.Definition.Implementations;
-using FileCompositions.Core.FileSystem.Abstractions.Addressing;
+using FileCompositions.Core.FileSystem.Addressing.Abstractions;
 
 namespace FileCompositions.Core.Database.File.Specialized.Db.Name.Ext;
 

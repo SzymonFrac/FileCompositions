@@ -1,6 +1,6 @@
 ﻿using FileCompositions.Core.File.Definition.Key;
 using FileCompositions.Core.File.Quality;
-using FileCompositions.Core.FileSystem.Abstractions.Addressing;
+using FileCompositions.Core.FileSystem.Addressing.Abstractions;
 using FileCompositions.Core.Quality;
 
 namespace FileCompositions.Core.File.Definition;

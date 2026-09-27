@@ -1,5 +1,5 @@
 ﻿using FileCompositions.Core.File.Specialized.Dll.Definition.Implementations;
-using FileCompositions.Core.FileSystem.Abstractions.Addressing;
+using FileCompositions.Core.FileSystem.Addressing.Abstractions;
 
 namespace FileCompositions.Core.File.Specialized.Dll.Name.Ext;
 

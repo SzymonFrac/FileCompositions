@@ -3,7 +3,7 @@ using FileCompositions.Core.File.Definition.Key;
 using FileCompositions.Core.File.Specialized.Dll.Definition.Abstract;
 using FileCompositions.Core.File.Specialized.Dll.Resource;
 using FileCompositions.Core.File.Specialized.Dll.Resource.Builder.Factory.Implementations;
-using FileCompositions.Core.FileSystem.Abstractions.Addressing;
+using FileCompositions.Core.FileSystem.Addressing.Abstractions;
 using FileCompositions.Core.Quality;
 
 namespace FileCompositions.Core.File.Specialized.Dll.Definition.Implementations;

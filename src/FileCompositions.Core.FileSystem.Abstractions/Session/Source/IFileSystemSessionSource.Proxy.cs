@@ -1,12 +1,12 @@
-﻿using FileCompositions.Core.FileSystem.Abstractions.Addressing;
-using FileCompositions.Core.FileSystem.Abstractions.Proxy.Request;
+﻿using FileCompositions.Core.FileSystem.Abstractions.Proxy.Request;
 using FileCompositions.Core.FileSystem.Abstractions.Proxy.Source;
+using FileCompositions.Core.FileSystem.Addressing.Abstractions;
 
 namespace FileCompositions.Core.FileSystem.Abstractions.Session.Source;
 
 public partial interface IFileSystemSessionSource
 {
-    sealed IFileSystemProxySource<Entry.Directory> RequestProxySource(/*ref*/ Address address) => new ProxySource<Entry.Directory>(this, new(address));
+    sealed IFileSystemProxySource<Entry.Directory> RequestProxySource(Address address) => new ProxySource<Entry.Directory>(this, new(address));
     sealed IFileSystemProxySource<Entry.File> RequestProxySource(Location location) => new ProxySource<Entry.File>(this, new(location));
 
     private sealed record ProxySource<TEntry> : IFileSystemProxySource<TEntry>

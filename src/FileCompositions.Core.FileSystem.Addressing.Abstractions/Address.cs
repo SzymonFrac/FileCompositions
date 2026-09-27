@@ -1,4 +1,4 @@
-﻿namespace FileCompositions.Core.FileSystem.Abstractions.Addressing;
+﻿namespace FileCompositions.Core.FileSystem.Addressing.Abstractions;
 
 public abstract record Address
 {

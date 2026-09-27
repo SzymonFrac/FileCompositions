@@ -1,5 +1,5 @@
 ﻿using FileCompositions.Core.File.Definition.Key;
-using FileCompositions.Core.FileSystem.Abstractions.Addressing;
+using FileCompositions.Core.FileSystem.Addressing.Abstractions;
 
 namespace FileCompositions.Core.Exception.ExternalRequiredMissing;
 
