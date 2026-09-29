@@ -13,7 +13,7 @@ public static partial class FileDefinitionExt
 
     extension(IFileDefinition<Ownership.Internal, Placement.OptionalInRequired> file)
     {
-        internal Task CreateAsync(CancellationToken cancellationToken = default) =>
+        internal Task OpenCreateAsync(CancellationToken cancellationToken = default) =>
             file.ProxySource.RequestAsync((proxy, ct) => proxy.CreateAsync(ct), cancellationToken);
 
         public Task DeleteAsync(CancellationToken cancellationToken = default) =>
@@ -36,7 +36,7 @@ public static partial class FileDefinitionExt
 
     extension(IFileDefinition<Ownership.Internal, Placement.OptionalInOptional> file)
     {
-        internal Task<bool> TryCreateAsync(CancellationToken cancellationToken = default) =>
+        internal Task<bool> TryOpenCreateAsync(CancellationToken cancellationToken = default) =>
             file.ProxySource.RequestAsync(async (proxy, ct) =>
             {
                 var addressExists = await proxy.AddressExistsAsync(ct).ConfigureAwait(false);
