@@ -3,15 +3,14 @@
 public readonly record struct Filename
 {
     private readonly string _fullName;
-    public ReadOnlySpan<char> Name => _fullName.LastIndexOf('.') is var dotIntext and not -1
-        ? _fullName.AsSpan(..dotIntext)
-        : _fullName.AsSpan();
-    public ReadOnlySpan<char> Extension => _fullName.LastIndexOf('.') is var dotIntext and not -1
-        ? _fullName.AsSpan(dotIntext..)
-        : [];
+    private readonly Index _dotIndex;
 
-    private Filename(string fullname) => _fullName = fullname;
-    public static Filename Create(string name, Extension extension) => new(name + extension);
+    public ReadOnlySpan<char> Name => _fullName.AsSpan(.._dotIndex);
+    public ReadOnlySpan<char> Extension => _fullName.AsSpan(_dotIndex..);
 
+    private Filename(string fullname, Index dotIndex) => (_fullName, _dotIndex) = (fullname, dotIndex);
+    public static Filename Create(string name, in Extension extension) => new(name + extension, extension.DotIndex);
+
+    public void Deconstruct(out string name, out string extension) => (name, extension) = (_fullName[.._dotIndex], _fullName[_dotIndex..]);
     public override string ToString() => _fullName;
 }

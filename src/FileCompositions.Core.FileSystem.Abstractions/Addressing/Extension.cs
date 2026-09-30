@@ -1,3 +1,6 @@
 ﻿namespace FileCompositions.Core.FileSystem.Abstractions.Addressing;
 
-public abstract partial record Extension;
+public abstract record Extension
+{
+    public Index DotIndex => ^ToString().Length;
+}
