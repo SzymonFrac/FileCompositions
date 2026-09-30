@@ -6,8 +6,4 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\FileCompositions.Core.FileSystem.Addressing.Abstractions\FileCompositions.Core.FileSystem.Addressing.Abstractions.csproj" />
-  </ItemGroup>
-
 </Project>

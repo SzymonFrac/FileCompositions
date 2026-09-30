@@ -1,6 +1,6 @@
 ﻿using FileCompositions.Core.FileSystem.Abstractions;
+using FileCompositions.Core.FileSystem.Abstractions.Addressing;
 using FileCompositions.Core.FileSystem.Abstractions.Proxy.Source;
-using FileCompositions.Core.FileSystem.Addressing.Abstractions;
 using FileCompositions.Core.Quality;
 
 namespace FileCompositions.Core.File.Quality;

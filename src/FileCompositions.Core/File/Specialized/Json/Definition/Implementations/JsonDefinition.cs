@@ -4,7 +4,6 @@ using FileCompositions.Core.File.Specialized.Json.Definition.Abstract;
 using FileCompositions.Core.File.Specialized.Json.Format;
 using FileCompositions.Core.File.Specialized.Json.Resource;
 using FileCompositions.Core.File.Specialized.Json.Resource.Builder.Factory.Implementations;
-using FileCompositions.Core.FileSystem.Addressing.Abstractions;
 using FileCompositions.Core.Quality;
 
 namespace FileCompositions.Core.File.Specialized.Json.Definition.Implementations;
@@ -16,7 +15,6 @@ internal sealed class JsonDefinition<TOwnership, TPlacement, TData>(IFileContext
 
 internal sealed class JsonDefinition : IJsonDefinition
 {
-    public static Extension Extension { get; } = Extension.Some.Create(".json");
     private JsonDefinition() { }
 
     public static IJsonResource<TData> Convert<TData>(in IFileContext context, string name) =>

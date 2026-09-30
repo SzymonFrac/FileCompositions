@@ -3,7 +3,6 @@ using FileCompositions.Core.Database.File.Specialized.Db.Resource;
 using FileCompositions.Core.Database.File.Specialized.Db.Resource.Builder.Factory.Implementations;
 using FileCompositions.Core.File.Context;
 using FileCompositions.Core.File.Definition.Key;
-using FileCompositions.Core.FileSystem.Addressing.Abstractions;
 using FileCompositions.Core.Quality;
 
 namespace FileCompositions.Core.Database.File.Specialized.Db.Definition.Implementations;
@@ -15,7 +14,6 @@ internal sealed class DbDefinition<TOwnership, TPlacement>(IFileContext context,
 
 internal sealed class DbDefinition : IDbDefinition
 {
-    public static Extension Extension { get; } = Extension.Some.Create(".db");
     private DbDefinition() { }
 
     public static IDbResource Convert(in IFileContext context, string name) =>

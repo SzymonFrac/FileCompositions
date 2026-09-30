@@ -1,5 +1,5 @@
-﻿using FileCompositions.Core.FileSystem.Addressing.Abstractions;
-using FileCompositions.Core.FileSystem.Abstractions.Session.Source;
+﻿using FileCompositions.Core.FileSystem.Abstractions.Session.Source;
+using FileCompositions.Core.FileSystem.Abstractions.Addressing;
 
 namespace FileCompositions.Core.File.Context.Implementations;
 

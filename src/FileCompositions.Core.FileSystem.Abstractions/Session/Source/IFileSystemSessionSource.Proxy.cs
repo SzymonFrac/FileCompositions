@@ -1,6 +1,6 @@
-﻿using FileCompositions.Core.FileSystem.Abstractions.Proxy.Request;
+﻿using FileCompositions.Core.FileSystem.Abstractions.Addressing;
+using FileCompositions.Core.FileSystem.Abstractions.Proxy.Request;
 using FileCompositions.Core.FileSystem.Abstractions.Proxy.Source;
-using FileCompositions.Core.FileSystem.Addressing.Abstractions;
 
 namespace FileCompositions.Core.FileSystem.Abstractions.Session.Source;
 

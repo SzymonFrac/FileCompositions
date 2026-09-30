@@ -1,7 +1,7 @@
 ﻿using FileCompositions.Core.File.Context;
 using FileCompositions.Core.FileSystem.Abstractions;
+using FileCompositions.Core.FileSystem.Abstractions.Addressing;
 using FileCompositions.Core.FileSystem.Abstractions.Proxy.Source;
-using FileCompositions.Core.FileSystem.Addressing.Abstractions;
 
 namespace FileCompositions.Core.File.Resource.Abstract;
 

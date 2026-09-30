@@ -1,7 +1,6 @@
 ﻿using FileCompositions.Core.File.Context;
 using FileCompositions.Core.File.Resource.Abstract;
-using FileCompositions.Core.File.Specialized.Dll.Name.Ext;
-using FileCompositions.Core.FileSystem.Addressing.Abstractions;
+using FileCompositions.Core.FileSystem.Abstractions.Addressing;
 using System.Reflection;
 
 namespace FileCompositions.Core.File.Specialized.Dll.Resource.Abstract;
