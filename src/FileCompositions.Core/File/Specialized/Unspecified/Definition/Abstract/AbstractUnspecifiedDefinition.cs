@@ -2,7 +2,6 @@
 using FileCompositions.Core.File.Definition.Abstract;
 using FileCompositions.Core.File.Definition.Key;
 using FileCompositions.Core.File.Specialized.Unspecified.Definition.Init.Policy;
-using FileCompositions.Core.File.Specialized.Unspecified.Name.Ext;
 using FileCompositions.Core.FileSystem.Abstractions.Addressing;
 using FileCompositions.Core.Quality;
 

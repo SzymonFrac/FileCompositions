@@ -3,7 +3,6 @@ using FileCompositions.Core.File.Definition.Abstract;
 using FileCompositions.Core.File.Definition.Key;
 using FileCompositions.Core.File.Specialized.Json.Definition.Init.Policy;
 using FileCompositions.Core.File.Specialized.Json.Format;
-using FileCompositions.Core.File.Specialized.Json.Name.Ext;
 using FileCompositions.Core.FileSystem.Abstractions.Addressing;
 using FileCompositions.Core.Quality;
 
